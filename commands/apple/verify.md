@@ -1,0 +1,268 @@
+---
+description: Verify completed work against plan deliverables
+argument-hint: [phase-number]
+allowed-tools: Read, Write, Bash, Glob, Grep, AskUserQuestion
+---
+
+# Verify Completed Work
+
+You are a quality assurance expert verifying that completed work meets the planned deliverables. Your goal is to ensure everything works before moving to the next phase.
+
+## Step 1: Load Context
+
+Read the relevant planning files:
+
+```
+Read: .planning/PLAN.md      # Current phase tasks and deliverables
+Read: .planning/STATE.md     # Current state and completed tasks
+Read: .planning/APP.md       # App specification for context
+```
+
+If a phase number is provided as argument, verify that specific phase.
+
+## Step 2: Extract Deliverables
+
+From PLAN.md, extract all **testable deliverables**:
+
+1. **Files created** - Do they exist?
+2. **Features implemented** - Do they work?
+3. **Tests written** - Do they pass?
+4. **UI components** - Are they accessible and correct?
+
+Create a verification checklist:
+
+```markdown
+## Deliverables to Verify
+
+### Automated Checks
+- [ ] Project builds without errors
+- [ ] All tests pass
+- [ ] No compiler warnings
+- [ ] [Feature X] file exists at [path]
+- [ ] [Feature Y] file exists at [path]
+
+### Manual Checks
+- [ ] [Feature X] works as expected
+- [ ] [UI Component] displays correctly
+- [ ] [User flow] completes successfully
+```
+
+## Step 3: Run Automated Checks
+
+### 3.1 Build Verification
+
+```bash
+# For Xcode projects
+xcodebuild -scheme [SchemeName] -destination 'platform=macOS' build 2>&1 | tail -20
+
+# Check for build success
+echo $?
+```
+
+### 3.2 Test Verification
+
+```bash
+# Run tests
+xcodebuild test -scheme [SchemeName] -destination 'platform=macOS' 2>&1 | tail -30
+```
+
+### 3.3 File Existence
+
+Use Glob/Grep to verify expected files exist:
+
+```bash
+ls -la [expected-file-path]
+```
+
+### 3.4 Code Quality Checks
+
+- Check for TODO/FIXME comments that should be resolved
+- Verify no hardcoded secrets or API keys
+- Check for proper error handling
+
+```
+Grep: "TODO|FIXME|HACK" in project files
+Grep: "password|secret|api_key" in project files (should be in config, not code)
+```
+
+## Step 4: Manual Verification (UAT)
+
+Walk the user through manual checks ONE AT A TIME.
+
+For each manual check:
+
+1. **Describe what to verify:**
+   ```
+   Please verify: [Feature X]
+
+   Expected behavior:
+   - [Step 1]
+   - [Step 2]
+   - [Expected result]
+   ```
+
+2. **Ask for result:**
+   Use AskUserQuestion with options:
+   - "Pass - Works as expected"
+   - "Fail - Doesn't work"
+   - "Partial - Works but has issues"
+   - "Skip - Can't test right now"
+
+3. **If Fail or Partial:**
+   - Ask user to describe the issue
+   - Log the failure details
+   - Create a fix task
+
+### Manual Check Categories
+
+**UI/UX Verification:**
+- Views render correctly
+- Navigation works
+- Dark mode support
+- Dynamic type support
+- Accessibility (VoiceOver)
+
+**Functionality Verification:**
+- Core features work
+- Data persists correctly
+- Edge cases handled
+- Error states shown properly
+
+**Platform Integration:**
+- Widgets display correctly (if applicable)
+- Shortcuts work (if applicable)
+- Notifications arrive (if applicable)
+
+## Step 5: Diagnose Failures
+
+For any failed checks:
+
+1. **Identify the failure type:**
+   - Build error → Check compiler output
+   - Test failure → Check test logs
+   - Runtime error → Check console logs
+   - UI issue → Check view hierarchy
+
+2. **Find root cause:**
+   - Read relevant source files
+   - Check recent changes
+   - Look for related issues
+
+3. **Create fix task:**
+   ```markdown
+   ### Fix Required: [Issue Title]
+
+   **Failure:** [What failed]
+   **Expected:** [What should happen]
+   **Actual:** [What happened]
+   **Root Cause:** [Why it failed]
+   **Fix:** [How to fix it]
+   **Files:** [Which files to modify]
+   ```
+
+## Step 6: Generate Verification Report
+
+Create `.planning/VERIFICATION.md`:
+
+```markdown
+# Verification Report - Phase [N]
+
+**Date:** [date]
+**Status:** [PASS / FAIL / PARTIAL]
+
+## Summary
+
+- **Automated Checks:** X/Y passed
+- **Manual Checks:** X/Y passed
+- **Issues Found:** X
+- **Fixes Required:** X
+
+## Automated Checks
+
+| Check | Status | Notes |
+|-------|--------|-------|
+| Build | ✅/❌ | [notes] |
+| Tests | ✅/❌ | [notes] |
+| Files exist | ✅/❌ | [notes] |
+| Code quality | ✅/❌ | [notes] |
+
+## Manual Checks (UAT)
+
+| Feature | Status | Notes |
+|---------|--------|-------|
+| [Feature 1] | ✅/❌/⚠️ | [notes] |
+| [Feature 2] | ✅/❌/⚠️ | [notes] |
+
+## Issues Found
+
+### Issue 1: [Title]
+- **Severity:** Critical / High / Medium / Low
+- **Description:** [What's wrong]
+- **Root Cause:** [Why]
+- **Fix:** [How to fix]
+
+## Fix Tasks
+
+If issues were found, these tasks need to be completed:
+
+1. [ ] [Fix task 1]
+2. [ ] [Fix task 2]
+
+## Verification Result
+
+**[PASS]** - All checks passed. Ready to proceed to next phase.
+
+OR
+
+**[FAIL]** - Issues found. Run `/apple:build` to fix issues, then `/apple:verify` again.
+
+OR
+
+**[PARTIAL]** - Some checks passed. Review issues and decide whether to proceed.
+
+---
+*Generated by SwiftShip /apple:verify*
+```
+
+## Step 7: Update State
+
+If all checks pass, update `.planning/STATE.md`:
+- Mark phase as verified
+- Update phase status to "completed"
+
+If checks fail:
+- Keep phase status as "in_progress"
+- Add blocker noting verification failed
+
+## Completion Message
+
+```
+Verification complete!
+
+Status: [PASS / FAIL / PARTIAL]
+
+Results:
+- Automated: X/Y passed
+- Manual: X/Y passed
+- Issues: X found
+
+Created: .planning/VERIFICATION.md
+
+Next steps:
+- If PASS: Run /apple:review for code quality review
+- If FAIL: Fix issues and run /apple:verify again
+- If PARTIAL: Review issues and decide next action
+```
+
+## Workflow Integration
+
+```
+/apple:plan [N]   → Create tasks for phase
+/apple:build      → Implement tasks
+/apple:verify     → Verify deliverables (YOU ARE HERE)
+/apple:review     → Code/HIG/App Store review
+```
+
+**Difference from /apple:review:**
+- `/apple:verify` - Checks that work is DONE (deliverables exist and work)
+- `/apple:review` - Checks that work is GOOD (code quality, HIG, guidelines)

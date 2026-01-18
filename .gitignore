@@ -1,0 +1,12 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Backups created by install.sh
+*.backup
+
+# Editor
+*.swp
+*.swo
+*~
