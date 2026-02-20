@@ -14,8 +14,11 @@ Display all available commands, their purpose, and recommended workflow.
 ║                              SWIFTSHIP COMMANDS                                ║
 ╠═══════════════════════════════════════════════════════════════════════════════╣
 ║                                                                               ║
-║  IDEA VALIDATION                                                              ║
+║  IDEA DISCOVERY                                                              ║
 ║  ───────────────────────────────────────────────────────────────────────────  ║
+║  /apple:brainstorm [focus]  Brainstorm app ideas tailored to your skills     ║
+║                             Creates: .planning/BRAINSTORM.md                 ║
+║                                                                               ║
 ║  /apple:validate [idea]     Validate idea with market research & competitors  ║
 ║                             Creates: .planning/VALIDATION.md                  ║
 ║                                                                               ║
@@ -45,6 +48,9 @@ Display all available commands, their purpose, and recommended workflow.
 ║                                                                               ║
 ║  /apple:debug [issue]       Systematic debugging with state tracking          ║
 ║                             Creates: .planning/DEBUG.md                       ║
+║                                                                               ║
+║  /apple:bugfix [bug]        Quick fix for known bugs with regression test     ║
+║                             Accepts: crash log, error msg, issue URL          ║
 ║                                                                               ║
 ║  QUALITY                                                                      ║
 ║  ───────────────────────────────────────────────────────────────────────────  ║
@@ -104,8 +110,12 @@ NEW PROJECT                          EXISTING PROJECT
 ───────────                          ─────────────────
      │                                      │
      ▼                                      ▼
-/apple:validate                       /apple:map
-"Is this worth building?"             "Understand the codebase"
+/apple:brainstorm                     /apple:map
+"What should I build?"                "Understand the codebase"
+     │                                      │
+     ▼                                      │
+/apple:validate                             │
+"Is this worth building?"                   │
      │                                      │
      ▼                                      │
 /apple:new-app ◄────────────────────────────┘
@@ -148,7 +158,8 @@ NEW PROJECT                          EXISTING PROJECT
 
 | I want to... | Command |
 |--------------|---------|
-| Start a new app idea | `/apple:validate "idea"` |
+| Find an app idea | `/apple:brainstorm "health"` |
+| Validate an app idea | `/apple:validate "idea"` |
 | Define my app | `/apple:new-app AppName` |
 | See my progress | `/apple:progress` |
 | Plan next phase | `/apple:plan [N]` |
@@ -166,7 +177,8 @@ NEW PROJECT                          EXISTING PROJECT
 | Review all ideas | `/apple:ideas` |
 | Stop for today | `/apple:pause` |
 | Continue tomorrow | `/apple:resume` |
-| Fix a bug | `/apple:debug "description"` |
+| Fix a known bug quickly | `/apple:bugfix "crash in settings"` |
+| Investigate a mystery bug | `/apple:debug "description"` |
 
 ## Planning Files
 
@@ -174,6 +186,7 @@ All planning files are stored in `.planning/`:
 
 | File | Purpose | Created By |
 |------|---------|------------|
+| `BRAINSTORM.md` | Ranked idea shortlist | `/apple:brainstorm` |
 | `VALIDATION.md` | Market research, competitors | `/apple:validate` |
 | `APP.md` | App specification | `/apple:new-app` |
 | `CODEBASE.md` | Existing code analysis | `/apple:map` |
