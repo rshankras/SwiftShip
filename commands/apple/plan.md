@@ -35,12 +35,12 @@ Determine which skills and generators are relevant based on phase:
 | Phase | Primary Skills | Generators |
 |-------|---------------|------------|
 | 1 (Foundation) | ios/coding-best-practices, macos/coding-best-practices | - |
-| 2 (Core) | ios/, macos/ | Varies by feature |
-| 3 (Polish) | ios/ui-review, macos/ui-review-tahoe, design/liquid-glass | widget-generator, accessibility-generator |
+| 2 (Core) | ios/, macos/, product/ux-spec, product/implementation-guide | Varies by feature |
+| 3 (Polish) | ios/ui-review, macos/ui-review-tahoe, design/liquid-glass, design/animation-patterns | widget-generator, accessibility-generator |
 | 4 (Monetization) | - | paywall-generator |
-| 5 (Testing) | - | test-generator |
-| 6 (Pre-Release) | app-store/ | - |
-| 7 (Submission) | release-review/, app-store/ | - |
+| 5 (Testing) | product/test-spec | test-generator |
+| 6 (Pre-Release) | app-store/, security/privacy-manifests | - |
+| 7 (Submission) | release-review/, app-store/, product/release-spec | - |
 
 ## Task Generation
 

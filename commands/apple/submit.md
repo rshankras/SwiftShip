@@ -62,6 +62,7 @@ Task({
     Reference skills:
     - release-review/
     - app-store/
+    - security/privacy-manifests/
 
     ## Required Checks
 
@@ -117,6 +118,30 @@ Task({
   `
 })
 ```
+
+## Submission Preparation
+
+### Release Spec
+
+Load the release spec skill for structured submission preparation:
+```
+Read: /Users/ravishankar/Work/MyApps/claude-code-apple-skills/skills/product/release-spec/SKILL.md
+```
+
+Use this to generate release notes, version summary, and changelog.
+
+### macOS Entitlements Check (if macOS app)
+
+If APP.md indicates macOS platform:
+```
+Read: /Users/ravishankar/Work/MyApps/claude-code-apple-skills/skills/macos/macos-capabilities/SKILL.md
+```
+
+Verify:
+- [ ] All required entitlements are declared
+- [ ] Sandbox configuration is correct
+- [ ] Hardened Runtime is enabled
+- [ ] Notarization requirements met (if distributing outside App Store)
 
 ## ASO Preparation
 

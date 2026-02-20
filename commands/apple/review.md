@@ -29,7 +29,7 @@ Read: .planning/STATE.md (if exists)
 
 ## Spawn Review Agents in Parallel
 
-Launch all 4 review agents simultaneously for efficiency:
+Launch all 5 review agents simultaneously for efficiency:
 
 ### Agent 1: Code Quality Review
 
@@ -38,6 +38,8 @@ Task({
   subagent_type: "general-purpose",
   prompt: `
     Review Swift code quality for this Apple app.
+
+    Reference skill: swift/concurrency-patterns (for async/await and actor patterns)
 
     Examine:
     1. **Swift Patterns**
@@ -97,6 +99,8 @@ Task({
     Reference existing skills:
     - ios/ui-review
     - macos/ui-review-tahoe
+    - ios/assistive-access
+    - ios/navigation-patterns
 
     Check:
     1. **Navigation**
@@ -182,6 +186,8 @@ Task({
   prompt: `
     Review performance concerns for this Apple app.
 
+    Reference skill: performance/profiling (for Instruments-based analysis)
+
     Check:
     1. **Main Thread**
        - UI updates on main thread
@@ -213,6 +219,45 @@ Task({
 })
 ```
 
+### Agent 5: Security Quick-Check
+
+```
+Task({
+  subagent_type: "general-purpose",
+  prompt: `
+    Quick security scan for this Apple app.
+
+    Reference skills:
+    - security/ (secure storage, biometric auth, network security, platform specifics)
+    - security/privacy-manifests/ (privacy manifest audit)
+
+    Quick checks:
+    1. **Sensitive Data Storage**
+       - Secrets in source code (API keys, tokens)
+       - UserDefaults used for sensitive data
+       - Proper Keychain usage
+
+    2. **Network Security**
+       - ATS configuration
+       - HTTP vs HTTPS usage
+       - API key exposure in URLs
+
+    3. **Privacy Manifest**
+       - PrivacyInfo.xcprivacy presence
+       - Required Reason APIs declared
+
+    4. **Common Vulnerabilities**
+       - SQL injection (if using raw queries)
+       - Insecure deserialization
+       - URL scheme hijacking
+
+    This is a quick scan — for full audit, recommend /apple:security.
+
+    Output findings with severity levels and specific file:line references.
+  `
+})
+```
+
 ## Compile Results
 
 After all agents complete, compile findings into `.planning/REVIEW.md`:
@@ -222,7 +267,7 @@ After all agents complete, compile findings into `.planning/REVIEW.md`:
 
 **Platform**: [from APP.md]
 **Review Date**: [today]
-**Reviewers**: Claude (code-quality, hig-reviewer, app-store-reviewer, performance)
+**Reviewers**: Claude (code-quality, hig-reviewer, app-store-reviewer, performance, security)
 
 ## Summary
 

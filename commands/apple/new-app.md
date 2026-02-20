@@ -131,7 +131,21 @@ Ask questions in phases, ONE AT A TIME. Wait for user response before proceeding
 
 ## Output Generation
 
-After gathering all answers, generate two files:
+After gathering all answers, load platform-specific planning skills:
+
+**If iOS selected:**
+```
+Read: /Users/ravishankar/Work/MyApps/claude-code-apple-skills/skills/ios/app-planner/SKILL.md
+```
+
+**If macOS selected:**
+```
+Read: /Users/ravishankar/Work/MyApps/claude-code-apple-skills/skills/macos/app-planner/SKILL.md
+```
+
+**If both platforms selected:** Read both skill files.
+
+Use the platform-specific app planner insights to inform the APP.md generation below.
 
 ### 1. Create `.planning/APP.md`
 

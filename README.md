@@ -83,12 +83,15 @@ SwiftShip combines [GSD's workflow methodology](https://github.com/glittercowboy
 |---------|-------------|
 | `/apple:build` | Execute tasks with specialized agents |
 | `/apple:debug [issue]` | Systematic debugging with state tracking |
+| `/apple:bugfix [bug]` | Quick fix for known bugs with regression test |
 
 ### Quality
 | Command | Description |
 |---------|-------------|
 | `/apple:verify` | Verify completed work against deliverables |
-| `/apple:review` | Run code, HIG, and App Store review |
+| `/apple:review` | Run code, HIG, App Store, performance, and security review |
+| `/apple:security [focus]` | Run security audit (storage, auth, network, privacy) |
+| `/apple:perf [problem]` | Profile and diagnose performance issues |
 
 ### Release
 | Command | Description |
@@ -138,6 +141,8 @@ When you run the commands, these files are created in your project:
 ├── PLAN.md          # Detailed tasks for current phase
 ├── VERIFICATION.md  # Verification results and issues
 ├── REVIEW.md        # Review findings and fixes
+├── SECURITY.md      # Security audit findings
+├── PERFORMANCE.md   # Performance analysis results
 ├── ASO.md           # App Store Optimization content
 ├── FEEDBACK.md      # TestFlight feedback tracking
 ├── IDEAS.md         # Captured ideas for future development
@@ -288,11 +293,12 @@ Creates: .planning/VERIFICATION.md
 ```
 > /apple:review
 
-Runs 4 parallel reviews:
-- Code quality
-- HIG compliance
+Runs 5 parallel reviews:
+- Code quality (with concurrency pattern checks)
+- HIG compliance (with accessibility and navigation)
 - App Store Guidelines
-- Performance
+- Performance (with Instruments guidance)
+- Security quick-check
 
 Creates: .planning/REVIEW.md
 ```
@@ -314,18 +320,25 @@ SwiftShip references skills from `claude-code-apple-skills`:
 | When... | Uses... |
 |---------|---------|
 | Validating idea | `product/market-research`, `product/competitive-analysis` |
+| Defining app | `ios/app-planner`, `macos/app-planner` |
 | Building SwiftUI views | `ios/coding-best-practices`, `macos/coding-best-practices` |
+| Building Apple Intelligence | `apple-intelligence/app-intents`, `apple-intelligence/foundation-models` |
+| Building animations/Liquid Glass | `design/animation-patterns`, `design/liquid-glass` |
+| Building with concurrency | `swift/concurrency-patterns` |
 | Adding settings screen | `generators/settings-screen` |
 | Implementing paywall | `generators/paywall-generator` |
-| Reviewing HIG | `ios/ui-review`, `macos/ui-review-tahoe` |
+| Reviewing HIG | `ios/ui-review`, `macos/ui-review-tahoe`, `ios/navigation-patterns` |
+| Running security audit | `security/`, `security/privacy-manifests` |
+| Profiling performance | `performance/profiling`, `performance/swiftui-debugging` |
 | Optimizing keywords | `app-store/keyword-optimizer` |
 | Writing description | `app-store/app-description-writer` |
+| Preparing release | `product/release-spec`, `macos/macos-capabilities` |
 
 ## Directory Structure
 
 ```
 swiftship/
-├── commands/apple/     # Workflow commands (23 total)
+├── commands/apple/     # Workflow commands (25 total)
 │   ├── validate.md     # Idea validation
 │   ├── new-app.md      # App definition
 │   ├── map.md          # Codebase analysis
@@ -336,6 +349,8 @@ swiftship/
 │   ├── debug.md        # Systematic debugging
 │   ├── verify.md       # Work verification
 │   ├── review.md       # Quality review
+│   ├── security.md     # Security audit
+│   ├── perf.md         # Performance profiling
 │   ├── metadata.md     # App Store content
 │   ├── screenshots.md  # Screenshot automation
 │   ├── deploy.md       # Fastlane setup

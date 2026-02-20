@@ -60,6 +60,12 @@ Display all available commands, their purpose, and recommended workflow.
 ║  /apple:review              Run code, HIG, and App Store review               ║
 ║                             Creates: .planning/REVIEW.md                      ║
 ║                                                                               ║
+║  /apple:security [focus]    Run security audit (storage, auth, network, etc.) ║
+║                             Creates: .planning/SECURITY.md                    ║
+║                                                                               ║
+║  /apple:perf [problem]      Profile and diagnose performance issues           ║
+║                             Creates: .planning/PERFORMANCE.md                 ║
+║                                                                               ║
 ║  RELEASE                                                                      ║
 ║  ───────────────────────────────────────────────────────────────────────────  ║
 ║  /apple:metadata            Generate App Store content (keywords, description)║
@@ -166,6 +172,8 @@ NEW PROJECT                          EXISTING PROJECT
 | Build features | `/apple:build` |
 | Check if it works | `/apple:verify` |
 | Review code quality | `/apple:review` |
+| Run security audit | `/apple:security` |
+| Diagnose performance | `/apple:perf "slow scrolling"` |
 | Set up CI/CD | `/apple:deploy` |
 | Prepare App Store content | `/apple:metadata` |
 | Plan screenshots | `/apple:screenshots` |
@@ -197,6 +205,8 @@ All planning files are stored in `.planning/`:
 | `DEBUG.md` | Debug session log | `/apple:debug` |
 | `VERIFICATION.md` | UAT results | `/apple:verify` |
 | `REVIEW.md` | Quality findings | `/apple:review` |
+| `SECURITY.md` | Security audit findings | `/apple:security` |
+| `PERFORMANCE.md` | Performance analysis | `/apple:perf` |
 | `ASO.md` | App Store content | `/apple:metadata` |
 | `SCREENSHOTS.md` | Screenshot plan | `/apple:screenshots` |
 | `FEEDBACK.md` | Beta feedback | `/apple:testflight` |

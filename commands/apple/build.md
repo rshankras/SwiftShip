@@ -49,13 +49,26 @@ Update STATE.md:
 
 Match task to appropriate agent and spawn:
 
-| Task Content | Agent | Description |
-|-------------|-------|-------------|
-| SwiftUI views, UI | swiftui-builder | Modern SwiftUI patterns |
+| Task Content | Agent | Skills Reference |
+|-------------|-------|-----------------|
+| SwiftUI views, UI | swiftui-builder | `ios/ui-review`, `macos/ui-review-tahoe` |
 | StoreKit, purchases | storekit-expert | StoreKit 2 implementation |
 | CloudKit, sync | cloudkit-expert | iCloud sync patterns |
-| Data models, persistence | general-purpose | With SwiftData patterns |
-| Navigation, architecture | general-purpose | With app architecture patterns |
+| Data models, persistence | general-purpose | `macos/swiftdata-architecture` |
+| Navigation, architecture | general-purpose | `ios/navigation-patterns`, `macos/architecture-patterns` |
+| Apple Intelligence, Siri, App Intents | general-purpose | `apple-intelligence/` |
+| watchOS, complications, Watch Connectivity | general-purpose | `watchos/` |
+| Liquid Glass, animations, transitions | swiftui-builder | `design/animation-patterns`, `design/liquid-glass` |
+| AlarmKit, Charts, WebKit integration | swiftui-builder | `swiftui/alarmkit`, `swiftui/charts-3d`, `swiftui/webkit` |
+| MapKit, location, geolocation | general-purpose | `mapkit/geotoolbox` |
+| AppKit bridging, NSViewRepresentable | general-purpose | `macos/appkit-swiftui-bridge` |
+| Swift concurrency, actors, Sendable | general-purpose | `swift/concurrency-patterns` |
+| SwiftData hierarchies, inheritance | general-purpose | `swiftdata/inheritance` |
+| Rich text, AttributedString | general-purpose | `foundation/attributed-string` |
+| iPad layouts, sidebar, Stage Manager | swiftui-builder | `ios/ipad-patterns` |
+| macOS windows, menus, entitlements | general-purpose | `macos/macos-capabilities` |
+
+**Before executing each task:** Load the referenced skill from `/Users/ravishankar/Work/MyApps/claude-code-apple-skills/skills/[skills-reference]/SKILL.md` and include its patterns in the agent prompt context.
 
 Spawn agent with context:
 
