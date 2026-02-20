@@ -13,17 +13,24 @@ echo "Repository: $REPO_DIR"
 echo "Target: $CLAUDE_DIR"
 echo ""
 
-# Create .claude directory if it doesn't exist
-mkdir -p "$CLAUDE_DIR"
-
-# Handle commands directory
+# Handle legacy commands symlink (from old install that symlinked entire commands/)
+# Must check this BEFORE checking commands/apple, since paths resolve through the symlink
 if [ -L "$CLAUDE_DIR/commands" ]; then
-    echo "Removing existing commands symlink..."
+    echo "Removing legacy commands symlink..."
     rm "$CLAUDE_DIR/commands"
-elif [ -d "$CLAUDE_DIR/commands" ]; then
-    echo "Warning: $CLAUDE_DIR/commands is a directory."
-    echo "Backing up to $CLAUDE_DIR/commands.backup"
-    mv "$CLAUDE_DIR/commands" "$CLAUDE_DIR/commands.backup"
+fi
+
+# Create commands directory if it doesn't exist
+mkdir -p "$CLAUDE_DIR/commands"
+
+# Handle existing apple commands symlink
+if [ -L "$CLAUDE_DIR/commands/apple" ]; then
+    echo "Removing existing apple commands symlink..."
+    rm "$CLAUDE_DIR/commands/apple"
+elif [ -d "$CLAUDE_DIR/commands/apple" ]; then
+    echo "Warning: $CLAUDE_DIR/commands/apple is a directory."
+    echo "Backing up to $CLAUDE_DIR/commands/apple.backup"
+    mv "$CLAUDE_DIR/commands/apple" "$CLAUDE_DIR/commands/apple.backup"
 fi
 
 # Handle agents directory
@@ -38,11 +45,11 @@ fi
 
 # Create symlinks
 echo "Creating symlinks..."
-ln -sf "$REPO_DIR/commands" "$CLAUDE_DIR/commands"
+ln -sf "$REPO_DIR/commands/apple" "$CLAUDE_DIR/commands/apple"
 ln -sf "$REPO_DIR/agents" "$CLAUDE_DIR/agents"
 
 echo ""
-echo "✅ SwiftShip installed successfully!"
+echo "SwiftShip installed successfully!"
 echo ""
 echo "Available commands:"
 echo "  /apple:new-app [name]  - Define a new iOS/macOS app"
