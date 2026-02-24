@@ -72,6 +72,9 @@ Match task to appropriate agent and spawn:
 | macOS Tahoe, Liquid Glass, new macOS APIs | swiftui-builder | `macos/macos-tahoe-apis` |
 | Memory management, retain cycles, leaks | general-purpose | `swift/memory` |
 | Migration, version upgrade, breaking changes | general-purpose | `ios/migration-patterns` |
+| Unit tests, integration tests, test infrastructure | general-purpose | `testing/tdd-feature`, `testing/test-data-factory`, `testing/integration-test-scaffold` |
+| Snapshot tests, visual regression, UI tests | swiftui-builder | `testing/snapshot-test-setup` |
+| Test contracts, protocol tests | general-purpose | `testing/test-contract` |
 | Rich text, AttributedString | general-purpose | `foundation/attributed-string` |
 | iPad layouts, sidebar, Stage Manager | swiftui-builder | `ios/ipad-patterns` |
 | macOS windows, menus, entitlements | general-purpose | `macos/macos-capabilities` |

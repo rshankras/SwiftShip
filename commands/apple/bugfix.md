@@ -107,7 +107,13 @@ Rules for the fix:
 
 ## Step 5: Write Regression Test
 
-Generate a test that would have caught this bug. Use patterns from `generators/test-generator`:
+Generate a test that would have caught this bug. Use the TDD bug fix workflow:
+
+```
+Read: /Users/ravishankar/Work/MyApps/claude-code-apple-skills/skills/testing/tdd-bug-fix/SKILL.md
+```
+
+Also reference `generators/test-generator` for test boilerplate patterns:
 
 ### 5.1 Determine Test Type
 

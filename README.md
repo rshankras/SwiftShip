@@ -335,7 +335,12 @@ SwiftShip references skills from `claude-code-apple-skills`:
 | Adding user flows | `generators/auth-flow`, `generators/onboarding`, `generators/deep-linking`, `generators/push-notifications` |
 | Adding polish features | `generators/localization-setup`, `generators/tipkit`, `generators/live-activity`, `generators/feature-flags` |
 | Adding engagement | `generators/review-prompt`, `generators/app-icon` |
-| Reviewing code quality | `swift/concurrency-patterns`, `swift/memory` |
+| TDD for new features | `testing/tdd-feature`, `testing/test-data-factory` |
+| TDD bug fix workflow | `testing/tdd-bug-fix` |
+| Refactoring safely | `testing/tdd-refactor-guard`, `testing/characterization-test-generator` |
+| Snapshot / visual testing | `testing/snapshot-test-setup` |
+| Integration testing | `testing/integration-test-scaffold`, `testing/test-contract` |
+| Reviewing code quality | `swift/concurrency-patterns`, `swift/memory`, `testing/test-contract` |
 | Reviewing HIG | `ios/ui-review`, `macos/ui-review-tahoe`, `ios/navigation-patterns` |
 | Running security audit | `security/`, `security/privacy-manifests` |
 | Profiling performance | `performance/profiling`, `performance/swiftui-debugging`, `swift/memory` |

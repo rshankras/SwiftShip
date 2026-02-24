@@ -39,7 +39,7 @@ Task({
   prompt: `
     Review Swift code quality for this Apple app.
 
-    Reference skills: swift/concurrency-patterns (for async/await and actor patterns), swift/memory (for retain cycle and memory analysis)
+    Reference skills: swift/concurrency-patterns (for async/await and actor patterns), swift/memory (for retain cycle and memory analysis), testing/test-contract (for protocol conformance testing)
 
     Examine:
     1. **Swift Patterns**
@@ -68,6 +68,11 @@ Task({
        - Model design
        - Query efficiency
        - Relationship handling
+
+    6. **Test Coverage**
+       - Existing test quality and coverage gaps
+       - Protocol contracts without test suites
+       - Missing regression tests for critical paths
 
     Output findings in this format:
 

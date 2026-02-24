@@ -58,7 +58,7 @@ The canonical flow is:
 
 ## External Dependency: claude-code-apple-skills
 
-Commands reference skills from `claude-code-apple-skills` (75 skills across 19 categories):
+Commands reference skills from `claude-code-apple-skills` (83 skills across 20 categories):
 - **Path:** `/Users/ravishankar/Work/MyApps/claude-code-apple-skills/skills/`
 
 | Category | Skills |
@@ -77,6 +77,7 @@ Commands reference skills from `claude-code-apple-skills` (75 skills across 19 c
 | `release-review/` | (release readiness checks) |
 | `security/` | privacy-manifests (+ reference files: secure-storage.md, biometric-auth.md, network-security.md, platform-specifics.md) |
 | `swift/` | concurrency, concurrency-patterns, memory |
+| `testing/` (8) | characterization-test-generator, tdd-bug-fix, tdd-feature, test-contract, tdd-refactor-guard, snapshot-test-setup, test-data-factory, integration-test-scaffold |
 | `swiftdata/` | inheritance |
 | `swiftui/` | alarmkit, charts-3d, text-editing, toolbars, webkit |
 | `visionos/` | widgets |

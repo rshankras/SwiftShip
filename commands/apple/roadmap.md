@@ -78,7 +78,11 @@ Only if `<monetization><model>` is not "Free". Tasks:
 
 ### Phase 5: Quality & Testing
 Always included. Tasks:
-- Unit tests (Swift Testing)
+- Unit tests using TDD workflow (use `testing/tdd-feature` for red-green-refactor cycle)
+- Test data factories for models (use `testing/test-data-factory`)
+- UI snapshot tests for custom components (use `testing/snapshot-test-setup`)
+- Integration tests for networking + persistence (if applicable — use `testing/integration-test-scaffold`)
+- Test contracts for protocol abstractions (if applicable — use `testing/test-contract`)
 - UI tests for critical flows
 - Performance profiling
 - Memory leak detection

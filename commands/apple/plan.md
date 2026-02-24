@@ -38,7 +38,7 @@ Determine which skills and generators are relevant based on phase:
 | 2 (Core) | ios/, macos/, product/ux-spec, product/implementation-guide | auth-flow, onboarding, deep-linking, push-notifications (+ varies by feature) |
 | 3 (Polish) | ios/ui-review, macos/ui-review-tahoe, design/liquid-glass, design/animation-patterns | widget-generator, accessibility-generator, localization-setup, tipkit, live-activity, feature-flags |
 | 4 (Monetization) | monetization/ (strategy, pricing-models, app-type-guides) | paywall-generator, review-prompt |
-| 5 (Testing) | product/test-spec | test-generator |
+| 5 (Testing) | product/test-spec, testing/ (TDD workflows) | test-generator, testing/tdd-feature, testing/test-data-factory, testing/snapshot-test-setup, testing/integration-test-scaffold |
 | 6 (Pre-Release) | app-store/, security/privacy-manifests | app-icon, error-monitoring |
 | 7 (Submission) | release-review/, app-store/, product/release-spec | - |
 
@@ -60,6 +60,14 @@ Not every plan needs every generator. Inspect APP.md's `<apple-technologies>` an
 - **review-prompt**: Include for all apps with monetization or user engagement goals
 - **app-icon**: Include in pre-release phase for all apps
 - **error-monitoring**: Include if app has backend/network features or crash reporting needs
+
+**Testing skills (Phase 5):**
+- **testing/tdd-feature**: Include for all apps — TDD workflow for new test coverage
+- **testing/test-data-factory**: Include if app has SwiftData/model layer — generates test fixture factories
+- **testing/snapshot-test-setup**: Include if app has custom UI components — SwiftUI visual regression testing
+- **testing/integration-test-scaffold**: Include if app has networking + persistence — cross-module test harness
+- **testing/test-contract**: Include if app has protocol-based abstractions — contract test suites
+- **testing/characterization-test-generator**: Include for brownfield/existing codebases being refactored
 
 Only add generators whose conditions are met — avoid bloating the plan with unnecessary tasks.
 
