@@ -331,7 +331,7 @@ SwiftShip references skills from `claude-code-apple-skills`:
 | Planning version upgrades | `ios/migration-patterns` |
 | Adding settings screen | `generators/settings-screen` |
 | Implementing paywall | `generators/paywall-generator` |
-| Adding infrastructure | `generators/logging-setup`, `generators/networking-layer`, `generators/analytics-setup`, `generators/error-monitoring` |
+| Adding infrastructure | `generators/logging-setup`, `generators/networking-layer`, `generators/analytics-setup`, `generators/error-monitoring`, `generators/http-cache`, `generators/pagination`, `generators/image-loading` |
 | Adding user flows | `generators/auth-flow`, `generators/onboarding`, `generators/deep-linking`, `generators/push-notifications` |
 | Adding polish features | `generators/localization-setup`, `generators/tipkit`, `generators/live-activity`, `generators/feature-flags` |
 | Adding engagement | `generators/review-prompt`, `generators/app-icon` |

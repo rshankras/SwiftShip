@@ -48,6 +48,9 @@ Not every plan needs every generator. Inspect APP.md's `<apple-technologies>` an
 
 - **logging-setup**: Include if app has backend integration, analytics, or debugging needs
 - **networking-layer**: Include if app has API calls, sync, or remote data
+- **http-cache**: Include if app has API calls and needs offline support or reduced network usage
+- **pagination**: Include if app displays lists of remote data with load-more or infinite scroll
+- **image-loading**: Include if app displays remote images (avatars, photos, thumbnails)
 - **analytics-setup**: Include if app tracks user behavior or has business metrics
 - **auth-flow**: Include if `<auth>` is not `None`
 - **onboarding**: Include if app has auth or first-run setup experience

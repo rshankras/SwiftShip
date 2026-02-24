@@ -40,6 +40,9 @@ Always included. Tasks:
 - Entitlements based on `<apple-technologies>`
 - Logging infrastructure (if app has backend/analytics — use `generators/logging-setup`)
 - Networking layer (if app has API/sync — use `generators/networking-layer`)
+- HTTP response caching (if app needs offline support — use `generators/http-cache`)
+- Pagination infrastructure (if app has paginated lists — use `generators/pagination`)
+- Image loading pipeline (if app displays remote images — use `generators/image-loading`)
 
 ### Phase 2: Core Features
 Based on `<mvp-features>`. Tasks:

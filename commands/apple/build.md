@@ -71,6 +71,9 @@ Match task to appropriate agent and spawn:
 | Toolbars, toolbar customization | swiftui-builder | `swiftui/toolbars` |
 | macOS Tahoe, Liquid Glass, new macOS APIs | swiftui-builder | `macos/macos-tahoe-apis` |
 | Memory management, retain cycles, leaks | general-purpose | `swift/memory` |
+| HTTP caching, offline fallback, conditional requests | general-purpose | `generators/http-cache` |
+| Image loading, image caching, AsyncImage replacement | swiftui-builder | `generators/image-loading` |
+| Pagination, infinite scroll, load more | general-purpose | `generators/pagination` |
 | Migration, version upgrade, breaking changes | general-purpose | `ios/migration-patterns` |
 | Unit tests, integration tests, test infrastructure | general-purpose | `testing/tdd-feature`, `testing/test-data-factory`, `testing/integration-test-scaffold` |
 | Snapshot tests, visual regression, UI tests | swiftui-builder | `testing/snapshot-test-setup` |
