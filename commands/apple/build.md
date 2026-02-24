@@ -63,8 +63,15 @@ Match task to appropriate agent and spawn:
 | AlarmKit, Charts, WebKit integration | swiftui-builder | `swiftui/alarmkit`, `swiftui/charts-3d`, `swiftui/webkit` |
 | MapKit, location, geolocation | general-purpose | `mapkit/geotoolbox` |
 | AppKit bridging, NSViewRepresentable | general-purpose | `macos/appkit-swiftui-bridge` |
-| Swift concurrency, actors, Sendable | general-purpose | `swift/concurrency-patterns` |
+| Swift concurrency, actors, Sendable, async/await | general-purpose | `swift/concurrency-patterns`, `swift/concurrency` |
 | SwiftData hierarchies, inheritance | general-purpose | `swiftdata/inheritance` |
+| Foundation Models, on-device LLM, AI generation | general-purpose | `apple-intelligence/foundation-models` |
+| Visual Intelligence, image analysis, camera AI | general-purpose | `apple-intelligence/visual-intelligence` |
+| Text editing, rich text, styled text | swiftui-builder | `swiftui/text-editing` |
+| Toolbars, toolbar customization | swiftui-builder | `swiftui/toolbars` |
+| macOS Tahoe, Liquid Glass, new macOS APIs | swiftui-builder | `macos/macos-tahoe-apis` |
+| Memory management, retain cycles, leaks | general-purpose | `swift/memory` |
+| Migration, version upgrade, breaking changes | general-purpose | `ios/migration-patterns` |
 | Rich text, AttributedString | general-purpose | `foundation/attributed-string` |
 | iPad layouts, sidebar, Stage Manager | swiftui-builder | `ios/ipad-patterns` |
 | macOS windows, menus, entitlements | general-purpose | `macos/macos-capabilities` |

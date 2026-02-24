@@ -46,7 +46,7 @@ If `$ARGUMENTS` is provided, classify the problem and load focused reference fil
 |-----------------|----------|-----------------|
 | Slow launch | launch, startup, cold start | `profiling/launch-optimization.md` |
 | UI jank / scrolling | scroll, jank, stutter, animation, lag | `profiling/time-profiler.md`, `swiftui-debugging/body-reevaluation.md` |
-| High memory | memory, leak, OOM, crash | `profiling/memory-profiling.md`, `swiftui-debugging/common-pitfalls.md` |
+| High memory | memory, leak, OOM, crash | `profiling/memory-profiling.md`, `swiftui-debugging/common-pitfalls.md`, `swift/memory` |
 | Battery drain | battery, energy, background | `profiling/energy-diagnostics.md` |
 | SwiftUI re-renders | redraw, rebuild, slow view, @State | `swiftui-debugging/body-reevaluation.md`, `swiftui-debugging/view-identity.md` |
 | General / unknown | (no match) | All reference files |
@@ -55,6 +55,11 @@ Load the relevant reference files:
 ```
 Read: /Users/ravishankar/Work/MyApps/claude-code-apple-skills/skills/performance/profiling/[relevant-file].md
 Read: /Users/ravishankar/Work/MyApps/claude-code-apple-skills/skills/performance/swiftui-debugging/[relevant-file].md
+```
+
+For memory-related problems, also load:
+```
+Read: /Users/ravishankar/Work/MyApps/claude-code-apple-skills/skills/swift/memory/SKILL.md
 ```
 
 ## Analysis Process

@@ -103,6 +103,7 @@ Task({
     - [ ] Required reason APIs declared
     - [ ] Data collection accurate in nutrition labels
     - [ ] GDPR considerations (EU)
+    - [ ] Localization complete for target markets (reference: generators/localization-setup)
 
     ### Common Rejection Reasons
     Check for these specific issues:

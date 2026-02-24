@@ -39,7 +39,7 @@ Task({
   prompt: `
     Review Swift code quality for this Apple app.
 
-    Reference skill: swift/concurrency-patterns (for async/await and actor patterns)
+    Reference skills: swift/concurrency-patterns (for async/await and actor patterns), swift/memory (for retain cycle and memory analysis)
 
     Examine:
     1. **Swift Patterns**

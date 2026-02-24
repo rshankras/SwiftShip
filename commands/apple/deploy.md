@@ -15,6 +15,11 @@ Read and apply the CI/CD setup skill:
 Read: /Users/ravishankar/Work/MyApps/claude-code-apple-skills/skills/generators/ci-cd-setup/SKILL.md
 ```
 
+Also consider loading the error monitoring skill for crash reporting setup:
+```
+Read: /Users/ravishankar/Work/MyApps/claude-code-apple-skills/skills/generators/error-monitoring/SKILL.md
+```
+
 ## Step 1: Check Prerequisites
 
 ### Verify Xcode Project

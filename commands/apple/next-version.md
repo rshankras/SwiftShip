@@ -215,8 +215,12 @@ Does v[NEW_VERSION] change the app's core definition?
 - New major features that change the concept?
 - Different monetization?
 - New Apple frameworks?
+- Breaking API changes or major refactoring?
 
-If yes, update APP.md. If no, keep existing.
+If major version (X.0.0), reference `ios/migration-patterns` skill for migration guides and deprecation handling:
+Read: /Users/ravishankar/Work/MyApps/claude-code-apple-skills/skills/ios/migration-patterns/SKILL.md
+
+If yes to any, update APP.md. If no, keep existing.
 ```
 
 ## Step 7: Clear Working Files

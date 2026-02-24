@@ -322,17 +322,28 @@ SwiftShip references skills from `claude-code-apple-skills`:
 | Validating idea | `product/market-research`, `product/competitive-analysis` |
 | Defining app | `ios/app-planner`, `macos/app-planner` |
 | Building SwiftUI views | `ios/coding-best-practices`, `macos/coding-best-practices` |
-| Building Apple Intelligence | `apple-intelligence/app-intents`, `apple-intelligence/foundation-models` |
+| Building Apple Intelligence | `apple-intelligence/app-intents`, `apple-intelligence/foundation-models`, `apple-intelligence/visual-intelligence` |
 | Building animations/Liquid Glass | `design/animation-patterns`, `design/liquid-glass` |
-| Building with concurrency | `swift/concurrency-patterns` |
+| Building text editing / toolbars | `swiftui/text-editing`, `swiftui/toolbars` |
+| Building macOS Tahoe features | `macos/macos-tahoe-apis` |
+| Building with concurrency | `swift/concurrency-patterns`, `swift/concurrency` |
+| Diagnosing memory issues | `swift/memory` |
+| Planning version upgrades | `ios/migration-patterns` |
 | Adding settings screen | `generators/settings-screen` |
 | Implementing paywall | `generators/paywall-generator` |
+| Adding infrastructure | `generators/logging-setup`, `generators/networking-layer`, `generators/analytics-setup`, `generators/error-monitoring` |
+| Adding user flows | `generators/auth-flow`, `generators/onboarding`, `generators/deep-linking`, `generators/push-notifications` |
+| Adding polish features | `generators/localization-setup`, `generators/tipkit`, `generators/live-activity`, `generators/feature-flags` |
+| Adding engagement | `generators/review-prompt`, `generators/app-icon` |
+| Reviewing code quality | `swift/concurrency-patterns`, `swift/memory` |
 | Reviewing HIG | `ios/ui-review`, `macos/ui-review-tahoe`, `ios/navigation-patterns` |
 | Running security audit | `security/`, `security/privacy-manifests` |
-| Profiling performance | `performance/profiling`, `performance/swiftui-debugging` |
+| Profiling performance | `performance/profiling`, `performance/swiftui-debugging`, `swift/memory` |
 | Optimizing keywords | `app-store/keyword-optimizer` |
 | Writing description | `app-store/app-description-writer` |
+| Setting up deployment | `generators/ci-cd-setup`, `generators/error-monitoring` |
 | Preparing release | `product/release-spec`, `macos/macos-capabilities` |
+| Submitting to App Store | `release-review/`, `generators/localization-setup` |
 
 ## Directory Structure
 

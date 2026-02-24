@@ -38,12 +38,18 @@ Always included. Tasks:
 - App architecture (MVVM with @Observable)
 - Navigation structure based on `<core-flow>`
 - Entitlements based on `<apple-technologies>`
+- Logging infrastructure (if app has backend/analytics — use `generators/logging-setup`)
+- Networking layer (if app has API/sync — use `generators/networking-layer`)
 
 ### Phase 2: Core Features
 Based on `<mvp-features>`. Tasks:
 - One task per `priority="must"` feature
 - Data persistence integration
 - Basic UI for each feature
+- Authentication flow (if `<auth>` is not None — use `generators/auth-flow`)
+- Onboarding experience (if app has `<auth>` or first-run setup — use `generators/onboarding`)
+- Push notification setup (if Push Notifications in `<apple-technologies>` — use `generators/push-notifications`)
+- Deep linking (if app has sharing or external links — use `generators/deep-linking`)
 
 ### Phase 3: Polish & Platform Features
 Based on `<apple-technologies>` with `required="false"`. Tasks:
@@ -54,6 +60,10 @@ Based on `<apple-technologies>` with `required="false"`. Tasks:
 - Widget integration (if WidgetKit selected)
 - Siri/Shortcuts (if App Intents selected)
 - Other optional frameworks
+- Localization setup (if app targets multiple regions — use `generators/localization-setup`)
+- TipKit coaching tips (use `generators/tipkit`)
+- Live Activities (if Live Activities in `<apple-technologies>` — use `generators/live-activity`)
+- Feature flags infrastructure (if app has A/B testing or staged rollout — use `generators/feature-flags`)
 
 ### Phase 4: Monetization
 Only if `<monetization><model>` is not "Free". Tasks:
@@ -64,6 +74,7 @@ Only if `<monetization><model>` is not "Free". Tasks:
 - Paywall UI (use `generators/paywall-generator` skill)
 - Restore purchases
 - Sandbox testing
+- Review/rating prompt (use `generators/review-prompt`)
 
 ### Phase 5: Quality & Testing
 Always included. Tasks:
@@ -76,11 +87,12 @@ Always included. Tasks:
 ### Phase 6: Pre-Release
 Always included. Tasks:
 - App Store Connect setup (manual)
-- App icons
+- App icon generation (use `generators/app-icon`)
 - Screenshots
 - App description and keywords
 - Privacy policy
 - TestFlight distribution
+- Error monitoring setup (use `generators/error-monitoring`)
 
 ### Phase 7: Submission
 Always included. Tasks:

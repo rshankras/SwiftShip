@@ -34,13 +34,34 @@ Determine which skills and generators are relevant based on phase:
 
 | Phase | Primary Skills | Generators |
 |-------|---------------|------------|
-| 1 (Foundation) | ios/coding-best-practices, macos/coding-best-practices | - |
-| 2 (Core) | ios/, macos/, product/ux-spec, product/implementation-guide | Varies by feature |
-| 3 (Polish) | ios/ui-review, macos/ui-review-tahoe, design/liquid-glass, design/animation-patterns | widget-generator, accessibility-generator |
-| 4 (Monetization) | monetization/ (strategy, pricing-models, app-type-guides) | paywall-generator |
+| 1 (Foundation) | ios/coding-best-practices, macos/coding-best-practices | logging-setup, networking-layer, analytics-setup |
+| 2 (Core) | ios/, macos/, product/ux-spec, product/implementation-guide | auth-flow, onboarding, deep-linking, push-notifications (+ varies by feature) |
+| 3 (Polish) | ios/ui-review, macos/ui-review-tahoe, design/liquid-glass, design/animation-patterns | widget-generator, accessibility-generator, localization-setup, tipkit, live-activity, feature-flags |
+| 4 (Monetization) | monetization/ (strategy, pricing-models, app-type-guides) | paywall-generator, review-prompt |
 | 5 (Testing) | product/test-spec | test-generator |
-| 6 (Pre-Release) | app-store/, security/privacy-manifests | - |
+| 6 (Pre-Release) | app-store/, security/privacy-manifests | app-icon, error-monitoring |
 | 7 (Submission) | release-review/, app-store/, product/release-spec | - |
+
+### Conditional Generator Selection
+
+Not every plan needs every generator. Inspect APP.md's `<apple-technologies>` and `<architecture>` to decide which generators to include as tasks:
+
+- **logging-setup**: Include if app has backend integration, analytics, or debugging needs
+- **networking-layer**: Include if app has API calls, sync, or remote data
+- **analytics-setup**: Include if app tracks user behavior or has business metrics
+- **auth-flow**: Include if `<auth>` is not `None`
+- **onboarding**: Include if app has auth or first-run setup experience
+- **deep-linking**: Include if app has sharing, external links, or universal links
+- **push-notifications**: Include if `Push Notifications` is in `<apple-technologies>`
+- **localization-setup**: Include if app targets multiple regions or languages
+- **tipkit**: Include for apps with discoverable features that benefit from coaching
+- **live-activity**: Include if `Live Activities` is in `<apple-technologies>`
+- **feature-flags**: Include if app has A/B testing, staged rollout, or remote config
+- **review-prompt**: Include for all apps with monetization or user engagement goals
+- **app-icon**: Include in pre-release phase for all apps
+- **error-monitoring**: Include if app has backend/network features or crash reporting needs
+
+Only add generators whose conditions are met — avoid bloating the plan with unnecessary tasks.
 
 ## Task Generation
 
