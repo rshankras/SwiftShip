@@ -52,7 +52,8 @@ Match task to appropriate agent and spawn:
 | Task Content | Agent | Skills Reference |
 |-------------|-------|-----------------|
 | SwiftUI views, UI | swiftui-builder | `ios/ui-review`, `macos/ui-review-tahoe` |
-| StoreKit, purchases | storekit-expert | StoreKit 2 implementation |
+| StoreKit, purchases | storekit-expert | `monetization/`, `generators/paywall-generator` |
+| Pricing strategy, monetization model, revenue | general-purpose | `monetization/` (SKILL.md, pricing-models.md, app-type-guides.md) |
 | CloudKit, sync | cloudkit-expert | iCloud sync patterns |
 | Data models, persistence | general-purpose | `macos/swiftdata-architecture` |
 | Navigation, architecture | general-purpose | `ios/navigation-patterns`, `macos/architecture-patterns` |

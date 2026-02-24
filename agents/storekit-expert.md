@@ -341,4 +341,8 @@ For real App Store testing:
 
 ## References
 
-Use `generators/paywall-generator` skill for complete paywall implementation.
+- Use `monetization/` skill for pricing strategy, model selection, and tier structure
+  - `monetization/pricing-models.md` — 6 core pricing models + hybrids with revenue math
+  - `monetization/app-type-guides.md` — Category-specific pricing strategies (10 app types)
+- Use `generators/paywall-generator` skill for complete paywall implementation
+  - `generators/paywall-generator/storekit-patterns.md` — iOS 18.4+ StoreKit 2 patterns

@@ -58,7 +58,7 @@ The canonical flow is:
 
 ## External Dependency: claude-code-apple-skills
 
-Commands reference skills from `claude-code-apple-skills` (72 skills across 18 categories):
+Commands reference skills from `claude-code-apple-skills` (75 skills across 19 categories):
 - **Path:** `/Users/ravishankar/Work/MyApps/claude-code-apple-skills/skills/`
 
 | Category | Skills |
@@ -67,7 +67,8 @@ Commands reference skills from `claude-code-apple-skills` (72 skills across 18 c
 | `apple-intelligence/` | app-intents, foundation-models, visual-intelligence |
 | `design/` | animation-patterns, liquid-glass |
 | `foundation/` | attributed-string |
-| `generators/` (22) | accessibility, analytics-setup, app-icon, auth-flow, ci-cd-setup, cloudkit-sync, deep-linking, error-monitoring, feature-flags, live-activity, localization-setup, logging-setup, networking-layer, onboarding, paywall, persistence-setup, push-notifications, review-prompt, settings-screen, test, tipkit, widget |
+| `generators/` (22) | accessibility, analytics-setup, app-icon, auth-flow, ci-cd-setup, cloudkit-sync, deep-linking, error-monitoring, feature-flags, live-activity, localization-setup, logging-setup, networking-layer, onboarding, paywall-generator, persistence-setup, push-notifications, review-prompt, settings-screen, test, tipkit, widget |
+| `monetization/` | (monetization strategy, pricing-models, app-type-guides) |
 | `ios/` | app-planner, assistive-access, coding-best-practices, ipad-patterns, migration-patterns, navigation-patterns, ui-review |
 | `macos/` | app-planner, appkit-swiftui-bridge, architecture-patterns, coding-best-practices, macos-capabilities, macos-tahoe-apis, swiftdata-architecture, ui-review-tahoe |
 | `mapkit/` | geotoolbox |

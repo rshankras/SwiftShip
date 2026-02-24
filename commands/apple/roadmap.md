@@ -57,9 +57,11 @@ Based on `<apple-technologies>` with `required="false"`. Tasks:
 
 ### Phase 4: Monetization
 Only if `<monetization><model>` is not "Free". Tasks:
+- Monetization strategy & pricing model selection (use `monetization/` skill)
+- Tier structure and free trial strategy
 - App Store Connect product setup (manual)
 - StoreKit 2 manager implementation
-- Paywall UI
+- Paywall UI (use `generators/paywall-generator` skill)
 - Restore purchases
 - Sandbox testing
 
@@ -191,3 +193,5 @@ Next: Run /apple:plan 1 to create detailed tasks for Phase 1
 Reference these skills for deeper planning:
 - `product/prd-generator` for detailed requirements
 - `product/architecture-spec` for technical architecture
+- `monetization/` for pricing strategy, tier structure, and trial design
+- `generators/paywall-generator` for StoreKit 2 paywall implementation
