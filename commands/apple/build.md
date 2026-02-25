@@ -81,6 +81,30 @@ Match task to appropriate agent and spawn:
 | Rich text, AttributedString | general-purpose | `foundation/attributed-string` |
 | iPad layouts, sidebar, Stage Manager | swiftui-builder | `ios/ipad-patterns` |
 | macOS windows, menus, entitlements | general-purpose | `macos/macos-capabilities` |
+| Consent flow, GDPR, privacy consent | general-purpose | `generators/consent-flow` |
+| Force update, version gating, mandatory update | general-purpose | `generators/force-update` |
+| Permission priming, pre-permission, permission request | swiftui-builder | `generators/permission-priming` |
+| Account deletion, delete account, user removal | general-purpose | `generators/account-deletion` |
+| App Clip, clip experience, instant app | general-purpose | `generators/app-clip` |
+| Offline queue, pending actions, retry queue | general-purpose | `generators/offline-queue` |
+| Spotlight, search indexing, CSSearchableItem | general-purpose | `generators/spotlight-indexing` |
+| State restoration, scene restoration, NSUserActivity | general-purpose | `generators/state-restoration` |
+| Streak tracking, daily streak, habit tracking | general-purpose | `generators/streak-tracker` |
+| Announcement banner, in-app banner, promo banner | swiftui-builder | `generators/announcement-banner` |
+| Feedback form, bug report, user feedback | swiftui-builder | `generators/feedback-form` |
+| Lapsed user, re-engagement, win-back | general-purpose | `generators/lapsed-user` |
+| Milestone celebration, achievement, confetti | swiftui-builder | `generators/milestone-celebration` |
+| Share card, share sheet, shareable image | swiftui-builder | `generators/share-card` |
+| Social export, social media sharing | general-purpose | `generators/social-export` |
+| Usage insights, usage stats, activity summary | swiftui-builder | `generators/usage-insights` |
+| Watermark, branded export, image watermark | general-purpose | `generators/watermark-engine` |
+| Quick win, short session, quick engagement | swiftui-builder | `generators/quick-win-session` |
+| Referral, invite friends, referral program | general-purpose | `generators/referral-system` |
+| Subscription lifecycle, renewal, grace period, billing | storekit-expert | `generators/subscription-lifecycle` |
+| Variable rewards, gamification, reward schedule | general-purpose | `generators/variable-rewards` |
+| Debug menu, developer settings, internal tools | general-purpose | `generators/debug-menu` |
+| Screenshot automation, snapshot testing, marketing screenshots | general-purpose | `generators/screenshot-automation` |
+| What's new, release notes, version changelog | swiftui-builder | `generators/whats-new` |
 
 **Before executing each task:** Load the referenced skill from `/Users/ravishankar/Work/MyApps/claude-code-apple-skills/skills/[skills-reference]/SKILL.md` and include its patterns in the agent prompt context.
 

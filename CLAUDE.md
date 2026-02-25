@@ -58,7 +58,7 @@ The canonical flow is:
 
 ## External Dependency: claude-code-apple-skills
 
-Commands reference skills from `claude-code-apple-skills` (86 skills across 20 categories):
+Commands reference skills from `claude-code-apple-skills` (110 skills across 20 categories):
 - **Path:** `/Users/ravishankar/Work/MyApps/claude-code-apple-skills/skills/`
 
 | Category | Skills |
@@ -67,7 +67,7 @@ Commands reference skills from `claude-code-apple-skills` (86 skills across 20 c
 | `apple-intelligence/` | app-intents, foundation-models, visual-intelligence |
 | `design/` | animation-patterns, liquid-glass |
 | `foundation/` | attributed-string |
-| `generators/` (25) | accessibility, analytics-setup, app-icon, auth-flow, ci-cd-setup, cloudkit-sync, deep-linking, error-monitoring, feature-flags, http-cache, image-loading, live-activity, localization-setup, logging-setup, networking-layer, onboarding, pagination, paywall-generator, persistence-setup, push-notifications, review-prompt, settings-screen, test, tipkit, widget |
+| `generators/` (49) | accessibility-generator, account-deletion, analytics-setup, announcement-banner, app-clip, app-icon-generator, auth-flow, ci-cd-setup, cloudkit-sync, consent-flow, debug-menu, deep-linking, error-monitoring, feature-flags, feedback-form, force-update, http-cache, image-loading, lapsed-user, live-activity-generator, localization-setup, logging-setup, milestone-celebration, networking-layer, offline-queue, onboarding-generator, pagination, paywall-generator, permission-priming, persistence-setup, push-notifications, quick-win-session, referral-system, review-prompt, screenshot-automation, settings-screen, share-card, social-export, spotlight-indexing, state-restoration, streak-tracker, subscription-lifecycle, test-generator, tipkit-generator, usage-insights, variable-rewards, watermark-engine, whats-new, widget-generator |
 | `monetization/` | (monetization strategy, pricing-models, app-type-guides) |
 | `ios/` | app-planner, assistive-access, coding-best-practices, ipad-patterns, migration-patterns, navigation-patterns, ui-review |
 | `macos/` | app-planner, appkit-swiftui-bridge, architecture-patterns, coding-best-practices, macos-capabilities, macos-tahoe-apis, swiftdata-architecture, ui-review-tahoe |

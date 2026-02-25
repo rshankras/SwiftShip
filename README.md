@@ -332,9 +332,13 @@ SwiftShip references skills from `claude-code-apple-skills`:
 | Adding settings screen | `generators/settings-screen` |
 | Implementing paywall | `generators/paywall-generator` |
 | Adding infrastructure | `generators/logging-setup`, `generators/networking-layer`, `generators/analytics-setup`, `generators/error-monitoring`, `generators/http-cache`, `generators/pagination`, `generators/image-loading` |
-| Adding user flows | `generators/auth-flow`, `generators/onboarding`, `generators/deep-linking`, `generators/push-notifications` |
-| Adding polish features | `generators/localization-setup`, `generators/tipkit`, `generators/live-activity`, `generators/feature-flags` |
-| Adding engagement | `generators/review-prompt`, `generators/app-icon` |
+| Adding user flows | `generators/auth-flow`, `generators/onboarding-generator`, `generators/deep-linking`, `generators/push-notifications`, `generators/consent-flow`, `generators/account-deletion`, `generators/permission-priming` |
+| Adding offline/state | `generators/offline-queue`, `generators/state-restoration`, `generators/force-update`, `generators/spotlight-indexing` |
+| Adding polish features | `generators/localization-setup`, `generators/tipkit-generator`, `generators/live-activity-generator`, `generators/feature-flags`, `generators/announcement-banner`, `generators/feedback-form`, `generators/whats-new` |
+| Adding engagement | `generators/review-prompt`, `generators/app-icon-generator`, `generators/streak-tracker`, `generators/milestone-celebration`, `generators/quick-win-session`, `generators/variable-rewards`, `generators/usage-insights` |
+| Adding sharing | `generators/share-card`, `generators/social-export`, `generators/watermark-engine` |
+| Adding growth/monetization | `generators/referral-system`, `generators/subscription-lifecycle`, `generators/lapsed-user` |
+| Adding developer tools | `generators/debug-menu`, `generators/screenshot-automation`, `generators/app-clip` |
 | TDD for new features | `testing/tdd-feature`, `testing/test-data-factory` |
 | TDD bug fix workflow | `testing/tdd-bug-fix` |
 | Refactoring safely | `testing/tdd-refactor-guard`, `testing/characterization-test-generator` |

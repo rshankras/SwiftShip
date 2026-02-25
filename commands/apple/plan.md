@@ -34,12 +34,12 @@ Determine which skills and generators are relevant based on phase:
 
 | Phase | Primary Skills | Generators |
 |-------|---------------|------------|
-| 1 (Foundation) | ios/coding-best-practices, macos/coding-best-practices | logging-setup, networking-layer, analytics-setup |
-| 2 (Core) | ios/, macos/, product/ux-spec, product/implementation-guide | auth-flow, onboarding, deep-linking, push-notifications (+ varies by feature) |
-| 3 (Polish) | ios/ui-review, macos/ui-review-tahoe, design/liquid-glass, design/animation-patterns | widget-generator, accessibility-generator, localization-setup, tipkit, live-activity, feature-flags |
-| 4 (Monetization) | monetization/ (strategy, pricing-models, app-type-guides) | paywall-generator, review-prompt |
-| 5 (Testing) | product/test-spec, testing/ (TDD workflows) | test-generator, testing/tdd-feature, testing/test-data-factory, testing/snapshot-test-setup, testing/integration-test-scaffold |
-| 6 (Pre-Release) | app-store/, security/privacy-manifests | app-icon, error-monitoring |
+| 1 (Foundation) | ios/coding-best-practices, macos/coding-best-practices | logging-setup, networking-layer, analytics-setup, consent-flow, force-update, permission-priming |
+| 2 (Core) | ios/, macos/, product/ux-spec, product/implementation-guide | auth-flow, onboarding-generator, deep-linking, push-notifications, account-deletion, app-clip, offline-queue, spotlight-indexing, state-restoration, streak-tracker (+ varies by feature) |
+| 3 (Polish) | ios/ui-review, macos/ui-review-tahoe, design/liquid-glass, design/animation-patterns | widget-generator, accessibility-generator, localization-setup, tipkit-generator, live-activity-generator, feature-flags, announcement-banner, feedback-form, lapsed-user, milestone-celebration, share-card, social-export, usage-insights, watermark-engine, quick-win-session |
+| 4 (Monetization) | monetization/ (strategy, pricing-models, app-type-guides) | paywall-generator, review-prompt, referral-system, subscription-lifecycle, variable-rewards |
+| 5 (Testing) | product/test-spec, testing/ (TDD workflows) | test-generator, testing/tdd-feature, testing/test-data-factory, testing/snapshot-test-setup, testing/integration-test-scaffold, debug-menu |
+| 6 (Pre-Release) | app-store/, security/privacy-manifests | app-icon-generator, error-monitoring, screenshot-automation, whats-new |
 | 7 (Submission) | release-review/, app-store/, product/release-spec | - |
 
 ### Conditional Generator Selection
@@ -53,16 +53,40 @@ Not every plan needs every generator. Inspect APP.md's `<apple-technologies>` an
 - **image-loading**: Include if app displays remote images (avatars, photos, thumbnails)
 - **analytics-setup**: Include if app tracks user behavior or has business metrics
 - **auth-flow**: Include if `<auth>` is not `None`
-- **onboarding**: Include if app has auth or first-run setup experience
+- **onboarding-generator**: Include if app has auth or first-run setup experience
 - **deep-linking**: Include if app has sharing, external links, or universal links
 - **push-notifications**: Include if `Push Notifications` is in `<apple-technologies>`
 - **localization-setup**: Include if app targets multiple regions or languages
-- **tipkit**: Include for apps with discoverable features that benefit from coaching
-- **live-activity**: Include if `Live Activities` is in `<apple-technologies>`
+- **tipkit-generator**: Include for apps with discoverable features that benefit from coaching
+- **live-activity-generator**: Include if `Live Activities` is in `<apple-technologies>`
 - **feature-flags**: Include if app has A/B testing, staged rollout, or remote config
 - **review-prompt**: Include for all apps with monetization or user engagement goals
-- **app-icon**: Include in pre-release phase for all apps
+- **app-icon-generator**: Include in pre-release phase for all apps
 - **error-monitoring**: Include if app has backend/network features or crash reporting needs
+- **consent-flow**: Include if app collects personal data or targets EU/California users
+- **force-update**: Include if app has API versioning or server-side breaking changes
+- **permission-priming**: Include if app requests sensitive permissions (camera, location, microphone, health)
+- **account-deletion**: Include if app has user accounts (Apple requirement since 2022)
+- **app-clip**: Include if app benefits from lightweight try-before-install experiences
+- **offline-queue**: Include if app needs to queue user actions while offline for later sync
+- **spotlight-indexing**: Include if app has searchable content (articles, items, records)
+- **state-restoration**: Include if app has complex navigation that should survive relaunch
+- **streak-tracker**: Include if app has daily engagement, habit tracking, or streak mechanics
+- **announcement-banner**: Include if app needs to communicate updates, promotions, or alerts in-app
+- **feedback-form**: Include if app collects user feedback, bug reports, or feature requests
+- **lapsed-user**: Include if app has retention goals and needs win-back flows
+- **milestone-celebration**: Include if app has achievements, progress milestones, or completion events
+- **share-card**: Include if app has content users can share as branded images
+- **social-export**: Include if app has content users share to social media platforms
+- **usage-insights**: Include if app benefits from showing users their activity or usage statistics
+- **watermark-engine**: Include if app generates images or exports that need branding/watermarks
+- **quick-win-session**: Include if app benefits from short, rewarding engagement loops
+- **referral-system**: Include if app benefits from word-of-mouth or invite-a-friend growth
+- **subscription-lifecycle**: Include if app has subscriptions (renewal, grace period, billing state management)
+- **variable-rewards**: Include if app uses gamification, surprise rewards, or engagement hooks
+- **debug-menu**: Include for all apps — hidden debug menu for internal/TestFlight builds
+- **screenshot-automation**: Include for all apps — automated App Store screenshot capture
+- **whats-new**: Include for all apps — What's New screen shown after app updates
 
 **Testing skills (Phase 5):**
 - **testing/tdd-feature**: Include for all apps — TDD workflow for new test coverage

@@ -43,6 +43,9 @@ Always included. Tasks:
 - HTTP response caching (if app needs offline support — use `generators/http-cache`)
 - Pagination infrastructure (if app has paginated lists — use `generators/pagination`)
 - Image loading pipeline (if app displays remote images — use `generators/image-loading`)
+- Consent flow (if app collects personal data or targets EU/California — use `generators/consent-flow`)
+- Force update mechanism (if app has API versioning or breaking changes — use `generators/force-update`)
+- Permission priming screens (if app requests sensitive permissions like camera/location — use `generators/permission-priming`)
 
 ### Phase 2: Core Features
 Based on `<mvp-features>`. Tasks:
@@ -50,9 +53,15 @@ Based on `<mvp-features>`. Tasks:
 - Data persistence integration
 - Basic UI for each feature
 - Authentication flow (if `<auth>` is not None — use `generators/auth-flow`)
-- Onboarding experience (if app has `<auth>` or first-run setup — use `generators/onboarding`)
+- Onboarding experience (if app has `<auth>` or first-run setup — use `generators/onboarding-generator`)
 - Push notification setup (if Push Notifications in `<apple-technologies>` — use `generators/push-notifications`)
 - Deep linking (if app has sharing or external links — use `generators/deep-linking`)
+- Account deletion (if app has user accounts — Apple requirement since 2022 — use `generators/account-deletion`)
+- App Clip experience (if app benefits from lightweight try-before-install — use `generators/app-clip`)
+- Offline queue (if app needs to queue actions while offline — use `generators/offline-queue`)
+- Spotlight indexing (if app has searchable content — use `generators/spotlight-indexing`)
+- State restoration (if app has complex navigation that should survive relaunch — use `generators/state-restoration`)
+- Streak tracking (if app has daily engagement or habit mechanics — use `generators/streak-tracker`)
 
 ### Phase 3: Polish & Platform Features
 Based on `<apple-technologies>` with `required="false"`. Tasks:
@@ -64,9 +73,18 @@ Based on `<apple-technologies>` with `required="false"`. Tasks:
 - Siri/Shortcuts (if App Intents selected)
 - Other optional frameworks
 - Localization setup (if app targets multiple regions — use `generators/localization-setup`)
-- TipKit coaching tips (use `generators/tipkit`)
-- Live Activities (if Live Activities in `<apple-technologies>` — use `generators/live-activity`)
+- TipKit coaching tips (use `generators/tipkit-generator`)
+- Live Activities (if Live Activities in `<apple-technologies>` — use `generators/live-activity-generator`)
 - Feature flags infrastructure (if app has A/B testing or staged rollout — use `generators/feature-flags`)
+- Announcement banner (if app needs to communicate updates/promotions in-app — use `generators/announcement-banner`)
+- Feedback form (if app collects user feedback or bug reports — use `generators/feedback-form`)
+- Lapsed user re-engagement (if app has retention goals — use `generators/lapsed-user`)
+- Milestone celebration (if app has achievement or progress milestones — use `generators/milestone-celebration`)
+- Share card (if app has shareable content — use `generators/share-card`)
+- Social export (if app has content users share to social media — use `generators/social-export`)
+- Usage insights dashboard (if app benefits from showing users their usage stats — use `generators/usage-insights`)
+- Watermark engine (if app generates images or exports that need branding — use `generators/watermark-engine`)
+- Quick win session (if app benefits from short engagement loops — use `generators/quick-win-session`)
 
 ### Phase 4: Monetization
 Only if `<monetization><model>` is not "Free". Tasks:
@@ -78,6 +96,9 @@ Only if `<monetization><model>` is not "Free". Tasks:
 - Restore purchases
 - Sandbox testing
 - Review/rating prompt (use `generators/review-prompt`)
+- Referral system (if app benefits from word-of-mouth growth — use `generators/referral-system`)
+- Subscription lifecycle management (if app has subscriptions — use `generators/subscription-lifecycle`)
+- Variable rewards (if app uses gamification or engagement hooks — use `generators/variable-rewards`)
 
 ### Phase 5: Quality & Testing
 Always included. Tasks:
@@ -90,16 +111,19 @@ Always included. Tasks:
 - Performance profiling
 - Memory leak detection
 - Accessibility audit
+- Debug menu (for internal/TestFlight builds — use `generators/debug-menu`)
 
 ### Phase 6: Pre-Release
 Always included. Tasks:
 - App Store Connect setup (manual)
-- App icon generation (use `generators/app-icon`)
+- App icon generation (use `generators/app-icon-generator`)
 - Screenshots
 - App description and keywords
 - Privacy policy
 - TestFlight distribution
 - Error monitoring setup (use `generators/error-monitoring`)
+- Screenshot automation (use `generators/screenshot-automation`)
+- What's New screen (use `generators/whats-new`)
 
 ### Phase 7: Submission
 Always included. Tasks:
