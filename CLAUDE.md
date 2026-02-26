@@ -54,6 +54,7 @@ The canonical flow is:
 - `/apple:perf` profiles and diagnoses performance issues using Instruments guidance and SwiftUI debugging — outputs `.planning/PERFORMANCE.md`
 - `/apple:review` spawns 5 parallel review agents (code quality, HIG, App Store, performance, security)
 - `/apple:release-notes` generates release text for App Store, TestFlight, changelog, and social from git history + planning files — outputs `.planning/RELEASE-NOTES.md`
+- `/apple:visual-qa` analyzes screenshots or scans SwiftUI code for visual issues — outputs `.planning/VISUAL-QA.md`
 - `/apple:learn` captures mistakes and patterns into skills or CLAUDE.md so they never recur — the feedback loop that compounds session quality
 - Tasks have three types: `auto` (agent-executed), `generator` (skill-invoked), `manual` (user action required)
 - State is tracked in `.planning/STATE.md` and task status in `.planning/PLAN.md`

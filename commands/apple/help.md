@@ -66,6 +66,9 @@ Display all available commands, their purpose, and recommended workflow.
 ║  /apple:perf [problem]      Profile and diagnose performance issues           ║
 ║                             Creates: .planning/PERFORMANCE.md                 ║
 ║                                                                               ║
+║  /apple:visual-qa [paths]   Screenshot-based visual QA or code UI audit      ║
+║                             Creates: .planning/VISUAL-QA.md                  ║
+║                                                                               ║
 ║  RELEASE                                                                      ║
 ║  ───────────────────────────────────────────────────────────────────────────  ║
 ║  /apple:metadata            Generate App Store content (keywords, description)║
@@ -179,6 +182,7 @@ NEW PROJECT                          EXISTING PROJECT
 | Review code quality | `/apple:review` |
 | Run security audit | `/apple:security` |
 | Diagnose performance | `/apple:perf "slow scrolling"` |
+| Check visual quality | `/apple:visual-qa ~/Desktop/screen.png` |
 | Set up CI/CD | `/apple:deploy` |
 | Prepare App Store content | `/apple:metadata` |
 | Plan screenshots | `/apple:screenshots` |
@@ -214,6 +218,7 @@ All planning files are stored in `.planning/`:
 | `REVIEW.md` | Quality findings | `/apple:review` |
 | `SECURITY.md` | Security audit findings | `/apple:security` |
 | `PERFORMANCE.md` | Performance analysis | `/apple:perf` |
+| `VISUAL-QA.md` | Visual QA findings | `/apple:visual-qa` |
 | `ASO.md` | App Store content | `/apple:metadata` |
 | `SCREENSHOTS.md` | Screenshot plan | `/apple:screenshots` |
 | `FEEDBACK.md` | Beta feedback | `/apple:testflight` |
