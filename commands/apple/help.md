@@ -80,6 +80,9 @@ Display all available commands, their purpose, and recommended workflow.
 ║  /apple:testflight          Prepare and manage TestFlight beta                ║
 ║                             Creates: .planning/FEEDBACK.md                    ║
 ║                                                                               ║
+║  /apple:release-notes       Generate release notes for App Store & TestFlight ║
+║                             Creates: .planning/RELEASE-NOTES.md              ║
+║                                                                               ║
 ║  /apple:submit              Final App Store submission checklist              ║
 ║                                                                               ║
 ║  VERSION & IDEAS                                                              ║
@@ -103,6 +106,8 @@ Display all available commands, their purpose, and recommended workflow.
 ║                             Creates: .planning/HANDOFF.md                     ║
 ║                                                                               ║
 ║  /apple:resume              Restore context from previous session             ║
+║                                                                               ║
+║  /apple:learn [lesson]      Capture mistake or pattern into skills            ║
 ║                                                                               ║
 ║  /apple:help                Show this help message                            ║
 ║                                                                               ║
@@ -185,6 +190,8 @@ NEW PROJECT                          EXISTING PROJECT
 | Review all ideas | `/apple:ideas` |
 | Stop for today | `/apple:pause` |
 | Continue tomorrow | `/apple:resume` |
+| Generate release notes | `/apple:release-notes` |
+| Capture a lesson learned | `/apple:learn "always use weak self in closures"` |
 | Fix a known bug quickly | `/apple:bugfix "crash in settings"` |
 | Investigate a mystery bug | `/apple:debug "description"` |
 
@@ -210,6 +217,7 @@ All planning files are stored in `.planning/`:
 | `ASO.md` | App Store content | `/apple:metadata` |
 | `SCREENSHOTS.md` | Screenshot plan | `/apple:screenshots` |
 | `FEEDBACK.md` | Beta feedback | `/apple:testflight` |
+| `RELEASE-NOTES.md` | Release text for all channels | `/apple:release-notes` |
 | `IDEAS.md` | Captured ideas | `/apple:idea` |
 | `HANDOFF.md` | Session handoff | `/apple:pause` |
 | `archive/` | Completed versions | `/apple:milestone` |
