@@ -62,6 +62,9 @@ Based on `<mvp-features>`. Tasks:
 - Spotlight indexing (if app has searchable content — use `generators/spotlight-indexing`)
 - State restoration (if app has complex navigation that should survive relaunch — use `generators/state-restoration`)
 - Streak tracking (if app has daily engagement or habit mechanics — use `generators/streak-tracker`)
+- App extensions (if app needs share/action/keyboard extensions — use `generators/app-extensions`)
+- Background processing (if app needs background tasks or downloads — use `generators/background-processing`)
+- Data export (if app needs JSON/CSV/PDF export or GDPR data portability — use `generators/data-export`)
 
 ### Phase 3: Polish & Platform Features
 Based on `<apple-technologies>` with `required="false"`. Tasks:
@@ -99,6 +102,11 @@ Only if `<monetization><model>` is not "Free". Tasks:
 - Referral system (if app benefits from word-of-mouth growth — use `generators/referral-system`)
 - Subscription lifecycle management (if app has subscriptions — use `generators/subscription-lifecycle`)
 - Variable rewards (if app uses gamification or engagement hooks — use `generators/variable-rewards`)
+- Offer codes setup (if app uses promo codes for influencers or partners — use `generators/offer-codes-setup`)
+- Pre-order setup (if app will use App Store pre-orders — use `generators/pre-orders`)
+- Promoted in-app purchases (if app has IAPs to display on product page — use `generators/promoted-iap`)
+- Subscription offers (if app has subscriptions with intro/promo/win-back offers — use `generators/subscription-offers`)
+- Win-back offers (if app needs to re-engage churned subscribers — use `generators/win-back-offers`)
 
 ### Phase 5: Quality & Testing
 Always included. Tasks:
@@ -124,6 +132,11 @@ Always included. Tasks:
 - Error monitoring setup (use `generators/error-monitoring`)
 - Screenshot automation (use `generators/screenshot-automation`)
 - What's New screen (use `generators/whats-new`)
+- App Store asset specs (use `generators/app-store-assets`)
+- Custom product pages (if app targets multiple audiences — use `generators/custom-product-pages`)
+- Featuring nomination (if pitching for Apple editorial — use `generators/featuring-nomination`)
+- In-app events (if app has seasonal or live events — use `generators/in-app-events`)
+- Product page optimization (if running A/B tests on App Store page — use `generators/product-page-optimization`)
 
 ### Phase 7: Submission
 Always included. Tasks:
@@ -132,6 +145,8 @@ Always included. Tasks:
 - Privacy declarations
 - Final QA
 - Submit for review
+- Privacy policy and legal documents (use `legal/privacy-policy` skill)
+- Rejection handling playbook (use `app-store/rejection-handler` skill)
 
 ## Output: ROADMAP.md
 

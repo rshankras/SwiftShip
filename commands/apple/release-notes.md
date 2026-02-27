@@ -212,6 +212,20 @@ Format:
 [App Name] [version] is here! [Headline feature in one sentence]. [Secondary highlights]. Update now on the App Store.
 ```
 
+### Press Release (optional)
+
+For press outreach on major releases:
+```
+Read: /Users/ravishankar/Work/MyApps/claude-code-apple-skills/skills/growth/press-media/SKILL.md
+```
+
+### Community Announcement (optional)
+
+For building-in-public and community updates:
+```
+Read: /Users/ravishankar/Work/MyApps/claude-code-apple-skills/skills/growth/community-building/SKILL.md
+```
+
 ## Step 6: Write Output
 
 Save all generated content to `.planning/RELEASE-NOTES.md`:

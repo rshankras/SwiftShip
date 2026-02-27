@@ -113,6 +113,13 @@ Using the privacy-manifests skill:
 - Check third-party SDK privacy manifests
 - Flag missing tracking domain declarations
 
+Also load the privacy policy skill for legal compliance:
+```
+Read: /Users/ravishankar/Work/MyApps/claude-code-apple-skills/skills/legal/privacy-policy/SKILL.md
+```
+
+Verify privacy policy covers all collected data types and GDPR/CCPA requirements.
+
 ## Output
 
 Generate `.planning/SECURITY.md`:

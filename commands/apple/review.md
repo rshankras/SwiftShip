@@ -148,7 +148,7 @@ Task({
   prompt: `
     Review App Store Review Guidelines compliance.
 
-    Reference existing skill: release-review/
+    Reference existing skill: release-review/, growth/analytics-interpretation
 
     Check:
     1. **Safety (1.x)**

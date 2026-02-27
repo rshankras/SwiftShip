@@ -13,6 +13,7 @@ Read and apply the screenshot-planner skill:
 
 ```
 Read: /Users/ravishankar/Work/MyApps/claude-code-apple-skills/skills/app-store/screenshot-planner/SKILL.md
+Read: /Users/ravishankar/Work/MyApps/claude-code-apple-skills/skills/generators/app-store-assets/SKILL.md
 ```
 
 ## Step 1: Load Project Context

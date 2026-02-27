@@ -35,12 +35,12 @@ Determine which skills and generators are relevant based on phase:
 | Phase | Primary Skills | Generators |
 |-------|---------------|------------|
 | 1 (Foundation) | ios/coding-best-practices, macos/coding-best-practices | logging-setup, networking-layer, analytics-setup, consent-flow, force-update, permission-priming |
-| 2 (Core) | ios/, macos/, product/ux-spec, product/implementation-guide | auth-flow, onboarding-generator, deep-linking, push-notifications, account-deletion, app-clip, offline-queue, spotlight-indexing, state-restoration, streak-tracker (+ varies by feature) |
+| 2 (Core) | ios/, macos/, product/ux-spec, product/implementation-guide | auth-flow, onboarding-generator, deep-linking, push-notifications, account-deletion, app-clip, offline-queue, spotlight-indexing, state-restoration, streak-tracker, app-extensions, background-processing, data-export (+ varies by feature) |
 | 3 (Polish) | ios/ui-review, macos/ui-review-tahoe, design/liquid-glass, design/animation-patterns | widget-generator, accessibility-generator, localization-setup, tipkit-generator, live-activity-generator, feature-flags, announcement-banner, feedback-form, lapsed-user, milestone-celebration, share-card, social-export, usage-insights, watermark-engine, quick-win-session |
-| 4 (Monetization) | monetization/ (strategy, pricing-models, app-type-guides) | paywall-generator, review-prompt, referral-system, subscription-lifecycle, variable-rewards |
+| 4 (Monetization) | monetization/ (strategy, pricing-models, app-type-guides) | paywall-generator, review-prompt, referral-system, subscription-lifecycle, variable-rewards, offer-codes-setup, pre-orders, promoted-iap, subscription-offers, win-back-offers |
 | 5 (Testing) | product/test-spec, testing/ (TDD workflows) | test-generator, testing/tdd-feature, testing/test-data-factory, testing/snapshot-test-setup, testing/integration-test-scaffold, debug-menu |
-| 6 (Pre-Release) | app-store/, security/privacy-manifests | app-icon-generator, error-monitoring, screenshot-automation, whats-new |
-| 7 (Submission) | release-review/, app-store/, product/release-spec | - |
+| 6 (Pre-Release) | app-store/, security/privacy-manifests, legal/privacy-policy | app-icon-generator, error-monitoring, screenshot-automation, whats-new, app-store-assets, custom-product-pages, featuring-nomination, in-app-events, product-page-optimization |
+| 7 (Submission) | release-review/, app-store/, product/release-spec, app-store/rejection-handler | - |
 
 ### Conditional Generator Selection
 
@@ -87,6 +87,19 @@ Not every plan needs every generator. Inspect APP.md's `<apple-technologies>` an
 - **debug-menu**: Include for all apps — hidden debug menu for internal/TestFlight builds
 - **screenshot-automation**: Include for all apps — automated App Store screenshot capture
 - **whats-new**: Include for all apps — What's New screen shown after app updates
+- **app-extensions**: Include if app needs share, action, or keyboard extensions with App Groups
+- **background-processing**: Include if app needs BGTaskScheduler or background downloads
+- **data-export**: Include if app needs JSON/CSV/PDF export or GDPR data portability compliance
+- **app-store-assets**: Include for all apps — comprehensive App Store asset specs
+- **custom-product-pages**: Include if app targets multiple distinct audiences needing tailored pages
+- **featuring-nomination**: Include if app is a strong candidate for Apple editorial featuring
+- **in-app-events**: Include if app has seasonal events, challenges, or live content on App Store
+- **product-page-optimization**: Include if planning to A/B test App Store screenshots and metadata
+- **offer-codes-setup**: Include if app uses promo codes for influencers, press, or partnerships
+- **pre-orders**: Include if app will launch with App Store pre-orders
+- **promoted-iap**: Include if app has in-app purchases to display on the App Store product page
+- **subscription-offers**: Include if app has subscriptions needing intro, promo, or win-back offers
+- **win-back-offers**: Include if app has churned subscribers to re-engage with targeted offers
 
 **Testing skills (Phase 5):**
 - **testing/tdd-feature**: Include for all apps — TDD workflow for new test coverage

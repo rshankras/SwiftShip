@@ -283,6 +283,8 @@ This command loads and applies skills from `claude-code-apple-skills`:
 |-------|------------------|
 | `product/market-research` | TAM/SAM/SOM calculation methods, market maturity indicators, growth analysis framework, entry barrier assessment, revenue potential estimation |
 | `product/competitive-analysis` | Competitor identification criteria, feature matrix template, pricing analysis framework, SWOT methodology, differentiation opportunity identification |
+| `growth/analytics-interpretation` | DAU/MAU, retention cohorts, LTV analysis, conversion funnel diagnostics |
+| `growth/indie-business` | Indie business viability — LLC/tax, revenue tracking, solo dev economics |
 
 **The skills are loaded at the start of validation and their methodologies are applied throughout.**
 

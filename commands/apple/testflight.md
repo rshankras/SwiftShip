@@ -15,6 +15,15 @@ Read: .planning/STATE.md
 Read: .planning/REVIEW.md (if exists)
 ```
 
+## Load Skills
+
+Read the beta testing strategy skill:
+```
+Read: /Users/ravishankar/Work/MyApps/claude-code-apple-skills/skills/product/beta-testing/SKILL.md
+```
+
+Apply for tester segmentation, feedback collection, and go/no-go criteria.
+
 Check for critical issues:
 ```
 If REVIEW.md exists and has Critical issues:

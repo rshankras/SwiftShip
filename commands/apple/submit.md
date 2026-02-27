@@ -131,6 +131,15 @@ Read: /Users/ravishankar/Work/MyApps/claude-code-apple-skills/skills/product/rel
 
 Use this to generate release notes, version summary, and changelog.
 
+### Legal Documents
+
+Load the privacy policy skill for legal document generation:
+```
+Read: /Users/ravishankar/Work/MyApps/claude-code-apple-skills/skills/legal/privacy-policy/SKILL.md
+```
+
+Verify privacy policy, terms of service, and GDPR/CCPA compliance.
+
 ### macOS Entitlements Check (if macOS app)
 
 If APP.md indicates macOS platform:
@@ -165,6 +174,12 @@ For description writing, use:
 
 For screenshot planning, use:
 - app-store/screenshot-planner skill
+
+For overall marketing strategy, use:
+- app-store/marketing-strategy skill
+
+For Apple Search Ads optimization, use:
+- app-store/apple-search-ads skill
 ```
 
 Generate initial ASO.md based on APP.md:
@@ -255,11 +270,10 @@ After submission:
 ### If Rejected
 1. Read rejection reason carefully
 2. Check specific guideline cited
-3. Fix the issue
-4. Resubmit with notes explaining fix
-
-Common rejection responses:
-- Use app-store/review-response-writer skill for professional responses
+3. Load rejection handling skill:
+   Read: /Users/ravishankar/Work/MyApps/claude-code-apple-skills/skills/app-store/rejection-handler/SKILL.md
+4. Use app-store/review-response-writer skill for professional responses
+5. Fix the issue and resubmit with notes explaining fix
 
 ### If Approved
 1. Set release date (immediate or scheduled)

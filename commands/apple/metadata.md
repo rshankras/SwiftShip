@@ -20,6 +20,9 @@ Also load any reference files mentioned in the skills:
 ```
 Read: /Users/ravishankar/Work/MyApps/claude-code-apple-skills/skills/app-store/keyword-optimizer/keyword-criteria.md
 Read: /Users/ravishankar/Work/MyApps/claude-code-apple-skills/skills/app-store/keyword-optimizer/advanced-tactics.md
+Read: /Users/ravishankar/Work/MyApps/claude-code-apple-skills/skills/product/localization-strategy/SKILL.md
+Read: /Users/ravishankar/Work/MyApps/claude-code-apple-skills/skills/app-store/marketing-strategy/SKILL.md
+Read: /Users/ravishankar/Work/MyApps/claude-code-apple-skills/skills/app-store/apple-search-ads/SKILL.md
 ```
 
 ## Step 1: Load Project Context

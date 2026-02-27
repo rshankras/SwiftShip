@@ -105,6 +105,20 @@ Match task to appropriate agent and spawn:
 | Debug menu, developer settings, internal tools | general-purpose | `generators/debug-menu` |
 | Screenshot automation, snapshot testing, marketing screenshots | general-purpose | `generators/screenshot-automation` |
 | What's new, release notes, version changelog | swiftui-builder | `generators/whats-new` |
+| Core ML, machine learning, Vision framework, NaturalLanguage | general-purpose | `core-ml/` |
+| App Store assets, marketing screenshots, preview video, event cards | general-purpose | `generators/app-store-assets` |
+| Custom product pages, variant pages, audience targeting | general-purpose | `generators/custom-product-pages` |
+| Featuring nomination, Apple editorial, App Store featuring | general-purpose | `generators/featuring-nomination` |
+| In-app events, seasonal events, live events, event metadata | general-purpose | `generators/in-app-events` |
+| Product page optimization, A/B test screenshots, conversion | general-purpose | `generators/product-page-optimization` |
+| Offer codes, promo codes, redemption codes | storekit-expert | `generators/offer-codes-setup` |
+| Pre-order, launch countdown, pre-release | general-purpose | `generators/pre-orders` |
+| Promoted IAP, in-app purchase display, product page purchases | storekit-expert | `generators/promoted-iap` |
+| Subscription offers, introductory offer, promo offer | storekit-expert | `generators/subscription-offers` |
+| Win-back offers, churned subscriber, lapsed subscription | storekit-expert | `generators/win-back-offers` |
+| App extensions, share extension, action extension, keyboard extension | general-purpose | `generators/app-extensions` |
+| Background processing, BGTaskScheduler, background download | general-purpose | `generators/background-processing` |
+| Data export, CSV export, PDF export, GDPR data portability | general-purpose | `generators/data-export` |
 
 **Before executing each task:** Load the referenced skill from `/Users/ravishankar/Work/MyApps/claude-code-apple-skills/skills/[skills-reference]/SKILL.md` and include its patterns in the agent prompt context.
 
