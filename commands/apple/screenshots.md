@@ -105,20 +105,51 @@ Based on APP.md, create a storyboard:
 **Notes:** Close the deal
 ```
 
-## Step 4: Generate UI Test for Automation
+## Step 4: Generate App-Side Screenshot Mode
+
+Add `ScreenshotModeController` to the **app target** so the app configures itself for clean screenshots:
+
+```swift
+// ScreenshotModeController.swift — ADD TO APP TARGET
+// Detects --screenshot-mode launch argument and configures the app:
+// - Suppresses onboarding and IAP prompts
+// - Loads sample data
+// - Sizes windows correctly (macOS)
+// - Provides @Environment(\.isScreenshotMode) for views
+
+// See screenshot-automation skill templates.md for full implementation
+```
+
+**Integration points** (tell user to add these):
+1. `ScreenshotModeController.shared.configureIfNeeded()` in App's `init()`
+2. `ScreenshotModeController.shared.configureWindow()` in root view's `onAppear`
+3. Override `loadSampleData()` with their app's sample data
+
+For views that should hide promotional UI during screenshots:
+```swift
+@Environment(\.isScreenshotMode) private var isScreenshotMode
+
+var body: some View {
+    if !isScreenshotMode {
+        UpgradePromptBanner()
+    }
+    // ... main content
+}
+```
+
+## Step 5: Generate UI Test for Automation
 
 Create a UI test file that captures screenshots using Xcode's screenshot API.
 
 ### Find UI Test Target
 
-```bash
-# Look for existing UI test files
-find . -name "*UITests*.swift" -o -name "*UITest*.swift" | head -5
+```
+Glob: **/*UITests*.swift
 ```
 
 ### Generate Screenshot Test
 
-Create/update UI test file:
+Create/update UI test file using the templates from the screenshot-automation skill:
 
 ```swift
 // ScreenshotTests.swift
@@ -132,7 +163,11 @@ final class ScreenshotTests: XCTestCase {
 
     override func setUpWithError() throws {
         continueAfterFailure = false
-        app.launchArguments = ["--uitesting", "--screenshots"]
+        app.launchArguments = ["--screenshot-mode", "--skip-onboarding"]
+
+        // Disable animations for consistent captures
+        app.launchArguments += ["-UIViewAnimationDuration", "0"]
+        app.launchArguments += ["-CALayerAnimationDuration", "0"]
 
         // Set language for localized screenshots
         app.launchArguments += ["-AppleLanguages", "(en)"]
@@ -144,6 +179,9 @@ final class ScreenshotTests: XCTestCase {
     // MARK: - Screenshot Capture
 
     func testCaptureScreenshots() throws {
+        // Wait for app to settle after launch
+        Thread.sleep(forTimeInterval: 1.0)
+
         // Screenshot 1: Hero - Main screen
         // TODO: Navigate to main screen if needed
         takeScreenshot(named: "01_Hero")
@@ -169,16 +207,22 @@ final class ScreenshotTests: XCTestCase {
     // MARK: - Dark Mode Variants
 
     func testCaptureScreenshotsDarkMode() throws {
-        // Note: Dark mode screenshots require device/simulator setting
-        // Or use: XCUIDevice.shared.appearance = .dark (iOS 13+)
+        // Dark mode via launch argument (handled by ScreenshotModeController)
+        app.launchArguments += ["-UIUserInterfaceStyle", "Dark"]
+        app.launch()
+
+        Thread.sleep(forTimeInterval: 1.0)
 
         takeScreenshot(named: "01_Hero_Dark")
         // ... repeat for other screenshots
     }
 
-    // MARK: - Helper
+    // MARK: - Helpers
 
     private func takeScreenshot(named name: String) {
+        // Allow animations to complete
+        Thread.sleep(forTimeInterval: 0.5)
+
         let screenshot = XCUIScreen.main.screenshot()
         let attachment = XCTAttachment(screenshot: screenshot)
         attachment.name = name
@@ -186,9 +230,84 @@ final class ScreenshotTests: XCTestCase {
         add(attachment)
     }
 }
+
+// MARK: - Tap Unhittable Controls
+
+extension XCUIElement {
+    /// Taps custom controls that don't report as hittable.
+    /// Use for custom tab bars, overlay controls, etc.
+    func tapUnhittable() {
+        coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)).tap()
+    }
+}
 ```
 
-## Step 5: Generate fastlane snapshot Configuration
+## Step 6: Create Xcode Test Plan
+
+Generate a dedicated `ScreenshotTests.xctestplan` to isolate screenshot tests from normal `Cmd+U` runs:
+
+```json
+{
+  "configurations" : [
+    {
+      "id" : "screenshot-config",
+      "name" : "Screenshot Configuration",
+      "options" : {
+        "language" : "en",
+        "region" : "US",
+        "uiTestingScreenshotsLifetime" : "keepAlways"
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "codeCoverage" : false,
+    "testTimeoutsEnabled" : true
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:[APP].xcodeproj",
+        "identifier" : "[APP]UITests",
+        "name" : "[APP]UITests"
+      },
+      "selectedTests" : ["ScreenshotTests"]
+    }
+  ],
+  "version" : 1
+}
+```
+
+Tell user: Add to scheme via Product → Scheme → Edit Scheme → Test → add plan.
+
+## Step 7: macOS Desktop Preparation (if macOS app)
+
+For macOS apps, generate `Scripts/macos-screenshot-env.sh`:
+
+```bash
+#!/bin/bash
+# Prepares desktop for clean macOS screenshots.
+# Hides dock, desktop icons, simplifies clock.
+# Restores everything on exit via trap — even on Ctrl+C.
+#
+# Usage:
+#   ./Scripts/macos-screenshot-env.sh --run-tests xcodebuild test ...
+#   ./Scripts/macos-screenshot-env.sh  # Manual: press Enter to restore
+```
+
+Key behaviors:
+- Saves current desktop state to `/tmp/.screenshot_env_state`
+- Hides dock (autohide + delay), hides desktop icons, simplifies menu bar clock
+- `trap restore_state EXIT INT TERM` ensures cleanup on any exit
+- Use `--run-tests` flag to run tests inline, or configure manually then press Enter
+
+Also generate lightweight `Scripts/sips-screenshot-process.sh` for image post-processing using macOS's built-in `sips` command (zero dependencies):
+
+```bash
+# Resize and crop to exact App Store dimensions
+# Usage: ./Scripts/sips-screenshot-process.sh raw/ processed/ --target 2880x1800
+```
+
+## Step 8: Generate fastlane snapshot Configuration
 
 If using fastlane for screenshots:
 
@@ -275,7 +394,7 @@ reinstall_app(false)
 }
 ```
 
-## Step 6: Create Screenshot Plan Document
+## Step 9: Create Screenshot Plan Document
 
 Generate `.planning/SCREENSHOTS.md`:
 
@@ -351,11 +470,15 @@ Generate `.planning/SCREENSHOTS.md`:
 
 ## Automation Files
 
-| File | Purpose | Status |
-|------|---------|--------|
-| `[App]UITests/ScreenshotTests.swift` | UI test for capture | ⬚ |
-| `fastlane/Snapfile` | Snapshot configuration | ⬚ |
-| `fastlane/screenshots/Framefile.json` | Frame & caption config | ⬚ |
+| File | Target | Purpose | Status |
+|------|--------|---------|--------|
+| `ScreenshotModeController.swift` | App | Screenshot mode detection & config | ⬚ |
+| `[App]UITests/ScreenshotTests.swift` | UITests | UI test for capture | ⬚ |
+| `ScreenshotTests.xctestplan` | Root | Dedicated test plan | ⬚ |
+| `fastlane/Snapfile` | Scripts | Snapshot configuration | ⬚ |
+| `fastlane/screenshots/Framefile.json` | Scripts | Frame & caption config | ⬚ |
+| `Scripts/macos-screenshot-env.sh` | Scripts | macOS desktop prep | ⬚ |
+| `Scripts/sips-screenshot-process.sh` | Scripts | Lightweight image processing | ⬚ |
 
 ---
 
@@ -397,7 +520,7 @@ xcodebuild test \
 *Generated by SwiftShip /apple:screenshots*
 ```
 
-## Step 7: Completion
+## Step 10: Completion
 
 ```
 Screenshot plan created!
@@ -405,20 +528,40 @@ Screenshot plan created!
 Created:
 - .planning/SCREENSHOTS.md - Screenshot storyboard and plan
 
-Generated (if requested):
+Generated (app target):
+- ScreenshotModeController.swift - App-side screenshot mode detection
+  → Add configureIfNeeded() to App.init(), configureWindow() to root onAppear
+
+Generated (UI test target):
 - [App]UITests/ScreenshotTests.swift - UI test for capture
+  → Includes tapUnhittable() extension for custom controls
+
+Generated (screenshot infrastructure):
+- ScreenshotTests.xctestplan - Dedicated test plan (isolates from Cmd+U)
+
+Generated (if fastlane):
 - fastlane/Snapfile - Snapshot configuration
 - fastlane/screenshots/Framefile.json - Frame config
 
+Generated (if macOS):
+- Scripts/macos-screenshot-env.sh - Desktop preparation with trap cleanup
+- Scripts/sips-screenshot-process.sh - Lightweight image processing (no deps)
+
 Next steps:
 1. Review .planning/SCREENSHOTS.md
-2. Update UI test with actual navigation code
-3. Run: fastlane snapshot (or Xcode test)
-4. Apply frames: fastlane frameit
-5. Upload to App Store Connect
+2. Implement ScreenshotModeController.loadSampleData() with your app's data
+3. Add accessibility identifiers to controls used in screenshot navigation
+4. Update UI test with actual navigation code
+5. Add test plan to scheme: Product → Scheme → Edit Scheme → Test
+6. For macOS: Run ./Scripts/macos-screenshot-env.sh before capturing
+7. Run: xcodebuild test -testPlan "ScreenshotTests" ... (or fastlane snapshot)
+8. Post-process: sips-screenshot-process.sh (macOS) or ScreenshotProcessor (iOS)
+9. Upload to App Store Connect
 
 Tips:
 - Capture both light and dark mode
-- Test captions are readable at small sizes
+- Test captions are readable at small sizes (thumbnail view)
 - Keep visual style consistent across all screenshots
+- Use tapUnhittable() for custom controls that XCUITest can't hit
+- For macOS: account for asymmetric window borders (bottom edge gets cropped)
 ```
