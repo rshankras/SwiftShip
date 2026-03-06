@@ -111,6 +111,9 @@ Not every plan needs every generator. Inspect APP.md's `<apple-technologies>` an
 
 Only add generators whose conditions are met — avoid bloating the plan with unnecessary tasks.
 
+**Visual QA (Phases 1-3):**
+- **visual-qa**: Always include as the **final task** in any phase that creates or modifies UI views (typically phases 1, 2, and 3). Runs a code-level audit checking HIG compliance, accessibility, touch targets, hardcoded colors, missing view states, and fixed-frame layouts. Generates `.planning/VISUAL-QA.md` and fixes all Critical/High issues before the phase is marked complete.
+
 ## Task Generation
 
 Create `.planning/PLAN.md` with detailed tasks:
@@ -252,6 +255,24 @@ Create `.planning/PLAN.md` with detailed tasks:
       - Navigation structure matches app type
       - Programmatic navigation works
       - Adapts to device size
+    </done>
+  </task>
+
+  <!-- Visual QA: ALWAYS the last task in phases with UI work (1-3) -->
+  <task id="last" type="auto" status="pending">
+    <name>Visual QA Audit</name>
+    <action>
+      Run /apple:visual-qa code-level audit on all views created/modified in this phase.
+      Scan for: HIG compliance, accessibility labels/traits, touch targets (44pt min),
+      hardcoded colors, Dynamic Type support, missing view states, fixed-frame layouts.
+    </action>
+    <verify>
+      <check type="build">All fixes compile without errors</check>
+    </verify>
+    <done>
+      - .planning/VISUAL-QA.md generated with full report
+      - All Critical and High severity issues fixed
+      - Medium issues documented for backlog
     </done>
   </task>
 </plan>

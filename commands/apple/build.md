@@ -119,6 +119,9 @@ Match task to appropriate agent and spawn:
 | App extensions, share extension, action extension, keyboard extension | general-purpose | `generators/app-extensions` |
 | Background processing, BGTaskScheduler, background download | general-purpose | `generators/background-processing` |
 | Data export, CSV export, PDF export, GDPR data portability | general-purpose | `generators/data-export` |
+| Visual QA, UI audit, HIG review, accessibility audit | general-purpose | `ios/ui-review`, `macos/ui-review-tahoe` |
+
+**Visual QA tasks:** When a task named "Visual QA Audit" is encountered, execute the `/apple:visual-qa` skill in code-only mode. Run all 6 Grep-based scans (hardcoded colors, fixed fonts, missing accessibility, small touch targets, missing view states, rigid frames), fix all Critical/High issues, and generate `.planning/VISUAL-QA.md`.
 
 **Before executing each task:** Load the referenced skill from `/Users/ravishankar/Work/MyApps/claude-code-apple-skills/skills/[skills-reference]/SKILL.md` and include its patterns in the agent prompt context.
 
@@ -282,4 +285,7 @@ Next steps:
 1. Run /apple:review for code quality check
 2. Test in simulator/device
 3. Run /apple:plan [X+1] for next phase
+
+Note: If this phase included UI work, Visual QA should have run as the final task.
+If it was skipped, run /apple:visual-qa manually before moving to the next phase.
 ```
