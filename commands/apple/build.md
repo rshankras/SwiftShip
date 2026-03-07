@@ -264,9 +264,21 @@ Progress: [completed]/[total] tasks
 Continuing to task [next-id]: [next-name]...
 ```
 
+## Phase-End Quality Gate
+
+After all tasks in the phase are complete, automatically run `/apple:review` as a quality gate before declaring the phase done.
+
+1. Execute `/apple:review` — this spawns 5 parallel agents (code quality, HIG, App Store, performance, security)
+2. The code quality agent (Agent 1) checks SOLID, DRY, design tokens, and logging hygiene
+3. If **Critical** issues are found: fix them before proceeding, then re-run the review
+4. If **High** issues are found: fix them inline, no re-run needed
+5. **Medium/Low** issues: log to `.planning/REVIEW.md` as backlog for the next phase
+
+This gate is mandatory for phases 1-5. Phase 6 (Pre-Release) and Phase 7 (Submission) have their own dedicated review flows.
+
 ## Completion Message
 
-When all tasks are done:
+When all tasks and the quality gate pass:
 
 ```
 🎉 Phase [X] complete!
@@ -276,16 +288,18 @@ Completed [N] tasks:
 2. ✅ [Task 2]
 ...
 
+Quality Gate:
+- 🔴 Critical: [count] (must be 0)
+- 🟠 High: [count] (fixed inline)
+- 🟡 Medium: [count] (backlogged)
+- 🟢 Low: [count] (backlogged)
+
 Summary:
 - Files created: [count]
 - Files modified: [count]
 - Commits: [count]
 
 Next steps:
-1. Run /apple:review for code quality check
-2. Test in simulator/device
-3. Run /apple:plan [X+1] for next phase
-
-Note: If this phase included UI work, Visual QA should have run as the final task.
-If it was skipped, run /apple:visual-qa manually before moving to the next phase.
+1. Test in simulator/device
+2. Run /apple:plan [X+1] for next phase
 ```

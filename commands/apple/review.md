@@ -74,6 +74,28 @@ Task({
        - Protocol contracts without test suites
        - Missing regression tests for critical paths
 
+    7. **SOLID Principles**
+       - SRP: Classes/structs doing too much (e.g. view handling business logic, service doing orchestration + persistence)
+       - OCP: Hard-to-extend switch statements or if-else chains that grow with new cases
+       - DIP: Concrete service dependencies instead of protocols (hurts testability)
+       - Flag files with multiple responsibilities or God objects
+
+    8. **DRY Violations**
+       - Duplicated view components across files (same layout/styling repeated)
+       - Duplicated logic (same validation, formatting, or data transform in multiple places)
+       - Opportunities to extract shared components, modifiers, or helpers
+
+    9. **Design Token Centralization**
+       - Hardcoded colors (Color.white.opacity, Color(white:), hex colors) outside design tokens
+       - Hardcoded font sizes (.font(.system(size:))) outside design tokens
+       - Hardcoded spacing/radius values outside design tokens
+       - Check that a centralized design tokens file exists and is used consistently
+
+    10. **Logging Hygiene**
+        - print() statements in non-preview production code (should use os.Logger)
+        - Sensitive data in log output (emails, tokens, passwords)
+        - Check that Logger categories exist for each service layer
+
     Output findings in this format:
 
     ## Code Quality Review
