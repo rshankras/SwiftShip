@@ -6,7 +6,7 @@ SwiftShip combines [GSD's workflow methodology](https://github.com/open-gsd/gsd-
 
 ---
 
-## What is SwiftShip? (in plain English)
+## What is SwiftShip?
 
 Imagine building an app with an AI assistant that, left alone, is brilliant but forgetful — it doesn't remember last week's decisions, and it doesn't automatically know all of Apple's rules.
 
