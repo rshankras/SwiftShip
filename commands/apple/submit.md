@@ -1,6 +1,6 @@
 ---
 description: Final App Store submission checklist
-allowed-tools: Read, Write, Task
+allowed-tools: Read, Write, Task, mcp__asc-metadata__get_metadata, mcp__asc-metadata__create_version
 ---
 
 # App Store Submission
@@ -281,6 +281,26 @@ After submission:
 3. Monitor ratings and reviews
 4. Respond to user reviews
 ```
+
+## Optional handoff: pre-fill the version (then stop)
+
+Per `~/.claude/swiftship-templates/_conventions/TOOL-HANDOFF.md`, if the
+`asc-metadata` MCP is available you can pre-fill the App Store version record
+before the manual submit.
+
+- **DETECT:** is `mcp__asc-metadata__create_version` available? If not, skip to
+  the manual completion below.
+- **PREVIEW:** `get_metadata` for the app; show the version string that would be
+  created and any last metadata to push (reuse the per-field diff from
+  `/apple:metadata` Step 7.5).
+- **CONFIRM:** create the version + push approved metadata? (default: do it
+  manually.)
+- **ACT:** `create_version` for the release version; push only approved fields.
+- **THEN STOP — hard gate.** Submitting for review is **not** automated: there is
+  no submit API tool, and it is a reviewer-facing, rate-limited, hard-to-reverse
+  action. Instruct the user to do the final **Submit for Review** themselves in
+  the App Store Connect web UI.
+- **FALL BACK:** unavailable or declined → the manual completion below.
 
 ## Completion Message
 

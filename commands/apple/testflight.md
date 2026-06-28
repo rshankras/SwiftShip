@@ -1,6 +1,6 @@
 ---
 description: Prepare and manage TestFlight beta
-allowed-tools: Read, Write, Bash
+allowed-tools: Read, Write, Bash, mcp__asc-metadata__list_beta_groups, mcp__asc-metadata__create_beta_group, mcp__asc-metadata__add_beta_tester, mcp__asc-metadata__list_beta_feedback_crashes
 ---
 
 # TestFlight Preparation
@@ -210,6 +210,35 @@ After user confirms upload:
 - [ ] Check for crash reports
 - [ ] Update .planning/FEEDBACK.md with findings
 ```
+
+## Optional handoff: manage TestFlight
+
+Per `~/.claude/swiftship-templates/_conventions/TOOL-HANDOFF.md`, if the
+`asc-metadata` MCP is available you can manage TestFlight directly instead of the
+manual checklist above. **This is the highest-stakes handoff** — adding a tester
+sends a real invite email that can't be un-sent.
+
+- **DETECT:** is `mcp__asc-metadata__list_beta_groups` available? If not, use the
+  manual checklist.
+- **PREVIEW (read-only):** `list_beta_groups` for this app — show existing groups
+  and tester counts.
+- **CONFIRM per item** (never batch):
+  - `create_beta_group` — name the group; confirm before creating.
+  - `add_beta_tester` — **name the person and email in the confirm prompt** and
+    state plainly that this sends them a real TestFlight invite. One confirm per
+    tester.
+- **ACT** only on explicit yes; echo each result.
+- **FALL BACK:** unavailable or declined → the manual checklist above.
+
+The build **upload** stays manual / via fastlane (`/apple:deploy`) — there is no
+MCP upload tool.
+
+## Optional handoff: pull crash feedback (read-only)
+
+Per the same convention: if `mcp__asc-metadata__list_beta_feedback_crashes` is
+available, pull recent TestFlight crash feedback for this app and write it into
+the FEEDBACK.md tables above instead of asking the user to copy it. **Read-only**
+— nothing is sent or changed. If unavailable, leave FEEDBACK.md for manual entry.
 
 ## Completion Message
 
