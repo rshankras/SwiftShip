@@ -54,7 +54,13 @@ failure).
 
 A status-item app has **no ordinary window** — `open` just adds it to the menu
 bar and the popover is closed, so a naive `screencapture` shows an empty desktop.
-You MUST surface the UI before capturing:
+
+**Detect this case** (cleaner than guessing): after launch,
+```bash
+osascript -e 'tell application "System Events" to tell process "<AppName>" to count windows'
+```
+returning `0` means there's nothing to capture yet. When it's `0`, surface the
+UI before capturing:
 
 1. Try clicking the status item via accessibility:
    `osascript -e 'tell application "System Events" to tell process "<AppName>" to click menu bar item 1 of menu bar 2'`
