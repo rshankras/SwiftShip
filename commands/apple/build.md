@@ -133,7 +133,7 @@ Match task to appropriate agent and spawn:
 
 **Visual QA tasks:** When a task named "Visual QA Audit" is encountered, execute the `/apple:visual-qa` skill in code-only mode. Run all 6 Grep-based scans (hardcoded colors, fixed fonts, missing accessibility, small touch targets, missing view states, rigid frames), fix all Critical/High issues, and generate `.planning/VISUAL-QA.md`.
 
-**Before executing each task:** Load the referenced skill from `/Users/ravishankar/Work/MyApps/claude-code-apple-skills/skills/[skills-reference]/SKILL.md` and include its patterns in the agent prompt context.
+**Before executing each task:** Load the referenced skill from `~/.claude/swiftship-skills/[skills-reference]/SKILL.md` and include its patterns in the agent prompt context.
 
 Spawn agent with context:
 
@@ -181,7 +181,7 @@ Task({
 Invoke the specified generator skill:
 
 ```
-Load skill from: /Users/ravishankar/Work/MyApps/claude-code-apple-skills/skills/generators/[generator-name]/
+Load skill from: ~/.claude/swiftship-skills/generators/[generator-name]/
 
 Apply customizations from <customization> tag.
 ```

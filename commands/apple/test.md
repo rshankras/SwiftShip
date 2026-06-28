@@ -69,7 +69,7 @@ Grep: "import XCTest"   → XCTest is in use
 | Trivial (pure boilerplate, generated) | Skip | — |
 
 Load the matched skill from
-`/Users/ravishankar/Work/MyApps/claude-code-apple-skills/skills/[skill]/SKILL.md`
+`~/.claude/swiftship-skills/[skill]/SKILL.md`
 and apply its patterns. The `generators/test-generator` generator can scaffold
 the test target/boilerplate when none exists.
 

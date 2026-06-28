@@ -110,7 +110,7 @@ Rules for the fix:
 Generate a test that would have caught this bug. Use the TDD bug fix workflow:
 
 ```
-Read: /Users/ravishankar/Work/MyApps/claude-code-apple-skills/skills/testing/tdd-bug-fix/SKILL.md
+Read: ~/.claude/swiftship-skills/testing/tdd-bug-fix/SKILL.md
 ```
 
 Also reference `generators/test-generator` for test boilerplate patterns:

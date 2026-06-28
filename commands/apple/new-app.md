@@ -135,12 +135,12 @@ After gathering all answers, load platform-specific planning skills:
 
 **If iOS selected:**
 ```
-Read: /Users/ravishankar/Work/MyApps/claude-code-apple-skills/skills/ios/app-planner/SKILL.md
+Read: ~/.claude/swiftship-skills/ios/app-planner/SKILL.md
 ```
 
 **If macOS selected:**
 ```
-Read: /Users/ravishankar/Work/MyApps/claude-code-apple-skills/skills/macos/app-planner/SKILL.md
+Read: ~/.claude/swiftship-skills/macos/app-planner/SKILL.md
 ```
 
 **If both platforms selected:** Read both skill files.
@@ -151,7 +151,7 @@ Use the platform-specific app planner insights to inform the APP.md generation b
 
 Read the template from the swiftship repo and fill it in:
 ```
-Read: /Users/ravishankar/Work/MyApps/swiftship/templates/APP.md
+Read: ~/.claude/swiftship-templates/APP.md
 ```
 
 Fill in the XML structure with user's answers. All fields should be populated based on the conversation.

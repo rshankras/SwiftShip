@@ -35,8 +35,8 @@ Read: .planning/STATE.md (if exists)
 
 Load the master security skill and privacy manifests skill:
 ```
-Read: /Users/ravishankar/Work/MyApps/claude-code-apple-skills/skills/security/SKILL.md
-Read: /Users/ravishankar/Work/MyApps/claude-code-apple-skills/skills/security/privacy-manifests/SKILL.md
+Read: ~/.claude/swiftship-skills/security/SKILL.md
+Read: ~/.claude/swiftship-skills/security/privacy-manifests/SKILL.md
 ```
 
 ## Execution Phases
@@ -55,7 +55,7 @@ Scan the project to determine scope:
 ### Phase 2: Secure Storage (focus: `storage`)
 
 ```
-Read: /Users/ravishankar/Work/MyApps/claude-code-apple-skills/skills/security/secure-storage.md
+Read: ~/.claude/swiftship-skills/security/secure-storage.md
 ```
 
 Audit:
@@ -68,7 +68,7 @@ Audit:
 ### Phase 3: Authentication (focus: `auth`)
 
 ```
-Read: /Users/ravishankar/Work/MyApps/claude-code-apple-skills/skills/security/biometric-auth.md
+Read: ~/.claude/swiftship-skills/security/biometric-auth.md
 ```
 
 Audit:
@@ -81,7 +81,7 @@ Audit:
 ### Phase 4: Network Security (focus: `network`)
 
 ```
-Read: /Users/ravishankar/Work/MyApps/claude-code-apple-skills/skills/security/network-security.md
+Read: ~/.claude/swiftship-skills/security/network-security.md
 ```
 
 Audit:
@@ -94,7 +94,7 @@ Audit:
 ### Phase 5: Platform-Specific (focus: `platform`)
 
 ```
-Read: /Users/ravishankar/Work/MyApps/claude-code-apple-skills/skills/security/platform-specifics.md
+Read: ~/.claude/swiftship-skills/security/platform-specifics.md
 ```
 
 Audit:
@@ -115,7 +115,7 @@ Using the privacy-manifests skill:
 
 Also load the privacy policy skill for legal compliance:
 ```
-Read: /Users/ravishankar/Work/MyApps/claude-code-apple-skills/skills/legal/privacy-policy/SKILL.md
+Read: ~/.claude/swiftship-skills/legal/privacy-policy/SKILL.md
 ```
 
 Verify privacy policy covers all collected data types and GDPR/CCPA requirements.

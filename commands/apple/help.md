@@ -254,8 +254,8 @@ SwiftShip uses these agents during `/apple:build`:
 
 ## Getting Help
 
-- **Documentation:** https://github.com/[repo]/swiftship
-- **Issues:** https://github.com/[repo]/swiftship/issues
+- **Documentation:** https://github.com/rshankras/SwiftShip
+- **Issues:** https://github.com/rshankras/SwiftShip/issues
 - **Skills reference:** `claude-code-apple-skills` repository
 
 ## Tips

@@ -218,7 +218,7 @@ Does v[NEW_VERSION] change the app's core definition?
 - Breaking API changes or major refactoring?
 
 If major version (X.0.0), reference `ios/migration-patterns` skill for migration guides and deprecation handling:
-Read: /Users/ravishankar/Work/MyApps/claude-code-apple-skills/skills/ios/migration-patterns/SKILL.md
+Read: ~/.claude/swiftship-skills/ios/migration-patterns/SKILL.md
 
 If yes to any, update APP.md. If no, keep existing.
 ```

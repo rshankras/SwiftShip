@@ -40,13 +40,18 @@ Read for context if present (a spike works even without a full project):
 Read: .planning/APP.md      # Min OS, target platforms, devices — the gating constraints
 ```
 
-Check the local Apple documentation before writing any probe code (per the
-user's reference docs):
+Ground yourself in the current API before writing any probe code:
+- Read the matching SwiftShip skill if one exists (see the skills base used by
+  other commands: `~/.claude/swiftship-skills/...`).
+- If you keep a local Apple-docs folder, read the file for this API first. Your
+  global setup may already point to one (e.g. `~/Downloads/docs/`); honor it if
+  present:
 ```
-Glob: /Users/ravishankar/Downloads/docs/*.md
+Glob: ~/Downloads/docs/*.md   # Optional — skip if you don't keep local docs
 ```
-If a doc file matches the API (e.g. Foundation Models, Visual Intelligence,
-Liquid Glass, AlarmKit), **read it first** — it has the current API shape.
+If a doc matches the API (e.g. Foundation Models, Visual Intelligence, Liquid
+Glass, AlarmKit), **read it first** — it has the current API shape. Otherwise
+rely on Apple's online documentation.
 
 ## Process
 

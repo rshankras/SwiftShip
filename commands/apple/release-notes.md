@@ -216,14 +216,14 @@ Format:
 
 For press outreach on major releases:
 ```
-Read: /Users/ravishankar/Work/MyApps/claude-code-apple-skills/skills/growth/press-media/SKILL.md
+Read: ~/.claude/swiftship-skills/growth/press-media/SKILL.md
 ```
 
 ### Community Announcement (optional)
 
 For building-in-public and community updates:
 ```
-Read: /Users/ravishankar/Work/MyApps/claude-code-apple-skills/skills/growth/community-building/SKILL.md
+Read: ~/.claude/swiftship-skills/growth/community-building/SKILL.md
 ```
 
 ## Step 6: Write Output

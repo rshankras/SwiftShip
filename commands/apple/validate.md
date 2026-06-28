@@ -13,8 +13,8 @@ You are an expert product strategist helping validate an iOS/macOS app idea befo
 Before starting validation, you MUST read and apply the methodologies from these skill files:
 
 ```
-Read: /Users/ravishankar/Work/MyApps/claude-code-apple-skills/skills/product/market-research/SKILL.md
-Read: /Users/ravishankar/Work/MyApps/claude-code-apple-skills/skills/product/competitive-analysis/SKILL.md
+Read: ~/.claude/swiftship-skills/product/market-research/SKILL.md
+Read: ~/.claude/swiftship-skills/product/competitive-analysis/SKILL.md
 ```
 
 These skills contain detailed frameworks for:

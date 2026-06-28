@@ -15,7 +15,7 @@ Generate a ranked shortlist of 3-5 app ideas tailored to your skills, interests,
 Read the idea-generator skill for full brainstorming methodology:
 
 ```
-Read: /Users/ravishankar/Work/MyApps/claude-code-apple-skills/skills/product/idea-generator/SKILL.md
+Read: ~/.claude/swiftship-skills/product/idea-generator/SKILL.md
 ```
 
 Follow the skill's process exactly — it defines 5 brainstorming lenses, feasibility filters, and scoring criteria.

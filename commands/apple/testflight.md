@@ -19,7 +19,7 @@ Read: .planning/REVIEW.md (if exists)
 
 Read the beta testing strategy skill:
 ```
-Read: /Users/ravishankar/Work/MyApps/claude-code-apple-skills/skills/product/beta-testing/SKILL.md
+Read: ~/.claude/swiftship-skills/product/beta-testing/SKILL.md
 ```
 
 Apply for tester segmentation, feedback collection, and go/no-go criteria.
@@ -86,7 +86,7 @@ Would you like me to update the build number?
 Initialize feedback tracking:
 
 ```
-Read template: /Users/ravishankar/Work/MyApps/apple-gsd/templates/FEEDBACK.md
+Read template: ~/.claude/swiftship-templates/FEEDBACK.md
 ```
 
 Create `.planning/FEEDBACK.md`:

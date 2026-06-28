@@ -52,24 +52,24 @@ Load platform-appropriate UI review skills:
 
 **For iOS projects:**
 ```
-Read: /Users/ravishankar/Work/MyApps/claude-code-apple-skills/skills/ios/ui-review/SKILL.md
-Read: /Users/ravishankar/Work/MyApps/claude-code-apple-skills/skills/ios/ui-review/hig-checklist.md
-Read: /Users/ravishankar/Work/MyApps/claude-code-apple-skills/skills/ios/ui-review/accessibility-quick-ref.md
-Read: /Users/ravishankar/Work/MyApps/claude-code-apple-skills/skills/ios/ui-review/font-guidelines.md
+Read: ~/.claude/swiftship-skills/ios/ui-review/SKILL.md
+Read: ~/.claude/swiftship-skills/ios/ui-review/hig-checklist.md
+Read: ~/.claude/swiftship-skills/ios/ui-review/accessibility-quick-ref.md
+Read: ~/.claude/swiftship-skills/ios/ui-review/font-guidelines.md
 ```
 
 **For macOS projects:**
 ```
-Read: /Users/ravishankar/Work/MyApps/claude-code-apple-skills/skills/macos/ui-review-tahoe/SKILL.md
-Read: /Users/ravishankar/Work/MyApps/claude-code-apple-skills/skills/macos/ui-review-tahoe/macos-tahoe-hig.md
-Read: /Users/ravishankar/Work/MyApps/claude-code-apple-skills/skills/macos/ui-review-tahoe/accessibility.md
-Read: /Users/ravishankar/Work/MyApps/claude-code-apple-skills/skills/macos/ui-review-tahoe/swiftui-macos.md
+Read: ~/.claude/swiftship-skills/macos/ui-review-tahoe/SKILL.md
+Read: ~/.claude/swiftship-skills/macos/ui-review-tahoe/macos-tahoe-hig.md
+Read: ~/.claude/swiftship-skills/macos/ui-review-tahoe/accessibility.md
+Read: ~/.claude/swiftship-skills/macos/ui-review-tahoe/swiftui-macos.md
 ```
 
 **For all projects (SwiftUI debugging + snapshot testing):**
 ```
-Read: /Users/ravishankar/Work/MyApps/claude-code-apple-skills/skills/performance/swiftui-debugging/SKILL.md
-Read: /Users/ravishankar/Work/MyApps/claude-code-apple-skills/skills/testing/snapshot-test-setup/SKILL.md
+Read: ~/.claude/swiftship-skills/performance/swiftui-debugging/SKILL.md
+Read: ~/.claude/swiftship-skills/testing/snapshot-test-setup/SKILL.md
 ```
 
 ## Step 4: Screenshot Analysis (if applicable)

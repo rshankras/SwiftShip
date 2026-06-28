@@ -126,7 +126,7 @@ Task({
 
 Load the release spec skill for structured submission preparation:
 ```
-Read: /Users/ravishankar/Work/MyApps/claude-code-apple-skills/skills/product/release-spec/SKILL.md
+Read: ~/.claude/swiftship-skills/product/release-spec/SKILL.md
 ```
 
 Use this to generate release notes, version summary, and changelog.
@@ -135,7 +135,7 @@ Use this to generate release notes, version summary, and changelog.
 
 Load the privacy policy skill for legal document generation:
 ```
-Read: /Users/ravishankar/Work/MyApps/claude-code-apple-skills/skills/legal/privacy-policy/SKILL.md
+Read: ~/.claude/swiftship-skills/legal/privacy-policy/SKILL.md
 ```
 
 Verify privacy policy, terms of service, and GDPR/CCPA compliance.
@@ -144,7 +144,7 @@ Verify privacy policy, terms of service, and GDPR/CCPA compliance.
 
 If APP.md indicates macOS platform:
 ```
-Read: /Users/ravishankar/Work/MyApps/claude-code-apple-skills/skills/macos/macos-capabilities/SKILL.md
+Read: ~/.claude/swiftship-skills/macos/macos-capabilities/SKILL.md
 ```
 
 Verify:
@@ -158,7 +158,7 @@ Verify:
 Create or update `.planning/ASO.md`:
 
 ```
-Read template: /Users/ravishankar/Work/MyApps/apple-gsd/templates/ASO.md
+Read template: ~/.claude/swiftship-templates/ASO.md
 ```
 
 Invoke ASO skills:
@@ -271,7 +271,7 @@ After submission:
 1. Read rejection reason carefully
 2. Check specific guideline cited
 3. Load rejection handling skill:
-   Read: /Users/ravishankar/Work/MyApps/claude-code-apple-skills/skills/app-store/rejection-handler/SKILL.md
+   Read: ~/.claude/swiftship-skills/app-store/rejection-handler/SKILL.md
 4. Use app-store/review-response-writer skill for professional responses
 5. Fix the issue and resubmit with notes explaining fix
 
