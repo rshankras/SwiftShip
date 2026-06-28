@@ -49,6 +49,9 @@ The canonical flow is:
 ```
 
 - `/apple:build` is the main execution engine — reads `.planning/PLAN.md`, finds pending tasks, matches them to agents via a task-content-to-agent table, and executes sequentially
+- `/apple:autonomous` drives the full `plan → build → verify` cycle across multiple phases unattended. It pauses for manual tasks, blockers, Critical review findings, or failed verification, and stops before the release phases (6–7) unless `--to N` says otherwise. Both `/apple:plan` and `/apple:build` read `.planning/PREFERENCES.md` (from `/apple:discuss`) and apply those choices
+- `/apple:spike` runs a time-boxed experiment to validate an Apple API before planning around it — checks OS availability, device/simulator gating, and required capabilities, then records a finding in `.planning/spikes/[topic].md`. De-risks Apple's annual beta-API churn
+- `/apple:test` generates or expands tests on demand (Swift Testing or XCTest, plus snapshot/integration/contract) over the existing `testing/*` skills — a thin wrapper that works against a phase, a path, or recent changes without running the full Phase 5 flow
 - `/apple:bugfix` is the fast lane for known bugs — locate, fix, regression test, commit. Escalates to `/apple:debug` for mystery bugs
 - `/apple:security` runs a comprehensive security audit (secure storage, auth, network, privacy manifests) — outputs `.planning/SECURITY.md`
 - `/apple:perf` profiles and diagnoses performance issues using Instruments guidance and SwiftUI debugging — outputs `.planning/PERFORMANCE.md`
