@@ -153,3 +153,6 @@ Generator tasks add `<generator>` and `<customization>` tags. Maintain tag consi
 - All agents use **sonnet** model (cost efficiency) — do not change without good reason
 - Skill references use `Read:` directives pointing to SKILL.md files or specific reference .md files within skill directories
 - The help.md ASCII box uses Unicode box-drawing characters (║, ═, ╔, ╗, etc.) — maintain column alignment when adding rows
+
+### Optional Tool Handoffs
+Some commands can act directly on an external service (push App Store metadata via the `asc-metadata` MCP, screenshot the running app via the `run-simulator` skill, read sales) instead of only printing manual steps. These follow one shared convention — **detect → preview → confirm → act → fall back** — defined once in `templates/_conventions/TOOL-HANDOFF.md` (loaded at runtime via `~/.claude/swiftship-templates/_conventions/TOOL-HANDOFF.md`). Rules: the **manual path is always the default**; outward/irreversible actions are **confirm-before-acting** with a before→after preview; a command's `allowed-tools` lists only the exact `mcp__*` tools it calls (least privilege); commands must still work with zero MCPs/skills installed. When adding a handoff, reference the convention doc — don't duplicate the five-step logic.

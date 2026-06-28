@@ -62,6 +62,8 @@ SwiftShip combines [GSD's workflow methodology](https://github.com/open-gsd/gsd-
 └─────────────────────────────────────────────────────────────┘
 ```
 
+**Optional tool handoffs:** where a tool is available (the `asc-metadata` MCP, the `run-simulator` skill, sales/health monitors), some commands can *act* — push metadata, screenshot the running app — instead of only printing manual steps. These are capability-detected and confirm-before-acting, and **degrade gracefully**: with nothing installed, every command falls back to its manual instructions. See `templates/_conventions/TOOL-HANDOFF.md`.
+
 ## Commands
 
 ### Idea & Setup
