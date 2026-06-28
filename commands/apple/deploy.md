@@ -353,13 +353,15 @@ on:
 
 jobs:
   build:
-    runs-on: macos-14
+    runs-on: macos-26   # latest stable runner — see github.com/actions/runner-images
 
     steps:
       - uses: actions/checkout@v4
 
-      - name: Select Xcode
-        run: sudo xcode-select -s /Applications/Xcode_15.2.app
+      - name: Select Xcode (latest stable)
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest-stable   # currently Xcode 26.x / Swift 6.2 — auto-tracks newest
 
       - name: Cache SPM
         uses: actions/cache@v3
@@ -372,7 +374,7 @@ jobs:
         run: |
           xcodebuild build \
             -scheme "[SCHEME_NAME]" \
-            -destination "platform=iOS Simulator,name=iPhone 15 Pro" \
+            -destination "generic/platform=iOS Simulator" \
             -skipPackagePluginValidation \
             CODE_SIGNING_ALLOWED=NO
 
@@ -380,7 +382,7 @@ jobs:
         run: |
           xcodebuild test \
             -scheme "[SCHEME_NAME]" \
-            -destination "platform=iOS Simulator,name=iPhone 15 Pro" \
+            -destination "platform=iOS Simulator,name=iPhone 17 Pro,OS=latest" \
             -skipPackagePluginValidation \
             CODE_SIGNING_ALLOWED=NO
 ```
@@ -400,13 +402,15 @@ on:
 
 jobs:
   deploy:
-    runs-on: macos-14
+    runs-on: macos-26   # latest stable runner — see github.com/actions/runner-images
 
     steps:
       - uses: actions/checkout@v4
 
-      - name: Select Xcode
-        run: sudo xcode-select -s /Applications/Xcode_15.2.app
+      - name: Select Xcode (latest stable)
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest-stable   # currently Xcode 26.x / Swift 6.2 — auto-tracks newest
 
       - name: Install fastlane
         run: brew install fastlane
