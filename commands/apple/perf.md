@@ -34,8 +34,8 @@ Read: .planning/STATE.md (if exists)
 ## Load Performance Skills
 
 ```
-Read: /Users/ravishankar/Work/MyApps/claude-code-apple-skills/skills/performance/profiling/SKILL.md
-Read: /Users/ravishankar/Work/MyApps/claude-code-apple-skills/skills/performance/swiftui-debugging/SKILL.md
+Read: ~/.claude/swiftship-skills/performance/profiling/SKILL.md
+Read: ~/.claude/swiftship-skills/performance/swiftui-debugging/SKILL.md
 ```
 
 ## Problem Classification
@@ -53,13 +53,13 @@ If `$ARGUMENTS` is provided, classify the problem and load focused reference fil
 
 Load the relevant reference files:
 ```
-Read: /Users/ravishankar/Work/MyApps/claude-code-apple-skills/skills/performance/profiling/[relevant-file].md
-Read: /Users/ravishankar/Work/MyApps/claude-code-apple-skills/skills/performance/swiftui-debugging/[relevant-file].md
+Read: ~/.claude/swiftship-skills/performance/profiling/[relevant-file].md
+Read: ~/.claude/swiftship-skills/performance/swiftui-debugging/[relevant-file].md
 ```
 
 For memory-related problems, also load:
 ```
-Read: /Users/ravishankar/Work/MyApps/claude-code-apple-skills/skills/swift/memory/SKILL.md
+Read: ~/.claude/swiftship-skills/swift/memory/SKILL.md
 ```
 
 ## Analysis Process
@@ -78,9 +78,9 @@ If SwiftUI imports are found (`Grep: import SwiftUI`):
 
 Load additional references:
 ```
-Read: /Users/ravishankar/Work/MyApps/claude-code-apple-skills/skills/performance/swiftui-debugging/view-identity.md
-Read: /Users/ravishankar/Work/MyApps/claude-code-apple-skills/skills/performance/swiftui-debugging/lazy-loading.md
-Read: /Users/ravishankar/Work/MyApps/claude-code-apple-skills/skills/performance/swiftui-debugging/common-pitfalls.md
+Read: ~/.claude/swiftship-skills/performance/swiftui-debugging/view-identity.md
+Read: ~/.claude/swiftship-skills/performance/swiftui-debugging/lazy-loading.md
+Read: ~/.claude/swiftship-skills/performance/swiftui-debugging/common-pitfalls.md
 ```
 
 Check for:

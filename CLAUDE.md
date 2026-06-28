@@ -33,12 +33,21 @@ Commands (user invokes /apple:*)
 
 **Key constant — skills path:**
 ```
-/Users/ravishankar/Work/MyApps/claude-code-apple-skills/skills/
+~/.claude/swiftship-skills/
 ```
+
+`~/.claude/swiftship-skills` is a **symlink created by `install.sh`** that points
+to the `skills/` directory of the `claude-code-apple-skills` repo wherever it
+lives on the machine. `install.sh` resolves the real location in this order:
+`$SWIFTSHIP_SKILLS_DIR` env var → first script argument → a sibling
+`../claude-code-apple-skills` next to this repo. Likewise
+`~/.claude/swiftship-templates` symlinks this repo's `templates/`. Using these
+home-relative paths (the `~` expands per-user) is what makes SwiftShip portable
+across machines — **never hardcode an absolute `/Users/...` path in a command.**
 
 All skill references in commands use this base path. When adding new skill references, use the pattern:
 ```
-Read: /Users/ravishankar/Work/MyApps/claude-code-apple-skills/skills/[category]/[skill-name]/SKILL.md
+Read: ~/.claude/swiftship-skills/[category]/[skill-name]/SKILL.md
 ```
 
 ## Key Workflow
@@ -65,7 +74,8 @@ The canonical flow is:
 ## External Dependency: claude-code-apple-skills
 
 Commands reference skills from `claude-code-apple-skills` (148 skills across 23 categories):
-- **Path:** `/Users/ravishankar/Work/MyApps/claude-code-apple-skills/skills/`
+- **Referenced as:** `~/.claude/swiftship-skills/` (symlink created by `install.sh`)
+- **Real location:** the `skills/` dir of a separate `claude-code-apple-skills` checkout — set `$SWIFTSHIP_SKILLS_DIR`, pass it as `install.sh`'s first arg, or place it as a sibling `../claude-code-apple-skills`
 
 | Category | Skills |
 |----------|--------|

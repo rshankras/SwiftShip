@@ -152,21 +152,35 @@ When you run the commands, these files are created in your project:
 ## Prerequisites
 
 1. **Claude Code** installed and working
-2. **claude-code-apple-skills** installed for domain knowledge:
-   ```bash
-   # Your Apple skills should be at:
-   # /Users/[you]/Work/MyApps/claude-code-apple-skills/
-   ```
+2. **Xcode + Swift toolchain** (to build and test the apps you create)
+3. **[claude-code-apple-skills](https://github.com/rshankras/claude-code-apple-skills)** checked out somewhere — the domain-knowledge library SwiftShip reads from. The installer finds it automatically if it sits next to this repo (`../claude-code-apple-skills`); otherwise point the installer at it (see below).
 
 ## Installation
 
 ```bash
-cd /path/to/swiftship
+cd /path/to/SwiftShip
 chmod +x install.sh
 ./install.sh
 ```
 
-This creates symlinks in `~/.claude/` to enable the commands globally.
+The installer resolves the skills library in this order, so it works on any machine:
+
+```bash
+./install.sh                                              # auto-detect ../claude-code-apple-skills
+./install.sh /path/to/claude-code-apple-skills            # pass it explicitly
+SWIFTSHIP_SKILLS_DIR=/path/to/claude-code-apple-skills ./install.sh   # or via env var
+```
+
+It creates home-relative symlinks in `~/.claude/` so the commands work globally and on any user account:
+
+| Symlink | Points to |
+|---------|-----------|
+| `~/.claude/commands/apple` | this repo's `commands/apple/` |
+| `~/.claude/agents` | this repo's `agents/` |
+| `~/.claude/swiftship-templates` | this repo's `templates/` |
+| `~/.claude/swiftship-skills` | the `skills/` dir of your `claude-code-apple-skills` checkout |
+
+All commands reference these via `~/...` paths (the `~` expands per-user), so there are no machine-specific absolute paths to edit.
 
 ## Configuration
 

@@ -57,19 +57,19 @@ Determine where this lesson belongs:
 Search the skills repo for the most relevant skill:
 
 ```
-Glob: /Users/ravishankar/Work/MyApps/claude-code-apple-skills/skills/**/SKILL.md
+Glob: ~/.claude/swiftship-skills/**/SKILL.md
 ```
 
 Search by keywords from the lesson:
 
 ```
-Grep: [keyword] in /Users/ravishankar/Work/MyApps/claude-code-apple-skills/skills/
+Grep: [keyword] in ~/.claude/swiftship-skills/
 ```
 
 Read the top candidate skill to understand its structure:
 
 ```
-Read: /Users/ravishankar/Work/MyApps/claude-code-apple-skills/skills/[category]/[skill]/SKILL.md
+Read: ~/.claude/swiftship-skills/[category]/[skill]/SKILL.md
 ```
 
 Present the match to the user:

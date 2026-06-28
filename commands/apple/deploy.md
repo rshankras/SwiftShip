@@ -12,12 +12,12 @@ Configure Fastlane for automated TestFlight and App Store deployments.
 Read and apply the CI/CD setup skill:
 
 ```
-Read: /Users/ravishankar/Work/MyApps/claude-code-apple-skills/skills/generators/ci-cd-setup/SKILL.md
+Read: ~/.claude/swiftship-skills/generators/ci-cd-setup/SKILL.md
 ```
 
 Also consider loading the error monitoring skill for crash reporting setup:
 ```
-Read: /Users/ravishankar/Work/MyApps/claude-code-apple-skills/skills/generators/error-monitoring/SKILL.md
+Read: ~/.claude/swiftship-skills/generators/error-monitoring/SKILL.md
 ```
 
 ## Step 1: Check Prerequisites
