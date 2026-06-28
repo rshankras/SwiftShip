@@ -54,7 +54,21 @@ Grep: "import XCTest"   → XCTest is in use
 ```
 - If **Swift Testing** is present (or the project targets iOS 18+/macOS 15+ with a recent Xcode), prefer it for new tests.
 - If only **XCTest** is present, generate XCTest to stay consistent.
-- If there is no test target yet, set one up (or recommend `testing/snapshot-test-setup` / a test target) before generating.
+- **If there is NO test target yet**, do not silently edit the `.pbxproj` — that
+  is the hardest, most error-prone step and must not happen behind the user's
+  back. Detect the absence (`xcodebuild -list` shows no `*Tests` target and there
+  is no `*Tests/` group), then STOP and ask with `AskUserQuestion` how to create
+  one:
+    - **SwiftPM target** — add a `.testTarget` to `Package.swift` (text-only and
+      safe; do this directly).
+    - **Scaffold via generator** — load
+      `~/.claude/swiftship-skills/generators/test-generator/SKILL.md` and let it
+      lay down the test target + boilerplate.
+    - **I'll add it in Xcode (guide me)** — print the exact steps (File ▸ New ▸
+      Target ▸ Unit/UI Testing Bundle, then link it to the app target), and have
+      the user re-run `/apple:test` once the target exists.
+  Only generate tests **after** a target exists — never leave a half-created
+  target behind.
 
 ### 3. Classify Each File → Pick the Skill
 
