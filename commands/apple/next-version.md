@@ -1,7 +1,7 @@
 ---
 description: Start planning the next app version
 argument-hint: [version-name]
-allowed-tools: Read, Write, AskUserQuestion
+allowed-tools: Read, Write, AskUserQuestion, Skill, mcp__asc-metadata__get_sales_report, mcp__asc-metadata__get_analytics_report
 ---
 
 # Start Next Version
@@ -98,6 +98,22 @@ Any feedback from users to address?
 - Support emails
 - Crash reports
 ```
+
+**Optional handoff: pull live numbers** — per
+`~/.claude/swiftship-templates/_conventions/TOOL-HANDOFF.md`:
+- **DETECT:** are the `daily-sales-pulse` / `portfolio-health-monitor` skills and
+  the `asc-metadata` MCP available? If not, skip to the manual prompt above.
+- **ACT (read-only — no write, so no confirm needed):** invoke
+  `portfolio-health-monitor` (week-over-week downloads, proceeds, sessions,
+  crashes, and any new ≤2★ reviews) and/or `daily-sales-pulse` for this app. Fold
+  the anomalies into the "What's the focus for v[NEW_VERSION]?" decision — e.g. a
+  crash-rate spike → prioritize stability; a rating dip with specific reviews →
+  prioritize the complained-about area.
+- **FALL BACK:** unavailable or errored → use the manual prompt above (paste
+  reviews / feedback yourself).
+
+This is read-only telemetry — it pulls your private sales/health data into the
+session but changes nothing on App Store Connect.
 
 ## Step 4: Create New ROADMAP.md
 

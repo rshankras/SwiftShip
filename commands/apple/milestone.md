@@ -1,6 +1,6 @@
 ---
 description: Complete current version, archive docs, and create release tag
-allowed-tools: Read, Write, Bash, AskUserQuestion
+allowed-tools: Read, Write, Bash, AskUserQuestion, Skill, mcp__asc-metadata__get_sales_report, mcp__asc-metadata__get_analytics_report
 ---
 
 # Complete Milestone
@@ -128,6 +128,18 @@ Create `.planning/archive/v[VERSION]/MILESTONE.md`:
 | Tasks completed | X |
 | Issues fixed | X |
 | TestFlight builds | X |
+| Downloads (milestone window) | [from portfolio-health-monitor, or fill manually] |
+| Proceeds | [from portfolio-health-monitor, or fill manually] |
+| Crash-free rate | [from portfolio-health-monitor, or fill manually] |
+| Average rating | [from portfolio-health-monitor, or fill manually] |
+
+**Optional handoff: snapshot real metrics** — per
+`~/.claude/swiftship-templates/_conventions/TOOL-HANDOFF.md`, if the
+`portfolio-health-monitor` skill and `asc-metadata` MCP are available, pull this
+app's actual numbers (downloads, proceeds, sessions, crash-free rate, average
+rating) for the milestone window and fill the rows above instead of leaving
+placeholders. **Read-only** — nothing is written to App Store Connect. If
+unavailable, leave the rows for the user to fill in manually.
 
 ---
 
