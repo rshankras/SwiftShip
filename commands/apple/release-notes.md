@@ -1,6 +1,6 @@
 ---
 description: Generate release notes for App Store, TestFlight, and changelog
-allowed-tools: Read, Write, Bash, Glob, Grep, AskUserQuestion
+allowed-tools: Read, Write, Bash, Glob, Grep, AskUserQuestion, mcp__asc-metadata__get_metadata, mcp__asc-metadata__update_whats_new, mcp__asc-metadata__create_version
 ---
 
 # Release Notes Generator
@@ -269,6 +269,29 @@ If `.planning/ASO.md` exists, update its "What's New" section with the App Store
 Read: .planning/ASO.md
 Edit the "What's New" section with the generated App Store text.
 ```
+
+## Step 7.5: Optional handoff — push "What's New" to App Store Connect
+
+Per `~/.claude/swiftship-templates/_conventions/TOOL-HANDOFF.md`, offer to push
+the generated App Store "What's New" text directly.
+
+- **DETECT:** is the `asc-metadata` MCP available? If not, skip to Completion
+  (manual copy).
+- **Identify the app + target version:** `get_metadata` for the app (bundle id
+  from APP.md). If there is no editable "Prepare for Submission" version, offer to
+  `create_version` for this release's version string — **confirm the version
+  string first**.
+- **PREVIEW:** show the current "What's New" vs the generated text as a diff.
+  State plainly it goes LIVE once the version is released.
+- **CONFIRM**, safe default first: "Copy manually (default) / Push via
+  update_whats_new / Skip".
+- **ACT:** `update_whats_new` with the generated App Store release notes for the
+  target version + locale; echo the result.
+- **FALL BACK:** unavailable, declined, or errored → manual copy (the Completion
+  step below).
+
+Never submit the version for review from here — that stays a manual App Store
+Connect action.
 
 ## Completion
 
