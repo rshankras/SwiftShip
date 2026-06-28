@@ -1,7 +1,7 @@
 ---
 description: Visual QA from screenshots or code-level UI audit
 argument-hint: [screenshot-paths or "code"]
-allowed-tools: Read, Write, Glob, Grep, Bash, AskUserQuestion
+allowed-tools: Read, Write, Glob, Grep, Bash, AskUserQuestion, Skill
 ---
 
 # Visual QA
@@ -35,12 +35,23 @@ If no arguments provided, ask the user:
 AskUserQuestion:
   "How would you like to run Visual QA?"
   Options:
-    - "Screenshot analysis" — "I have screenshots to analyze"
+    - "Capture now" — "Build, launch & screenshot the running app for me"
+    - "Screenshot analysis" — "I already have screenshots to analyze"
     - "Code-only audit" — "Scan SwiftUI code for visual anti-patterns"
     - "Both" — "Analyze screenshots and scan code"
 ```
 
-If Screenshot Mode selected with no paths, ask:
+**If "Capture now" is selected** — optional handoff per
+`~/.claude/swiftship-templates/_conventions/TOOL-HANDOFF.md`, using
+`~/.claude/swiftship-templates/_conventions/RUN-AND-SHOT.md`:
+- DETECT the platform (iOS → `run-simulator` skill; macOS → `xcodebuild` +
+  `screencapture`). If neither is available, fall back to "Screenshot analysis"
+  and ask the user to supply paths.
+- Build, launch, and capture the running app (note the macOS menu-bar/popover
+  caveat — open the popover before capturing, or ask the user to click the icon).
+- Treat the captured image(s) as the screenshots for **Step 4** below.
+
+If Screenshot Mode selected with no paths (and capture isn't available), ask:
 ```
 AskUserQuestion:
   "Provide screenshot paths (drag files into terminal, or paste paths)"

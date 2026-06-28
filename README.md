@@ -156,6 +156,7 @@ When you run the commands, these files are created in your project:
 1. **Claude Code** installed and working
 2. **Xcode + Swift toolchain** (to build and test the apps you create)
 3. **[claude-code-apple-skills](https://github.com/rshankras/claude-code-apple-skills)** checked out somewhere — the domain-knowledge library SwiftShip reads from. The installer finds it automatically if it sits next to this repo (`../claude-code-apple-skills`); otherwise point the installer at it (see below).
+4. **Optional — tool handoffs.** Some commands can *act* on external tools when present: the `run-simulator` skill (live screenshots in `/apple:verify` & `/apple:visual-qa`), the `asc-metadata` MCP (push metadata, manage TestFlight), and the `daily-sales-pulse` / `portfolio-health-monitor` skills (data-driven planning). These are **not** part of SwiftShip's install and are **not required** — every command falls back to manual instructions when they're absent. See `templates/_conventions/TOOL-HANDOFF.md`.
 
 ## Installation
 
