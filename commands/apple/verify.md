@@ -1,7 +1,7 @@
 ---
 description: Verify completed work against plan deliverables
 argument-hint: [phase-number]
-allowed-tools: Read, Write, Bash, Glob, Grep, AskUserQuestion
+allowed-tools: Read, Write, Bash, Glob, Grep, AskUserQuestion, Skill
 ---
 
 # Verify Completed Work
@@ -84,6 +84,24 @@ ls -la [expected-file-path]
 Grep: "TODO|FIXME|HACK" in project files
 Grep: "password|secret|api_key" in project files (should be in config, not code)
 ```
+
+## Step 3.5: Optional handoff — run the app and screenshot
+
+Before relying on the user's memory in the manual UAT below, try to **show the
+running app**. Apply `~/.claude/swiftship-templates/_conventions/TOOL-HANDOFF.md`
+with the procedure in
+`~/.claude/swiftship-templates/_conventions/RUN-AND-SHOT.md`:
+
+- **DETECT:** iOS → is the `run-simulator` skill available? macOS → are `xcodebuild`
+  + `screencapture` available? If neither path is available, **skip to Step 4**
+  (the manual walk-through is the fallback).
+- **CONFIRM** (a build can be slow): "Run & screenshot the app now? / Skip — I'll
+  check manually."
+- **ACT:** run the platform path, capture, and **Read the screenshot back**. Feed
+  what it shows into the UAT questions below (e.g. confirm the changed screen
+  renders) instead of asking the user from memory.
+- **FALL BACK:** on any build/launch/capture failure, note it and continue to the
+  manual walk-through unchanged.
 
 ## Step 4: Manual Verification (UAT)
 
