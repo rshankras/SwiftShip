@@ -41,10 +41,16 @@ Display all available commands, their purpose, and recommended workflow.
 ║  /apple:plan [phase]        Create detailed tasks for a phase                 ║
 ║                             Creates: .planning/PLAN.md                        ║
 ║                                                                               ║
+║  /apple:spike [topic]       Validate an Apple API before you plan it          ║
+║                             Creates: .planning/spikes/[topic].md              ║
+║                                                                               ║
 ║  BUILDING                                                                     ║
 ║  ───────────────────────────────────────────────────────────────────────────  ║
 ║  /apple:build               Execute tasks with specialized agents             ║
 ║                             Updates: .planning/STATE.md, PLAN.md              ║
+║                                                                               ║
+║  /apple:autonomous [N]      Run plan/build/verify across phases               ║
+║                             Runs phases unattended; pauses for manual tasks   ║
 ║                                                                               ║
 ║  /apple:debug [issue]       Systematic debugging with state tracking          ║
 ║                             Creates: .planning/DEBUG.md                       ║
@@ -54,6 +60,9 @@ Display all available commands, their purpose, and recommended workflow.
 ║                                                                               ║
 ║  QUALITY                                                                      ║
 ║  ───────────────────────────────────────────────────────────────────────────  ║
+║  /apple:test [target]       Generate or expand tests on demand                ║
+║                             Swift Testing / XCTest + snapshot tests           ║
+║                                                                               ║
 ║  /apple:verify              Verify work against deliverables (UAT)            ║
 ║                             Creates: .planning/VERIFICATION.md                ║
 ║                                                                               ║
@@ -158,7 +167,7 @@ NEW PROJECT                          EXISTING PROJECT
 │  /apple:review   →  Quality check           │
 │                                             │
 └─────────────────────────────────────────────┘
-     │
+     │   (or /apple:autonomous to drive several phases at once)
      ▼
 /apple:testflight
 "Beta testing"
@@ -177,7 +186,10 @@ NEW PROJECT                          EXISTING PROJECT
 | Define my app | `/apple:new-app AppName` |
 | See my progress | `/apple:progress` |
 | Plan next phase | `/apple:plan [N]` |
+| Validate an API before planning | `/apple:spike "AlarmKit recurring alarm"` |
 | Build features | `/apple:build` |
+| Build several phases unattended | `/apple:autonomous` |
+| Generate tests on demand | `/apple:test [N]` |
 | Check if it works | `/apple:verify` |
 | Review code quality | `/apple:review` |
 | Run security audit | `/apple:security` |
@@ -213,6 +225,7 @@ All planning files are stored in `.planning/`:
 | `STATE.md` | Current position | `/apple:roadmap` |
 | `PREFERENCES.md` | Implementation choices | `/apple:discuss` |
 | `PLAN.md` | Current phase tasks | `/apple:plan` |
+| `spikes/` | API validation findings | `/apple:spike` |
 | `DEBUG.md` | Debug session log | `/apple:debug` |
 | `VERIFICATION.md` | UAT results | `/apple:verify` |
 | `REVIEW.md` | Quality findings | `/apple:review` |

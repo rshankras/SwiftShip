@@ -21,7 +21,20 @@ Read: .planning/ROADMAP.md
 Read: .planning/STATE.md
 ```
 
-If any file is missing:
+Also read implementation preferences if they exist (created by `/apple:discuss`):
+```
+Read: .planning/PREFERENCES.md   # Optional — apply if present
+```
+
+If `PREFERENCES.md` exists, **apply it** when generating tasks: use the chosen
+project structure in `<file>` paths, the chosen architecture/state pattern and
+async approach in `<apple-patterns>`, the chosen error-handling style, and the
+chosen test-coverage target for Phase 5 tasks. Preferences override the
+SwiftShip defaults below wherever they conflict. If `PREFERENCES.md` is absent,
+fall back to the defaults and (optionally) suggest the user run
+`/apple:discuss [phase]` first.
+
+If any required file is missing:
 ```
 ⚠️ Missing planning files. Run these commands first:
 - /apple:new-app - Create app specification

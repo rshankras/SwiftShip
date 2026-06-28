@@ -16,6 +16,16 @@ Read: .planning/PLAN.md
 Read: .planning/STATE.md
 ```
 
+Also read implementation preferences if they exist (created by `/apple:discuss`):
+```
+Read: .planning/PREFERENCES.md   # Optional — apply if present
+```
+
+If `PREFERENCES.md` exists, carry its choices (architecture/state pattern,
+async approach, error-handling style, component style, project structure) into
+every agent prompt you spawn below, so generated code matches the decisions the
+user already made. Preferences override agent defaults wherever they conflict.
+
 ## Execution Process
 
 ### 1. Find Next Pending Task
@@ -138,6 +148,11 @@ Task({
       Platform: [from APP.md]
       Min OS: [from APP.md]
     </app-context>
+
+    <preferences>
+      [Relevant choices from PREFERENCES.md if it exists — architecture,
+       state pattern, async approach, error handling, structure. Omit if none.]
+    </preferences>
 
     <task>
       [Full task XML from PLAN.md]
