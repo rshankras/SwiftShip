@@ -111,17 +111,21 @@ Because everything is referenced via `~/...` paths (which expand per‑user), th
 
 ### Optional: fewer permission prompts
 
-So Claude Code doesn't ask permission for every read, you can pre‑allow common safe commands in `~/.claude.json`:
+So Claude Code doesn't ask permission for every read, you can pre‑allow common safe commands in `~/.claude/settings.json`:
 
 ```json
 {
-  "allowedTools": [
-    "Read",
-    "Bash(ls:*)", "Bash(cat:*)", "Bash(find:*)", "Bash(grep:*)", "Bash(wc:*)",
-    "Bash(git status:*)", "Bash(git log:*)", "Bash(git diff:*)", "Bash(git branch:*)"
-  ]
+  "permissions": {
+    "allow": [
+      "Read",
+      "Bash(ls:*)", "Bash(cat:*)", "Bash(find:*)", "Bash(grep:*)", "Bash(wc:*)",
+      "Bash(git status:*)", "Bash(git log:*)", "Bash(git diff:*)", "Bash(git branch:*)"
+    ]
+  }
 }
 ```
+
+Or let Claude Code set this up for you automatically with the `/fewer-permission-prompts` skill.
 
 ---
 
@@ -155,7 +159,7 @@ This is the main, end‑to‑end flow. Each step writes a file into `.planning/`
    A guided interview: platform (iOS/macOS/both), the problem you're solving, target users, core features, how it makes money, and which Apple frameworks you'll need. → `.planning/APP.md` (+ a project `CLAUDE.md`)
 
 3. **Create the roadmap — `/apple:roadmap`**
-   Turns your spec into **7 phases**: Foundation → Core Features → Polish → Monetization → Testing → Pre‑Release → Submission. → `.planning/ROADMAP.md`, `STATE.md`
+   Turns your spec into **7 phases**: Foundation → Core Features → Polish & Platform Features → Monetization → Quality & Testing → Pre‑Release → Submission. → `.planning/ROADMAP.md`, `STATE.md`
 
 4. **(Optional) Set preferences — `/apple:discuss [phase]`**
    Before planning, Claude asks how *you* like to work: architecture (MVVM, etc.), navigation, error handling, testing depth. These choices are remembered and applied automatically when planning and building. → `.planning/PREFERENCES.md`
@@ -227,7 +231,7 @@ Most commands work standalone on any existing code — no roadmap required. Just
 
 ---
 
-## Optional power‑ups (tool handoffs)
+## Optional power-ups (tool handoffs)
 
 This is what's special about SwiftShip beyond planning: where a supported tool is connected to Claude Code, certain commands can **do the last mile for you** instead of just telling you to go do it. Every one of these is **opt‑in**, shows you a **before → after preview**, and **asks before acting** — and if the tool isn't connected, the command simply gives you the manual steps as before.
 
@@ -274,7 +278,7 @@ These rely on optional, *separately‑installed* tools (an App Store Connect con
 | Command | What it does |
 |---|---|
 | `/apple:build` | Execute the current phase's tasks with specialist agents |
-| `/apple:autonomous [N]` | Run plan → build → verify across multiple phases, hands‑off |
+| `/apple:autonomous [start] [--to N]` | Run plan → build → verify across multiple phases, hands‑off |
 | `/apple:debug [issue]` | Systematic debugging with state tracking |
 | `/apple:bugfix [bug]` | Quick fix for a known bug + regression test |
 
