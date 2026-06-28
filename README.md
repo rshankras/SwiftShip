@@ -2,7 +2,7 @@
 
 Spec-Driven Development for iOS/macOS Apps with Claude Code.
 
-SwiftShip combines [GSD's workflow methodology](https://github.com/glittercowboy/get-shit-done) with deep Apple platform expertise to guide you from app idea to App Store submission.
+SwiftShip combines [GSD's workflow methodology](https://github.com/open-gsd/gsd-core) with deep Apple platform expertise to guide you from app idea to App Store submission.
 
 ## Quick Start
 
