@@ -367,7 +367,7 @@ For `auto` tasks, `/apple:build` brings in the right specialist (all run on a co
 
 ## The skills library (companion project)
 
-SwiftShip is the *manager*; the **[claude-code-apple-skills](https://github.com/rshankras/claude-code-apple-skills)** repo is the *knowledge* — ~148 reusable "skills" (Apple coding playbooks and code generators). When SwiftShip builds a paywall, a settings screen, or a privacy manifest, it's following a recipe from there. The two are designed as a pair. A few examples of what gets pulled in when:
+SwiftShip is the *manager*; the **[claude-code-apple-skills](https://github.com/rshankras/claude-code-apple-skills)** repo is the *knowledge* — 139 reusable "skills" (Apple coding playbooks and code generators). When SwiftShip builds a paywall, a settings screen, or a privacy manifest, it's following a recipe from there. The two are designed as a pair. A few examples of what gets pulled in when:
 
 | When… | Uses… |
 |---|---|

@@ -73,7 +73,7 @@ The canonical flow is:
 
 ## External Dependency: claude-code-apple-skills
 
-Commands reference skills from `claude-code-apple-skills` (148 skills across 23 categories):
+Commands reference skills from `claude-code-apple-skills` (139 skills across 23 categories):
 - **Referenced as:** `~/.claude/swiftship-skills/` (symlink created by `install.sh`)
 - **Real location:** the `skills/` dir of a separate `claude-code-apple-skills` checkout — set `$SWIFTSHIP_SKILLS_DIR`, pass it as `install.sh`'s first arg, or place it as a sibling `../claude-code-apple-skills`
 
