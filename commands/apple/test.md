@@ -77,6 +77,7 @@ Grep: "import XCTest"   → XCTest is in use
 | Business logic, models, services | Unit (TDD) | `testing/tdd-feature` |
 | Model/SwiftData layer needing fixtures | Unit + factories | `testing/test-data-factory` |
 | Custom SwiftUI views/components | Snapshot / visual regression | `testing/snapshot-test-setup` |
+| SwiftUI view also needing canvas sample data + `#Preview` matrix | Preview data (feeds snapshots) | `generators/preview-data-generator` |
 | Networking **and** persistence together | Integration | `testing/integration-test-scaffold` |
 | Protocol-based abstractions | Contract | `testing/test-contract` |
 | Legacy/untested code being changed | Characterization | `testing/characterization-test-generator` |
@@ -85,7 +86,9 @@ Grep: "import XCTest"   → XCTest is in use
 Load the matched skill from
 `~/.claude/swiftship-skills/[skill]/SKILL.md`
 and apply its patterns. The `generators/test-generator` generator can scaffold
-the test target/boilerplate when none exists.
+the test target/boilerplate when none exists. When generating snapshot tests,
+pair them with `generators/preview-data-generator` — it produces the sample data
+and `#Preview` matrix the snapshot tests render, so both share one dataset.
 
 ### 4. Confirm the Plan
 
