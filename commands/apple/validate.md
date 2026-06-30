@@ -271,6 +271,7 @@ Created: .planning/VALIDATION.md
 
 Next steps:
 - If GO: Run /apple:new-app [name] to define the app
+  (no name yet? the product/app-namer skill generates and validates one — /apple:new-app will offer it)
 - If PIVOT: Refine your idea and run /apple:validate again
 - If NO-GO: Consider alternative ideas
 ```

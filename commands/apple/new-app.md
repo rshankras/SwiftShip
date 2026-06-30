@@ -61,6 +61,11 @@ Ask questions in phases, ONE AT A TIME. Wait for user response before proceeding
 ### Phase 2: Core Concept
 
 5. **App Name**: What's the app called?
+   - If the user doesn't have a name yet (or wants options), offer to generate
+     and validate App-Store-ready candidates first:
+     `Read: ~/.claude/swiftship-skills/product/app-namer/SKILL.md`
+     It produces a ranked, availability-checked shortlist (ASC name / trademark /
+     domain / handle) with name + subtitle. Then continue with the chosen name.
 
 6. **Problem**: What problem does this app solve?
    - Be specific about the pain point

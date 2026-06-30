@@ -73,7 +73,7 @@ The canonical flow is:
 
 ## External Dependency: claude-code-apple-skills
 
-Commands reference skills from `claude-code-apple-skills` (139 skills across 23 categories):
+Commands reference skills from `claude-code-apple-skills` (141 skills across 23 categories):
 - **Referenced as:** `~/.claude/swiftship-skills/` (symlink created by `install.sh`)
 - **Real location:** the `skills/` dir of a separate `claude-code-apple-skills` checkout — set `$SWIFTSHIP_SKILLS_DIR`, pass it as `install.sh`'s first arg, or place it as a sibling `../claude-code-apple-skills`
 
@@ -84,7 +84,7 @@ Commands reference skills from `claude-code-apple-skills` (139 skills across 23 
 | `design/` | animation-patterns, liquid-glass |
 | `core-ml/` | (Core ML, Vision, NaturalLanguage framework patterns) |
 | `foundation/` | attributed-string |
-| `generators/` (62) | accessibility-generator, account-deletion, analytics-setup, announcement-banner, app-clip, app-extensions, app-icon-generator, app-store-assets, auth-flow, background-processing, ci-cd-setup, cloudkit-sync, consent-flow, custom-product-pages, data-export, debug-menu, deep-linking, error-monitoring, feature-flags, featuring-nomination, feedback-form, force-update, http-cache, image-loading, in-app-events, lapsed-user, live-activity-generator, localization-setup, logging-setup, milestone-celebration, networking-layer, offer-codes-setup, offline-queue, onboarding-generator, pagination, paywall-generator, permission-priming, persistence-setup, pre-orders, product-page-optimization, promoted-iap, push-notifications, quick-win-session, referral-system, review-prompt, screenshot-automation, settings-screen, share-card, social-export, spotlight-indexing, state-restoration, streak-tracker, subscription-lifecycle, subscription-offers, test-generator, tipkit-generator, usage-insights, variable-rewards, watermark-engine, whats-new, widget-generator, win-back-offers |
+| `generators/` (63) | accessibility-generator, account-deletion, analytics-setup, announcement-banner, app-clip, app-extensions, app-icon-generator, app-store-assets, auth-flow, background-processing, ci-cd-setup, cloudkit-sync, consent-flow, custom-product-pages, data-export, debug-menu, deep-linking, error-monitoring, feature-flags, featuring-nomination, feedback-form, force-update, http-cache, image-loading, in-app-events, lapsed-user, live-activity-generator, localization-setup, logging-setup, milestone-celebration, networking-layer, offer-codes-setup, offline-queue, onboarding-generator, pagination, paywall-generator, permission-priming, persistence-setup, pre-orders, preview-data-generator, product-page-optimization, promoted-iap, push-notifications, quick-win-session, referral-system, review-prompt, screenshot-automation, settings-screen, share-card, social-export, spotlight-indexing, state-restoration, streak-tracker, subscription-lifecycle, subscription-offers, test-generator, tipkit-generator, usage-insights, variable-rewards, watermark-engine, whats-new, widget-generator, win-back-offers |
 | `growth/` | analytics-interpretation, community-building, indie-business, press-media |
 | `legal/` | privacy-policy |
 | `monetization/` | (monetization strategy, pricing-models, app-type-guides) |
@@ -92,7 +92,7 @@ Commands reference skills from `claude-code-apple-skills` (139 skills across 23 
 | `macos/` | app-planner, appkit-swiftui-bridge, architecture-patterns, coding-best-practices, macos-capabilities, macos-tahoe-apis, swiftdata-architecture, ui-review-tahoe |
 | `mapkit/` | geotoolbox |
 | `performance/` | profiling, swiftui-debugging |
-| `product/` (13) | architecture-spec, beta-testing, competitive-analysis, idea-generator, implementation-guide, implementation-spec, localization-strategy, market-research, prd-generator, product-agent, release-spec, test-spec, ux-spec |
+| `product/` (14) | app-namer, architecture-spec, beta-testing, competitive-analysis, idea-generator, implementation-guide, implementation-spec, localization-strategy, market-research, prd-generator, product-agent, release-spec, test-spec, ux-spec |
 | `release-review/` | (release readiness checks) |
 | `security/` | privacy-manifests (+ reference files: secure-storage.md, biometric-auth.md, network-security.md, platform-specifics.md) |
 | `swift/` | concurrency, concurrency-patterns, memory |

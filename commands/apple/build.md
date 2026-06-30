@@ -115,6 +115,7 @@ Match task to appropriate agent and spawn:
 | Debug menu, developer settings, internal tools | general-purpose | `generators/debug-menu` |
 | Screenshot automation, snapshot testing, marketing screenshots | general-purpose | `generators/screenshot-automation` |
 | What's new, release notes, version changelog | swiftui-builder | `generators/whats-new` |
+| Preview data, sample data, `#Preview` matrix, canvas/prototype data | swiftui-builder | `generators/preview-data-generator` |
 | Core ML, machine learning, Vision framework, NaturalLanguage | general-purpose | `core-ml/` |
 | App Store assets, marketing screenshots, preview video, event cards | general-purpose | `generators/app-store-assets` |
 | Custom product pages, variant pages, audience targeting | general-purpose | `generators/custom-product-pages` |
