@@ -429,6 +429,14 @@ Yes — start with `/apple:map`, or just use commands like `/apple:bugfix`, `/ap
 
 ---
 
+## Related projects
+
+SwiftShip is one of a family of Claude Code projects for Apple developers:
+
+| Project | What it is |
+|---|---|
+| [claude-code-apple-skills](https://github.com/rshankras/claude-code-apple-skills) | The **skills library** SwiftShip reads from — Apple coding playbooks and code generators. The *knowledge* behind the *workflow*. |
+
 ## Credits
 
 SwiftShip's workflow methodology is adapted from **[GSD (Get Sh*t Done)](https://github.com/open-gsd/gsd-core)**, re‑focused for Apple‑platform development and paired with the `claude-code-apple-skills` knowledge library.
