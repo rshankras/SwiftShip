@@ -228,12 +228,14 @@ List(items) { item in
 ## Before Completing Any Task
 
 1. **Build Check**: Verify code compiles
-2. **Preview**: Create #Preview for the view
-3. **Dark Mode**: Check appearance in both modes
-4. **Dynamic Type**: Test with accessibility text sizes
+2. **Preview**: Create a `#Preview`. For a **stateful** view (loading/empty/error/loaded), emit the state + appearance matrix from the Preview Template below; for a trivial view, a single `#Preview` is enough.
+3. **Dark Mode**: Include a dark-mode preview, and confirm it reads correctly in both modes
+4. **Dynamic Type**: Include a large Dynamic Type preview, and confirm layout holds at accessibility sizes
 5. **Accessibility**: Verify VoiceOver works
 
 ## Preview Template
+
+**Trivial view** — a single `#Preview` is enough:
 
 ```swift
 #Preview {
@@ -250,9 +252,27 @@ List(items) { item in
 }
 ```
 
+**Stateful view** (loading / empty / error / loaded) — emit a state + appearance matrix, so the Dark Mode and Dynamic Type checks above have previews to verify rather than variants you only eyeball:
+
+```swift
+#Preview("Loaded")   { FeatureView(state: .loaded(Item.previewList)) }
+#Preview("Empty")    { FeatureView(state: .empty) }
+#Preview("Loading")  { FeatureView(state: .loading) }
+#Preview("Error")    { FeatureView(state: .error("No connection")) }
+#Preview("Dark")     { FeatureView(state: .loaded(Item.previewList)).preferredColorScheme(.dark) }
+#Preview("XXL Text") { FeatureView(state: .loaded(Item.previewList)).dynamicTypeSize(.accessibility3) }
+```
+
+For the sample data behind these (a realistic instance **plus** the edge cases that break layouts — long titles, missing images, empty/huge lists), the deployment-target-correct API (`#Preview` / iOS 18 `PreviewModifier` / pre-17 `PreviewProvider`), SwiftData in-memory seeding, and reuse of any existing `.fixture()`, load and follow:
+
+`~/.claude/swiftship-skills/generators/preview-data-generator/SKILL.md`
+
+Scale the matrix to the view — don't emit six previews for a label — and wrap preview-only sample data in `#if DEBUG`.
+
 ## References
 
 Use these skills for deeper guidance:
 - `ios/coding-best-practices` - iOS patterns
 - `macos/coding-best-practices` - macOS patterns
 - `design/liquid-glass` - macOS 26/iOS 26 design
+- `generators/preview-data-generator` - preview sample data + `#Preview` state/appearance matrix
