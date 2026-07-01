@@ -33,7 +33,7 @@ Building an app is like building a house:
 
 ## Highlights
 
-- **33 commands** covering the whole lifecycle: idea validation, planning, building, testing, App Store metadata, screenshots, TestFlight, submission, and post‑launch.
+- **37 commands** covering the whole lifecycle: idea validation, planning, building, testing, App Store metadata, screenshots, TestFlight, submission, and post‑launch.
 - **Works for brand‑new apps *and* existing apps** — one command maps your existing code, and another turns it into a phased feature‑plus‑bug‑fix release plan.
 - **Run & screenshot your app** — quality commands can actually launch your app (iOS Simulator *or* a real Mac app) and look at it, instead of just asking you "does it work?"
 - **Optional App Store Connect automation** — with the right tool connected, commands can *push* your metadata, release notes, and TestFlight setup straight to App Store Connect — always after showing you a preview and asking first. (The final "Submit for Review" always stays your decision.)
@@ -338,20 +338,24 @@ SwiftShip's "memory" lives in a `.planning/` folder inside *your* project. You c
 
 ```
 .planning/
+├── BRAINSTORM.md     # Ranked idea shortlist (from /apple:brainstorm)
 ├── VALIDATION.md     # Idea validation (market, competitors)
 ├── APP.md            # App specification
 ├── CODEBASE.md       # Existing-code analysis (from /apple:map)
+├── PROTOTYPE.md      # UI direction exploration (from /apple:prototype)
 ├── ROADMAP.md        # Development phases
 ├── RELEASE.md        # Release scope: features + bug fixes (from /apple:release)
 ├── STATE.md          # Where you are right now
 ├── PREFERENCES.md    # Your implementation choices
 ├── PLAN.md           # Tasks for the current phase
 ├── spikes/           # API validation findings
+├── DEBUG.md          # Debug session log (from /apple:debug)
 ├── VERIFICATION.md   # "Does it work?" results
 ├── REVIEW.md         # Quality findings
 ├── SECURITY.md       # Security audit
 ├── PERFORMANCE.md    # Performance analysis
 ├── VISUAL-QA.md      # Visual/UI findings
+├── WALKTHROUGH.md    # Flow walkthrough findings (from /apple:walkthrough)
 ├── ASO.md            # App Store content
 ├── SCREENSHOTS.md    # Screenshot plan
 ├── FEEDBACK.md       # TestFlight feedback
@@ -379,7 +383,7 @@ For `auto` tasks, `/apple:build` brings in the right specialist (all run on a co
 
 ## The skills library (companion project)
 
-SwiftShip is the *manager*; the **[claude-code-apple-skills](https://github.com/rshankras/claude-code-apple-skills)** repo is the *knowledge* — 141 reusable "skills" (Apple coding playbooks and code generators). When SwiftShip builds a paywall, a settings screen, or a privacy manifest, it's following a recipe from there. The two are designed as a pair. A few examples of what gets pulled in when:
+SwiftShip is the *manager*; the **[claude-code-apple-skills](https://github.com/rshankras/claude-code-apple-skills)** repo is the *knowledge* — 140+ reusable "skills" (Apple coding playbooks and code generators). When SwiftShip builds a paywall, a settings screen, or a privacy manifest, it's following a recipe from there. The two are designed as a pair. A few examples of what gets pulled in when:
 
 | When… | Uses… |
 |---|---|
@@ -400,7 +404,7 @@ SwiftShip is the *manager*; the **[claude-code-apple-skills](https://github.com/
 
 ```
 SwiftShip/
-├── commands/apple/        # 33 workflow commands (the /apple:* you type)
+├── commands/apple/        # 37 workflow commands (the /apple:* you type)
 ├── agents/                # 5 specialist agents
 ├── templates/             # planning-file templates copied into your project
 │   └── _conventions/      # shared rules (e.g. the optional tool-handoff convention)
