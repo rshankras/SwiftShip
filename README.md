@@ -244,6 +244,7 @@ This is what's special about SwiftShip beyond planning: where a supported tool i
 | **Push to App Store Connect** | Pushes generated name / subtitle / keywords / description / promo text / "What's New" straight to your listing, each field previewed and confirmed. | `/apple:metadata`, `/apple:release-notes` |
 | **Manage TestFlight** | Lists/creates beta groups, adds testers (with a clear "this emails a real person" confirmation), and pulls crash feedback into your notes. | `/apple:testflight` |
 | **Pre‑fill a submission** | Creates the App Store version record and pushes final metadata — then stops. | `/apple:submit` |
+| **Finalize IAPs & legal URLs** | Sets a one‑time IAP's price + localized name/description, and publishes legal pages + sets the ASC Privacy/Support URLs — each write previewed and confirmed (dry‑run → apply), via your own ASC API key. | `/apple:iap`, `/apple:privacy` |
 | **Data‑driven planning** | Pulls real downloads, sales, crashes, sessions, and low‑star reviews into your "what to build next" decisions and milestone summaries. | `/apple:next-version`, `/apple:milestone` |
 
 **Safety rules built in:**
@@ -311,6 +312,8 @@ These rely on optional, *separately‑installed* tools (an App Store Connect con
 | `/apple:deploy` | Set up Fastlane + CI for automated deployment |
 | `/apple:testflight` | Prepare and manage a TestFlight beta |
 | `/apple:release-notes` | Generate release notes for every channel |
+| `/apple:iap` | Finalize a one-time IAP's price + localization in App Store Connect (dry-run) |
+| `/apple:privacy` | Publish legal pages + set the ASC Privacy/Support URLs (dry-run) |
 | `/apple:submit` | Final App Store submission checklist |
 
 ### Version & ideas
