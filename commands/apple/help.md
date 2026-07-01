@@ -35,6 +35,9 @@ Display all available commands, their purpose, and recommended workflow.
 ║  /apple:prototype [screen]  Explore divergent UI directions as #Previews     ║
 ║                             Creates: .planning/PROTOTYPE.md                  ║
 ║                                                                               ║
+║  /apple:icon [style]        Generate / re-roll the app icon (3 variants)     ║
+║                             Installs: Assets.xcassets/AppIcon.appiconset     ║
+║                                                                               ║
 ║  PLANNING                                                                     ║
 ║  ───────────────────────────────────────────────────────────────────────────  ║
 ║  /apple:roadmap             Create 7-phase development roadmap                ║
@@ -193,6 +196,7 @@ NEW PROJECT                          EXISTING PROJECT
 | Validate an app idea | `/apple:validate "idea"` |
 | Define my app | `/apple:new-app AppName` |
 | Explore UI options for a screen | `/apple:prototype Home` |
+| Generate an app icon | `/apple:icon "gradient glyph"` |
 | See my progress | `/apple:progress` |
 | Plan next phase | `/apple:plan [N]` |
 | Validate an API before planning | `/apple:spike "AlarmKit recurring alarm"` |
