@@ -34,6 +34,16 @@ SwiftShip defaults below wherever they conflict. If `PREFERENCES.md` is absent,
 fall back to the defaults and (optionally) suggest the user run
 `/apple:discuss [phase]` first.
 
+Also read the release scope if it exists (created by `/apple:release`):
+```
+Read: .planning/RELEASE.md   # Optional — present for existing-app releases
+```
+
+If `RELEASE.md` exists, this is an **existing-app release**, not a greenfield
+build: the phases in `ROADMAP.md` are **intent-tagged** (see *Release Phases*
+below), the `<baseline>` describes code that already ships (don't re-create it),
+and `<regression-scope>` lists existing flows the Harden phase must re-verify.
+
 If any required file is missing:
 ```
 ⚠️ Missing planning files. Run these commands first:
@@ -54,6 +64,24 @@ Determine which skills and generators are relevant based on phase:
 | 5 (Testing) | product/test-spec, testing/ (TDD workflows) | test-generator, preview-data-generator, testing/tdd-feature, testing/test-data-factory, testing/snapshot-test-setup, testing/integration-test-scaffold, debug-menu |
 | 6 (Pre-Release) | app-store/, security/privacy-manifests, legal/privacy-policy | app-icon-generator, error-monitoring, screenshot-automation, whats-new, app-store-assets, custom-product-pages, featuring-nomination, in-app-events, product-page-optimization |
 | 7 (Submission) | release-review/, app-store/, product/release-spec, app-store/rejection-handler | - |
+
+The table above maps phases by **number**, which assumes the greenfield v1.0
+roadmap from `/apple:roadmap`. Release roadmaps use intent instead —
+
+### Release Phases (intent-tagged, from `/apple:release`)
+
+When `ROADMAP.md` phases carry an `intent` attribute, route by **intent**, not by
+number (a release "Phase 1" is a feature phase, not Foundation):
+
+| Intent | Primary Skills | Task shape |
+|--------|---------------|------------|
+| `feature` | ios/, macos/, design/, swiftui/ (+ the same agent-matching `/apple:build` uses) | One `type="auto"` task per feature. For UI features, add a `<flows>` block and a Visual QA task, exactly as in a greenfield UI phase. |
+| `bugfix` | `testing/tdd-bug-fix`, `performance/swiftui-debugging` | One `type="auto"` task per bug, following the `/apple:bugfix` workflow: locate → minimal fix → **regression test**. Each task's `<verify>` MUST include a `type="test"` check for the new regression test. |
+| `quality` | `ios/ui-review`, `testing/`, `security/`, `performance/profiling` | Regression walkthrough of the `<regression-scope>` flows from `RELEASE.md` (drive with `/apple:walkthrough`), plus tests/review/security/perf as scope warrants. |
+| `release` | `app-store/`, `product/release-spec`, `legal/privacy-policy` | What's New (`generators/whats-new`), screenshot refresh if UI changed (`generators/screenshot-automation`), release notes, TestFlight, submit. Keep submit `type="manual"`. |
+
+Everything else about task generation (the XML format, `<verify>`, `<done>`,
+committing per task) is identical — only skill selection changes.
 
 ### Conditional Generator Selection
 

@@ -43,6 +43,9 @@ Display all available commands, their purpose, and recommended workflow.
 ║  /apple:roadmap             Create 7-phase development roadmap                ║
 ║                             Creates: .planning/ROADMAP.md, STATE.md           ║
 ║                                                                               ║
+║  /apple:release [scope]     Plan a phased release for an existing app         ║
+║                             Creates: .planning/RELEASE.md, ROADMAP.md         ║
+║                                                                               ║
 ║  /apple:discuss [phase]     Gather implementation preferences before planning ║
 ║                             Creates: .planning/PREFERENCES.md                 ║
 ║                                                                               ║
@@ -195,6 +198,7 @@ NEW PROJECT                          EXISTING PROJECT
 | Find an app idea | `/apple:brainstorm "health"` |
 | Validate an app idea | `/apple:validate "idea"` |
 | Define my app | `/apple:new-app AppName` |
+| Plan a release for an existing app | `/apple:release "add search + fix crashes"` |
 | Explore UI options for a screen | `/apple:prototype Home` |
 | Generate an app icon | `/apple:icon "gradient glyph"` |
 | See my progress | `/apple:progress` |
@@ -237,6 +241,7 @@ All planning files are stored in `.planning/`:
 | `CODEBASE.md` | Existing code analysis | `/apple:map` |
 | `PROTOTYPE.md` | UI direction exploration | `/apple:prototype` |
 | `ROADMAP.md` | Development phases | `/apple:roadmap` |
+| `RELEASE.md` | Release scope (features + bugs) | `/apple:release` |
 | `STATE.md` | Current position | `/apple:roadmap` |
 | `PREFERENCES.md` | Implementation choices | `/apple:discuss` |
 | `PLAN.md` | Current phase tasks | `/apple:plan` |
