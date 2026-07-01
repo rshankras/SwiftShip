@@ -79,6 +79,7 @@ than by phase number.
 - `/apple:perf` profiles and diagnoses performance issues using Instruments guidance and SwiftUI debugging — outputs `.planning/PERFORMANCE.md`
 - `/apple:review` spawns 5 parallel review agents (code quality, HIG, App Store, performance, security)
 - `/apple:release-notes` generates release text for App Store, TestFlight, changelog, and social from git history + planning files — outputs `.planning/RELEASE-NOTES.md`
+- `/apple:iap` and `/apple:privacy` are Phase-6 App Store Connect finalizers (also invoked from `/apple:submit`): `iap` sets a one-time IAP's price + localized name/description; `privacy` publishes the legal pages and sets the ASC Privacy/Support URLs — filling the gaps the `asc-metadata` MCP can't (IAP price/localization, app URLs). Both call the ASC REST API through a shared `_shared/asc-api/` helper (the user's own `.p8` key) with **dry-run → confirm → apply**; delegate to `app-store/iap-finalizer` + `legal/privacy-publish`. `iap` reads the price from the Phase-4 monetization decision (it does not re-price) and is distinct from `generators/promoted-iap`
 - `/apple:visual-qa` analyzes screenshots or scans SwiftUI code for visual issues — outputs `.planning/VISUAL-QA.md`
 - `/apple:walkthrough` drives each user flow in the Simulator (XCUITest + per-step screenshots), statically audits the nav graph for dead-ends/missing edit paths, and emits a human discoverability checklist — the UI-*flow* counterpart to `/apple:visual-qa` (screens). Outputs `.planning/WALKTHROUGH.md`; delegates to `testing/flow-walkthrough`
 - `/apple:learn` captures mistakes and patterns into skills or CLAUDE.md so they never recur — the feedback loop that compounds session quality
@@ -93,14 +94,14 @@ Commands reference skills from `claude-code-apple-skills` (140+ skills across 23
 
 | Category | Skills |
 |----------|--------|
-| `app-store/` | app-description-writer, apple-search-ads, keyword-optimizer, marketing-strategy, rejection-handler, review-response-writer, screenshot-planner |
+| `app-store/` | app-description-writer, apple-search-ads, keyword-optimizer, marketing-strategy, rejection-handler, review-response-writer, screenshot-planner, iap-finalizer |
 | `apple-intelligence/` | app-intents, foundation-models, visual-intelligence |
 | `design/` | animation-patterns, liquid-glass, ui-prototyping |
 | `core-ml/` | (Core ML, Vision, NaturalLanguage framework patterns) |
 | `foundation/` | attributed-string |
 | `generators/` (63) | accessibility-generator, account-deletion, analytics-setup, announcement-banner, app-clip, app-extensions, app-icon-generator, app-store-assets, auth-flow, background-processing, ci-cd-setup, cloudkit-sync, consent-flow, custom-product-pages, data-export, debug-menu, deep-linking, error-monitoring, feature-flags, featuring-nomination, feedback-form, force-update, http-cache, image-loading, in-app-events, lapsed-user, live-activity-generator, localization-setup, logging-setup, milestone-celebration, networking-layer, offer-codes-setup, offline-queue, onboarding-generator, pagination, paywall-generator, permission-priming, persistence-setup, pre-orders, preview-data-generator, product-page-optimization, promoted-iap, push-notifications, quick-win-session, referral-system, review-prompt, screenshot-automation, settings-screen, share-card, social-export, spotlight-indexing, state-restoration, streak-tracker, subscription-lifecycle, subscription-offers, test-generator, tipkit-generator, usage-insights, variable-rewards, watermark-engine, whats-new, widget-generator, win-back-offers |
 | `growth/` | analytics-interpretation, community-building, indie-business, press-media |
-| `legal/` | privacy-policy |
+| `legal/` | privacy-policy, privacy-publish |
 | `monetization/` | (monetization strategy, pricing-models, app-type-guides) |
 | `ios/` | app-planner, assistive-access, coding-best-practices, ipad-patterns, migration-patterns, navigation-patterns, ui-review |
 | `macos/` | app-planner, appkit-swiftui-bridge, architecture-patterns, coding-best-practices, macos-capabilities, macos-tahoe-apis, swiftdata-architecture, ui-review-tahoe |

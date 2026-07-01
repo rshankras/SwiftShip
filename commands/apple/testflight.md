@@ -170,6 +170,23 @@ fastlane beta
 ```
 ```
 
+## Headless upload (ASC API key — the TestFlight enabler)
+
+Make archive→upload repeatable and non-interactive with the **same App Store Connect API key** as the other ASC skills (`_shared/asc-api/` §0) — no Apple-ID password, no keychain prompt.
+
+1. **Signing** (one-time): set `DEVELOPMENT_TEAM` and `CODE_SIGN_STYLE = Automatic` in `project.yml`/target settings. For fully headless/CI, prefer **Fastlane `match`** (git-stored certs) or a manual distribution cert + provisioning profile.
+2. **Skip the export-compliance prompt** (standard/exempt crypto only): add `ITSAppUsesNonExemptEncryption = NO` to Info.plist (`project.yml` → `INFOPLIST_KEY_ITSAppUsesNonExemptEncryption: NO`). Otherwise uploads stall waiting for the answer.
+3. **Upload with the API key** — replaces the `-u/-p` (Apple-ID) auth in the Option-2 `altool` block above:
+   ```bash
+   xcrun altool --upload-app -f build/export/[AppName].ipa -t ios \
+     --apiKey "$ASC_KEY_ID" --apiIssuer "$ASC_ISSUER_ID"
+   ```
+   or via Fastlane (`/apple:deploy` scaffolds this): `pilot upload` / `deliver` with
+   `app_store_connect_api_key(key_id: ENV['ASC_KEY_ID'], issuer_id: ENV['ASC_ISSUER_ID'], key_filepath: '~/.appstoreconnect/private_keys/AuthKey_<KEY_ID>.p8')`.
+4. **Then** wait for processing and use the beta-group handoff below to invite testers.
+
+> Same `.p8` as §0. `altool`/`notarytool` read it from `~/.appstoreconnect/private_keys/`; Fastlane wants the explicit `key_filepath`. Recruiting *real* testers stays human — this only wires the upload + invite.
+
 ## Update STATE.md
 
 After user confirms upload:

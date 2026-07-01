@@ -140,6 +140,13 @@ Read: ~/.claude/swiftship-skills/legal/privacy-policy/SKILL.md
 
 Verify privacy policy, terms of service, and GDPR/CCPA compliance.
 
+### Finalize store metadata (IAPs + legal URLs)
+
+Two pre-submit finalizers close the ASC gaps this checklist otherwise leaves manual (both **dry-run → confirm → apply**):
+
+- **In-app purchases** — if the app has IAPs still at `MISSING_METADATA`, run **`/apple:iap`** to set each one's price + localized name/description. One-time IAPs only; it **reads the price from the Phase-4 monetization decision** (does not re-price), and is distinct from the `promoted-iap` generator.
+- **Privacy / Support URLs** — run **`/apple:privacy`** to publish the legal pages and set the ASC Privacy Policy + Support URLs. The App Privacy nutrition label stays a manual checklist (no Apple API).
+
 ### macOS Entitlements Check (if macOS app)
 
 If APP.md indicates macOS platform:
