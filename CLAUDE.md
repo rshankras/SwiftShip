@@ -60,6 +60,7 @@ The canonical flow is:
 - `/apple:build` is the main execution engine — reads `.planning/PLAN.md`, finds pending tasks, matches them to agents via a task-content-to-agent table, and executes sequentially
 - `/apple:autonomous` drives the full `plan → build → verify` cycle across multiple phases unattended. It pauses for manual tasks, blockers, Critical review findings, or failed verification, and stops before the release phases (6–7) unless `--to N` says otherwise. Both `/apple:plan` and `/apple:build` read `.planning/PREFERENCES.md` (from `/apple:discuss`) and apply those choices
 - `/apple:spike` runs a time-boxed experiment to validate an Apple API before planning around it — checks OS availability, device/simulator gating, and required capabilities, then records a finding in `.planning/spikes/[topic].md`. De-risks Apple's annual beta-API churn
+- `/apple:prototype` explores *divergent* UI directions for a screen as named SwiftUI `#Preview`s — go wide, remix the strongest elements, fill with lived-in content + edge cases, then tune key animations — **before** `/apple:plan` commits to one layout. Novice-friendly (interviews you for features + mood); outputs `.planning/PROTOTYPE.md` and real Swift the winning variation carries into `/apple:plan` and `/apple:build`. Implements Apple's WWDC prototyping-with-coding-agents method. Delegates to `design/ui-prototyping`, reusing `generators/preview-data-generator`, the `swiftui-builder` agent, and `design/animation-patterns`
 - `/apple:test` generates or expands tests on demand (Swift Testing or XCTest, plus snapshot/integration/contract) over the existing `testing/*` skills — a thin wrapper that works against a phase, a path, or recent changes without running the full Phase 5 flow
 - `/apple:bugfix` is the fast lane for known bugs — locate, fix, regression test, commit. Escalates to `/apple:debug` for mystery bugs
 - `/apple:security` runs a comprehensive security audit (secure storage, auth, network, privacy manifests) — outputs `.planning/SECURITY.md`
@@ -67,13 +68,14 @@ The canonical flow is:
 - `/apple:review` spawns 5 parallel review agents (code quality, HIG, App Store, performance, security)
 - `/apple:release-notes` generates release text for App Store, TestFlight, changelog, and social from git history + planning files — outputs `.planning/RELEASE-NOTES.md`
 - `/apple:visual-qa` analyzes screenshots or scans SwiftUI code for visual issues — outputs `.planning/VISUAL-QA.md`
+- `/apple:walkthrough` drives each user flow in the Simulator (XCUITest + per-step screenshots), statically audits the nav graph for dead-ends/missing edit paths, and emits a human discoverability checklist — the UI-*flow* counterpart to `/apple:visual-qa` (screens). Outputs `.planning/WALKTHROUGH.md`; delegates to `testing/flow-walkthrough`
 - `/apple:learn` captures mistakes and patterns into skills or CLAUDE.md so they never recur — the feedback loop that compounds session quality
 - Tasks have three types: `auto` (agent-executed), `generator` (skill-invoked), `manual` (user action required)
 - State is tracked in `.planning/STATE.md` and task status in `.planning/PLAN.md`
 
 ## External Dependency: claude-code-apple-skills
 
-Commands reference skills from `claude-code-apple-skills` (141 skills across 23 categories):
+Commands reference skills from `claude-code-apple-skills` (143 skills across 23 categories):
 - **Referenced as:** `~/.claude/swiftship-skills/` (symlink created by `install.sh`)
 - **Real location:** the `skills/` dir of a separate `claude-code-apple-skills` checkout — set `$SWIFTSHIP_SKILLS_DIR`, pass it as `install.sh`'s first arg, or place it as a sibling `../claude-code-apple-skills`
 
@@ -81,7 +83,7 @@ Commands reference skills from `claude-code-apple-skills` (141 skills across 23 
 |----------|--------|
 | `app-store/` | app-description-writer, apple-search-ads, keyword-optimizer, marketing-strategy, rejection-handler, review-response-writer, screenshot-planner |
 | `apple-intelligence/` | app-intents, foundation-models, visual-intelligence |
-| `design/` | animation-patterns, liquid-glass |
+| `design/` | animation-patterns, liquid-glass, ui-prototyping |
 | `core-ml/` | (Core ML, Vision, NaturalLanguage framework patterns) |
 | `foundation/` | attributed-string |
 | `generators/` (63) | accessibility-generator, account-deletion, analytics-setup, announcement-banner, app-clip, app-extensions, app-icon-generator, app-store-assets, auth-flow, background-processing, ci-cd-setup, cloudkit-sync, consent-flow, custom-product-pages, data-export, debug-menu, deep-linking, error-monitoring, feature-flags, featuring-nomination, feedback-form, force-update, http-cache, image-loading, in-app-events, lapsed-user, live-activity-generator, localization-setup, logging-setup, milestone-celebration, networking-layer, offer-codes-setup, offline-queue, onboarding-generator, pagination, paywall-generator, permission-priming, persistence-setup, pre-orders, preview-data-generator, product-page-optimization, promoted-iap, push-notifications, quick-win-session, referral-system, review-prompt, screenshot-automation, settings-screen, share-card, social-export, spotlight-indexing, state-restoration, streak-tracker, subscription-lifecycle, subscription-offers, test-generator, tipkit-generator, usage-insights, variable-rewards, watermark-engine, whats-new, widget-generator, win-back-offers |
@@ -96,7 +98,7 @@ Commands reference skills from `claude-code-apple-skills` (141 skills across 23 
 | `release-review/` | (release readiness checks) |
 | `security/` | privacy-manifests (+ reference files: secure-storage.md, biometric-auth.md, network-security.md, platform-specifics.md) |
 | `swift/` | concurrency, concurrency-patterns, memory |
-| `testing/` (8) | characterization-test-generator, tdd-bug-fix, tdd-feature, test-contract, tdd-refactor-guard, snapshot-test-setup, test-data-factory, integration-test-scaffold |
+| `testing/` (9) | characterization-test-generator, tdd-bug-fix, tdd-feature, test-contract, tdd-refactor-guard, snapshot-test-setup, test-data-factory, integration-test-scaffold, flow-walkthrough |
 | `swiftdata/` | inheritance |
 | `swiftui/` | alarmkit, charts-3d, text-editing, toolbars, webkit |
 | `visionos/` | widgets |

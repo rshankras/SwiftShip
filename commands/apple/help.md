@@ -30,6 +30,11 @@ Display all available commands, their purpose, and recommended workflow.
 ║  /apple:map                 Analyze existing codebase (brownfield)            ║
 ║                             Creates: .planning/CODEBASE.md                    ║
 ║                                                                               ║
+║  DESIGN & PROTOTYPE                                                           ║
+║  ───────────────────────────────────────────────────────────────────────────  ║
+║  /apple:prototype [screen]  Explore divergent UI directions as #Previews     ║
+║                             Creates: .planning/PROTOTYPE.md                  ║
+║                                                                               ║
 ║  PLANNING                                                                     ║
 ║  ───────────────────────────────────────────────────────────────────────────  ║
 ║  /apple:roadmap             Create 7-phase development roadmap                ║
@@ -77,6 +82,9 @@ Display all available commands, their purpose, and recommended workflow.
 ║                                                                               ║
 ║  /apple:visual-qa [paths]   Screenshot-based visual QA or code UI audit      ║
 ║                             Creates: .planning/VISUAL-QA.md                  ║
+║                                                                               ║
+║  /apple:walkthrough [flow]  Walk user flows; find dead-ends & bad returns    ║
+║                             Creates: .planning/WALKTHROUGH.md                ║
 ║                                                                               ║
 ║  RELEASE                                                                      ║
 ║  ───────────────────────────────────────────────────────────────────────────  ║
@@ -184,6 +192,7 @@ NEW PROJECT                          EXISTING PROJECT
 | Find an app idea | `/apple:brainstorm "health"` |
 | Validate an app idea | `/apple:validate "idea"` |
 | Define my app | `/apple:new-app AppName` |
+| Explore UI options for a screen | `/apple:prototype Home` |
 | See my progress | `/apple:progress` |
 | Plan next phase | `/apple:plan [N]` |
 | Validate an API before planning | `/apple:spike "AlarmKit recurring alarm"` |
@@ -195,6 +204,7 @@ NEW PROJECT                          EXISTING PROJECT
 | Run security audit | `/apple:security` |
 | Diagnose performance | `/apple:perf "slow scrolling"` |
 | Check visual quality | `/apple:visual-qa ~/Desktop/screen.png` |
+| Walk the user flows | `/apple:walkthrough` |
 | Set up CI/CD | `/apple:deploy` |
 | Prepare App Store content | `/apple:metadata` |
 | Plan screenshots | `/apple:screenshots` |
@@ -221,6 +231,7 @@ All planning files are stored in `.planning/`:
 | `VALIDATION.md` | Market research, competitors | `/apple:validate` |
 | `APP.md` | App specification | `/apple:new-app` |
 | `CODEBASE.md` | Existing code analysis | `/apple:map` |
+| `PROTOTYPE.md` | UI direction exploration | `/apple:prototype` |
 | `ROADMAP.md` | Development phases | `/apple:roadmap` |
 | `STATE.md` | Current position | `/apple:roadmap` |
 | `PREFERENCES.md` | Implementation choices | `/apple:discuss` |
@@ -232,6 +243,7 @@ All planning files are stored in `.planning/`:
 | `SECURITY.md` | Security audit findings | `/apple:security` |
 | `PERFORMANCE.md` | Performance analysis | `/apple:perf` |
 | `VISUAL-QA.md` | Visual QA findings | `/apple:visual-qa` |
+| `WALKTHROUGH.md` | Flow walkthrough findings | `/apple:walkthrough` |
 | `ASO.md` | App Store content | `/apple:metadata` |
 | `SCREENSHOTS.md` | Screenshot plan | `/apple:screenshots` |
 | `FEEDBACK.md` | Beta feedback | `/apple:testflight` |

@@ -266,6 +266,11 @@ These rely on optional, *separately‑installed* tools (an App Store Connect con
 | `/apple:new-app [name]` | Define a new app through guided questions |
 | `/apple:map` | Analyze an existing codebase (brownfield) |
 
+### Design
+| Command | What it does |
+|---|---|
+| `/apple:prototype [screen]` | Explore divergent UI directions as named `#Preview`s, remix, and tune — before you plan |
+
 ### Planning
 | Command | What it does |
 |---|---|
@@ -291,6 +296,7 @@ These rely on optional, *separately‑installed* tools (an App Store Connect con
 | `/apple:security [focus]` | Full security audit |
 | `/apple:perf [problem]` | Profile and diagnose performance issues |
 | `/apple:visual-qa [paths]` | Visual/UI audit from screenshots or code |
+| `/apple:walkthrough [flow]` | Drive user flows in the Simulator; audit the nav graph for dead-ends |
 
 ### Release
 | Command | What it does |

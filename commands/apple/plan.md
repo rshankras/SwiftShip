@@ -128,6 +128,36 @@ Only add generators whose conditions are met — avoid bloating the plan with un
 **Visual QA (Phases 1-3):**
 - **visual-qa**: Always include as the **final task** in any phase that creates or modifies UI views (typically phases 1, 2, and 3). Runs a code-level audit checking HIG compliance, accessibility, touch targets, hardcoded colors, missing view states, and fixed-frame layouts. Generates `.planning/VISUAL-QA.md` and fixes all Critical/High issues before the phase is marked complete.
 
+## User Flows (any phase with UI)
+
+A task list verifies that *screens exist and compile*. It is blind to whether the **flow between screens works for a human with a goal** — the return paths, the dead-ends, the discoverability. Those bugs (e.g. "a saved record can only be viewed, never reopened to edit"; "Done drops me to the home screen and loses my work"; "how do I even select this?") are *missing arrows in a journey*, and a journey map catches them on paper — before code.
+
+**For any phase that adds or changes UI, enumerate a `<flows>` block** (place it right after `<apple-focus>`, before the tasks). Each flow is one end-to-end user journey *and* a testable script for `/apple:walkthrough`. Rules for good flows:
+
+- Write them as **screen → action → screen** arrows, including the **return / back / Done** destination of every step (state where each `Done`/`Back` must land).
+- For **every persisted model with a Create step**, include a flow that **leaves and reopens it editable** (reopen-from-list). Create-without-a-reopen-edit-path is the most common dead-end.
+- Cover the **empty**, **edit**, and **error** paths, not just the happy path.
+- Mark the single **least-discoverable action** in each flow — the thing a first-timer might not find.
+
+```xml
+<flows>
+  <!-- End-to-end journeys this phase must satisfy. Each drives /apple:walkthrough. -->
+  <flow id="F1" persona="[who]" priority="critical|high">
+    <goal>[what the user is trying to accomplish]</goal>
+    <steps>
+      <step>Launch → [screen]</step>
+      <step>Tap [control] → [screen]</step>
+      <step>[action] → [expected result / screen]</step>
+      <step>Tap Done/Back → MUST land on [screen]</step>
+    </steps>
+    <returns-to-edit>[for each entity created: the step that reopens it editable]</returns-to-edit>
+    <discoverability>[the one action a first-timer might not find]</discoverability>
+  </flow>
+</flows>
+```
+
+After building a flow's slice, run `/apple:walkthrough [flow-id]` — it drives the flow in the Simulator (UI test + per-step screenshots), statically audits the nav graph for dead-ends, and produces a human discoverability checklist. Do this **per flow-slice, not just at phase end**.
+
 ## Task Generation
 
 Create `.planning/PLAN.md` with detailed tasks:
@@ -138,6 +168,20 @@ Create `.planning/PLAN.md` with detailed tasks:
 <plan phase="1" platform="[from APP.md]">
   <objective>Project setup and core architecture</objective>
   <apple-focus>Xcode config, SwiftData, NavigationStack</apple-focus>
+
+  <!-- Enumerate for any phase with UI. Each flow drives /apple:walkthrough. -->
+  <flows>
+    <flow id="F1" persona="[who]" priority="critical">
+      <goal>[what the user is trying to accomplish]</goal>
+      <steps>
+        <step>Launch → [screen]</step>
+        <step>Tap [control] → [screen]</step>
+        <step>Tap Done/Back → MUST land on [screen]</step>
+      </steps>
+      <returns-to-edit>[for each entity created: the step that reopens it editable]</returns-to-edit>
+      <discoverability>[the one action a first-timer might not find]</discoverability>
+    </flow>
+  </flows>
 
   <task id="1" type="manual" status="pending">
     <name>Create Xcode Project</name>
