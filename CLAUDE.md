@@ -57,6 +57,17 @@ The canonical flow is:
 /apple:brainstorm → /apple:validate → /apple:new-app → /apple:roadmap → /apple:plan [phase] → /apple:build → /apple:review → /apple:submit
 ```
 
+For an **existing app** (already shipped, or brownfield), the entry differs:
+```
+/apple:map → /apple:release → /apple:plan [phase] → /apple:build → /apple:review → /apple:milestone
+```
+`/apple:release` replaces `new-app` + `roadmap` for updates — it reads the
+`/apple:map` analysis, detects the shipped version, and scopes one release's
+features **and** bug fixes into an intent-tagged `ROADMAP.md` + `RELEASE.md`
+that the same `plan → build` engine executes. For release roadmaps, `/apple:plan`
+routes skills by each phase's `intent` (feature/bugfix/quality/release) rather
+than by phase number.
+
 - `/apple:build` is the main execution engine — reads `.planning/PLAN.md`, finds pending tasks, matches them to agents via a task-content-to-agent table, and executes sequentially
 - `/apple:autonomous` drives the full `plan → build → verify` cycle across multiple phases unattended. It pauses for manual tasks, blockers, Critical review findings, or failed verification, and stops before the release phases (6–7) unless `--to N` says otherwise. Both `/apple:plan` and `/apple:build` read `.planning/PREFERENCES.md` (from `/apple:discuss`) and apply those choices
 - `/apple:spike` runs a time-boxed experiment to validate an Apple API before planning around it — checks OS availability, device/simulator gating, and required capabilities, then records a finding in `.planning/spikes/[topic].md`. De-risks Apple's annual beta-API churn

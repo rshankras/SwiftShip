@@ -34,7 +34,7 @@ Building an app is like building a house:
 ## Highlights
 
 - **33 commands** covering the whole lifecycle: idea validation, planning, building, testing, App Store metadata, screenshots, TestFlight, submission, and post‑launch.
-- **Works for brand‑new apps *and* existing apps** (there's a dedicated "analyze my existing code" command).
+- **Works for brand‑new apps *and* existing apps** — one command maps your existing code, and another turns it into a phased feature‑plus‑bug‑fix release plan.
 - **Run & screenshot your app** — quality commands can actually launch your app (iOS Simulator *or* a real Mac app) and look at it, instead of just asking you "does it work?"
 - **Optional App Store Connect automation** — with the right tool connected, commands can *push* your metadata, release notes, and TestFlight setup straight to App Store Connect — always after showing you a preview and asking first. (The final "Submit for Review" always stays your decision.)
 - **Data‑driven planning** — pull real downloads, sales, crashes, and reviews into your "what to build next" decisions.
@@ -208,11 +208,14 @@ Already have an app — maybe half‑built, inherited, or shipped years ago? Swi
    Read‑only. Claude scans your project and writes a clear summary: architecture (SwiftUI vs UIKit, SwiftData vs Core Data, navigation style), the key files (views, models, services), dependencies, and tech debt (TODOs, force‑unwraps, missing tests, rough test coverage). → `.planning/CODEBASE.md`
    *(This only describes your code — it never changes it.)*
 
-2. **Define / confirm the spec — `/apple:new-app`**
-   The questionnaire comes pre‑filled from what `map` discovered, so you mostly confirm rather than type. → `.planning/APP.md`
+2. **Plan the release — `/apple:release "add Search, fix the settings crash"`**
+   The existing‑app counterpart to `/apple:roadmap` (which assumes a greenfield v1.0). It **reads the `map` analysis** so it won't re‑plan code you already have, **detects your shipped version** from the project and proposes the next one, and scopes this update's **new features *and* bug fixes together** into one phased plan — Build → Fix → Harden → Ship, scaled to what you're actually shipping. → `.planning/RELEASE.md` + `.planning/ROADMAP.md`
+   *(No prior SwiftShip history needed — this works on an app that has never touched SwiftShip.)*
 
-3. **Plan the next release — `/apple:next-version`**
-   Creates a roadmap for the work you actually want to do next (a feature, a refactor, a fix‑up release). From here it's the same `plan → build → verify → review` loop as a new app.
+3. **Build and ship — `/apple:plan` → `/apple:build` → … → `/apple:milestone`**
+   The same `plan → build → verify → review` loop as a new app. Features become build tasks; **each bug becomes a tracked task with its own regression test** (instead of drifting off on its own); the flows next to your changes get re‑checked so you don't break what already worked; then release notes, TestFlight, and submit. Close it out with `/apple:milestone` to tag and archive.
+
+> **Where the other commands fit:** want a full written spec too? Run `/apple:new-app` first (optional) to capture `APP.md`. And once you're shipping version after version *through* SwiftShip, `/apple:next-version` picks up where a milestone left off — pulling in deferred items, captured ideas, and real user data.
 
 ### Option B — Use individual commands à la carte
 
@@ -275,7 +278,8 @@ These rely on optional, *separately‑installed* tools (an App Store Connect con
 ### Planning
 | Command | What it does |
 |---|---|
-| `/apple:roadmap` | Create the 7‑phase development roadmap |
+| `/apple:roadmap` | Create the 7‑phase development roadmap (new app) |
+| `/apple:release [scope]` | Plan a feature + bug‑fix release for an **existing** app |
 | `/apple:discuss [phase]` | Capture implementation preferences before planning |
 | `/apple:plan [phase]` | Break a phase into detailed tasks |
 | `/apple:spike [topic]` | Validate an Apple API before planning around it |
@@ -338,6 +342,7 @@ SwiftShip's "memory" lives in a `.planning/` folder inside *your* project. You c
 ├── APP.md            # App specification
 ├── CODEBASE.md       # Existing-code analysis (from /apple:map)
 ├── ROADMAP.md        # Development phases
+├── RELEASE.md        # Release scope: features + bug fixes (from /apple:release)
 ├── STATE.md          # Where you are right now
 ├── PREFERENCES.md    # Your implementation choices
 ├── PLAN.md           # Tasks for the current phase
