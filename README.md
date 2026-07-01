@@ -33,7 +33,7 @@ Building an app is like building a house:
 
 ## Highlights
 
-- **37 commands** covering the whole lifecycle: idea validation, planning, building, testing, App Store metadata, screenshots, TestFlight, submission, and post‑launch.
+- **48 commands** covering the whole lifecycle: idea validation, planning, building, testing, App Store metadata, screenshots, TestFlight, submission, and post‑launch.
 - **Works for brand‑new apps *and* existing apps** — one command maps your existing code, and another turns it into a phased feature‑plus‑bug‑fix release plan.
 - **Run & screenshot your app** — quality commands can actually launch your app (iOS Simulator *or* a real Mac app) and look at it, instead of just asking you "does it work?"
 - **Optional App Store Connect automation** — with the right tool connected, commands can *push* your metadata, release notes, and TestFlight setup straight to App Store Connect — always after showing you a preview and asking first. (The final "Submit for Review" always stays your decision.)
@@ -241,11 +241,13 @@ This is what's special about SwiftShip beyond planning: where a supported tool i
 | Capability | What it does | Commands |
 |---|---|---|
 | **Run & screenshot your app** | Builds, launches, and screenshots the running app — iOS Simulator *or* a real macOS app (menu‑bar apps included) — and looks at the result. | `/apple:verify`, `/apple:visual-qa` |
-| **Push to App Store Connect** | Pushes generated name / subtitle / keywords / description / promo text / "What's New" straight to your listing, each field previewed and confirmed. | `/apple:metadata`, `/apple:release-notes` |
+| **Push to App Store Connect** | Pushes generated name / subtitle / keywords / description / promo text / "What's New" straight to your listing, each field previewed and confirmed — including per‑market translations. | `/apple:metadata`, `/apple:release-notes`, `/apple:localize` |
 | **Manage TestFlight** | Lists/creates beta groups, adds testers (with a clear "this emails a real person" confirmation), and pulls crash feedback into your notes. | `/apple:testflight` |
-| **Pre‑fill a submission** | Creates the App Store version record and pushes final metadata — then stops. | `/apple:submit` |
-| **Finalize IAPs & legal URLs** | Sets a one‑time IAP's price + localized name/description, and publishes legal pages + sets the ASC Privacy/Support URLs — each write previewed and confirmed (dry‑run → apply), via your own ASC API key. | `/apple:iap`, `/apple:privacy` |
-| **Data‑driven planning** | Pulls real downloads, sales, crashes, sessions, and low‑star reviews into your "what to build next" decisions and milestone summaries. | `/apple:next-version`, `/apple:milestone` |
+| **Pre‑fill a submission** | Creates the App Store version record and pushes final metadata — then stops. `ship` also uploads media + build and drives the last mile (submission stays gated). | `/apple:submit`, `/apple:ship` |
+| **Finalize IAPs & subscriptions & legal URLs** | Sets a one‑time IAP's price + localized name/description, creates subscription groups/tiers/offers, and publishes legal pages + sets the ASC Privacy/Support URLs — each write previewed and confirmed (dry‑run → apply), via your own ASC API key. | `/apple:iap`, `/apple:subscription`, `/apple:privacy` |
+| **A/B test the product page** | Creates Product Page Optimization experiments (icon / screenshots / subtitle), reads the results, and promotes the confident winner. | `/apple:experiment` |
+| **Run in‑app events** | Creates and localizes App Store in‑app event cards (challenges, seasonal moments) that surface in Search & Today. | `/apple:event` |
+| **Data‑driven planning** | Pulls real downloads, sales, crashes, sessions, and low‑star reviews into your "what to build next" decisions and milestone summaries. | `/apple:next-version`, `/apple:milestone`, `/apple:learn-from-store` |
 
 **Safety rules built in:**
 - **Manual is always the default.** The "smart" path is offered, never forced.
@@ -303,6 +305,8 @@ These rely on optional, *separately‑installed* tools (an App Store Connect con
 | `/apple:perf [problem]` | Profile and diagnose performance issues |
 | `/apple:visual-qa [paths]` | Visual/UI audit from screenshots or code |
 | `/apple:walkthrough [flow]` | Drive user flows in the Simulator; audit the nav graph for dead-ends |
+| `/apple:differentiate [app\|idea]` | Originality / 4.3‑spam guardrail — function + metadata distinctness; protects the account |
+| `/apple:modernize [path]` | Sweep deprecations + adopt new‑OS APIs (Liquid Glass, toolbars) each cycle |
 
 ### Release
 | Command | What it does |
@@ -314,7 +318,18 @@ These rely on optional, *separately‑installed* tools (an App Store Connect con
 | `/apple:release-notes` | Generate release notes for every channel |
 | `/apple:iap` | Finalize a one-time IAP's price + localization in App Store Connect (dry-run) |
 | `/apple:privacy` | Publish legal pages + set the ASC Privacy/Support URLs (dry-run) |
+| `/apple:subscription [product]` | Auto‑renewable subscriptions — groups, tiers, offers + StoreKit 2 lifecycle |
+| `/apple:localize [locales]` | Translate listing + in‑app strings; add locales; re‑optimize keywords per market |
 | `/apple:submit` | Final App Store submission checklist |
+| `/apple:ship [version]` | One‑command final mile — upload media + build, price IAP, category/URLs, submit (dry‑run/gated) |
+| `/apple:rejection [reason]` | Work an App Review rejection to resolution + Resolution Center reply |
+
+### Growth & operate
+| Command | What it does |
+|---|---|
+| `/apple:learn-from-store` | Turn live reviews/analytics/sales/crashes into a metric‑tagged backlog + verify last cycle |
+| `/apple:experiment [lever]` | A/B the product page (icon/screenshots/subtitle) via Product Page Optimization; promote the winner |
+| `/apple:event [name]` | Create App Store in‑app events for discovery & re‑engagement |
 
 ### Version & ideas
 | Command | What it does |
@@ -363,6 +378,7 @@ SwiftShip's "memory" lives in a `.planning/` folder inside *your* project. You c
 ├── SCREENSHOTS.md    # Screenshot plan
 ├── FEEDBACK.md       # TestFlight feedback
 ├── RELEASE-NOTES.md  # Release text for all channels
+├── SIGNALS.md        # Store-signal ledger + hypotheses (from /apple:learn-from-store)
 ├── IDEAS.md          # Captured ideas
 ├── HANDOFF.md        # Session handoff notes
 └── archive/          # Completed, tagged versions
@@ -407,7 +423,7 @@ SwiftShip is the *manager*; the **[claude-code-apple-skills](https://github.com/
 
 ```
 SwiftShip/
-├── commands/apple/        # 37 workflow commands (the /apple:* you type)
+├── commands/apple/        # 48 workflow commands (the /apple:* you type)
 ├── agents/                # 5 specialist agents
 ├── templates/             # planning-file templates copied into your project
 │   └── _conventions/      # shared rules (e.g. the optional tool-handoff convention)
