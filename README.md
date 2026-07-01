@@ -270,6 +270,7 @@ These rely on optional, *separately‑installed* tools (an App Store Connect con
 | Command | What it does |
 |---|---|
 | `/apple:prototype [screen]` | Explore divergent UI directions as named `#Preview`s, remix, and tune — before you plan |
+| `/apple:icon [style]` | Generate an app icon — placeholder + light/dark/tinted variants, and layered source for Icon Composer |
 
 ### Planning
 | Command | What it does |
