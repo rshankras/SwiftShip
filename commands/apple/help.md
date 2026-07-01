@@ -92,6 +92,12 @@ Display all available commands, their purpose, and recommended workflow.
 ║  /apple:walkthrough [flow]  Walk user flows; find dead-ends & bad returns    ║
 ║                             Creates: .planning/WALKTHROUGH.md                ║
 ║                                                                               ║
+║  /apple:differentiate [app] Originality / 4.3-spam distinctness gate          ║
+║                             Protects the whole developer account              ║
+║                                                                               ║
+║  /apple:modernize [path]    Sweep deprecations; adopt new-OS APIs             ║
+║                             Liquid Glass, toolbars, concurrency               ║
+║                                                                               ║
 ║  RELEASE                                                                      ║
 ║  ───────────────────────────────────────────────────────────────────────────  ║
 ║  /apple:metadata            Generate App Store content (keywords, description)║
@@ -116,6 +122,29 @@ Display all available commands, their purpose, and recommended workflow.
 ║                             (dry-run)                                        ║
 ║                                                                               ║
 ║  /apple:submit              Final App Store submission checklist              ║
+║                                                                               ║
+║  /apple:ship [version]      Final mile: upload media+build, submit            ║
+║                             dry-run/gated; --testflight stops early           ║
+║                                                                               ║
+║  /apple:subscription        Auto-renewable subs, offers, StoreKit 2           ║
+║                             Complements /apple:iap (one-time)                 ║
+║                                                                               ║
+║  /apple:rejection [reason]  Resolve an App Review rejection                   ║
+║                             Fix + Resolution Center reply                     ║
+║                                                                               ║
+║  /apple:localize [locales]  Translate listing + in-app strings                ║
+║                             Re-optimize keywords per market                   ║
+║                                                                               ║
+║  GROWTH & OPERATE                                                             ║
+║  ───────────────────────────────────────────────────────────────────────────  ║
+║  /apple:learn-from-store    Store signals → next-version backlog              ║
+║                             Reviews/analytics/sales; writes SIGNALS.md        ║
+║                                                                               ║
+║  /apple:experiment [lever]  A/B the product page; promote winner              ║
+║                             icon / screenshots / subtitle                     ║
+║                                                                               ║
+║  /apple:event [name]        App Store in-app events                           ║
+║                             Discovery & re-engagement cards                   ║
 ║                                                                               ║
 ║  VERSION & IDEAS                                                              ║
 ║  ───────────────────────────────────────────────────────────────────────────  ║
@@ -236,6 +265,15 @@ NEW PROJECT                          EXISTING PROJECT
 | Capture a lesson learned | `/apple:learn "always use weak self in closures"` |
 | Fix a known bug quickly | `/apple:bugfix "crash in settings"` |
 | Investigate a mystery bug | `/apple:debug "description"` |
+| Check originality (4.3) before shipping | `/apple:differentiate` |
+| Modernize / clear deprecations | `/apple:modernize` |
+| Turn store signals into a plan | `/apple:learn-from-store` |
+| A/B test the product page | `/apple:experiment screenshots` |
+| Run an in-app event | `/apple:event "Weekend Challenge"` |
+| Handle an App Review rejection | `/apple:rejection` |
+| Set up a subscription | `/apple:subscription` |
+| Localize for new markets | `/apple:localize "es-ES,de-DE"` |
+| Ship the final mile (upload + submit) | `/apple:ship` |
 
 ## Planning Files
 
@@ -265,6 +303,7 @@ All planning files are stored in `.planning/`:
 | `SCREENSHOTS.md` | Screenshot plan | `/apple:screenshots` |
 | `FEEDBACK.md` | Beta feedback | `/apple:testflight` |
 | `RELEASE-NOTES.md` | Release text for all channels | `/apple:release-notes` |
+| `SIGNALS.md` | Store-signal ledger + hypotheses | `/apple:learn-from-store`, `/apple:experiment` |
 | `IDEAS.md` | Captured ideas | `/apple:idea` |
 | `HANDOFF.md` | Session handoff | `/apple:pause` |
 | `archive/` | Completed versions | `/apple:milestone` |
