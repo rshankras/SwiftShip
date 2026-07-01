@@ -7,6 +7,23 @@ Copy this file to your project's `.planning/PLAN.md`.
   <objective>[Phase objective from ROADMAP.md]</objective>
   <apple-focus>[Key Apple technologies for this phase]</apple-focus>
 
+  <!-- Enumerate for any phase with UI. Each flow is an end-to-end user journey
+       AND a testable script for /apple:walkthrough. State where every Done/Back
+       lands; for each created entity include a reopen-to-edit step; mark the one
+       least-discoverable action. Missing arrows here are dead-ends found on paper. -->
+  <flows>
+    <flow id="F1" persona="[who]" priority="critical|high">
+      <goal>[what the user is trying to accomplish]</goal>
+      <steps>
+        <step>Launch → [screen]</step>
+        <step>Tap [control] → [screen]</step>
+        <step>Tap Done/Back → MUST land on [screen]</step>
+      </steps>
+      <returns-to-edit>[for each entity created: the step that reopens it editable]</returns-to-edit>
+      <discoverability>[the one action a first-timer might not find]</discoverability>
+    </flow>
+  </flows>
+
   <task id="1" type="auto|manual|generator" status="pending|in_progress|completed">
     <name>[Task name]</name>
 
@@ -108,5 +125,6 @@ Copy this file to your project's `.planning/PLAN.md`.
 1. Run `/apple:plan [phase-number]` to generate this file
 2. Run `/apple:build` to execute pending tasks
 3. Tasks are executed in order by ID
-4. Each task updates STATE.md on completion
-5. Commit is created after each completed task
+4. After building a UI flow's slice, run `/apple:walkthrough [flow-id]` to drive it in the Simulator and catch dead-ends / discoverability gaps (per flow-slice, not just at phase end)
+5. Each task updates STATE.md on completion
+6. Commit is created after each completed task
