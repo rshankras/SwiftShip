@@ -109,6 +109,12 @@ Display all available commands, their purpose, and recommended workflow.
 ║  /apple:release-notes       Generate release notes for App Store & TestFlight ║
 ║                             Creates: .planning/RELEASE-NOTES.md              ║
 ║                                                                               ║
+║  /apple:iap                 Finalize IAP price + localization in ASC         ║
+║                             (dry-run; one-time IAPs)                         ║
+║                                                                               ║
+║  /apple:privacy             Publish legal pages; set ASC privacy URLs        ║
+║                             (dry-run)                                        ║
+║                                                                               ║
 ║  /apple:submit              Final App Store submission checklist              ║
 ║                                                                               ║
 ║  VERSION & IDEAS                                                              ║
@@ -199,6 +205,8 @@ NEW PROJECT                          EXISTING PROJECT
 | Validate an app idea | `/apple:validate "idea"` |
 | Define my app | `/apple:new-app AppName` |
 | Plan a release for an existing app | `/apple:release "add search + fix crashes"` |
+| Finalize an in-app purchase | `/apple:iap` |
+| Publish legal pages + set ASC URLs | `/apple:privacy` |
 | Explore UI options for a screen | `/apple:prototype Home` |
 | Generate an app icon | `/apple:icon "gradient glyph"` |
 | See my progress | `/apple:progress` |
