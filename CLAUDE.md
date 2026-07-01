@@ -87,7 +87,7 @@ than by phase number.
 
 ## External Dependency: claude-code-apple-skills
 
-Commands reference skills from `claude-code-apple-skills` (143 skills across 23 categories):
+Commands reference skills from `claude-code-apple-skills` (140+ skills across 23 categories):
 - **Referenced as:** `~/.claude/swiftship-skills/` (symlink created by `install.sh`)
 - **Real location:** the `skills/` dir of a separate `claude-code-apple-skills` checkout — set `$SWIFTSHIP_SKILLS_DIR`, pass it as `install.sh`'s first arg, or place it as a sibling `../claude-code-apple-skills`
 
@@ -155,7 +155,8 @@ Generator tasks add `<generator>` and `<customization>` tags. Maintain tag consi
 1. Create `commands/apple/[name].md` with frontmatter
 2. Add to `commands/apple/help.md` ASCII box (match column alignment), Quick Reference table, and Planning Files table if it creates an output file
 3. Add to this CLAUDE.md if it's part of the main workflow
-4. Run `./install.sh` to re-symlink, then test in a real project
+4. Update the command count in `README.md` (two places: the **Highlights** bullet and the **Directory structure** comment)
+5. Run `./install.sh` to re-symlink, then test in a real project
 
 ### Adding a New Agent
 1. Create `agents/[name].md` with frontmatter
