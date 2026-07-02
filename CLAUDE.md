@@ -176,6 +176,12 @@ Generator tasks add `<generator>` and `<customization>` tags. Maintain tag consi
 3. Add to `commands/apple/help.md` Specialized Agents table
 4. Update the agent count in `README.md` (Directory structure comment), then run `./scripts/validate.sh`
 
+### Cutting a Release
+1. Move the `[Unreleased]` items in `CHANGELOG.md` into a new `[X.Y.Z] — date` section (update the compare links at the bottom)
+2. Merge via PR, then tag the merge commit on main: `git tag -a vX.Y.Z && git push origin vX.Y.Z`
+3. `gh release create vX.Y.Z` with the changelog section as notes; record the claude-code-apple-skills commit it was tested against (Compatibility note)
+4. Semver for a prompt repo: MAJOR = `.planning/` schema / template-tag / command renames that break existing projects; MINOR = new commands/agents/handoffs; PATCH = fixes and doc corrections
+
 ### Key Conventions
 - Commands are markdown prompts, not executable code
 - All agents use **sonnet** model (cost efficiency) — do not change without good reason
