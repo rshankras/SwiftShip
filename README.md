@@ -114,6 +114,8 @@ It creates **home‑relative symlinks** in `~/.claude/` so the commands work in 
 
 Because everything is referenced via `~/...` paths (which expand per‑user), there are **no machine‑specific absolute paths to edit**. Re‑run `./install.sh` any time you move the skills library.
 
+**Stable vs dev:** `main` is the development channel. For a stable install, check out the latest tag (`git checkout v1.0.0`) before running the installer — see [CHANGELOG.md](CHANGELOG.md) and [Releases](https://github.com/rshankras/SwiftShip/releases).
+
 ### Optional: local usage log
 
 SwiftShip can keep a **local‑only** record of which commands you run and how they went (`~/.claude/swiftship-usage.jsonl`) — useful for spotting where your workflow stalls. Workflow commands append a one‑line outcome on completion; for a complete record you can also register the bundled hook by adding this to the `"hooks"` section of `~/.claude/settings.json` (the installer never edits your settings):
