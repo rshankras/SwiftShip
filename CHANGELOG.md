@@ -10,6 +10,16 @@ commands, or moved skill-reference paths.
 
 ## [Unreleased]
 
+### Added
+
+- Adversarial verification ("foreman") step in `/apple:review`: every
+  Critical/High finding is verified against the actual code before it reaches
+  `REVIEW.md` — 2 independent verifiers per Critical (both must confirm; a
+  split verdict downgrades to High), 1 per High; findings without a
+  `file:line` are downgraded to Medium as unverifiable. Refuted claims are
+  preserved in a "Refuted During Verification" appendix for audit. Protects
+  `/apple:autonomous` from pausing on false Criticals.
+
 ## [1.0.0] — 2026-07-02
 
 First stable release. `main` remains the development channel; tags are the

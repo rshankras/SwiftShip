@@ -285,25 +285,79 @@ Task({
 })
 ```
 
+## Verify Critical & High Findings (Foreman)
+
+A false Critical pauses `/apple:autonomous`; a false High gets "fixed" inline — both are worse than a missed nitpick. Before compiling results, adversarially verify every Critical and High finding against the actual code. Medium/Low findings skip verification (they are backlog either way).
+
+If the 5 agents produced no Critical or High findings, skip straight to Compile Results.
+
+| Claimed severity | Verifiers | Verdict rule |
+|---|---|---|
+| Critical | 2 independent spawns | Both confirm → stays Critical. Split verdict → High, with a note. Both refute → refuted. |
+| High | 1 (batch all High findings from one review area into one spawn) | Confirmed → stays High. Real but overstated → Medium, with a note. Refuted → refuted. |
+
+Rules:
+- A finding without a concrete `file:line` cannot be verified — downgrade it to Medium with the note "unverifiable: no file:line".
+- Critical findings get separate verifier spawns so the two verdicts stay independent — never one agent issuing both.
+- Refuted findings are never silently dropped — they go to the "Refuted During Verification" appendix with the reason.
+
+Spawn each verifier with:
+
+```
+Task({
+  subagent_type: "swift-generalist",
+  prompt: `
+    You are an adversarial verifier. Another reviewer claims the issue(s)
+    below exist in this codebase. Your job is to REFUTE each claim if you
+    can — you are the check against false alarms, not a second reviewer.
+    Do not fix anything; verdicts only.
+
+    <claims>
+    [One entry per finding: claimed severity, description, file:line, claimed impact]
+    </claims>
+
+    For each claim:
+    1. Read the actual code at the cited file:line, plus enough surrounding
+       context to judge. Do not trust the claim's quotes — read the file.
+    2. Verdict:
+       - CONFIRMED — the issue is real and the claimed severity is justified
+       - DOWNGRADED — real but overstated; state the severity that fits and why
+       - REFUTED — does not exist, misreads the code, or cannot occur; explain why
+    3. Evidence is mandatory: quote the decisive line(s). If you cannot find
+       the code at the cited location, the verdict is REFUTED with reason
+       "code not found at cited location".
+
+    Default to skepticism: if the claim's reasoning does not hold up against
+    the code you actually read, refute it.
+
+    Return one block per claim: [VERDICT] [file:line] — [reason, 1–3 lines].
+  `
+})
+```
+
+Apply the verdicts: only confirmed findings keep their severity; downgraded findings move to the fitting section with a "(downgraded from [severity]: [reason])" note; refuted findings go to the appendix.
+
 ## Compile Results
 
-After all agents complete, compile findings into `.planning/REVIEW.md`:
+After verification completes, compile the verified findings into `.planning/REVIEW.md`:
 
 ```markdown
 # Release Review: [App Name]
 
 **Platform**: [from APP.md]
 **Review Date**: [today]
-**Reviewers**: Claude (code-quality, hig-reviewer, app-store-reviewer, performance, security)
+**Reviewers**: Claude (code-quality, hig-reviewer, app-store-reviewer, performance, security) + adversarial verification of Critical/High
 
 ## Summary
 
 | Priority | Count | Status |
 |----------|-------|--------|
-| Critical | [count] | ⬜ Pending |
-| High | [count] | ⬜ Pending |
+| Critical | [count, verified] | ⬜ Pending |
+| High | [count, verified] | ⬜ Pending |
 | Medium | [count] | ⬜ Pending |
 | Low | [count] | ⬜ Pending |
+
+**Verification:** [N] Critical / [M] High claimed → [n] confirmed, [d] downgraded, [r] refuted
 
 **Overall Status:** [Ready / Issues Found / Not Ready]
 
@@ -333,6 +387,12 @@ After all agents complete, compile findings into `.planning/REVIEW.md`:
 
 ---
 
+## 🚫 Refuted During Verification
+
+[One line per refuted claim: original severity, the claim, and the verifier's refutation reason. Omit this section if nothing was refuted. Kept for audit — a pattern of refutations from one review area means that area's prompt needs tuning.]
+
+---
+
 ## ✅ Strengths
 
 [Positive findings from review]
@@ -354,10 +414,11 @@ Before printing the completion message, append one `"event":"outcome"` line to t
 Created: .planning/REVIEW.md
 
 Summary:
-- 🔴 Critical: [count]
-- 🟠 High: [count]
+- 🔴 Critical: [count] (verified)
+- 🟠 High: [count] (verified)
 - 🟡 Medium: [count]
 - 🟢 Low: [count]
+- 🚫 Refuted in verification: [count]
 
 [If critical issues exist:]
 ⚠️ Critical issues found - must fix before release.
