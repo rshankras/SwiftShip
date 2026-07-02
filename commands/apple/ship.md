@@ -14,6 +14,9 @@ Backed by Fastlane (`deliver`, `pilot`) and/or the `asc` CLI for what the ASC MC
 (screenshot/build upload, price points, category, submit). **Every mutating step is
 dry-run → confirm → apply; nothing is submitted or charged without an explicit OK.**
 
+`asc` subcommands below are indicative — verify the exact syntax at runtime with
+`asc --help` / `asc search <topic>` before running; the CLI evolves faster than this file.
+
 ## When to Use
 
 - After `/apple:submit`'s checklist is green and the build compiles Release.
@@ -27,7 +30,9 @@ Read: .planning/STATE.md, .planning/METADATA.md, .planning/CAPTIONS.md
 ```
 
 - `DEVELOPMENT_TEAM` set; automatic signing resolves for the bundle id.
-- Fastlane initialised (`/apple:deploy`) and/or `asc` installed with `ASC_*` API-key env vars.
+- Fastlane initialised (`/apple:deploy`) and/or `asc` — the App Store Connect CLI
+  (https://asccli.sh, `brew install asc`) — with `ASC_*` API-key env vars set
+  (`ASC_KEY_ID`, `ASC_ISSUER_ID`, `ASC_PRIVATE_KEY_PATH`).
 - Legal pages live + Privacy nutrition label complete (`/apple:privacy`); age rating set.
 
 ## Load Skills
@@ -70,7 +75,7 @@ asset specs (sizes/frame counts) ASC requires.
 ## Step 5: Build — archive, upload
 
 - Bump `CURRENT_PROJECT_VERSION`; `xcodebuild archive` (Release) → export → upload
-  (`fastlane pilot` / Transporter / `asc build upload`); wait for processing.
+  (`fastlane pilot` / Transporter / `asc builds upload`); wait for processing.
 - Complete Export Compliance (standard crypto → likely exempt; confirm).
 
 ## Step 6: Submit (gated)
