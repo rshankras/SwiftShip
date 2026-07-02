@@ -395,6 +395,7 @@ For `auto` tasks, `/apple:build` brings in the right specialist (all run on a co
 | `swiftui-builder` | Modern SwiftUI, `@Observable`, NavigationStack |
 | `storekit-expert` | StoreKit 2, subscriptions, in‑app purchases |
 | `cloudkit-expert` | iCloud sync, conflict resolution |
+| `swift-generalist` | Everything else — data, navigation, networking, tests |
 | `hig-reviewer` | Human Interface Guidelines (read‑only) |
 | `app-store-reviewer` | App Store Review Guidelines (read‑only) |
 
@@ -424,7 +425,7 @@ SwiftShip is the *manager*; the **[claude-code-apple-skills](https://github.com/
 ```
 SwiftShip/
 ├── commands/apple/        # 48 workflow commands (the /apple:* you type)
-├── agents/                # 5 specialist agents
+├── agents/                # 6 specialist agents
 ├── templates/             # planning-file templates copied into your project
 │   └── _conventions/      # shared rules (e.g. the optional tool-handoff convention)
 ├── install.sh             # one-script installer (symlinks into ~/.claude/)

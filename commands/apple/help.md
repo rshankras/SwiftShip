@@ -317,6 +317,7 @@ SwiftShip uses these agents during `/apple:build`:
 | `swiftui-builder` | Modern SwiftUI, @Observable, NavigationStack |
 | `storekit-expert` | StoreKit 2, subscriptions, IAP |
 | `cloudkit-expert` | iCloud sync, conflict resolution |
+| `swift-generalist` | Everything else — data, navigation, networking, tests |
 | `hig-reviewer` | Human Interface Guidelines |
 | `app-store-reviewer` | App Store Review Guidelines |
 

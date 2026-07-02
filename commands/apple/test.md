@@ -107,7 +107,7 @@ Options: **Generate all** / **Choose subset** / **Cancel**.
 
 ### 5. Generate RED → GREEN
 
-For each approved file (inline, or via a `general-purpose`/`swiftui-builder`
+For each approved file (inline, or via a `swift-generalist`/`swiftui-builder`
 agent for larger batches):
 1. **RED** — write the failing test(s) first; confirm they fail for the *right*
    reason (not a compile error).

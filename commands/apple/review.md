@@ -35,7 +35,7 @@ Launch all 5 review agents simultaneously for efficiency:
 
 ```
 Task({
-  subagent_type: "general-purpose",
+  subagent_type: "swift-generalist",
   prompt: `
     Review Swift code quality for this Apple app.
 
@@ -209,7 +209,7 @@ Task({
 
 ```
 Task({
-  subagent_type: "general-purpose",
+  subagent_type: "swift-generalist",
   prompt: `
     Review performance concerns for this Apple app.
 
@@ -250,7 +250,7 @@ Task({
 
 ```
 Task({
-  subagent_type: "general-purpose",
+  subagent_type: "swift-generalist",
   prompt: `
     Quick security scan for this Apple app.
 

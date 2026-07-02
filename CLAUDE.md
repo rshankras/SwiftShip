@@ -176,6 +176,7 @@ Generator tasks add `<generator>` and `<customization>` tags. Maintain tag consi
 ### Key Conventions
 - Commands are markdown prompts, not executable code
 - All agents use **sonnet** model (cost efficiency) — do not change without good reason
+- Commands spawn `swift-generalist`, never the built-in `general-purpose` — `general-purpose` has no pinned model and silently inherits the session model (Opus/Fable rates for Sonnet-grade work); `swift-generalist` is the same breadth with `model: sonnet` enforced in frontmatter
 - Skill references use `Read:` directives pointing to SKILL.md files or specific reference .md files within skill directories
 - The help.md ASCII box uses Unicode box-drawing characters (║, ═, ╔, ╗, etc.) — maintain column alignment when adding rows
 
