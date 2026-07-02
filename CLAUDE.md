@@ -9,10 +9,11 @@ SwiftShip is a spec-driven workflow system for iOS/macOS app development with Cl
 ## Installation & Testing
 
 ```bash
-./install.sh    # Symlinks commands/ and agents/ into ~/.claude/
+./install.sh            # Symlinks commands/ and agents/ into ~/.claude/
+./scripts/validate.sh   # Static checks — run after any edit to commands/agents/README
 ```
 
-There are no build steps, linters, or automated tests. Commands are markdown prompts — test by invoking the command (e.g. `/apple:help`) in a real target project.
+There are no build steps. Command *behavior* is tested by invoking the command (e.g. `/apple:help`) in a real target project; static *integrity* is checked by `scripts/validate.sh` — every skill/template reference resolves, documented counts match reality, every command is registered in help.md, frontmatter is well-formed. CI runs the validator on every PR (`.github/workflows/validate.yml`), cloning the skills repo to resolve references against.
 
 ## Architecture
 
@@ -166,12 +167,14 @@ Generator tasks add `<generator>` and `<customization>` tags. Maintain tag consi
 2. Add to `commands/apple/help.md` ASCII box (match column alignment), Quick Reference table, and Planning Files table if it creates an output file
 3. Add to this CLAUDE.md if it's part of the main workflow
 4. Update the command count in `README.md` (two places: the **Highlights** bullet and the **Directory structure** comment)
-5. Run `./install.sh` to re-symlink, then test in a real project
+5. Run `./scripts/validate.sh` (catches missed registration, count drift, broken skill refs)
+6. Run `./install.sh` to re-symlink, then test in a real project
 
 ### Adding a New Agent
 1. Create `agents/[name].md` with frontmatter
 2. Add matching row to the task-content-to-agent table in `commands/apple/build.md`
 3. Add to `commands/apple/help.md` Specialized Agents table
+4. Update the agent count in `README.md` (Directory structure comment), then run `./scripts/validate.sh`
 
 ### Key Conventions
 - Commands are markdown prompts, not executable code

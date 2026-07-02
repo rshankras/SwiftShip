@@ -45,7 +45,8 @@ Swift 6 / async migration.
 ## Step 1: Baseline
 
 - Build; collect deprecation warnings + the minimum-OS gap. Read the relevant docs under
-  `~/Downloads/docs/` (Liquid Glass, new toolbars, Swift Concurrency) via the design/ios/macos skills.
+  `~/Downloads/docs/` (Liquid Glass, new toolbars, Swift Concurrency) via the
+  `design/liquid-glass`, `ios/migration-patterns`, and `macos/macos-tahoe-apis` skills.
 
 ## Step 2: Triage
 

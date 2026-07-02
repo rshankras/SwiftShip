@@ -440,6 +440,7 @@ SwiftShip/
 ├── templates/             # planning-file templates copied into your project
 │   └── _conventions/      # shared rules (tool-handoff, usage-log conventions)
 ├── hooks/                 # optional usage-log hook (opt-in, local-only)
+├── scripts/               # validate.sh — static repo checks (CI runs on every PR)
 ├── install.sh             # one-script installer (symlinks into ~/.claude/)
 ├── CLAUDE.md              # guidance for Claude when editing this repo
 └── README.md              # you are here
