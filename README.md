@@ -1,6 +1,10 @@
 # SwiftShip
 
+[![validate](https://github.com/rshankras/SwiftShip/actions/workflows/validate.yml/badge.svg)](https://github.com/rshankras/SwiftShip/actions/workflows/validate.yml)
+
 **Spec-driven development for iOS & macOS apps, run entirely through [Claude Code](https://claude.com/claude-code).**
+
+Every change is checked in CI: all 190+ skill references resolve against the [skills library](https://github.com/rshankras/claude-code-apple-skills), documented counts match reality, every command is registered, and frontmatter is well-formed (`scripts/validate.sh`).
 
 SwiftShip combines [GSD's workflow methodology](https://github.com/open-gsd/gsd-core) with deep Apple-platform expertise to walk you from *"I have an app idea"* all the way to *"it's live on the App Store"* — without losing context between sessions.
 
