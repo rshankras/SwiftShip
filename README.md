@@ -106,8 +106,19 @@ It creates **home‑relative symlinks** in `~/.claude/` so the commands work in 
 | `~/.claude/agents` | this repo's `agents/` |
 | `~/.claude/swiftship-templates` | this repo's `templates/` |
 | `~/.claude/swiftship-skills` | the `skills/` folder of your `claude-code-apple-skills` checkout |
+| `~/.claude/hooks/swiftship-usage-log.sh` | this repo's `hooks/` script (inert until you opt in — see below) |
 
 Because everything is referenced via `~/...` paths (which expand per‑user), there are **no machine‑specific absolute paths to edit**. Re‑run `./install.sh` any time you move the skills library.
+
+### Optional: local usage log
+
+SwiftShip can keep a **local‑only** record of which commands you run and how they went (`~/.claude/swiftship-usage.jsonl`) — useful for spotting where your workflow stalls. Workflow commands append a one‑line outcome on completion; for a complete record you can also register the bundled hook by adding this to the `"hooks"` section of `~/.claude/settings.json` (the installer never edits your settings):
+
+```json
+"PostToolUse": [{"matcher": "Skill", "hooks": [{"type": "command", "command": "~/.claude/hooks/swiftship-usage-log.sh"}]}]
+```
+
+**Nothing ever leaves your machine** — no analytics service, no phone‑home; the ledger holds timestamps, command names, and counts only. Delete the file (or skip the hook) any time.
 
 ### Optional: fewer permission prompts
 
@@ -426,7 +437,8 @@ SwiftShip/
 ├── commands/apple/        # 48 workflow commands (the /apple:* you type)
 ├── agents/                # 5 specialist agents
 ├── templates/             # planning-file templates copied into your project
-│   └── _conventions/      # shared rules (e.g. the optional tool-handoff convention)
+│   └── _conventions/      # shared rules (tool-handoff, usage-log conventions)
+├── hooks/                 # optional usage-log hook (opt-in, local-only)
 ├── install.sh             # one-script installer (symlinks into ~/.claude/)
 ├── CLAUDE.md              # guidance for Claude when editing this repo
 └── README.md              # you are here

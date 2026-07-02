@@ -139,6 +139,8 @@ This command does not create a new planning file — it drives the existing ones
 
 ## Completion Message
 
+Before printing the completion message, append one `"event":"outcome"` line to the usage ledger per `~/.claude/swiftship-templates/_conventions/USAGE-LOG.md` (skip silently if the convention file is absent).
+
 ```
 🎉 Autonomous run finished
 

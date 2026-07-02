@@ -68,6 +68,12 @@ link "$REPO_DIR/commands/apple" "$CLAUDE_DIR/commands/apple"
 link "$REPO_DIR/agents"         "$CLAUDE_DIR/agents"
 link "$REPO_DIR/templates"      "$CLAUDE_DIR/swiftship-templates"
 
+# --- Usage-log hook (opt-in) ------------------------------------------------
+# The hook script is symlinked but does nothing until you register it in
+# ~/.claude/settings.json yourself — the installer never edits user settings.
+mkdir -p "$CLAUDE_DIR/hooks"
+link "$REPO_DIR/hooks/swiftship-usage-log.sh" "$CLAUDE_DIR/hooks/swiftship-usage-log.sh"
+
 if [ -d "$SKILLS_SRC" ]; then
     link "$SKILLS_SRC" "$CLAUDE_DIR/swiftship-skills"
     SKILLS_OK=1
@@ -85,6 +91,12 @@ echo "SwiftShip installed successfully!"
 if [ "$SKILLS_OK" = "1" ]; then
     echo "Skills:     ~/.claude/swiftship-skills -> $SKILLS_SRC"
 fi
+echo ""
+echo "Optional — local usage log (nothing leaves your machine):"
+echo "  To record which /apple:* commands you run, add this to the \"hooks\""
+echo "  section of ~/.claude/settings.json (the installer never edits it):"
+echo '    "PostToolUse": [{"matcher": "Skill", "hooks": [{"type": "command", "command": "~/.claude/hooks/swiftship-usage-log.sh"}]}]'
+echo "  Ledger: ~/.claude/swiftship-usage.jsonl — delete anytime."
 echo ""
 echo "Available commands:"
 echo "  /apple:new-app [name]  - Define a new iOS/macOS app"
