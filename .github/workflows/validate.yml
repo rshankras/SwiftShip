@@ -9,12 +9,12 @@ jobs:
   validate:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       # The skills library is a separate public repo; skill-reference checks
       # resolve against it. REQUIRE_SKILLS=1 makes a missing checkout a hard
       # failure instead of a skipped check.
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           repository: rshankras/claude-code-apple-skills
           path: claude-code-apple-skills
