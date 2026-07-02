@@ -1,8 +1,9 @@
 # Usage Log Convention
 
 A local-only ledger of SwiftShip command runs, used to decide what to improve
-(a future `/apple:insights` command reads it). **Nothing ever leaves the
-machine.** No PII, no app content, no secrets — timestamps, command names,
+(a future `/apple:usage` command reads it — named for this ledger, distinct
+from app-analytics commands like `/apple:learn-from-store`). **Nothing ever
+leaves the machine.** No PII, no app content, no secrets — timestamps, command names,
 counts, and enums only. Users can delete the ledger or stop writing it at any
 time with no effect on SwiftShip.
 
