@@ -284,9 +284,9 @@ Continuing to task [next-id]: [next-name]...
 
 After all tasks in the phase are complete, automatically run `/apple:review` as a quality gate before declaring the phase done.
 
-1. Execute `/apple:review` — this spawns 5 parallel agents (code quality, HIG, App Store, performance, security)
+1. Execute `/apple:review` — this spawns 5 parallel agents (code quality, HIG, App Store, performance, security), then adversarially verifies every Critical/High finding against the actual code before it lands in REVIEW.md
 2. The code quality agent (Agent 1) checks SOLID, DRY, design tokens, and logging hygiene
-3. If **Critical** issues are found: fix them before proceeding, then re-run the review
+3. If **Critical** issues are found (all Criticals in REVIEW.md are verified): fix them before proceeding, then re-run the review
 4. If **High** issues are found: fix them inline, no re-run needed
 5. **Medium/Low** issues: log to `.planning/REVIEW.md` as backlog for the next phase
 
