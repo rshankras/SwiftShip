@@ -294,6 +294,8 @@ This gate is mandatory for phases 1-5. Phase 6 (Pre-Release) and Phase 7 (Submis
 
 ## Completion Message
 
+Before printing the completion message, append one `"event":"outcome"` line to the usage ledger per `~/.claude/swiftship-templates/_conventions/USAGE-LOG.md` (skip silently if the convention file is absent).
+
 When all tasks and the quality gate pass:
 
 ```

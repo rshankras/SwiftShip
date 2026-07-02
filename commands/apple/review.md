@@ -346,6 +346,8 @@ After all agents complete, compile findings into `.planning/REVIEW.md`:
 
 ## Completion Message
 
+Before printing the completion message, append one `"event":"outcome"` line to the usage ledger per `~/.claude/swiftship-templates/_conventions/USAGE-LOG.md` (skip silently if the convention file is absent).
+
 ```
 📋 Review complete!
 

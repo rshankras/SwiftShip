@@ -209,6 +209,8 @@ git commit -m "fix([area]): [brief description]
 
 ## Completion
 
+Before printing the completion message, append one `"event":"outcome"` line to the usage ledger per `~/.claude/swiftship-templates/_conventions/USAGE-LOG.md` (skip silently if the convention file is absent).
+
 ```
 Bug fixed!
 
