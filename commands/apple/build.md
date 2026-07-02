@@ -63,74 +63,74 @@ Match task to appropriate agent and spawn:
 |-------------|-------|-----------------|
 | SwiftUI views, UI | swiftui-builder | `ios/ui-review`, `macos/ui-review-tahoe` |
 | StoreKit, purchases | storekit-expert | `monetization/`, `generators/paywall-generator` |
-| Pricing strategy, monetization model, revenue | general-purpose | `monetization/` (SKILL.md, pricing-models.md, app-type-guides.md) |
+| Pricing strategy, monetization model, revenue | swift-generalist | `monetization/` (SKILL.md, pricing-models.md, app-type-guides.md) |
 | CloudKit, sync | cloudkit-expert | iCloud sync patterns |
-| Data models, persistence | general-purpose | `macos/swiftdata-architecture` |
-| Navigation, architecture | general-purpose | `ios/navigation-patterns`, `macos/architecture-patterns` |
-| Apple Intelligence, Siri, App Intents | general-purpose | `apple-intelligence/` |
-| watchOS, complications, Watch Connectivity | general-purpose | `watchos/` |
+| Data models, persistence | swift-generalist | `macos/swiftdata-architecture` |
+| Navigation, architecture | swift-generalist | `ios/navigation-patterns`, `macos/architecture-patterns` |
+| Apple Intelligence, Siri, App Intents | swift-generalist | `apple-intelligence/` |
+| watchOS, complications, Watch Connectivity | swift-generalist | `watchos/` |
 | Liquid Glass, animations, transitions | swiftui-builder | `design/animation-patterns`, `design/liquid-glass` |
 | AlarmKit, Charts, WebKit integration | swiftui-builder | `swiftui/alarmkit`, `swiftui/charts-3d`, `swiftui/webkit` |
-| MapKit, location, geolocation | general-purpose | `mapkit/geotoolbox` |
-| AppKit bridging, NSViewRepresentable | general-purpose | `macos/appkit-swiftui-bridge` |
-| Swift concurrency, actors, Sendable, async/await | general-purpose | `swift/concurrency-patterns`, `swift/concurrency` |
-| SwiftData hierarchies, inheritance | general-purpose | `swiftdata/inheritance` |
-| Foundation Models, on-device LLM, AI generation | general-purpose | `apple-intelligence/foundation-models` |
-| Visual Intelligence, image analysis, camera AI | general-purpose | `apple-intelligence/visual-intelligence` |
+| MapKit, location, geolocation | swift-generalist | `mapkit/geotoolbox` |
+| AppKit bridging, NSViewRepresentable | swift-generalist | `macos/appkit-swiftui-bridge` |
+| Swift concurrency, actors, Sendable, async/await | swift-generalist | `swift/concurrency-patterns`, `swift/concurrency` |
+| SwiftData hierarchies, inheritance | swift-generalist | `swiftdata/inheritance` |
+| Foundation Models, on-device LLM, AI generation | swift-generalist | `apple-intelligence/foundation-models` |
+| Visual Intelligence, image analysis, camera AI | swift-generalist | `apple-intelligence/visual-intelligence` |
 | Text editing, rich text, styled text | swiftui-builder | `swiftui/text-editing` |
 | Toolbars, toolbar customization | swiftui-builder | `swiftui/toolbars` |
 | macOS Tahoe, Liquid Glass, new macOS APIs | swiftui-builder | `macos/macos-tahoe-apis` |
-| Memory management, retain cycles, leaks | general-purpose | `swift/memory` |
-| HTTP caching, offline fallback, conditional requests | general-purpose | `generators/http-cache` |
+| Memory management, retain cycles, leaks | swift-generalist | `swift/memory` |
+| HTTP caching, offline fallback, conditional requests | swift-generalist | `generators/http-cache` |
 | Image loading, image caching, AsyncImage replacement | swiftui-builder | `generators/image-loading` |
-| Pagination, infinite scroll, load more | general-purpose | `generators/pagination` |
-| Migration, version upgrade, breaking changes | general-purpose | `ios/migration-patterns` |
-| Unit tests, integration tests, test infrastructure | general-purpose | `testing/tdd-feature`, `testing/test-data-factory`, `testing/integration-test-scaffold` |
+| Pagination, infinite scroll, load more | swift-generalist | `generators/pagination` |
+| Migration, version upgrade, breaking changes | swift-generalist | `ios/migration-patterns` |
+| Unit tests, integration tests, test infrastructure | swift-generalist | `testing/tdd-feature`, `testing/test-data-factory`, `testing/integration-test-scaffold` |
 | Snapshot tests, visual regression, UI tests | swiftui-builder | `testing/snapshot-test-setup` |
-| Test contracts, protocol tests | general-purpose | `testing/test-contract` |
-| Rich text, AttributedString | general-purpose | `foundation/attributed-string` |
+| Test contracts, protocol tests | swift-generalist | `testing/test-contract` |
+| Rich text, AttributedString | swift-generalist | `foundation/attributed-string` |
 | iPad layouts, sidebar, Stage Manager | swiftui-builder | `ios/ipad-patterns` |
-| macOS windows, menus, entitlements | general-purpose | `macos/macos-capabilities` |
-| Consent flow, GDPR, privacy consent | general-purpose | `generators/consent-flow` |
-| Force update, version gating, mandatory update | general-purpose | `generators/force-update` |
+| macOS windows, menus, entitlements | swift-generalist | `macos/macos-capabilities` |
+| Consent flow, GDPR, privacy consent | swift-generalist | `generators/consent-flow` |
+| Force update, version gating, mandatory update | swift-generalist | `generators/force-update` |
 | Permission priming, pre-permission, permission request | swiftui-builder | `generators/permission-priming` |
-| Account deletion, delete account, user removal | general-purpose | `generators/account-deletion` |
-| App Clip, clip experience, instant app | general-purpose | `generators/app-clip` |
-| Offline queue, pending actions, retry queue | general-purpose | `generators/offline-queue` |
-| Spotlight, search indexing, CSSearchableItem | general-purpose | `generators/spotlight-indexing` |
-| State restoration, scene restoration, NSUserActivity | general-purpose | `generators/state-restoration` |
-| Streak tracking, daily streak, habit tracking | general-purpose | `generators/streak-tracker` |
+| Account deletion, delete account, user removal | swift-generalist | `generators/account-deletion` |
+| App Clip, clip experience, instant app | swift-generalist | `generators/app-clip` |
+| Offline queue, pending actions, retry queue | swift-generalist | `generators/offline-queue` |
+| Spotlight, search indexing, CSSearchableItem | swift-generalist | `generators/spotlight-indexing` |
+| State restoration, scene restoration, NSUserActivity | swift-generalist | `generators/state-restoration` |
+| Streak tracking, daily streak, habit tracking | swift-generalist | `generators/streak-tracker` |
 | Announcement banner, in-app banner, promo banner | swiftui-builder | `generators/announcement-banner` |
 | Feedback form, bug report, user feedback | swiftui-builder | `generators/feedback-form` |
-| Lapsed user, re-engagement, win-back | general-purpose | `generators/lapsed-user` |
+| Lapsed user, re-engagement, win-back | swift-generalist | `generators/lapsed-user` |
 | Milestone celebration, achievement, confetti | swiftui-builder | `generators/milestone-celebration` |
 | Share card, share sheet, shareable image | swiftui-builder | `generators/share-card` |
-| Social export, social media sharing | general-purpose | `generators/social-export` |
+| Social export, social media sharing | swift-generalist | `generators/social-export` |
 | Usage insights, usage stats, activity summary | swiftui-builder | `generators/usage-insights` |
-| Watermark, branded export, image watermark | general-purpose | `generators/watermark-engine` |
+| Watermark, branded export, image watermark | swift-generalist | `generators/watermark-engine` |
 | Quick win, short session, quick engagement | swiftui-builder | `generators/quick-win-session` |
-| Referral, invite friends, referral program | general-purpose | `generators/referral-system` |
+| Referral, invite friends, referral program | swift-generalist | `generators/referral-system` |
 | Subscription lifecycle, renewal, grace period, billing | storekit-expert | `generators/subscription-lifecycle` |
-| Variable rewards, gamification, reward schedule | general-purpose | `generators/variable-rewards` |
-| Debug menu, developer settings, internal tools | general-purpose | `generators/debug-menu` |
-| Screenshot automation, snapshot testing, marketing screenshots | general-purpose | `generators/screenshot-automation` |
+| Variable rewards, gamification, reward schedule | swift-generalist | `generators/variable-rewards` |
+| Debug menu, developer settings, internal tools | swift-generalist | `generators/debug-menu` |
+| Screenshot automation, snapshot testing, marketing screenshots | swift-generalist | `generators/screenshot-automation` |
 | What's new, release notes, version changelog | swiftui-builder | `generators/whats-new` |
 | Preview data, sample data, `#Preview` matrix, canvas/prototype data | swiftui-builder | `generators/preview-data-generator` |
-| Core ML, machine learning, Vision framework, NaturalLanguage | general-purpose | `core-ml/` |
-| App Store assets, marketing screenshots, preview video, event cards | general-purpose | `generators/app-store-assets` |
-| Custom product pages, variant pages, audience targeting | general-purpose | `generators/custom-product-pages` |
-| Featuring nomination, Apple editorial, App Store featuring | general-purpose | `generators/featuring-nomination` |
-| In-app events, seasonal events, live events, event metadata | general-purpose | `generators/in-app-events` |
-| Product page optimization, A/B test screenshots, conversion | general-purpose | `generators/product-page-optimization` |
+| Core ML, machine learning, Vision framework, NaturalLanguage | swift-generalist | `core-ml/` |
+| App Store assets, marketing screenshots, preview video, event cards | swift-generalist | `generators/app-store-assets` |
+| Custom product pages, variant pages, audience targeting | swift-generalist | `generators/custom-product-pages` |
+| Featuring nomination, Apple editorial, App Store featuring | swift-generalist | `generators/featuring-nomination` |
+| In-app events, seasonal events, live events, event metadata | swift-generalist | `generators/in-app-events` |
+| Product page optimization, A/B test screenshots, conversion | swift-generalist | `generators/product-page-optimization` |
 | Offer codes, promo codes, redemption codes | storekit-expert | `generators/offer-codes-setup` |
-| Pre-order, launch countdown, pre-release | general-purpose | `generators/pre-orders` |
+| Pre-order, launch countdown, pre-release | swift-generalist | `generators/pre-orders` |
 | Promoted IAP, in-app purchase display, product page purchases | storekit-expert | `generators/promoted-iap` |
 | Subscription offers, introductory offer, promo offer | storekit-expert | `generators/subscription-offers` |
 | Win-back offers, churned subscriber, lapsed subscription | storekit-expert | `generators/win-back-offers` |
-| App extensions, share extension, action extension, keyboard extension | general-purpose | `generators/app-extensions` |
-| Background processing, BGTaskScheduler, background download | general-purpose | `generators/background-processing` |
-| Data export, CSV export, PDF export, GDPR data portability | general-purpose | `generators/data-export` |
-| Visual QA, UI audit, HIG review, accessibility audit | general-purpose | `ios/ui-review`, `macos/ui-review-tahoe` |
+| App extensions, share extension, action extension, keyboard extension | swift-generalist | `generators/app-extensions` |
+| Background processing, BGTaskScheduler, background download | swift-generalist | `generators/background-processing` |
+| Data export, CSV export, PDF export, GDPR data portability | swift-generalist | `generators/data-export` |
+| Visual QA, UI audit, HIG review, accessibility audit | swift-generalist | `ios/ui-review`, `macos/ui-review-tahoe` |
 
 **Visual QA tasks:** When a task named "Visual QA Audit" is encountered, execute the `/apple:visual-qa` skill in code-only mode. Run all 6 Grep-based scans (hardcoded colors, fixed fonts, missing accessibility, small touch targets, missing view states, rigid frames), fix all Critical/High issues, and generate `.planning/VISUAL-QA.md`.
 
