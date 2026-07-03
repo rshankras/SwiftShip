@@ -12,7 +12,10 @@ time with no effect on SwiftShip.
 - File: `~/.claude/swiftship-usage.jsonl` — one JSON object per line, append-only.
 - Two event types share it:
   - `"event": "invoke"` — written automatically by the optional hook
-    (`hooks/swiftship-usage-log.sh`, offered by `install.sh`). Zero token cost.
+    (`hooks/swiftship-usage-log.sh`, offered by `install.sh`). Registered on
+    **both** `UserPromptSubmit` (commands the user types — slash commands are
+    expanded client-side and never reach the Skill tool) and `PostToolUse` on
+    the Skill tool (commands Claude invokes itself). Zero token cost.
   - `"event": "outcome"` — written by workflow commands at completion (below).
 
 ## Which commands log an outcome
@@ -33,6 +36,7 @@ Append exactly one line when the command finishes (success or not):
 | `project` | string | basename of the working directory |
 | `phase` | number | omit if not phase-scoped |
 | `outcome` | string | `completed` \| `blocked` \| `partial` \| `cancelled` |
+| `model` | string | session model short name from the system prompt, lowercase, e.g. `"sonnet-5"`, `"opus-4-8"`, `"fable-5"`; omit if unknown. Subagents are always Sonnet (tracked via `agents`); this is the model the command itself ran on |
 | `blocked_on` | string | only when blocked: `manual-task` \| `critical-finding` \| `build-failure` \| `verify-failure` \| `other` |
 | `tasks_done`, `tasks_total` | number | build/autonomous only |
 | `agents` | object | spawn counts by agent, e.g. `{"swift-generalist": 3, "swiftui-builder": 1}` |
@@ -43,10 +47,11 @@ Omit fields that don't apply. Keep the line under ~250 chars.
 ## How to write it
 
 One Bash append at the completion step — never rewrite the file, never read it
-back during a run:
+back during a run. Let the shell stamp `ts` (never guess or use a placeholder
+time):
 
 ```bash
-printf '%s\n' '{"ts":"2026-07-02T09:41:00Z","event":"outcome","cmd":"build","project":"StudySpark","phase":3,"outcome":"completed","tasks_done":4,"tasks_total":4,"agents":{"swift-generalist":3,"swiftui-builder":1}}' >> ~/.claude/swiftship-usage.jsonl
+printf '{"ts":"%s","event":"outcome","cmd":"build","project":"StudySpark","phase":3,"outcome":"completed","model":"sonnet-5","tasks_done":4,"tasks_total":4,"agents":{"swift-generalist":3,"swiftui-builder":1}}\n' "$(date -u +%Y-%m-%dT%H:%M:%SZ)" >> ~/.claude/swiftship-usage.jsonl
 ```
 
 ## Rules
