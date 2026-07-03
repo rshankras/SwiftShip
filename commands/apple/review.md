@@ -27,6 +27,11 @@ Read: .planning/ROADMAP.md (if exists)
 Read: .planning/STATE.md (if exists)
 ```
 
+**Model check (execution tier):** apply
+`~/.claude/swiftship-templates/_conventions/MODEL-TIERS.md` — reviewers and
+verifiers are pinned agents, so a premium session model adds cost, not rigor;
+note once, continue. Skip silently if the file is absent.
+
 ## Spawn Review Agents in Parallel
 
 Launch all 5 review agents simultaneously for efficiency. Use exactly the

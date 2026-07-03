@@ -7,6 +7,12 @@ allowed-tools: Read, Write, Edit, Bash, Task, Glob, Grep
 
 Execute pending tasks from `.planning/PLAN.md` using specialized agents.
 
+**Model check (execution tier):** apply
+`~/.claude/swiftship-templates/_conventions/MODEL-TIERS.md` — if this session
+is on a premium model, note once that `/model sonnet` costs nothing in quality
+here (agents are pinned to Sonnet regardless), then continue. Skip silently if
+the file is absent.
+
 ## Prerequisites
 
 Read required files:

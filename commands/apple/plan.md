@@ -8,6 +8,12 @@ allowed-tools: Read, Write, Glob, Grep
 
 Create a detailed task plan for the specified phase (or current phase from STATE.md).
 
+**Model check:** apply
+`~/.claude/swiftship-templates/_conventions/MODEL-TIERS.md` — planning is
+judgment-tier for complex phases (architecture, data model, Phases 1–2) and
+analysis-tier for routine ones; if this session is below that, note the
+quality risk once and continue. Skip silently if the file is absent.
+
 ## Arguments
 
 - `$ARGUMENTS` or `$1`: Phase number (1-7). If not provided, use current phase from STATE.md.
