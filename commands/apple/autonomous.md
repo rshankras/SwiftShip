@@ -24,6 +24,14 @@ it otherwise.
 
 ## Prerequisites
 
+**Model check (execution tier):** apply
+`~/.claude/swiftship-templates/_conventions/MODEL-TIERS.md`. This is the
+longest-running command in SwiftShip, so it is the one place the check asks
+instead of just noting: if the session is on a premium model, AskUserQuestion
+**once** before starting — recommend switching (`/model sonnet`, then re-run)
+or continue on the current model. Skip silently if the file is absent; `--yes`
+does not skip this question (it is a cost gate, not a phase checkpoint).
+
 Read required files:
 ```
 Read: .planning/APP.md

@@ -12,6 +12,16 @@ commands, or moved skill-reference paths.
 
 ### Added
 
+- Model-tier convention (`templates/_conventions/MODEL-TIERS.md`): maps every
+  command to a recommended session model tier — judgment (Fable-class:
+  validate, roadmap, debug…), analysis (Opus-class: map, security, metadata…),
+  execution (Sonnet-class: build, review, ship…) — on the principle that
+  strategy is token-cheap but consequence-expensive while execution is the
+  reverse (agents are Sonnet-pinned regardless). `plan`, `build`, `review`
+  print a one-line note when the session model is off-tier (never blocking);
+  `autonomous` asks once before a long run. Compliance is measured via the
+  usage ledger's `model` field.
+
 - Usage ledger: optional `model` field on `"outcome"` lines — records which
   session model a workflow command ran on (subagents are always Sonnet), so
   `/apple:usage` can analyze cost per command.
