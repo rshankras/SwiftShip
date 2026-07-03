@@ -118,13 +118,16 @@ Because everything is referenced via `~/...` paths (which expand per‑user), th
 
 ### Optional: local usage log
 
-SwiftShip can keep a **local‑only** record of which commands you run and how they went (`~/.claude/swiftship-usage.jsonl`) — useful for spotting where your workflow stalls. Workflow commands append a one‑line outcome on completion; for a complete record you can also register the bundled hook by adding this to the `"hooks"` section of `~/.claude/settings.json` (the installer never edits your settings):
+SwiftShip can keep a **local‑only** record of which commands you run and how they went (`~/.claude/swiftship-usage.jsonl`) — useful for spotting where your workflow stalls and what each command actually costs. Workflow commands append a one‑line outcome on completion; for a complete record you can also register the bundled hook by adding **both** entries to the `"hooks"` section of `~/.claude/settings.json` (the installer never edits your settings):
 
 ```json
+"UserPromptSubmit": [{"hooks": [{"type": "command", "command": "~/.claude/hooks/swiftship-usage-log.sh"}]}],
 "PostToolUse": [{"matcher": "Skill", "hooks": [{"type": "command", "command": "~/.claude/hooks/swiftship-usage-log.sh"}]}]
 ```
 
-**Nothing ever leaves your machine** — no analytics service, no phone‑home; the ledger holds timestamps, command names, and counts only. Delete the file (or skip the hook) any time.
+(`UserPromptSubmit` catches commands **you type** — slash commands never reach the Skill tool, so this entry does most of the work; `PostToolUse` catches commands Claude invokes itself.)
+
+**Nothing ever leaves your machine** — no analytics service, no phone‑home; the ledger holds timestamps, command names, counts, and the session model only. Delete the file (or skip the hook) any time.
 
 ### Optional: fewer permission prompts
 
@@ -444,7 +447,7 @@ SwiftShip/
 ├── commands/apple/        # 48 workflow commands (the /apple:* you type)
 ├── agents/                # 6 specialist agents
 ├── templates/             # planning-file templates copied into your project
-│   └── _conventions/      # shared rules (tool-handoff, usage-log conventions)
+│   └── _conventions/      # shared rules (tool-handoff, usage-log, model-tiers, agent-vendoring)
 ├── hooks/                 # optional usage-log hook (opt-in, local-only)
 ├── scripts/               # validate.sh — static repo checks (CI runs on every PR)
 ├── install.sh             # one-script installer (symlinks into ~/.claude/)
