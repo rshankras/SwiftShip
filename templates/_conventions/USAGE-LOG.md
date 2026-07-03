@@ -40,6 +40,7 @@ Append exactly one line when the command finishes (success or not):
 | `blocked_on` | string | only when blocked: `manual-task` \| `critical-finding` \| `build-failure` \| `verify-failure` \| `other` |
 | `tasks_done`, `tasks_total` | number | build/autonomous only |
 | `agents` | object | spawn counts by agent, e.g. `{"swift-generalist": 3, "swiftui-builder": 1}` |
+| `degraded` | string | only when the run fell below full capability: `no-agents` (pinned agents unavailable in this environment — see AGENT-VENDORING.md). Pair with `outcome: "partial"` for review |
 | `findings` | object | review only, post-verification: `{"critical": 0, "high": 2, "medium": 5, "refuted": 1}` |
 
 Omit fields that don't apply. Keep the line under ~250 chars.

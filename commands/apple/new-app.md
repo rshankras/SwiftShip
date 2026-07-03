@@ -198,6 +198,14 @@ Create a project-level CLAUDE.md with quick reference:
 - SwiftData @Model for persistence
 ```
 
+## Vendor Agents (optional, recommended for cloud/remote work)
+
+Apply `~/.claude/swiftship-templates/_conventions/AGENT-VENDORING.md`: offer to
+copy SwiftShip's six pinned agents into this project's `.claude/agents/` so
+they load in any environment (cloud, CI, remote-launched sessions) — not just
+machines where `install.sh` ran. Skip silently if the convention file or the
+source agents are absent.
+
 ## Completion Message
 
 After creating both files:

@@ -12,6 +12,18 @@ commands, or moved skill-reference paths.
 
 ### Added
 
+- Agent vendoring (`templates/_conventions/AGENT-VENDORING.md`): `/apple:new-app`
+  and `/apple:map` offer to copy SwiftShip's six pinned agents into the target
+  project's `.claude/agents/` — project-level agents outrank user-level and
+  travel with git, so cloud/CI/remote-launched sessions keep the Sonnet pin
+  and the full review gate. Includes a `.swiftship-agents` marker for
+  stale-copy refresh, and a degraded-mode guard in `/apple:build` +
+  `/apple:review`: when agents can't spawn, the command must say so, ask
+  before proceeding, banner review output as DEGRADED, and log
+  `"degraded":"no-agents"` (review: `outcome: "partial"`) — observed in the
+  wild as a remote session silently substituting a 3-minute self-review for
+  the 8-agent verified gate.
+
 - Model-tier convention (`templates/_conventions/MODEL-TIERS.md`): maps every
   command to a recommended session model tier — judgment (Fable-class:
   validate, roadmap, debug…), analysis (Opus-class: map, security, metadata…),
