@@ -12,6 +12,20 @@ commands, or moved skill-reference paths.
 
 ### Added
 
+- Usage ledger: optional `model` field on `"outcome"` lines — records which
+  session model a workflow command ran on (subagents are always Sonnet), so
+  `/apple:usage` can analyze cost per command.
+
+### Fixed
+
+- Usage hook now captures user-typed `/apple:*` commands. Slash commands are
+  expanded client-side and never reach the Skill tool, so the previous
+  `PostToolUse`-only registration missed them entirely; the hook is now also
+  registered on `UserPromptSubmit` (same script handles both input shapes).
+- `USAGE-LOG.md` outcome example now stamps `ts` via `$(date -u ...)` instead
+  of a hardcoded literal — prevents placeholder timestamps (e.g. midnight)
+  landing in the ledger when the model doesn't know the current time.
+
 - Adversarial verification ("foreman") step in `/apple:review`: every
   Critical/High finding is verified against the actual code before it reaches
   `REVIEW.md` — 2 independent verifiers per Critical (both must confirm; a

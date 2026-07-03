@@ -93,9 +93,11 @@ if [ "$SKILLS_OK" = "1" ]; then
 fi
 echo ""
 echo "Optional — local usage log (nothing leaves your machine):"
-echo "  To record which /apple:* commands you run, add this to the \"hooks\""
+echo "  To record which /apple:* commands you run, add both entries to the \"hooks\""
 echo "  section of ~/.claude/settings.json (the installer never edits it):"
+echo '    "UserPromptSubmit": [{"hooks": [{"type": "command", "command": "~/.claude/hooks/swiftship-usage-log.sh"}]}]'
 echo '    "PostToolUse": [{"matcher": "Skill", "hooks": [{"type": "command", "command": "~/.claude/hooks/swiftship-usage-log.sh"}]}]'
+echo "  (UserPromptSubmit catches commands you type; PostToolUse catches ones Claude invokes.)"
 echo "  Ledger: ~/.claude/swiftship-usage.jsonl — delete anytime."
 echo ""
 echo "Available commands:"
