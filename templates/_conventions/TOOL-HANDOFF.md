@@ -9,6 +9,13 @@ apply the five steps below in order.
 are a convenience layered on top; every command must still work with zero MCPs
 or skills installed.
 
+"Default" means the manual path always exists and always works — **not** that
+it is suggested first. When DETECT succeeds, the direct path is the primary
+path: reads happen silently, writes go preview → confirm → apply. Manual
+instructions are the fallback for when detection fails — never ask the user to
+click through a UI for something a detected tool can do (that's the bug this
+convention exists to prevent, in both directions).
+
 Loaded by commands via:
 ```
 Read: ~/.claude/swiftship-templates/_conventions/TOOL-HANDOFF.md

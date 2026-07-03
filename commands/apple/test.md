@@ -108,7 +108,8 @@ Options: **Generate all** / **Choose subset** / **Cancel**.
 ### 5. Generate RED → GREEN
 
 For each approved file (inline, or via a `swift-generalist`/`swiftui-builder`
-agent for larger batches):
+agent for larger batches — never the built-in `general-purpose` agent, which
+inherits the session model instead of pinning Sonnet):
 1. **RED** — write the failing test(s) first; confirm they fail for the *right*
    reason (not a compile error).
 2. **GREEN** — confirm the code under test makes them pass; if a test reveals a

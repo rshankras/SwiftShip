@@ -131,6 +131,13 @@ Match task to appropriate agent and spawn:
 | Background processing, BGTaskScheduler, background download | swift-generalist | `generators/background-processing` |
 | Data export, CSV export, PDF export, GDPR data portability | swift-generalist | `generators/data-export` |
 | Visual QA, UI audit, HIG review, accessibility audit | swift-generalist | `ios/ui-review`, `macos/ui-review-tahoe` |
+| **Anything else — no row above matches** (project setup, scaffolding, configuration, one-off scripts, …) | swift-generalist | — |
+
+**Never spawn the built-in `general-purpose` agent.** It has no pinned model and
+silently inherits the session model — Opus/Fable rates for Sonnet-grade work.
+`swift-generalist` is the same breadth with `model: sonnet` enforced; it is the
+fallback for every task, not just the rows above. This applies to every agent
+spawn in this command, including verification and fix-up passes.
 
 **Visual QA tasks:** When a task named "Visual QA Audit" is encountered, execute the `/apple:visual-qa` skill in code-only mode. Run all 6 Grep-based scans (hardcoded colors, fixed fonts, missing accessibility, small touch targets, missing view states, rigid frames), fix all Critical/High issues, and generate `.planning/VISUAL-QA.md`.
 
