@@ -145,6 +145,13 @@ silently inherits the session model — Opus/Fable rates for Sonnet-grade work.
 fallback for every task, not just the rows above. This applies to every agent
 spawn in this command, including verification and fix-up passes.
 
+**If the agents are unavailable in this environment** (spawn fails — common in
+cloud/remote sessions without `~/.claude/agents/` or vendored
+`.claude/agents/`): apply the degraded-mode guard in
+`~/.claude/swiftship-templates/_conventions/AGENT-VENDORING.md` — tell the
+user the pin is lost (tasks would run inline at session-model rates), ask
+before proceeding, and log the outcome with `"degraded":"no-agents"`.
+
 **Visual QA tasks:** When a task named "Visual QA Audit" is encountered, execute the `/apple:visual-qa` skill in code-only mode. Run all 6 Grep-based scans (hardcoded colors, fixed fonts, missing accessibility, small touch targets, missing view states, rigid frames), fix all Critical/High issues, and generate `.planning/VISUAL-QA.md`.
 
 **Before executing each task:** Load the referenced skill from `~/.claude/swiftship-skills/[skills-reference]/SKILL.md` and include its patterns in the agent prompt context.

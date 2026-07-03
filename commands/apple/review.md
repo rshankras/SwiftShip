@@ -40,6 +40,14 @@ agent**, which has no pinned model and silently inherits the session model
 (Opus/Fable rates for Sonnet-grade work); `swift-generalist` is the pinned
 equivalent. The same rule applies to verifier spawns below.
 
+**If the agents are unavailable in this environment** (spawn fails — common in
+cloud/remote sessions without `~/.claude/agents/` or vendored
+`.claude/agents/`): apply the degraded-mode guard in
+`~/.claude/swiftship-templates/_conventions/AGENT-VENDORING.md` — tell the
+user, ask before proceeding, banner `REVIEW.md` as **DEGRADED**, and log the
+outcome as `"partial"` with `"degraded":"no-agents"`. A single-pass
+self-review must never be indistinguishable from the full verified gate.
+
 ### Agent 1: Code Quality Review
 
 ```
