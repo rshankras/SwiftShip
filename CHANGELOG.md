@@ -18,6 +18,21 @@ commands, or moved skill-reference paths.
 
 ### Fixed
 
+- `/apple:build` task→agent table gains an explicit catch-all row (anything
+  unmatched → `swift-generalist`) and an in-command prohibition on the built-in
+  `general-purpose` agent; the same guard added to `/apple:review` and
+  `/apple:test`. The rule previously lived only in this repo's CLAUDE.md, which
+  target projects never load — first day of ledger data showed Phase-1 builds
+  spawning `general-purpose` at session-model rates.
+- `/apple:ship` now uses the ASC MCP for steps it previously punted to the
+  user: a new Step 2 creates the App Store version via `create_version` when
+  missing (it was in `allowed-tools` but never referenced), Step 3 pushes
+  What's New from `.planning/RELEASE-NOTES.md` via `update_whats_new`, and
+  Step 7 offers a phased release via `create_phased_release` — all
+  preview → confirm → apply.
+- `TOOL-HANDOFF.md` clarifies that "manual is the default" means the manual
+  path always exists — not that it's suggested first; a detected tool is the
+  primary path.
 - Usage hook now captures user-typed `/apple:*` commands. Slash commands are
   expanded client-side and never reach the Skill tool, so the previous
   `PostToolUse`-only registration missed them entirely; the hook is now also

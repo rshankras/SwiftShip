@@ -29,7 +29,11 @@ Read: .planning/STATE.md (if exists)
 
 ## Spawn Review Agents in Parallel
 
-Launch all 5 review agents simultaneously for efficiency:
+Launch all 5 review agents simultaneously for efficiency. Use exactly the
+`subagent_type` named in each block — **never the built-in `general-purpose`
+agent**, which has no pinned model and silently inherits the session model
+(Opus/Fable rates for Sonnet-grade work); `swift-generalist` is the pinned
+equivalent. The same rule applies to verifier spawns below.
 
 ### Agent 1: Code Quality Review
 
