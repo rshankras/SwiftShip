@@ -196,6 +196,27 @@ After building a flow's slice, run `/apple:walkthrough [flow-id]` — it drives 
 
 Create `.planning/PLAN.md` with detailed tasks:
 
+### Model tagging (`type="auto"` tasks only)
+
+Tag **at most 1–2 tasks per phase** with `model="opus"` — only tasks whose
+mistakes propagate into everything built after them:
+
+- App architecture / project structure being locked in
+- Data model / schema foundations (SwiftData models, CloudKit record design)
+- Concurrency-heavy engines (actors, sync pipelines, background processing)
+- Migrations with data-loss risk
+
+Everything else stays untagged — the agents' Sonnet pin plus `<verify>` gates
+carry routine work. Discipline check before writing PLAN.md: if more than 2
+tasks are tagged, untag the least foundation-shaping until 2 remain. Never tag
+`generator` or `manual` tasks, and never use a value other than `opus` (Haiku
+downshift is deliberately not offered pending ledger evidence — see the
+"Per-spawn overrides" section of
+`~/.claude/swiftship-templates/_conventions/MODEL-TIERS.md`). `/apple:build`
+passes the attribute through as the agent spawn's `model` override; an absent
+attribute means the agent's pinned default. Phases with no foundation-shaping
+tasks get zero tags — that is the common case.
+
 ### For Phase 1 (Foundation):
 
 ```xml
@@ -412,7 +433,7 @@ Before printing the completion message, append one `"event":"outcome"` line to t
 Created: .planning/PLAN.md with [N] tasks
 
 Tasks:
-1. [Task 1 name] (type: [auto/manual/generator])
+1. [Task 1 name] (type: [auto/manual/generator][; append ", model: opus" if tagged])
 2. [Task 2 name] (type: [auto/manual/generator])
 ...
 

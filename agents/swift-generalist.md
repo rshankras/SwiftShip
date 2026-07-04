@@ -1,6 +1,6 @@
 ---
 name: swift-generalist
-description: Use this agent for Apple-platform build and review tasks that don't match a named specialist (swiftui-builder, storekit-expert, cloudkit-expert). It is the cost-pinned replacement for the built-in general-purpose agent — same breadth, but always runs on Sonnet instead of inheriting the session model. Examples:
+description: Use this agent for Apple-platform build and review tasks that don't match a named specialist (swiftui-builder, storekit-expert, cloudkit-expert). It is the cost-pinned replacement for the built-in general-purpose agent — same breadth, but defaults to Sonnet instead of inheriting the session model (only an explicit per-spawn override from a command — a model="opus"-tagged plan task or a Critical verifier — runs it on anything else). Examples:
 
 <example>
 Context: /apple:build reaches a data-layer task

@@ -24,6 +24,10 @@ Copy this file to your project's `.planning/PLAN.md`.
     </flow>
   </flows>
 
+  <!-- Optional on type="auto" tasks: model="opus" — set by /apple:plan on at
+       most 1–2 foundation tasks per phase (architecture, data model,
+       concurrency, migration). /apple:build passes it through as the agent
+       spawn's model override. Absent = the agent's pinned default (Sonnet). -->
   <task id="1" type="auto|manual|generator" status="pending|in_progress|completed">
     <name>[Task name]</name>
 

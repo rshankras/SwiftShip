@@ -39,7 +39,7 @@ Append exactly one line when the command finishes (success or not):
 | `model` | string | session model short name from the system prompt, lowercase, e.g. `"sonnet-5"`, `"opus-4-8"`, `"fable-5"`; omit if unknown. Subagents are always Sonnet (tracked via `agents`); this is the model the command itself ran on |
 | `blocked_on` | string | only when blocked: `manual-task` \| `critical-finding` \| `build-failure` \| `verify-failure` \| `other` |
 | `tasks_done`, `tasks_total` | number | build/autonomous only |
-| `agents` | object | spawn counts by agent, e.g. `{"swift-generalist": 3, "swiftui-builder": 1}` |
+| `agents` | object | spawn counts by agent, e.g. `{"swift-generalist": 3, "swiftui-builder": 1}`. A spawn that ran with a per-call model override is keyed `"agent:model"`, e.g. `{"swift-generalist": 2, "swift-generalist:opus": 1}` (see MODEL-TIERS.md "Per-spawn overrides") |
 | `degraded` | string | only when the run fell below full capability: `no-agents` (pinned agents unavailable in this environment — see AGENT-VENDORING.md). Pair with `outcome: "partial"` for review |
 | `findings` | object | review only, post-verification: `{"critical": 0, "high": 2, "medium": 5, "refuted": 1}` |
 
