@@ -38,6 +38,16 @@ commands, or moved skill-reference paths.
   session model a workflow command ran on (subagents are always Sonnet), so
   `/apple:usage` can analyze cost per command.
 
+### Changed
+
+- `/apple:review` Critical-finding verifiers now escalate to Opus via a
+  per-spawn `model` override (High verifiers stay on the Sonnet pin). A
+  Sonnet verifier checking a Sonnet reviewer shares its blind spots, and a
+  wrong verdict either pauses `/apple:autonomous` (false Critical) or ships a
+  real bug (false confirm) — the few Opus spawns per review are the cheapest
+  rigor in the pipeline. Falls back to the pin (with an audit note) if the
+  escalated spawn fails.
+
 ### Fixed
 
 - `/apple:build` task→agent table gains an explicit catch-all row (anything

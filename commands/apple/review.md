@@ -28,9 +28,10 @@ Read: .planning/STATE.md (if exists)
 ```
 
 **Model check (execution tier):** apply
-`~/.claude/swiftship-templates/_conventions/MODEL-TIERS.md` — reviewers and
-verifiers are pinned agents, so a premium session model adds cost, not rigor;
-note once, continue. Skip silently if the file is absent.
+`~/.claude/swiftship-templates/_conventions/MODEL-TIERS.md` — reviewers are
+pinned agents and Critical verifiers escalate on their own (see the foreman
+step), independent of the session model, so a premium session model adds cost,
+not rigor; note once, continue. Skip silently if the file is absent.
 
 ## Spawn Review Agents in Parallel
 
@@ -310,12 +311,21 @@ If the 5 agents produced no Critical or High findings, skip straight to Compile 
 
 | Claimed severity | Verifiers | Verdict rule |
 |---|---|---|
-| Critical | 2 independent spawns | Both confirm → stays Critical. Split verdict → High, with a note. Both refute → refuted. |
-| High | 1 (batch all High findings from one review area into one spawn) | Confirmed → stays High. Real but overstated → Medium, with a note. Refuted → refuted. |
+| Critical | 2 independent spawns, each escalated to Opus (`model: "opus"`) | Both confirm → stays Critical. Split verdict → High, with a note. Both refute → refuted. |
+| High | 1 (batch all High findings from one review area into one spawn), Sonnet pin | Confirmed → stays High. Real but overstated → Medium, with a note. Refuted → refuted. |
 
 Rules:
 - A finding without a concrete `file:line` cannot be verified — downgrade it to Medium with the note "unverifiable: no file:line".
 - Critical findings get separate verifier spawns so the two verdicts stay independent — never one agent issuing both.
+- Critical verifiers escalate to Opus via the spawn's `model` parameter (a
+  per-spawn override of the agent's Sonnet frontmatter — it applies to that
+  spawn only). Rationale: a Sonnet verifier checking a Sonnet reviewer shares
+  its blind spots, and a wrong verdict here either pauses `/apple:autonomous`
+  (false Critical) or ships a real bug (false confirm). Volume is tiny — the
+  few Opus spawns per review are the cheapest rigor in the pipeline. High
+  verifiers stay on the Sonnet pin. If the escalated spawn fails (older
+  harness, model unavailable), retry once without the `model` parameter and
+  note the fallback in the audit appendix — never skip verification.
 - Refuted findings are never silently dropped — they go to the "Refuted During Verification" appendix with the reason.
 
 Spawn each verifier with:
@@ -323,6 +333,7 @@ Spawn each verifier with:
 ```
 Task({
   subagent_type: "swift-generalist",
+  model: "opus",   // Critical verifiers only — omit this line for High verifiers
   prompt: `
     You are an adversarial verifier. Another reviewer claims the issue(s)
     below exist in this codebase. Your job is to REFUTE each claim if you
