@@ -10,6 +10,11 @@ commands, or moved skill-reference paths.
 
 ## [Unreleased]
 
+## [1.1.0] — 2026-07-04
+
+Model right-sizing and resilience: the first release shaped by the usage
+ledger — every change below traces to a measured finding, not a hunch.
+
 ### Added
 
 - `./install.sh --uninstall` — removes only SwiftShip's symlinks (commands,
@@ -144,6 +149,13 @@ commands, or moved skill-reference paths.
   preserved in a "Refuted During Verification" appendix for audit. Protects
   `/apple:autonomous` from pausing on false Criticals.
 
+### Compatibility
+
+- Tested against claude-code-apple-skills `main` @ `a0226e8` (2026-07-04,
+  plugin-marketplace distribution); all skill references resolve via
+  `~/.claude/swiftship-skills/` unchanged — CI validates against this repo
+  on every PR.
+
 ## [1.0.0] — 2026-07-02
 
 First stable release. `main` remains the development channel; tags are the
@@ -208,5 +220,6 @@ stable channel.
   which includes the `macos/*/SKILL.md` case fix required on case-sensitive
   filesystems (claude-code-apple-skills#15)
 
-[Unreleased]: https://github.com/rshankras/SwiftShip/compare/v1.0.0...HEAD
+[Unreleased]: https://github.com/rshankras/SwiftShip/compare/v1.1.0...HEAD
+[1.1.0]: https://github.com/rshankras/SwiftShip/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/rshankras/SwiftShip/releases/tag/v1.0.0
