@@ -2,6 +2,7 @@
 description: Verify completed work against plan deliverables
 argument-hint: [phase-number]
 allowed-tools: Read, Write, Bash, Glob, Grep, AskUserQuestion, Skill
+model: sonnet
 ---
 
 # Verify Completed Work

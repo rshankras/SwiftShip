@@ -20,6 +20,24 @@ small model gambling on a kill/build decision).
 | **Analysis** | Opus-class | `map`, `security`, `perf`, `prototype`, `metadata`, `localize`, `spike`, `discuss`, `plan` (routine phases) |
 | **Execution** | Sonnet-class | `build`, `autonomous`, `review`, `verify`, `test`, `bugfix`, `modernize`, `ship`, `submit`, `iap`, `privacy`, `deploy`, `testflight`, `screenshots`, `icon`, `visual-qa`, `walkthrough`, `release-notes`, `subscription`, `event`, `experiment`, `milestone`, `next-version`, and all session/info commands (`progress`, `idea`, `ideas`, `pause`, `resume`, `help`, `learn`, `usage`) |
 
+## Enforcement: frontmatter pins (execution tier)
+
+The hot-loop execution commands — `build`, `review`, `verify`, `test`,
+`bugfix`, `ship` — pin `model: sonnet` in their command frontmatter. The
+override is **turn-scoped**: the command's turn runs on Sonnet and the
+session model resumes on the next user prompt, so a pinned command can never
+downgrade a later judgment-tier command. Per-spawn escalation is unaffected —
+a Task call's `model` parameter outranks the turn model (resolution order
+under "Per-spawn overrides" below).
+
+Two deliberate gaps, which is why the printed check below stays:
+
+- `/apple:autonomous` has no pin — its main loop includes plan-phase judgment
+  work, so it asks once before a long run instead.
+- The pin can silently not apply (an install predating it, or an org model
+  allowlist that excludes Sonnet — the harness then keeps the session model).
+  Adherence is therefore still measured from the ledger, never assumed.
+
 ## The check (referenced by commands — never blocks)
 
 1. Your system prompt names the model you are running on. Map it:
@@ -29,14 +47,16 @@ small model gambling on a kill/build decision).
    - **Running above tier** (e.g. `build` on Fable or Opus): print one line —
      `💡 [command] is execution-tier; /model sonnet cuts cost with no quality
      loss (agents are pinned to Sonnet regardless). Continuing on [model].` —
-     then continue. `/apple:autonomous` is the exception: before starting a
-     long run, ask once (AskUserQuestion) — switch first, or continue on the
-     current model.
+     then continue. On a frontmatter-pinned command this means the pin didn't
+     apply — add that `./install.sh` refreshes it. `/apple:autonomous` is the
+     exception: before starting a long run, ask once (AskUserQuestion) —
+     switch first, or continue on the current model.
    - **Running below tier** (e.g. `validate` on Sonnet or any command on
      Haiku): print one line noting the recommended tier and the quality risk,
      then continue.
-3. **Never block. Never switch models yourself** — only the user can run
-   `/model`. Mention it at most once per run.
+3. **Never block. Never switch models mid-run yourself** — the frontmatter
+   pin is applied by the harness at invocation; beyond that, only the user
+   can run `/model`. Mention it at most once per run.
 4. Compliance is measured, not policed: the usage ledger records `model` on
    every outcome line (see `USAGE-LOG.md`), so `/apple:usage` can report tier
    adherence and what drift actually cost.

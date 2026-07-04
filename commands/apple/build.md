@@ -1,17 +1,21 @@
 ---
 description: Execute current plan using specialized agents
 allowed-tools: Read, Write, Edit, Bash, Task, Glob, Grep
+model: sonnet
 ---
 
 # Execute Build Plan
 
 Execute pending tasks from `.planning/PLAN.md` using specialized agents.
 
-**Model check (execution tier):** apply
-`~/.claude/swiftship-templates/_conventions/MODEL-TIERS.md` — if this session
-is on a premium model, note once that `/model sonnet` costs nothing in quality
-here (agents are pinned to Sonnet regardless), then continue. Skip silently if
-the file is absent.
+**Model check (execution tier):** this command pins `model: sonnet` in its
+frontmatter — the turn runs on Sonnet and the session model returns on the
+next user prompt (see
+`~/.claude/swiftship-templates/_conventions/MODEL-TIERS.md`). If your system
+prompt still names a premium model, the pin didn't apply (install predating
+it, or an org model allowlist) — note once that `/model sonnet` costs nothing
+in quality here and `./install.sh` refreshes the pin, then continue. Skip
+silently if the convention file is absent.
 
 ## Prerequisites
 

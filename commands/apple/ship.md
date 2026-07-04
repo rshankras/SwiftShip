@@ -2,6 +2,7 @@
 description: One-command final mile — push metadata, upload screenshots + build, set IAP price, category & URLs, and submit for review (dry-run/gated). Turns a completed build into a live App Store submission.
 argument-hint: "[version] (defaults to MARKETING_VERSION; --testflight to stop at TestFlight)"
 allowed-tools: Read, Write, Bash, AskUserQuestion, Skill, mcp__asc-metadata__get_metadata, mcp__asc-metadata__create_version, mcp__asc-metadata__update_whats_new, mcp__asc-metadata__create_phased_release, mcp__asc-metadata__get_iap, mcp__asc-metadata__list_price_points, mcp__asc-metadata__get_age_rating, mcp__asc-metadata__get_availability
+model: sonnet
 ---
 
 # Ship — close the last mile
