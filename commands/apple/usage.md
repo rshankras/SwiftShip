@@ -72,6 +72,11 @@ cancelled), the `blocked_on` breakdown, and the number of `degraded` runs.
 Flag any `degraded: "no-agents"` — those runs lost the pinned agents entirely
 (point at AGENT-VENDORING.md if present).
 
+Also cross-check for **bypassed guards**: a run whose `agents` object has any
+`general-purpose*` key but no `degraded` field substituted the built-in agent
+for the named ones without logging it — count it with the degraded runs and
+say so explicitly (its findings/counts came from below the full gate).
+
 ### 3. Model-tier adherence
 
 For each outcome line with a `model` field, map its `cmd` to the tier table
@@ -105,6 +110,7 @@ Do not fabricate a correlation from a handful of runs.
 | `invoke` events = 0 but outcomes exist | The hook isn't registered — show the install.sh snippet |
 | `model` field missing on most outcomes | Commands predate the model field — re-run `./install.sh` to refresh symlinks |
 | `degraded` runs present | Vendor agents into the affected project (`/apple:map` or AGENT-VENDORING.md) |
+| `general-purpose*` spawn keys on runs not flagged `degraded` | The degraded guard was bypassed — restart the session (agent definitions load at session start), vendor agents if needed, and read that run's output as below-gate |
 | ≥10 datapoints and escalated phases show no fewer review findings | Revisit `/apple:plan` tagging criteria before adding more Opus tags |
 | ≥10 datapoints and mechanical tasks never fail verification | Evidence now supports revisiting Haiku downshift (deliberately withheld until this fires) |
 

@@ -94,6 +94,16 @@ commands, or moved skill-reference paths.
 
 ### Fixed
 
+- Degraded-mode guard now catches agent **substitution**, not just spawn
+  failure: swapping the built-in `general-purpose` in for the named agents
+  triggers the same ask + DEGRADED banner + `"degraded":"no-agents"` ledger
+  fields — observed in the wild as a review that ran `general-purpose:sonnet`
+  ×8 (no `hig-reviewer`/`app-store-reviewer`) yet logged a clean `completed`,
+  indistinguishable from the full gate except via spawn keys. Per-call
+  `model` overrides on substitute spawns are kept (they preserve the cost
+  pin) but don't make a run non-degraded. `/apple:usage` now cross-checks
+  spawn keys against the `degraded` field and reports bypassed guards.
+
 - `install.sh` no longer replaces the user's entire `~/.claude/agents/`
   directory with a symlink — the six agents are now linked **per-file**, so
   any agents the user already has keep loading alongside SwiftShip's.

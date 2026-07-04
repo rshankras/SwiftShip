@@ -47,11 +47,16 @@ equivalent. The same rule applies to verifier spawns below.
 
 **If the agents are unavailable in this environment** (spawn fails — common in
 cloud/remote sessions without `~/.claude/agents/` or vendored
-`.claude/agents/`): apply the degraded-mode guard in
+`.claude/agents/`, or right after vendoring: definitions load at session
+start): apply the degraded-mode guard in
 `~/.claude/swiftship-templates/_conventions/AGENT-VENDORING.md` — tell the
 user, ask before proceeding, banner `REVIEW.md` as **DEGRADED**, and log the
-outcome as `"partial"` with `"degraded":"no-agents"`. A single-pass
-self-review must never be indistinguishable from the full verified gate.
+outcome as `"partial"` with `"degraded":"no-agents"`. **Substituting
+`general-purpose` for the named agents is degraded mode too**, even with a
+per-call `model` override — the specialist reviewers are gone. Keep the
+override if proceeding (it preserves the cost pin), but the run gets the same
+ask, banner, and ledger fields. A substituted or single-pass self-review must
+never be indistinguishable from the full verified gate.
 
 ### Agent 1: Code Quality Review
 
