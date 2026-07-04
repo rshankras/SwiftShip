@@ -170,6 +170,9 @@ Display all available commands, their purpose, and recommended workflow.
 ║                                                                               ║
 ║  /apple:learn [lesson]      Capture mistake or pattern into skills            ║
 ║                                                                               ║
+║  /apple:usage [--since 30d] Report the local usage ledger — mix, tiers        ║
+║                             Reads: ~/.claude/swiftship-usage.jsonl            ║
+║                                                                               ║
 ║  /apple:help                Show this help message                            ║
 ║                                                                               ║
 ╚═══════════════════════════════════════════════════════════════════════════════╝
@@ -239,6 +242,7 @@ NEW PROJECT                          EXISTING PROJECT
 | Explore UI options for a screen | `/apple:prototype Home` |
 | Generate an app icon | `/apple:icon "gradient glyph"` |
 | See my progress | `/apple:progress` |
+| See command usage, tiers & escalations | `/apple:usage --since 30d` |
 | Plan next phase | `/apple:plan [N]` |
 | Validate an API before planning | `/apple:spike "AlarmKit recurring alarm"` |
 | Build features | `/apple:build` |
