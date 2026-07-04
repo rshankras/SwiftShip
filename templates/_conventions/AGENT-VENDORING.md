@@ -35,6 +35,9 @@ The six agents, by name:
    - write `.claude/agents/.swiftship-agents` — one JSON line:
      `{"vendored":"<date -u +%Y-%m-%dT%H:%M:%SZ>","source":"SwiftShip install"}`
    - suggest committing `.claude/agents/` with the project
+   - **tell the user agents load at session start** — the vendored copies
+     won't spawn in *this* session; restart (or run `/apple:build` /
+     `/apple:review` in a fresh session) to pick them up
 5. **Never touch non-SwiftShip files** in `.claude/agents/` — manage only the
    six by name, and refresh only when the marker file is present.
 
@@ -42,11 +45,14 @@ The six agents, by name:
 
 If an agent spawn fails because the subagent type is unavailable (no
 `~/.claude/agents/`, no vendored `.claude/agents/` — common in cloud/remote
-sessions):
+sessions — or the agents were installed/vendored *mid-session*: agent
+definitions load once at session start, so files added since then are
+invisible until a restart):
 
 1. Tell the user immediately which agents are missing, that pinned-model
    execution / the full review gate can't run here, and that vendoring (above)
-   or a local session fixes it.
+   or a local session fixes it — plus a session restart if the files exist on
+   disk but were added after this session started.
 2. Ask before proceeding in degraded mode — never silently substitute inline
    work for the agent architecture.
 3. If proceeding: label all output prominently as **DEGRADED** (in

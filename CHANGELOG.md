@@ -22,7 +22,10 @@ commands, or moved skill-reference paths.
   before proceeding, banner review output as DEGRADED, and log
   `"degraded":"no-agents"` (review: `outcome: "partial"`) — observed in the
   wild as a remote session silently substituting a 3-minute self-review for
-  the 8-agent verified gate.
+  the 8-agent verified gate. Vendoring and the guard also call out that agent
+  definitions load once at session start: copies vendored mid-session can't
+  spawn until a restart, so `new-app`/`map` say so on acceptance (observed as
+  a spike falling back to `general-purpose` right after vendoring).
 
 - Model-tier convention (`templates/_conventions/MODEL-TIERS.md`): maps every
   command to a recommended session model tier — judgment (Fable-class:
