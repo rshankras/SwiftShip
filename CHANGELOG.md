@@ -38,6 +38,17 @@ commands, or moved skill-reference paths.
   session model a workflow command ran on (subagents are always Sonnet), so
   `/apple:usage` can analyze cost per command.
 
+- Task-level model routing: `/apple:plan` may tag **at most 1–2** foundation
+  `type="auto"` tasks per phase with `model="opus"` (architecture, data model,
+  concurrency, migration — mistakes that propagate into everything built
+  after them); `/apple:build` passes the tag through as the agent spawn's
+  per-call `model` override. An absent tag means the Sonnet frontmatter pin,
+  so existing PLAN.md files are unaffected (additive schema). Escalated
+  spawns land in the usage ledger's `agents` object as `"agent:opus"` keys so
+  `/apple:usage` can test whether escalation actually reduces review findings
+  and verify failures. Haiku downshift is deliberately withheld pending that
+  evidence. Mechanism + rules live in MODEL-TIERS.md ("Per-spawn overrides").
+
 ### Changed
 
 - `/apple:review` Critical-finding verifiers now escalate to Opus via a
