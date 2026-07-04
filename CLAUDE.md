@@ -93,6 +93,7 @@ than by phase number.
 - `/apple:experiment` runs App Store Product Page Optimization A/B tests (icon, screenshots, subtitle), reads significance without early stops, and promotes the confident winner — a conversion signal logged to `SIGNALS.md` for `/apple:learn-from-store`; delegates to `generators/product-page-optimization`
 - `/apple:event` creates and manages App Store in-app events — time-boxed, promotable cards (challenges, seasonal moments) that surface in Search & Today for discovery + re-engagement; delegates to `generators/in-app-events`, pairs with `/apple:localize`
 - `/apple:learn` captures mistakes and patterns into skills or CLAUDE.md so they never recur — the feedback loop that compounds session quality
+- `/apple:usage` reads the local usage ledger into a report: command mix, outcome/blocker rates, model-tier adherence (which commands ran above/below their MODEL-TIERS tier), and escalation economics (`agent:opus` spawns vs review findings) — the evidence loop that gates right-sizing changes like Haiku downshift. Read-only; prints no dollar figures (prices drift); logs nothing itself
 - Tasks have three types: `auto` (agent-executed), `generator` (skill-invoked), `manual` (user action required)
 - State is tracked in `.planning/STATE.md` and task status in `.planning/PLAN.md`
 

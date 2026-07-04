@@ -49,6 +49,15 @@ commands, or moved skill-reference paths.
   and verify failures. Haiku downshift is deliberately withheld pending that
   evidence. Mechanism + rules live in MODEL-TIERS.md ("Per-spawn overrides").
 
+- `/apple:usage` — reads the local usage ledger into a report: command mix
+  (invocations vs completed runs), outcome/blocker rates, model-tier
+  adherence against MODEL-TIERS.md, and escalation economics (`agent:opus`
+  spawns vs review findings). Rule-based recommendations only — including the
+  explicit gate that Haiku downshift stays withheld until ≥10 datapoints show
+  mechanical tasks never failing verification. Read-only, local-only, prints
+  no dollar figures (prices drift; the command must not rot), and — as an
+  info command — logs nothing itself.
+
 ### Changed
 
 - `/apple:review` Critical-finding verifiers now escalate to Opus via a
