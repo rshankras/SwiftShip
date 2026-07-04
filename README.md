@@ -129,6 +129,8 @@ SwiftShip can keep a **local‑only** record of which commands you run and how t
 
 **Nothing ever leaves your machine** — no analytics service, no phone‑home; the ledger holds timestamps, command names, counts, and the session model only. Delete the file (or skip the hook) any time.
 
+Once there's data, run **`/apple:usage`** to see the report: which commands you run, how they ended, where runs stall, and whether each command ran on the model tier it should have.
+
 ### Optional: fewer permission prompts
 
 So Claude Code doesn't ask permission for every read, you can pre‑allow common safe commands in `~/.claude/settings.json`:
@@ -197,7 +199,7 @@ This is the main, end‑to‑end flow. Each step writes a file into `.planning/`
    Confirms the features actually work (builds, tests, and — if a supported tool is connected — it can **launch and screenshot the running app** and look at it). → `.planning/VERIFICATION.md`
 
 9. **Review quality — `/apple:review`**
-   Runs **5 reviewers at once**: code quality, Apple Human Interface Guidelines, App Store rules, performance, and security. → `.planning/REVIEW.md`
+   Runs **5 reviewers at once**: code quality, Apple Human Interface Guidelines, App Store rules, performance, and security. Then — because AI reviewers are eager to find problems — every serious finding is **cross‑examined** before you see it: independent verifier agents re‑read the actual code and must confirm the issue is real. Refuted claims go to an audit appendix, not your report. → `.planning/REVIEW.md`
 
 10. **Repeat 6–9 for each phase.** Or, to move faster, **`/apple:autonomous`** runs plan → build → verify across *several* phases hands‑off, pausing only when it needs you (a manual task, a blocker, or a serious issue).
 
@@ -320,7 +322,7 @@ These rely on optional, *separately‑installed* tools (an App Store Connect con
 |---|---|
 | `/apple:test [target]` | Generate or expand tests on demand |
 | `/apple:verify` | Verify completed work (and optionally run the app) |
-| `/apple:review` | 5‑reviewer code / HIG / App Store / perf / security sweep |
+| `/apple:review` | 5‑reviewer code / HIG / App Store / perf / security sweep — serious findings cross‑examined before they reach you |
 | `/apple:security [focus]` | Full security audit |
 | `/apple:perf [problem]` | Profile and diagnose performance issues |
 | `/apple:visual-qa [paths]` | Visual/UI audit from screenshots or code |
@@ -366,6 +368,7 @@ These rely on optional, *separately‑installed* tools (an App Store Connect con
 | `/apple:pause` | Write a handoff doc when you stop |
 | `/apple:resume` | Restore context from a previous session |
 | `/apple:learn [lesson]` | Capture a mistake/pattern so it never recurs |
+| `/apple:usage [--since 30d]` | Report the local usage ledger — command mix, outcomes, model‑tier adherence |
 | `/apple:help` | Show all commands |
 
 ---
@@ -408,7 +411,7 @@ SwiftShip's "memory" lives in a `.planning/` folder inside *your* project. You c
 
 ## Specialized agents
 
-For `auto` tasks, `/apple:build` brings in the right specialist (all run on a cost‑efficient model):
+For `auto` tasks, `/apple:build` brings in the right specialist. All default to a cost‑efficient model; two high‑stakes moments escalate a single worker to a stronger one — verifying a Critical review finding, and the 1–2 foundation tasks a plan marks as architecture‑critical:
 
 | Agent | Expertise |
 |---|---|
