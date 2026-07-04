@@ -9,8 +9,9 @@ SwiftShip is a spec-driven workflow system for iOS/macOS app development with Cl
 ## Installation & Testing
 
 ```bash
-./install.sh            # Symlinks commands/ and agents/ into ~/.claude/
-./scripts/validate.sh   # Static checks — run after any edit to commands/agents/README
+./install.sh              # Symlinks commands/ (dir) + agents (per-file) into ~/.claude/
+./install.sh --uninstall  # Removes only SwiftShip's symlinks
+./scripts/validate.sh     # Static checks — run after any edit to commands/agents/README
 ```
 
 There are no build steps. Command *behavior* is tested by invoking the command (e.g. `/apple:help`) in a real target project; static *integrity* is checked by `scripts/validate.sh` — every skill/template reference resolves, documented counts match reality, every command is registered in help.md, frontmatter is well-formed. CI runs the validator on every PR (`.github/workflows/validate.yml`), cloning the skills repo to resolve references against.

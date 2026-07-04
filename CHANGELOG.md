@@ -12,6 +12,13 @@ commands, or moved skill-reference paths.
 
 ### Added
 
+- `./install.sh --uninstall` — removes only SwiftShip's symlinks (commands,
+  per-file agent links, templates, skills, hook script); never touches the
+  user's own agents, `settings.json`, the usage ledger, or project
+  `.planning/` files. README gains matching **Updating** and **Uninstall**
+  sections plus a three-command from-zero quickstart (the committed
+  `install.sh` is already executable — the `chmod` step was noise).
+
 - Agent vendoring (`templates/_conventions/AGENT-VENDORING.md`): `/apple:new-app`
   and `/apple:map` offer to copy SwiftShip's six pinned agents into the target
   project's `.claude/agents/` — project-level agents outrank user-level and
@@ -72,6 +79,15 @@ commands, or moved skill-reference paths.
   escalated spawn fails.
 
 ### Fixed
+
+- `install.sh` no longer replaces the user's entire `~/.claude/agents/`
+  directory with a symlink — the six agents are now linked **per-file**, so
+  any agents the user already has keep loading alongside SwiftShip's.
+  Previously an existing agents directory was shunted to `agents.backup` and
+  silently deactivated — an adoption-killer for exactly the audience most
+  likely to try SwiftShip. Legacy whole-directory installs are migrated
+  automatically on the next `./install.sh` run (with a note when an
+  `agents.backup` exists to restore from); `--uninstall` handles both layouts.
 
 - `/apple:build` task→agent table gains an explicit catch-all row (anything
   unmatched → `swift-generalist`) and an in-command prohibition on the built-in

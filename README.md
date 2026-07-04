@@ -86,13 +86,15 @@ SwiftShip needs three things on your Mac:
 2. **Xcode + the Swift toolchain** — to build and test the apps you create.
 3. **[claude-code-apple-skills](https://github.com/rshankras/claude-code-apple-skills)** — the companion "manuals" library SwiftShip reads from. Check it out anywhere; the installer finds it automatically if it sits next to this repo.
 
-Then:
+From zero, that's three commands:
 
 ```bash
-cd /path/to/SwiftShip
-chmod +x install.sh
-./install.sh
+git clone https://github.com/rshankras/claude-code-apple-skills.git
+git clone https://github.com/rshankras/SwiftShip.git
+cd SwiftShip && ./install.sh
 ```
+
+Then start a **fresh Claude Code session** in your app project (commands and agents load at session start) and run `/apple:help`.
 
 The installer figures out where your skills library lives, in this order — so it works on any machine with no edits:
 
@@ -107,14 +109,31 @@ It creates **home‑relative symlinks** in `~/.claude/` so the commands work in 
 | Symlink | Points to |
 |---|---|
 | `~/.claude/commands/apple` | this repo's `commands/apple/` |
-| `~/.claude/agents` | this repo's `agents/` |
+| `~/.claude/agents/<agent>.md` | this repo's `agents/*.md` — **per-file**, so agents of your own in `~/.claude/agents/` are untouched |
 | `~/.claude/swiftship-templates` | this repo's `templates/` |
 | `~/.claude/swiftship-skills` | the `skills/` folder of your `claude-code-apple-skills` checkout |
 | `~/.claude/hooks/swiftship-usage-log.sh` | this repo's `hooks/` script (inert until you opt in — see below) |
 
-Because everything is referenced via `~/...` paths (which expand per‑user), there are **no machine‑specific absolute paths to edit**. Re‑run `./install.sh` any time you move the skills library.
+Because everything is referenced via `~/...` paths (which expand per‑user), there are **no machine‑specific absolute paths to edit**. Re‑run `./install.sh` any time you move the skills library. (Installs made before per-file agent linking are migrated automatically on the next run.)
 
 **Stable vs dev:** `main` is the development channel. For a stable install, check out the latest tag (`git checkout v1.0.0`) before running the installer — see [CHANGELOG.md](CHANGELOG.md) and [Releases](https://github.com/rshankras/SwiftShip/releases).
+
+### Updating
+
+```bash
+cd /path/to/claude-code-apple-skills && git pull
+cd /path/to/SwiftShip && git pull && ./install.sh   # re-run is idempotent; picks up new agents/commands
+```
+
+Symlinks track the checkouts, so most updates need only the `git pull`s; re-running `install.sh` costs nothing and covers releases that add files. Restart Claude Code sessions to load the changes.
+
+### Uninstall
+
+```bash
+./install.sh --uninstall
+```
+
+Removes only SwiftShip's symlinks. Your own agents, your `settings.json`, the usage ledger, and every project's `.planning/` files stay untouched.
 
 ### Optional: local usage log
 
