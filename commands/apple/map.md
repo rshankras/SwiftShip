@@ -249,7 +249,9 @@ Apply `~/.claude/swiftship-templates/_conventions/AGENT-VENDORING.md`: offer to
 copy SwiftShip's six pinned agents into this project's `.claude/agents/` (or
 refresh stale vendored copies) so they load in any environment — cloud, CI,
 remote-launched sessions. Skip silently if the convention file or the source
-agents are absent.
+agents are absent. If the user accepts, remind them that agents load at
+session start: the vendored copies won't spawn until a fresh session, so
+restart before running `/apple:build` or `/apple:review`.
 
 ## Step 7: Completion
 
