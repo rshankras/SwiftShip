@@ -95,8 +95,9 @@ In Claude Code:
 Then start a **fresh session** in your app project and run `/apple:help`. Update any time with `/plugin marketplace update indie-apple-stack`; remove with `/plugin uninstall apple`.
 
 - **Install both plugins.** `apple` is the workflow; `apple-skills` is the knowledge library its commands read. A session-start hook wires the file paths between them automatically.
+- **Why is it named `apple`, not `swiftship`?** A plugin's name is its command namespace — naming it `apple` is what keeps the commands spelled `/apple:build`, `/apple:plan`, … It appears as **SwiftShip** in the plugin browser.
 - **The usage ledger is on by default for plugin installs.** The plugin registers SwiftShip's local-only usage hook (`~/.claude/swiftship-usage.jsonl` — timestamps, command names, and outcomes only; **nothing ever leaves your machine**). Turn it off with `/plugin disable apple`, or delete the file anytime. Manual installs remain strictly opt-in (see below).
-- **Migrating from a manual install?** Run `./install.sh --uninstall` from your checkout first, so you don't end up with duplicate `/apple:*` commands.
+- **Migrating from a manual install?** Run `./install.sh --uninstall` from your checkout first, so you don't end up with duplicate `/apple:*` commands. If you had opted into the usage hook, also remove its two entries from `~/.claude/settings.json` (the ones referencing `swiftship-usage-log.sh`) — the script they point at is gone, and the plugin registers its own copy, so leaving them causes a hook error on every prompt and would double-log.
 
 ### Manual install (contributors / development)
 
