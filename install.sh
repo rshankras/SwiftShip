@@ -14,11 +14,53 @@
 #   ./install.sh
 #   ./install.sh /path/to/claude-code-apple-skills
 #   SWIFTSHIP_SKILLS_DIR=/path/to/claude-code-apple-skills ./install.sh
+#   ./install.sh --uninstall
 
 set -e
 
 REPO_DIR="$(cd "$(dirname "$0")" && pwd)"
 CLAUDE_DIR="$HOME/.claude"
+
+# --- Uninstall ---------------------------------------------------------------
+# Removes only SwiftShip's symlinks. Your own agents, settings.json entries,
+# the usage ledger, and per-project .planning/ files are never touched.
+if [ "${1:-}" = "--uninstall" ]; then
+    echo "Uninstalling SwiftShip symlinks..."
+    for dest in \
+        "$CLAUDE_DIR/commands/apple" \
+        "$CLAUDE_DIR/swiftship-templates" \
+        "$CLAUDE_DIR/swiftship-skills" \
+        "$CLAUDE_DIR/hooks/swiftship-usage-log.sh"; do
+        if [ -L "$dest" ]; then
+            rm "$dest"
+            echo "  removed $dest"
+        fi
+    done
+    # Agents: per-file links (current installs) or a whole-dir symlink (legacy).
+    if [ -L "$CLAUDE_DIR/agents" ]; then
+        rm "$CLAUDE_DIR/agents"
+        echo "  removed legacy $CLAUDE_DIR/agents symlink"
+        if [ -d "$CLAUDE_DIR/agents.backup" ]; then
+            echo "  note: your pre-SwiftShip agents are in $CLAUDE_DIR/agents.backup —"
+            echo "        move them back to $CLAUDE_DIR/agents/ to restore them."
+        fi
+    elif [ -d "$CLAUDE_DIR/agents" ]; then
+        for f in "$REPO_DIR"/agents/*.md; do
+            name="$(basename "$f")"
+            if [ -L "$CLAUDE_DIR/agents/$name" ]; then
+                rm "$CLAUDE_DIR/agents/$name"
+                echo "  removed $CLAUDE_DIR/agents/$name"
+            fi
+        done
+    fi
+    echo ""
+    echo "SwiftShip uninstalled. Left in place (yours to keep or delete):"
+    echo "  - ~/.claude/swiftship-usage.jsonl (usage ledger, if present)"
+    echo "  - hook entries in ~/.claude/settings.json (if you registered them)"
+    echo "  - .planning/ directories and vendored .claude/agents/ in your projects"
+    echo "Restart Claude Code sessions to unload the commands and agents."
+    exit 0
+fi
 
 echo "Installing SwiftShip..."
 echo "Repository: $REPO_DIR"
@@ -65,7 +107,23 @@ mkdir -p "$CLAUDE_DIR/commands"
 # --- Symlinks --------------------------------------------------------------
 echo "Creating symlinks..."
 link "$REPO_DIR/commands/apple" "$CLAUDE_DIR/commands/apple"
-link "$REPO_DIR/agents"         "$CLAUDE_DIR/agents"
+
+# Agents are linked PER-FILE so any agents of your own in ~/.claude/agents/
+# keep working alongside SwiftShip's six. (Older installs symlinked the whole
+# directory, which displaced existing agents — migrate that first.)
+if [ -L "$CLAUDE_DIR/agents" ]; then
+    echo "Migrating legacy whole-directory agents symlink to per-file links..."
+    rm "$CLAUDE_DIR/agents"
+fi
+mkdir -p "$CLAUDE_DIR/agents"
+if [ -d "$CLAUDE_DIR/agents.backup" ]; then
+    echo "  note: found $CLAUDE_DIR/agents.backup (from an older install) —"
+    echo "        your original agents are there; move them back into $CLAUDE_DIR/agents/ anytime."
+fi
+for f in "$REPO_DIR"/agents/*.md; do
+    link "$f" "$CLAUDE_DIR/agents/$(basename "$f")"
+done
+
 link "$REPO_DIR/templates"      "$CLAUDE_DIR/swiftship-templates"
 
 # --- Usage-log hook (opt-in) ------------------------------------------------
