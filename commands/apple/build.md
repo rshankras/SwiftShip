@@ -156,11 +156,21 @@ before proceeding, and log the outcome with `"degraded":"no-agents"`.
 
 **Before executing each task:** Load the referenced skill from `~/.claude/swiftship-skills/[skills-reference]/SKILL.md` and include its patterns in the agent prompt context.
 
+**Per-task model override:** if the task XML carries `model="opus"` (set by
+`/apple:plan` on at most 1–2 foundation tasks per phase), pass it through as
+the spawn's `model` parameter — it overrides the agent's Sonnet frontmatter
+for that spawn only. Absent attribute → omit the parameter entirely (the pin
+applies). Never pass any other value, and never inherit the session model. If
+the escalated spawn fails (older harness, model unavailable), retry once
+without the parameter — the override must never block a task. Count escalated
+spawns separately for the ledger (see Completion).
+
 Spawn agent with context:
 
 ```
 Task({
   subagent_type: "[matched-agent]",
+  model: "opus",   // only when the task XML has model="opus" — omit otherwise
   prompt: `
     You are executing a task for an Apple app.
 
@@ -314,7 +324,7 @@ This gate is mandatory for phases 1-5. Phase 6 (Pre-Release) and Phase 7 (Submis
 
 ## Completion Message
 
-Before printing the completion message, append one `"event":"outcome"` line to the usage ledger per `~/.claude/swiftship-templates/_conventions/USAGE-LOG.md` (skip silently if the convention file is absent).
+Before printing the completion message, append one `"event":"outcome"` line to the usage ledger per `~/.claude/swiftship-templates/_conventions/USAGE-LOG.md` (skip silently if the convention file is absent). Key spawns that ran with a per-task model override as `"agent:opus"` in the `agents` object, e.g. `{"swift-generalist": 2, "swift-generalist:opus": 1}`.
 
 When all tasks and the quality gate pass:
 

@@ -41,4 +41,33 @@ small model gambling on a kill/build decision).
    every outcome line (see `USAGE-LOG.md`), so `/apple:usage` can report tier
    adherence and what drift actually cost.
 
+## Per-spawn overrides (task-level)
+
+The frontmatter pin is the default, not a ceiling. A Task call may pass a
+`model` parameter, which overrides the agent's frontmatter **for that spawn
+only** (documented resolution order: `CLAUDE_CODE_SUBAGENT_MODEL` env var →
+per-call parameter → agent frontmatter → session model). SwiftShip uses this
+in exactly two places:
+
+- `/apple:plan` tags at most 1–2 `type="auto"` foundation tasks per phase
+  with `model="opus"` (architecture, data model, concurrency, migration —
+  mistakes that propagate); `/apple:build` passes the attribute through at
+  spawn time.
+- `/apple:review` spawns its two Critical-finding verifiers with
+  `model: "opus"` — a wrong verdict there pauses `/apple:autonomous` or
+  ships a real bug, and a Sonnet verifier checking a Sonnet reviewer shares
+  its blind spots.
+
+Rules:
+
+1. **Opus only.** Haiku downshift is deliberately not offered until the usage
+   ledger shows mechanical tasks never fail verification.
+2. Escalated spawns are recorded in the ledger's `agents` object under
+   `"[agent]:opus"` keys (see `USAGE-LOG.md`), so `/apple:usage` can test
+   whether escalation actually reduces review findings and verify failures.
+3. If an escalated spawn fails, retry once without the parameter — the
+   override must never block a task.
+4. Debugging note: if subagents ignore pins and overrides alike, check the
+   `CLAUDE_CODE_SUBAGENT_MODEL` env var — it silently outranks both.
+
 Zero-install rule: if this file is absent, skip the check silently.
