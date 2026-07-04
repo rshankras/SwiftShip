@@ -11,11 +11,15 @@ time with no effect on SwiftShip.
 
 - File: `~/.claude/swiftship-usage.jsonl` — one JSON object per line, append-only.
 - Two event types share it:
-  - `"event": "invoke"` — written automatically by the optional hook
-    (`hooks/swiftship-usage-log.sh`, offered by `install.sh`). Registered on
-    **both** `UserPromptSubmit` (commands the user types — slash commands are
+  - `"event": "invoke"` — written automatically by the hook
+    (`hooks/swiftship-usage-log.sh`). Registered on **both**
+    `UserPromptSubmit` (commands the user types — slash commands are
     expanded client-side and never reach the Skill tool) and `PostToolUse` on
     the Skill tool (commands Claude invokes itself). Zero token cost.
+    Registration paths: **plugin installs auto-register it** via the plugin's
+    `hooks/hooks.json` (disable with `/plugin disable apple`); **manual
+    installs are opt-in** — `install.sh` prints the settings.json snippet but
+    never edits settings.
   - `"event": "outcome"` — written by workflow commands at completion (below).
 
 ## Which commands log an outcome

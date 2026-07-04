@@ -106,7 +106,7 @@ mkdir -p "$CLAUDE_DIR/commands"
 
 # --- Symlinks --------------------------------------------------------------
 echo "Creating symlinks..."
-link "$REPO_DIR/commands/apple" "$CLAUDE_DIR/commands/apple"
+link "$REPO_DIR/commands" "$CLAUDE_DIR/commands/apple"
 
 # Agents are linked PER-FILE so any agents of your own in ~/.claude/agents/
 # keep working alongside SwiftShip's six. (Older installs symlinked the whole

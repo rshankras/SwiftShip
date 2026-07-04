@@ -43,7 +43,10 @@ Launch all 5 review agents simultaneously for efficiency. Use exactly the
 `subagent_type` named in each block — **never the built-in `general-purpose`
 agent**, which has no pinned model and silently inherits the session model
 (Opus/Fable rates for Sonnet-grade work); `swift-generalist` is the pinned
-equivalent. The same rule applies to verifier spawns below.
+equivalent. The same rule applies to verifier spawns below. Plugin installs
+namespace agent types — if a bare name errors "Agent type not found", retry
+as `apple:<name>` (e.g. `apple:hig-reviewer`) before treating agents as
+unavailable.
 
 **If the agents are unavailable in this environment** (spawn fails — common in
 cloud/remote sessions without `~/.claude/agents/` or vendored

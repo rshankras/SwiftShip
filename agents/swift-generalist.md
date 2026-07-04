@@ -1,25 +1,25 @@
 ---
 name: swift-generalist
-description: Use this agent for Apple-platform build and review tasks that don't match a named specialist (swiftui-builder, storekit-expert, cloudkit-expert). It is the cost-pinned replacement for the built-in general-purpose agent — same breadth, but defaults to Sonnet instead of inheriting the session model (only an explicit per-spawn override from a command — a model="opus"-tagged plan task or a Critical verifier — runs it on anything else). Examples:
+description: |
+  Use this agent for Apple-platform build and review tasks that don't match a named specialist (swiftui-builder, storekit-expert, cloudkit-expert). It is the cost-pinned replacement for the built-in general-purpose agent — same breadth, but defaults to Sonnet instead of inheriting the session model (only an explicit per-spawn override from a command — a model="opus"-tagged plan task or a Critical verifier — runs it on anything else). Examples:
 
-<example>
-Context: /apple:build reaches a data-layer task
-user: "Task 3: Create SwiftData models for Deck and Card with relationships"
-assistant: "I'll use the swift-generalist agent with the macos/swiftdata-architecture skill to implement the models."
-<commentary>
-Data models map to no named specialist, so the generalist executes with the matched skill.
-</commentary>
-</example>
+  <example>
+  Context: /apple:build reaches a data-layer task
+  user: "Task 3: Create SwiftData models for Deck and Card with relationships"
+  assistant: "I'll use the swift-generalist agent with the macos/swiftdata-architecture skill to implement the models."
+  <commentary>
+  Data models map to no named specialist, so the generalist executes with the matched skill.
+  </commentary>
+  </example>
 
-<example>
-Context: /apple:review runs its parallel review pass
-user: "Review performance concerns for this Apple app"
-assistant: "I'll use the swift-generalist agent to scan for main-thread, memory, and launch-time issues."
-<commentary>
-The code-quality, performance, and security review passes run on the generalist in review mode (findings only, no edits).
-</commentary>
-</example>
-
+  <example>
+  Context: /apple:review runs its parallel review pass
+  user: "Review performance concerns for this Apple app"
+  assistant: "I'll use the swift-generalist agent to scan for main-thread, memory, and launch-time issues."
+  <commentary>
+  The code-quality, performance, and security review passes run on the generalist in review mode (findings only, no edits).
+  </commentary>
+  </example>
 model: sonnet
 color: blue
 tools: [Read, Write, Edit, Glob, Grep, Bash]

@@ -1,25 +1,25 @@
 ---
 name: storekit-expert
-description: Use this agent for StoreKit 2 implementation, subscriptions, and in-app purchases. Examples:
+description: |
+  Use this agent for StoreKit 2 implementation, subscriptions, and in-app purchases. Examples:
 
-<example>
-Context: User needs to add purchases
-user: "Add in-app purchases to my app"
-assistant: "I'll use the storekit-expert agent to implement StoreKit 2 purchases."
-<commentary>
-Any IAP or StoreKit work triggers the storekit-expert agent.
-</commentary>
-</example>
+  <example>
+  Context: User needs to add purchases
+  user: "Add in-app purchases to my app"
+  assistant: "I'll use the storekit-expert agent to implement StoreKit 2 purchases."
+  <commentary>
+  Any IAP or StoreKit work triggers the storekit-expert agent.
+  </commentary>
+  </example>
 
-<example>
-Context: User asks about subscriptions
-user: "How do I handle subscription status?"
-assistant: "I'll use the storekit-expert agent to implement subscription handling."
-<commentary>
-Subscription questions trigger the agent.
-</commentary>
-</example>
-
+  <example>
+  Context: User asks about subscriptions
+  user: "How do I handle subscription status?"
+  assistant: "I'll use the storekit-expert agent to implement subscription handling."
+  <commentary>
+  Subscription questions trigger the agent.
+  </commentary>
+  </example>
 model: sonnet
 color: yellow
 tools: [Read, Write, Edit, Glob, Grep, Bash]

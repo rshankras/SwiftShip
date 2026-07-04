@@ -27,7 +27,7 @@ Commands (user invokes /apple:*)
 
 **Three-layer system:**
 
-1. **Commands** (`commands/apple/*.md`) — Slash command definitions. Each is a markdown prompt with YAML frontmatter that Claude Code executes.
+1. **Commands** (`commands/*.md`, flat) — Slash command definitions. Each is a markdown prompt with YAML frontmatter that Claude Code executes. The `/apple:` prefix comes from the *plugin name* (`apple` in `.claude-plugin/plugin.json`) for plugin installs, and from the symlink name (`~/.claude/commands/apple`) for manual installs — the files themselves are unprefixed.
 
 2. **Agents** (`agents/*.md`) — Specialized subagents spawned by commands (primarily `/apple:build`). All agents run on Sonnet for cost efficiency. Agents have their own tool permissions defined in frontmatter.
 
@@ -165,8 +165,8 @@ Templates in `templates/` use XML tags that commands parse. Key tags in PLAN.md 
 Generator tasks add `<generator>` and `<customization>` tags. `type="auto"` tasks may carry an optional `model="opus"` attribute (set by `/apple:plan`, max 1–2 foundation tasks per phase) that `/apple:build` passes through as the spawn's per-call `model` override. Maintain tag consistency — commands match on these exact tag names.
 
 ### Adding a New Command
-1. Create `commands/apple/[name].md` with frontmatter
-2. Add to `commands/apple/help.md` ASCII box (match column alignment), Quick Reference table, and Planning Files table if it creates an output file
+1. Create `commands/[name].md` with frontmatter
+2. Add to `commands/help.md` ASCII box (match column alignment), Quick Reference table, and Planning Files table if it creates an output file
 3. Add to this CLAUDE.md if it's part of the main workflow
 4. Update the command count in `README.md` (two places: the **Highlights** bullet and the **Directory structure** comment)
 5. Run `./scripts/validate.sh` (catches missed registration, count drift, broken skill refs)
@@ -174,9 +174,16 @@ Generator tasks add `<generator>` and `<customization>` tags. `type="auto"` task
 
 ### Adding a New Agent
 1. Create `agents/[name].md` with frontmatter
-2. Add matching row to the task-content-to-agent table in `commands/apple/build.md`
-3. Add to `commands/apple/help.md` Specialized Agents table
+2. Add matching row to the task-content-to-agent table in `commands/build.md`
+3. Add to `commands/help.md` Specialized Agents table
 4. Update the agent count in `README.md` (Directory structure comment), then run `./scripts/validate.sh`
+
+### Plugin Packaging
+The repo is also a Claude Code **plugin** (`apple@indie-apple-stack`, listed in the skills repo's marketplace):
+- `.claude-plugin/plugin.json` — **`name: "apple"` IS the `/apple:*` command namespace. Never rename it**; that would silently rename all 49 commands for plugin users. No `version` field on purpose: git-SHA versioning, `main` is the release channel.
+- `hooks/hooks.json` — auto-registers for plugin installs only: a SessionStart glue hook (`hooks/swiftship-glue.sh`) that maintains the `~/.claude/swiftship-templates` and `~/.claude/swiftship-skills` symlinks (guarded — it never overwrites a symlink to a real checkout, so manual installs always win), plus the usage-log hook on UserPromptSubmit + PostToolUse(Skill). `${CLAUDE_PLUGIN_ROOT}` in hooks.json/command markdown is a **textual substitution**, not an env var.
+- Plugin agents spawn namespaced (`apple:swift-generalist`); spawning commands and the AGENT-VENDORING degraded guard document the bare-name-then-prefixed retry.
+- Keep `install.sh` working — it is the contributor/dev path and the fallback when plugins aren't available.
 
 ### Cutting a Release
 1. Move the `[Unreleased]` items in `CHANGELOG.md` into a new `[X.Y.Z] — date` section (update the compare links at the bottom)

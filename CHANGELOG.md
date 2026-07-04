@@ -10,6 +10,39 @@ commands, or moved skill-reference paths.
 
 ## [Unreleased]
 
+### Added
+
+- **Plugin distribution** — SwiftShip is now a Claude Code plugin
+  (`apple@indie-apple-stack`), installable with three slash commands (add the
+  marketplace, install `apple-skills`, install `apple`) and updatable via
+  `/plugin marketplace update`. Command names are preserved **byte-identical**:
+  the plugin is named `apple`, and `commands/apple/*.md` moved to flat
+  `commands/*.md`, so the plugin namespace supplies the same `/apple:*` prefix
+  the directory name used to (verified by experiment before converting). The
+  manual clone + `install.sh` path is unchanged and remains the
+  contributor/dev channel.
+- Plugin `hooks/hooks.json` (auto-registers for plugin installs only):
+  a SessionStart glue script (`hooks/swiftship-glue.sh`) maintains the
+  `~/.claude/swiftship-templates` and `~/.claude/swiftship-skills` symlinks —
+  guarded so a symlink pointing at a real git checkout is never overwritten
+  (manual installs always win) — and the usage-log hook, making the
+  local-only ledger on-by-default for plugin installs (disclosed in the
+  README; `/plugin disable apple` turns it off; manual installs stay opt-in).
+- Agent types are namespaced in plugin installs (`apple:swift-generalist`):
+  spawning commands (`build`, `review`, `submit`, `test`, `autonomous`) and
+  the AGENT-VENDORING degraded-mode guard document the bare-name →
+  `apple:`-prefixed retry, so agent spawns work in all three install modes
+  (manual symlinks, vendored, plugin).
+- `scripts/validate.sh` gains plugin checks: `plugin.json`/`hooks.json` must
+  parse and the plugin name must be exactly `apple` (it IS the command
+  namespace — a rename would silently rename all 49 commands). CI gains a
+  `plugin-validate` job running `claude plugin validate .` (non-strict: the
+  no-version and CLAUDE.md-at-root warnings are deliberate; errors still
+  fail). Fixing plugin validation also surfaced real YAML defects the lenient
+  runtime parser had masked: all six agents' multi-line descriptions weren't
+  valid block scalars (now `description: |`), and `autonomous.md`'s
+  `argument-hint` needed quoting.
+
 ## [1.1.0] — 2026-07-04
 
 Model right-sizing and resilience: the first release shaped by the usage
