@@ -10,6 +10,14 @@ commands, or moved skill-reference paths.
 
 ## [Unreleased]
 
+## [2.0.0] — 2026-07-04
+
+Distribution milestone: SwiftShip installs as a Claude Code plugin. **No
+breaking changes** — every `/apple:*` command name, template tag, and
+`.planning/` schema is unchanged (the major version marks the
+distribution-model shift, not a compatibility break; strict semver would
+call this 1.2.0). Manual clone + `install.sh` remains fully supported.
+
 ### Added
 
 - **Plugin distribution** — SwiftShip is now a Claude Code plugin
@@ -253,6 +261,7 @@ stable channel.
   which includes the `macos/*/SKILL.md` case fix required on case-sensitive
   filesystems (claude-code-apple-skills#15)
 
-[Unreleased]: https://github.com/rshankras/SwiftShip/compare/v1.1.0...HEAD
+[Unreleased]: https://github.com/rshankras/SwiftShip/compare/v2.0.0...HEAD
+[2.0.0]: https://github.com/rshankras/SwiftShip/compare/v1.1.0...v2.0.0
 [1.1.0]: https://github.com/rshankras/SwiftShip/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/rshankras/SwiftShip/releases/tag/v1.0.0
