@@ -1,25 +1,25 @@
 ---
 name: swiftui-builder
-description: Use this agent when building SwiftUI views, components, or screens for iOS/macOS apps. Examples:
+description: |
+  Use this agent when building SwiftUI views, components, or screens for iOS/macOS apps. Examples:
 
-<example>
-Context: User needs a new SwiftUI view
-user: "Create a settings screen for my app"
-assistant: "I'll use the swiftui-builder agent to create a modern SwiftUI settings screen."
-<commentary>
-Building a SwiftUI view triggers the swiftui-builder agent.
-</commentary>
-</example>
+  <example>
+  Context: User needs a new SwiftUI view
+  user: "Create a settings screen for my app"
+  assistant: "I'll use the swiftui-builder agent to create a modern SwiftUI settings screen."
+  <commentary>
+  Building a SwiftUI view triggers the swiftui-builder agent.
+  </commentary>
+  </example>
 
-<example>
-Context: User asks for UI component
-user: "Add a custom card component"
-assistant: "I'll use the swiftui-builder agent to create a reusable card component following HIG."
-<commentary>
-Creating SwiftUI components triggers the agent.
-</commentary>
-</example>
-
+  <example>
+  Context: User asks for UI component
+  user: "Add a custom card component"
+  assistant: "I'll use the swiftui-builder agent to create a reusable card component following HIG."
+  <commentary>
+  Creating SwiftUI components triggers the agent.
+  </commentary>
+  </example>
 model: sonnet
 color: green
 tools: [Read, Write, Edit, Glob, Grep, Bash]

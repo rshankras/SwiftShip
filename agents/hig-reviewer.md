@@ -1,25 +1,25 @@
 ---
 name: hig-reviewer
-description: Use this agent to review Human Interface Guidelines compliance for iOS/macOS apps. Examples:
+description: |
+  Use this agent to review Human Interface Guidelines compliance for iOS/macOS apps. Examples:
 
-<example>
-Context: User wants HIG review
-user: "Review my app for HIG compliance"
-assistant: "I'll use the hig-reviewer agent to check Human Interface Guidelines compliance."
-<commentary>
-HIG review requests trigger the hig-reviewer agent.
-</commentary>
-</example>
+  <example>
+  Context: User wants HIG review
+  user: "Review my app for HIG compliance"
+  assistant: "I'll use the hig-reviewer agent to check Human Interface Guidelines compliance."
+  <commentary>
+  HIG review requests trigger the hig-reviewer agent.
+  </commentary>
+  </example>
 
-<example>
-Context: Proactive review after UI work
-user: [After building UI]
-assistant: "Let me use the hig-reviewer agent to verify HIG compliance."
-<commentary>
-After UI implementation, proactively review for HIG.
-</commentary>
-</example>
-
+  <example>
+  Context: Proactive review after UI work
+  user: [After building UI]
+  assistant: "Let me use the hig-reviewer agent to verify HIG compliance."
+  <commentary>
+  After UI implementation, proactively review for HIG.
+  </commentary>
+  </example>
 model: sonnet
 color: blue
 tools: [Read, Glob, Grep]

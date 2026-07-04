@@ -51,7 +51,8 @@ Fix critical issues before public release.
 
 ## Final Review Agent
 
-Spawn comprehensive review:
+Spawn comprehensive review (plugin installs: retry as
+`apple:app-store-reviewer` if the bare name is not found):
 
 ```
 Task({

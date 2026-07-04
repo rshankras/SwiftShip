@@ -21,3 +21,20 @@ jobs:
 
       - name: Run validator
         run: REQUIRE_SKILLS=1 ./scripts/validate.sh claude-code-apple-skills
+
+  plugin-validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install Claude Code CLI
+        run: npm install -g @anthropic-ai/claude-code
+
+      # Not --strict: two warnings are deliberate (no version = git-SHA
+      # channel; CLAUDE.md at root is contributor docs). Errors still fail.
+      - name: Validate plugin manifest
+        run: claude plugin validate .

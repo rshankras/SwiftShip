@@ -1,0 +1,10 @@
+{
+  "name": "apple",
+  "description": "SwiftShip — spec-driven /apple:* workflow for iOS/macOS apps: idea → validate → plan → build → review → App Store. Install apple-skills@indie-apple-stack alongside it.",
+  "author": {
+    "name": "Ravi Shankar"
+  },
+  "homepage": "https://github.com/rshankras/SwiftShip",
+  "repository": "https://github.com/rshankras/SwiftShip",
+  "license": "MIT"
+}

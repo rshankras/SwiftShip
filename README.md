@@ -80,11 +80,25 @@ Building an app is like building a house:
 
 ## Installation
 
-SwiftShip needs three things on your Mac:
+SwiftShip needs **[Claude Code](https://claude.com/claude-code)** and **Xcode + the Swift toolchain** on your Mac. The companion "manuals" library it reads from ([claude-code-apple-skills](https://github.com/rshankras/claude-code-apple-skills)) comes with either install path below.
 
-1. **[Claude Code](https://claude.com/claude-code)** — the assistant SwiftShip runs inside.
-2. **Xcode + the Swift toolchain** — to build and test the apps you create.
-3. **[claude-code-apple-skills](https://github.com/rshankras/claude-code-apple-skills)** — the companion "manuals" library SwiftShip reads from. Check it out anywhere; the installer finds it automatically if it sits next to this repo.
+### Install as a Plugin (recommended)
+
+In Claude Code:
+
+```
+/plugin marketplace add rshankras/claude-code-apple-skills
+/plugin install apple-skills@indie-apple-stack
+/plugin install apple@indie-apple-stack
+```
+
+Then start a **fresh session** in your app project and run `/apple:help`. Update any time with `/plugin marketplace update indie-apple-stack`; remove with `/plugin uninstall apple`.
+
+- **Install both plugins.** `apple` is the workflow; `apple-skills` is the knowledge library its commands read. A session-start hook wires the file paths between them automatically.
+- **The usage ledger is on by default for plugin installs.** The plugin registers SwiftShip's local-only usage hook (`~/.claude/swiftship-usage.jsonl` — timestamps, command names, and outcomes only; **nothing ever leaves your machine**). Turn it off with `/plugin disable apple`, or delete the file anytime. Manual installs remain strictly opt-in (see below).
+- **Migrating from a manual install?** Run `./install.sh --uninstall` from your checkout first, so you don't end up with duplicate `/apple:*` commands.
+
+### Manual install (contributors / development)
 
 From zero, that's three commands:
 
@@ -108,7 +122,7 @@ It creates **home‑relative symlinks** in `~/.claude/` so the commands work in 
 
 | Symlink | Points to |
 |---|---|
-| `~/.claude/commands/apple` | this repo's `commands/apple/` |
+| `~/.claude/commands/apple` | this repo's `commands/` (linked as `apple` so the `/apple:*` prefix is preserved) |
 | `~/.claude/agents/<agent>.md` | this repo's `agents/*.md` — **per-file**, so agents of your own in `~/.claude/agents/` are untouched |
 | `~/.claude/swiftship-templates` | this repo's `templates/` |
 | `~/.claude/swiftship-skills` | the `skills/` folder of your `claude-code-apple-skills` checkout |
@@ -466,7 +480,7 @@ SwiftShip is the *manager*; the **[claude-code-apple-skills](https://github.com/
 
 ```
 SwiftShip/
-├── commands/apple/        # 49 workflow commands (the /apple:* you type)
+├── commands/              # 49 workflow commands (the /apple:* you type — the plugin name "apple" supplies the prefix)
 ├── agents/                # 6 specialist agents
 ├── templates/             # planning-file templates copied into your project
 │   └── _conventions/      # shared rules (tool-handoff, usage-log, model-tiers, agent-vendoring)

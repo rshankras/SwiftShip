@@ -1,25 +1,25 @@
 ---
 name: app-store-reviewer
-description: Use this agent to check App Store Review Guidelines compliance before submission. Examples:
+description: |
+  Use this agent to check App Store Review Guidelines compliance before submission. Examples:
 
-<example>
-Context: User preparing for submission
-user: "Is my app ready for App Store?"
-assistant: "I'll use the app-store-reviewer agent to check Review Guidelines compliance."
-<commentary>
-Pre-submission checks trigger the app-store-reviewer agent.
-</commentary>
-</example>
+  <example>
+  Context: User preparing for submission
+  user: "Is my app ready for App Store?"
+  assistant: "I'll use the app-store-reviewer agent to check Review Guidelines compliance."
+  <commentary>
+  Pre-submission checks trigger the app-store-reviewer agent.
+  </commentary>
+  </example>
 
-<example>
-Context: User got rejected
-user: "My app was rejected for guideline 2.1"
-assistant: "I'll use the app-store-reviewer agent to analyze and fix the rejection."
-<commentary>
-Rejection analysis triggers the agent.
-</commentary>
-</example>
-
+  <example>
+  Context: User got rejected
+  user: "My app was rejected for guideline 2.1"
+  assistant: "I'll use the app-store-reviewer agent to analyze and fix the rejection."
+  <commentary>
+  Rejection analysis triggers the agent.
+  </commentary>
+  </example>
 model: sonnet
 color: red
 tools: [Read, Glob, Grep]

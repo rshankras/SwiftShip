@@ -67,7 +67,10 @@ Update STATE.md:
 
 #### For `type="auto"` Tasks:
 
-Match task to appropriate agent and spawn:
+Match task to appropriate agent and spawn. Agent names below are bare
+(symlink/vendored installs); **plugin installs namespace them** — if a bare
+name errors "Agent type not found", retry as `apple:<name>`
+(e.g. `apple:swift-generalist`) before applying the degraded-mode guard:
 
 | Task Content | Agent | Skills Reference |
 |-------------|-------|-----------------|

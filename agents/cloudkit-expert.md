@@ -1,25 +1,25 @@
 ---
 name: cloudkit-expert
-description: Use this agent for CloudKit sync, iCloud integration, and data synchronization. Examples:
+description: |
+  Use this agent for CloudKit sync, iCloud integration, and data synchronization. Examples:
 
-<example>
-Context: User needs iCloud sync
-user: "Add iCloud sync to my app"
-assistant: "I'll use the cloudkit-expert agent to implement CloudKit synchronization."
-<commentary>
-iCloud/CloudKit work triggers the cloudkit-expert agent.
-</commentary>
-</example>
+  <example>
+  Context: User needs iCloud sync
+  user: "Add iCloud sync to my app"
+  assistant: "I'll use the cloudkit-expert agent to implement CloudKit synchronization."
+  <commentary>
+  iCloud/CloudKit work triggers the cloudkit-expert agent.
+  </commentary>
+  </example>
 
-<example>
-Context: User asks about sync conflicts
-user: "How do I handle sync conflicts?"
-assistant: "I'll use the cloudkit-expert agent to implement conflict resolution."
-<commentary>
-Sync-related questions trigger the agent.
-</commentary>
-</example>
-
+  <example>
+  Context: User asks about sync conflicts
+  user: "How do I handle sync conflicts?"
+  assistant: "I'll use the cloudkit-expert agent to implement conflict resolution."
+  <commentary>
+  Sync-related questions trigger the agent.
+  </commentary>
+  </example>
 model: sonnet
 color: cyan
 tools: [Read, Write, Edit, Glob, Grep, Bash]

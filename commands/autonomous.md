@@ -1,7 +1,7 @@
 ---
 description: Autonomously run plan→build→verify across remaining phases
 allowed-tools: Read, Write, Edit, Bash, Task, Glob, Grep, AskUserQuestion
-argument-hint: [start-phase] [--to N] [--yes]
+argument-hint: "[start-phase] [--to N] [--yes]"
 ---
 
 # Autonomous Multi-Phase Build
@@ -104,7 +104,9 @@ command — follow that command's logic exactly.
    for this phase, applying preferences and the conditional generator selection.
 
 3. **Build** — execute the `/apple:build` logic. Work through every pending task
-   in order, spawning the matched agents, running per-task verification, updating
+   in order, spawning the matched agents (bare names; retry as `apple:<name>`
+   on "Agent type not found" — plugin installs namespace agent types),
+   running per-task verification, updating
    `STATE.md`, and committing after each task. This includes the **phase-end
    quality gate** (`/apple:review`): fix Critical/High inline; backlog
    Medium/Low. If a `manual` task is hit, pause per the Safety Model.

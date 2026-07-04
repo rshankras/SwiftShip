@@ -1,11 +1,15 @@
 # Agent Vendoring Convention
 
-SwiftShip's six agents live in `~/.claude/agents/` — machine-local, installed
-by `install.sh`. **Project-level `.claude/agents/` outranks user-level and
-travels with the git repo** — cloud sessions, CI, remote-launched sessions,
-and other machines all load it. Vendoring copies the agents into the target
-project so `/apple:build` and `/apple:review` keep their pinned-Sonnet agents
-in every environment, not just where `install.sh` ran.
+SwiftShip's six agents arrive one of three ways: `~/.claude/agents/`
+(machine-local, installed per-file by `install.sh`), the **`apple` plugin**
+(they ship inside it; spawn as `apple:<name>` — plugin agent types are
+namespaced), or vendored `.claude/agents/` in the project.
+**Project/user `.claude/agents/` definitions override same-named plugin
+agents**, and project-level outranks user-level and travels with the git
+repo — cloud sessions, CI, remote-launched sessions, and other machines all
+load it. Vendoring copies the agents into the target project so
+`/apple:build` and `/apple:review` keep their pinned-Sonnet agents in every
+environment, not just where `install.sh` ran or the plugin is installed.
 
 Why it matters: in a session without `~/.claude/agents/`, the pin silently
 disappears — build tasks run inline on the session model (premium rates) and
@@ -49,6 +53,10 @@ sessions — or the agents were installed/vendored *mid-session*: agent
 definitions load once at session start, so files added since then are
 invisible until a restart):
 
+0. **Retry with the plugin namespace first**: a bare name failing with
+   "Agent type not found" may just mean a plugin install — retry as
+   `apple:<name>` (e.g. `apple:swift-generalist`). Only when both forms
+   fail is this guard in effect.
 1. Tell the user immediately which agents are missing, that pinned-model
    execution / the full review gate can't run here, and that vendoring (above)
    or a local session fixes it — plus a session restart if the files exist on

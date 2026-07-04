@@ -45,7 +45,7 @@ else
     echo "⚠️  Skills checkout not found at: $SKILLS_SRC — skipping skill-reference checks"
 fi
 
-MD_SOURCES="commands/apple agents"
+MD_SOURCES="commands agents"
 
 # --- 1. Skill references resolve ---------------------------------------------
 if [ "$SKILLS_OK" = "1" ]; then
@@ -114,7 +114,7 @@ echo "  checked $(grep -rhoE '~/.claude/swiftship-templates/[A-Za-z0-9_./-]+' $M
 
 # --- 3. Documented counts match reality ---------------------------------------
 section "Documented counts match reality"
-CMD_COUNT=$(ls commands/apple/*.md | wc -l | tr -d ' ')
+CMD_COUNT=$(ls commands/*.md | wc -l | tr -d ' ')
 AGENT_COUNT=$(ls agents/*.md | wc -l | tr -d ' ')
 
 readme_cmd=$(grep -oE '[0-9]+ workflow commands' README.md | grep -oE '[0-9]+' | head -1)
@@ -128,15 +128,15 @@ echo "  commands: $CMD_COUNT, agents: $AGENT_COUNT"
 
 # --- 4. Every command is registered in help.md --------------------------------
 section "Every command registered in help.md"
-for f in commands/apple/*.md; do
+for f in commands/*.md; do
     name=$(basename "$f" .md)
-    grep -q "/apple:$name" commands/apple/help.md || fail "commands/apple/$name.md not listed in help.md"
+    grep -q "/apple:$name" commands/help.md || fail "commands/$name.md not listed in help.md"
 done
 echo "  checked $CMD_COUNT commands"
 
 # --- 5. Frontmatter well-formed ------------------------------------------------
 section "Frontmatter well-formed"
-for f in commands/apple/*.md; do
+for f in commands/*.md; do
     fm=$(awk '/^---$/{n++; next} n==1{print} n==2{exit}' "$f")
     echo "$fm" | grep -q '^description:'   || fail "$f — missing 'description:' in frontmatter"
     echo "$fm" | grep -q '^allowed-tools:' || fail "$f — missing 'allowed-tools:' in frontmatter"
@@ -150,7 +150,18 @@ for f in agents/*.md; do
 done
 echo "  checked $CMD_COUNT commands + $AGENT_COUNT agents"
 
-# --- 6. Shell scripts are sane --------------------------------------------------
+# --- 6. Plugin manifest + hooks well-formed --------------------------------------
+section "Plugin manifest well-formed"
+python3 - <<'PYEOF' || fail "plugin.json / hooks.json invalid"
+import json, sys
+pj = json.load(open(".claude-plugin/plugin.json"))
+assert pj["name"] == "apple", "plugin.json name MUST be 'apple' - it IS the /apple:* command namespace"
+hj = json.load(open("hooks/hooks.json"))
+assert "hooks" in hj
+PYEOF
+echo "  plugin.json (name=apple) + hooks.json parse"
+
+# --- 7. Shell scripts are sane --------------------------------------------------
 section "Shell scripts executable and parse"
 for s in install.sh hooks/*.sh scripts/*.sh; do
     [ -x "$s" ] || fail "$s is not executable (chmod +x)"

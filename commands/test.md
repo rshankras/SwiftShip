@@ -110,7 +110,9 @@ Options: **Generate all** / **Choose subset** / **Cancel**.
 
 For each approved file (inline, or via a `swift-generalist`/`swiftui-builder`
 agent for larger batches — never the built-in `general-purpose` agent, which
-inherits the session model instead of pinning Sonnet):
+inherits the session model instead of pinning Sonnet; plugin installs
+namespace agent types, so retry as `apple:<name>` if the bare name is not
+found):
 1. **RED** — write the failing test(s) first; confirm they fail for the *right*
    reason (not a compile error).
 2. **GREEN** — confirm the code under test makes them pass; if a test reveals a
