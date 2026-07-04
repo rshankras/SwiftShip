@@ -151,10 +151,15 @@ spawn in this command, including verification and fix-up passes.
 
 **If the agents are unavailable in this environment** (spawn fails — common in
 cloud/remote sessions without `~/.claude/agents/` or vendored
-`.claude/agents/`): apply the degraded-mode guard in
+`.claude/agents/`, or right after vendoring: definitions load at session
+start): apply the degraded-mode guard in
 `~/.claude/swiftship-templates/_conventions/AGENT-VENDORING.md` — tell the
 user the pin is lost (tasks would run inline at session-model rates), ask
 before proceeding, and log the outcome with `"degraded":"no-agents"`.
+Substituting `general-purpose` for the named agents counts as degraded even
+with per-call `model` overrides — keep the overrides if proceeding (they
+preserve the cost pin and any `model="opus"` task tags), but the run must
+still be asked-about and logged degraded.
 
 **Visual QA tasks:** When a task named "Visual QA Audit" is encountered, execute the `/apple:visual-qa` skill in code-only mode. Run all 6 Grep-based scans (hardcoded colors, fixed fonts, missing accessibility, small touch targets, missing view states, rigid frames), fix all Critical/High issues, and generate `.planning/VISUAL-QA.md`.
 

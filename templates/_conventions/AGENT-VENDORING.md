@@ -59,3 +59,15 @@ invisible until a restart):
    `REVIEW.md`, use a banner at the top), and log the ledger outcome per
    `USAGE-LOG.md` with `"outcome":"partial"` and `"degraded":"no-agents"` —
    a degraded run must never be indistinguishable from the full gate.
+
+**Substitution is degraded mode too.** Spawning another subagent type
+(including the built-in `general-purpose`) in place of a named agent triggers
+this guard exactly like a failed spawn — the specialist expertise is gone
+either way, and a substituted run that logs a clean `completed` is invisible
+except through its spawn keys (observed in the wild: a review ran
+`general-purpose:sonnet` ×8 with no `hig-reviewer`/`app-store-reviewer` and
+logged as a normal full-gate review). If the user chooses to proceed with
+substitute spawns, pass an explicit per-call `model` on every one (`sonnet`
+by default; keep `opus` where a plan tag or Critical verifier calls for it) —
+that preserves the cost pin and escalation rules — but the run is still
+degraded and must be asked-about, bannered, and logged as above.
