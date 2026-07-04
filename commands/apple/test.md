@@ -2,6 +2,7 @@
 description: Generate or expand tests on demand using SwiftShip's testing skills
 allowed-tools: Read, Write, Edit, Bash, Glob, Grep, Task, AskUserQuestion
 argument-hint: [phase-number | path | "recent"]
+model: sonnet
 ---
 
 # Test — On-Demand Test Generation

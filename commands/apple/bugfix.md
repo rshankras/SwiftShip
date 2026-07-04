@@ -2,6 +2,7 @@
 description: Quick bug fix with regression test and structured commit
 argument-hint: [bug-description or crash log or issue URL]
 allowed-tools: Read, Write, Edit, Bash, Glob, Grep, Task
+model: sonnet
 ---
 
 # Bug Fix

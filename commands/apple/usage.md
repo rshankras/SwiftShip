@@ -100,7 +100,7 @@ Do not fabricate a correlation from a handful of runs.
 
 | Signal | Recommendation |
 |---|---|
-| >50% of execution-tier runs above tier | Habit fix: `/model sonnet` before `build`/`review`/`autonomous` — the single biggest cost lever |
+| >50% of execution-tier runs above tier | Pinned commands (`build`/`review`/`verify`/`test`/`bugfix`/`ship`) above tier means the frontmatter pin isn't applying — re-run `./install.sh`; for unpinned `autonomous`, `/model sonnet` before the run |
 | Judgment-tier runs on Sonnet/Haiku | Run `validate`/`roadmap`/`plan` (complex phases) on the top model — token-cheap, consequence-expensive |
 | `invoke` events = 0 but outcomes exist | The hook isn't registered — show the install.sh snippet |
 | `model` field missing on most outcomes | Commands predate the model field — re-run `./install.sh` to refresh symlinks |

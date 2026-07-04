@@ -70,6 +70,20 @@ commands, or moved skill-reference paths.
 
 ### Changed
 
+- Execution-tier hot-loop commands (`build`, `review`, `verify`, `test`,
+  `bugfix`, `ship`) now pin `model: sonnet` in command frontmatter. The
+  override is turn-scoped (documented Claude Code behavior: the command's
+  turn runs on the pinned model, the session model resumes on the next user
+  prompt), so it can never downgrade a later judgment-tier command, and
+  per-spawn Opus escalation (Task-call `model` parameter) still outranks it.
+  Replaces the "remember to `/model sonnet`" habit the first `/apple:usage`
+  report showed wasn't happening: 10/10 execution-tier runs in the ledger
+  billed premium main-loop rates (fable-5 ×5, opus-4-8 ×5) for routing work
+  the Sonnet-pinned agents did anyway. The printed tier note remains as
+  fallback for installs predating the pin and org model allowlists that
+  exclude Sonnet; `/apple:autonomous` stays unpinned (its main loop includes
+  plan-phase judgment work) and keeps its ask-once gate.
+
 - `/apple:review` Critical-finding verifiers now escalate to Opus via a
   per-spawn `model` override (High verifiers stay on the Sonnet pin). A
   Sonnet verifier checking a Sonnet reviewer shares its blind spots, and a

@@ -1,6 +1,7 @@
 ---
 description: Run comprehensive code, HIG, and App Store review
 allowed-tools: Read, Glob, Grep, Task
+model: sonnet
 ---
 
 # Comprehensive Apple Review
@@ -27,11 +28,14 @@ Read: .planning/ROADMAP.md (if exists)
 Read: .planning/STATE.md (if exists)
 ```
 
-**Model check (execution tier):** apply
-`~/.claude/swiftship-templates/_conventions/MODEL-TIERS.md` — reviewers are
-pinned agents and Critical verifiers escalate on their own (see the foreman
-step), independent of the session model, so a premium session model adds cost,
-not rigor; note once, continue. Skip silently if the file is absent.
+**Model check (execution tier):** this command pins `model: sonnet` in its
+frontmatter (turn-scoped; see
+`~/.claude/swiftship-templates/_conventions/MODEL-TIERS.md`). Reviewers are
+pinned agents and Critical verifiers escalate per-spawn (see the foreman
+step) — both independent of the turn model, so the pin costs no rigor. If
+your system prompt still names a premium model, the pin didn't apply — note
+once that `./install.sh` refreshes it, continue. Skip silently if the
+convention file is absent.
 
 ## Spawn Review Agents in Parallel
 
