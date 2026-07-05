@@ -33,9 +33,11 @@ frontmatter (turn-scoped; see
 `~/.claude/swiftship-templates/_conventions/MODEL-TIERS.md`). Reviewers are
 pinned agents and Critical verifiers escalate per-spawn (see the foreman
 step) — both independent of the turn model, so the pin costs no rigor. If
-your system prompt still names a premium model, the pin didn't apply — note
-once that `./install.sh` refreshes it, continue. Skip silently if the
-convention file is absent.
+your system prompt still names a premium model, the pin didn't apply — the
+usual cause is Skill-tool routing (the command body runs inside the current
+turn, which no frontmatter can switch; `./install.sh` only fixes stale
+symlink installs). Note once that `/model sonnet` costs nothing in quality
+here, continue. Skip silently if the convention file is absent.
 
 ## Spawn Review Agents in Parallel
 

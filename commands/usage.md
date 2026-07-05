@@ -85,6 +85,13 @@ and classify: **on tier**, **above tier** (e.g. `build` on `fable-5` or
 Haiku). Report per command: `build: 4/6 runs above tier (fable-5 ×3,
 opus-4-8 ×1)`.
 
+When invoke lines carry a `via` field, also report the typed-vs-skill split
+(overall is fine; per pinned command if drift is concentrated). Frontmatter
+pins can only apply on the `typed` path — `skill`-routed commands run inside
+the already-running turn on the session model — so a high `skill` share is
+the expected *explanation* for above-tier pinned runs, not a defect in the
+install. Older invoke lines without `via` are simply unclassified.
+
 Keep cost commentary **qualitative** — above-tier execution runs bill premium
 rates for routing work the Sonnet-pinned agents do anyway; below-tier
 judgment runs gamble kill/build decisions on a small model. Never print
@@ -105,7 +112,7 @@ Do not fabricate a correlation from a handful of runs.
 
 | Signal | Recommendation |
 |---|---|
-| >50% of execution-tier runs above tier | Pinned commands (`build`/`review`/`verify`/`test`/`bugfix`/`ship`) above tier means the frontmatter pin isn't applying — re-run `./install.sh`; for unpinned `autonomous`, `/model sonnet` before the run |
+| >50% of execution-tier runs above tier | Pinned commands (`build`/`review`/`verify`/`test`/`bugfix`/`ship`) above tier means the frontmatter pin isn't applying. Check the `via` split: mostly `skill` → Skill-tool routing, the pin *cannot* apply there — advise `/model sonnet` before execution-heavy stretches (agents stay pinned either way); mostly `typed` (or no `via` data) → stale install or org allowlist — re-run `./install.sh`. For unpinned `autonomous`, `/model sonnet` before the run |
 | Judgment-tier runs on Sonnet/Haiku | Run `validate`/`roadmap`/`plan` (complex phases) on the top model — token-cheap, consequence-expensive |
 | `invoke` events = 0 but outcomes exist | The hook isn't registered — show the install.sh snippet |
 | `model` field missing on most outcomes | Commands predate the model field — re-run `./install.sh` to refresh symlinks |

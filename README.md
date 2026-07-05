@@ -159,9 +159,9 @@ SwiftShip can keep a **local‑only** record of which commands you run and how t
 "PostToolUse": [{"matcher": "Skill", "hooks": [{"type": "command", "command": "~/.claude/hooks/swiftship-usage-log.sh"}]}]
 ```
 
-(`UserPromptSubmit` catches commands **you type** — slash commands never reach the Skill tool, so this entry does most of the work; `PostToolUse` catches commands Claude invokes itself.)
+(`UserPromptSubmit` catches commands **you type** that are expanded client‑side; `PostToolUse` catches commands invoked through the Skill tool — Claude invoking one itself, or harness versions that route typed commands through Skill. Each invocation matches exactly one entry, and the ledger records which as `via: "typed" | "skill"`.)
 
-**Nothing ever leaves your machine** — no analytics service, no phone‑home; the ledger holds timestamps, command names, counts, and the session model only. Delete the file (or skip the hook) any time.
+**Nothing ever leaves your machine** — no analytics service, no phone‑home; the ledger holds timestamps, command names, counts, the session model, and how each command was invoked (typed vs Skill‑routed) only. Delete the file (or skip the hook) any time.
 
 Once there's data, run **`/apple:usage`** to see the report: which commands you run, how they ended, where runs stall, and whether each command ran on the model tier it should have.
 
