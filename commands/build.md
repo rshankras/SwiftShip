@@ -12,10 +12,15 @@ Execute pending tasks from `.planning/PLAN.md` using specialized agents.
 frontmatter — the turn runs on Sonnet and the session model returns on the
 next user prompt (see
 `~/.claude/swiftship-templates/_conventions/MODEL-TIERS.md`). If your system
-prompt still names a premium model, the pin didn't apply (install predating
-it, or an org model allowlist) — note once that `/model sonnet` costs nothing
-in quality here and `./install.sh` refreshes the pin, then continue. Skip
-silently if the convention file is absent.
+prompt still names a premium model, the pin didn't apply. The usual cause is
+**Skill-tool routing**: when this command reaches you through the Skill tool
+(Claude invoking it, or a harness that routes typed commands through Skill),
+the body executes inside the already-running turn — no frontmatter can switch
+a turn in flight. Stale installs and org model allowlists are the rarer
+causes (`./install.sh` refreshes symlink installs; it cannot fix routing).
+Note once that `/model sonnet` before execution-heavy stretches costs nothing
+in quality here (agents are pinned regardless), then continue. Skip silently
+if the convention file is absent.
 
 ## Prerequisites
 

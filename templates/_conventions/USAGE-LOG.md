@@ -13,13 +13,21 @@ time with no effect on SwiftShip.
 - Two event types share it:
   - `"event": "invoke"` — written automatically by the hook
     (`hooks/swiftship-usage-log.sh`). Registered on **both**
-    `UserPromptSubmit` (commands the user types — slash commands are
-    expanded client-side and never reach the Skill tool) and `PostToolUse` on
-    the Skill tool (commands Claude invokes itself). Zero token cost.
+    `UserPromptSubmit` (commands the user types that are expanded
+    client-side) and `PostToolUse` on the Skill tool (commands Claude invokes
+    itself, plus harness versions that route typed commands through Skill).
+    A given invocation matches exactly one shape; the `via` field records
+    which: `"typed"` or `"skill"`. The split matters because frontmatter
+    `model` pins only apply on the typed/expanded path — a Skill-routed
+    command body executes inside the already-running turn on the session
+    model (see MODEL-TIERS.md), so `via` is how `/apple:usage` explains
+    tier drift on pinned commands. Zero token cost.
     Registration paths: **plugin installs auto-register it** via the plugin's
     `hooks/hooks.json` (disable with `/plugin disable apple`); **manual
     installs are opt-in** — `install.sh` prints the settings.json snippet but
     never edits settings.
+    Invoke line shape: `{ts, event: "invoke", cmd, project, via}` (lines
+    written before the `via` field existed simply omit it).
   - `"event": "outcome"` — written by workflow commands at completion (below).
 
 ## Which commands log an outcome

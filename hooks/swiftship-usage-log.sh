@@ -2,10 +2,14 @@
 # SwiftShip usage hook — logs /apple:* command invocations to a local ledger.
 # Registered as two Claude Code hooks (opt-in; install.sh prints the snippet):
 #   - UserPromptSubmit: catches commands the user types ("/apple:build ...")
-#   - PostToolUse on the Skill tool: catches commands Claude invokes itself
-# User-typed slash commands never reach the Skill tool (they are expanded
-# client-side), so both registrations are needed for full coverage. A given
-# invocation only ever matches one shape, so nothing is double-logged.
+#   - PostToolUse on the Skill tool: catches commands invoked via the Skill
+#     tool (Claude invoking a command itself, and harness versions that route
+#     typed commands through Skill as well)
+# Both registrations are needed for full coverage. A given invocation only
+# ever matches one shape, so nothing is double-logged; the "via" field records
+# which shape matched ("typed" vs "skill") — /apple:usage uses the split to
+# explain model-tier drift, since frontmatter model pins cannot apply on the
+# Skill-tool path (the body runs inside the already-running turn).
 # Zero token cost — runs outside the model. Local-only; never transmits anything.
 #
 # Ledger: ~/.claude/swiftship-usage.jsonl (see templates/_conventions/USAGE-LOG.md)
@@ -13,6 +17,7 @@ input=$(cat)
 
 # PostToolUse(Skill) shape: .tool_input.skill = "apple:map"
 cmd=$(printf '%s' "$input" | jq -r '.tool_input.skill // empty' 2>/dev/null)
+via="skill"
 
 # UserPromptSubmit shape: .prompt = "/apple:map [args]"
 if [ -z "$cmd" ]; then
@@ -21,6 +26,7 @@ if [ -z "$cmd" ]; then
     /apple:*)
       cmd=${prompt#/}           # "/apple:map args" -> "apple:map args"
       cmd=${cmd%%[[:space:]]*}  # first word only   -> "apple:map"
+      via="typed"
       ;;
   esac
 fi
@@ -33,7 +39,8 @@ case "$cmd" in
         --arg ts "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
         --arg cmd "${cmd#apple:}" \
         --arg project "$(basename "$(printf '%s' "$input" | jq -r '.cwd // "unknown"')")" \
-        '{ts:$ts, event:"invoke", cmd:$cmd, project:$project}' \
+        --arg via "$via" \
+        '{ts:$ts, event:"invoke", cmd:$cmd, project:$project, via:$via}' \
         >> "$HOME/.claude/swiftship-usage.jsonl"
     ) 2>/dev/null
     ;;

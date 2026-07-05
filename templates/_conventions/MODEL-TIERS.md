@@ -30,13 +30,26 @@ downgrade a later judgment-tier command. Per-spawn escalation is unaffected —
 a Task call's `model` parameter outranks the turn model (resolution order
 under "Per-spawn overrides" below).
 
-Two deliberate gaps, which is why the printed check below stays:
+Three gaps, which is why the printed check below stays:
 
+- **Skill-tool routing (the common one):** the pin only takes effect when the
+  harness expands the typed command into its own turn. When the command runs
+  through the Skill tool — Claude invoking it itself, or a harness version
+  that routes typed commands through Skill — the body executes inside the
+  already-running turn on the session model, and no frontmatter can switch a
+  turn in flight. Ledger evidence (2026-07-05): runs from a freshly installed
+  pinned plugin still logged `fable-5`. Per-spawn pins and overrides are
+  unaffected — only the main-loop turn drifts.
 - `/apple:autonomous` has no pin — its main loop includes plan-phase judgment
   work, so it asks once before a long run instead.
-- The pin can silently not apply (an install predating it, or an org model
-  allowlist that excludes Sonnet — the harness then keeps the session model).
-  Adherence is therefore still measured from the ledger, never assumed.
+- The pin can silently not apply for install reasons (an install predating
+  it, or an org model allowlist that excludes Sonnet — the harness then keeps
+  the session model).
+
+Adherence is therefore still measured from the ledger, never assumed. The
+practical lever when routing bypasses the pin is the user running
+`/model sonnet` before an execution-heavy stretch — quality is unaffected
+either way because the agents are pinned.
 
 ## The check (referenced by commands — never blocks)
 
@@ -48,7 +61,8 @@ Two deliberate gaps, which is why the printed check below stays:
      `💡 [command] is execution-tier; /model sonnet cuts cost with no quality
      loss (agents are pinned to Sonnet regardless). Continuing on [model].` —
      then continue. On a frontmatter-pinned command this means the pin didn't
-     apply — add that `./install.sh` refreshes it. `/apple:autonomous` is the
+     apply — usually Skill-tool routing (see the gaps above); `./install.sh`
+     only fixes stale symlink installs. `/apple:autonomous` is the
      exception: before starting a long run, ask once (AskUserQuestion) —
      switch first, or continue on the current model.
    - **Running below tier** (e.g. `validate` on Sonnet or any command on

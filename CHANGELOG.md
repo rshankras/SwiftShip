@@ -10,6 +10,26 @@ commands, or moved skill-reference paths.
 
 ## [Unreleased]
 
+### Fixed
+
+- **Model-pin docs name the real failure mode: Skill-tool routing.** Ledger
+  evidence (2026-07-05) showed 17/17 execution-tier runs above tier — with
+  the `model: sonnet` pin present in a freshly installed plugin — because
+  commands executed via the Skill tool run inside the already-running turn,
+  which no frontmatter can switch. `build`/`review` model checks,
+  MODEL-TIERS.md, and the `/apple:usage` recommendation rule now diagnose
+  routing first (remedy: `/model sonnet` before execution-heavy stretches)
+  instead of misdirecting to `./install.sh`, which only fixes stale symlink
+  installs.
+
+### Added
+
+- **`via` field on invoke lines** — the usage hook now records which shape
+  matched (`"typed"` = UserPromptSubmit, `"skill"` = PostToolUse on Skill),
+  so `/apple:usage` can measure the routing split and attribute tier drift
+  on pinned commands to it with data instead of inference. Older lines
+  without the field remain valid (schema addition only).
+
 ## [2.0.0] — 2026-07-04
 
 Distribution milestone: SwiftShip installs as a Claude Code plugin. **No
