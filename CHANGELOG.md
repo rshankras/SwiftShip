@@ -12,6 +12,16 @@ commands, or moved skill-reference paths.
 
 ### Fixed
 
+- **`/apple:bugfix` carries the `general-purpose` guard.** The command has
+  granted `Task` in its frontmatter since it was first added, but its body
+  never mentioned agents — so a spawn would have defaulted to the built-in
+  `general-purpose` agent, which has no pinned model and inherits the session
+  model. Step 4 now routes multi-file fixes to `swift-generalist`
+  (`swiftui-builder` for view-only fixes), names the plugin-namespaced retry,
+  and falls back to the AGENT-VENDORING degraded guard. This is the same
+  guard `build`, `review`, and `test` already carried. Completion now records
+  spawn counts in the ledger's `agents` object.
+
 - **Model-pin docs name the real failure mode: Skill-tool routing.** Ledger
   evidence (2026-07-05) showed 17/17 execution-tier runs above tier — with
   the `model: sonnet` pin present in a freshly installed plugin — because
