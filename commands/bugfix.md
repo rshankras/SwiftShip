@@ -94,7 +94,17 @@ Wait for user confirmation.
 
 ## Step 4: Apply the Fix
 
-Make the minimal change needed to fix the bug. Follow platform best practices:
+Make the minimal change needed to fix the bug. Apply it inline, or for fixes
+spanning several files spawn a `swift-generalist` agent (`swiftui-builder` when
+the fix is confined to SwiftUI views) — never the built-in `general-purpose`
+agent, which has no pinned model and silently inherits the session model.
+Plugin installs namespace agent types, so retry as `apple:<name>` if a bare
+name errors "Agent type not found". If no agent can spawn, apply the
+degraded-mode guard in
+`~/.claude/swiftship-templates/_conventions/AGENT-VENDORING.md`: say the pin is
+lost, ask before proceeding inline, and log `"degraded":"no-agents"`.
+
+Follow platform best practices:
 
 **For iOS bugs:** Reference patterns from `ios/coding-best-practices`
 **For macOS bugs:** Reference patterns from `macos/coding-best-practices`
@@ -210,7 +220,7 @@ git commit -m "fix([area]): [brief description]
 
 ## Completion
 
-Before printing the completion message, append one `"event":"outcome"` line to the usage ledger per `~/.claude/swiftship-templates/_conventions/USAGE-LOG.md` (skip silently if the convention file is absent).
+Before printing the completion message, append one `"event":"outcome"` line to the usage ledger per `~/.claude/swiftship-templates/_conventions/USAGE-LOG.md` (skip silently if the convention file is absent). If Step 4 spawned an agent, record the spawn counts in the `agents` object.
 
 ```
 Bug fixed!
