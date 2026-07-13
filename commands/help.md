@@ -137,6 +137,9 @@ Display all available commands, their purpose, and recommended workflow.
 ║                                                                               ║
 ║  GROWTH & OPERATE                                                             ║
 ║  ───────────────────────────────────────────────────────────────────────────  ║
+║  /apple:growth [app]        Audit growth machinery, stage by stage (P0–P9)    ║
+║                             54-item scorecard; writes GROWTH.md               ║
+║                                                                               ║
 ║  /apple:learn-from-store    Store signals → next-version backlog              ║
 ║                             Reviews/analytics/sales; writes SIGNALS.md        ║
 ║                                                                               ║
@@ -271,6 +274,7 @@ NEW PROJECT                          EXISTING PROJECT
 | Investigate a mystery bug | `/apple:debug "description"` |
 | Check originality (4.3) before shipping | `/apple:differentiate` |
 | Modernize / clear deprecations | `/apple:modernize` |
+| Audit my growth levers, stage by stage | `/apple:growth` |
 | Turn store signals into a plan | `/apple:learn-from-store` |
 | A/B test the product page | `/apple:experiment screenshots` |
 | Run an in-app event | `/apple:event "Weekend Challenge"` |
@@ -308,6 +312,7 @@ All planning files are stored in `.planning/`:
 | `FEEDBACK.md` | Beta feedback | `/apple:testflight` |
 | `RELEASE-NOTES.md` | Release text for all channels | `/apple:release-notes` |
 | `SIGNALS.md` | Store-signal ledger + hypotheses | `/apple:learn-from-store`, `/apple:experiment` |
+| `GROWTH.md` | P0–P9 growth scorecard + calendar | `/apple:growth` |
 | `IDEAS.md` | Captured ideas | `/apple:idea` |
 | `HANDOFF.md` | Session handoff | `/apple:pause` |
 | `archive/` | Completed versions | `/apple:milestone` |

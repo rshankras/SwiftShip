@@ -223,6 +223,7 @@ Next steps:
 1. Review .planning/APP.md and adjust if needed
 2. Run /apple:roadmap to create development phases
 3. Run /apple:plan 1 to plan the first phase
+4. Optional: /apple:growth --new to seed the P0–P9 growth plan alongside the roadmap
 ```
 
 ## Workflow Integration

@@ -93,7 +93,8 @@ asset specs (sizes/frame counts) ASC requires.
 
 - `--testflight`: assign the build to internal/external groups + "What to Test"; stop here.
 - Offer a **phased release** (7-day gradual rollout) — if wanted, `create_phased_release`
-  (preview → confirm) before submitting.
+  (preview → confirm) before submitting. Default to yes: phased + manual release is rating
+  armor (`app-store/ratings-mechanics`), and **never offer to reset the ratings summary**.
 - Otherwise: attach build + IAP, **AskUserQuestion to confirm final submission**, then submit for review.
 
 ## Output
