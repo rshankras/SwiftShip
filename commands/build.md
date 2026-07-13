@@ -93,6 +93,8 @@ name errors "Agent type not found", retry as `apple:<name>`
 | User-facing copy: labels, alerts, onboarding text, feature names | swiftui-builder | `design/ux-writing` |
 | Iconography, custom symbols | swiftui-builder | `design/sf-symbols` |
 | Fonts, type hierarchy, Dynamic Type | swiftui-builder | `design/typography` |
+| State management, Observation, @State/@Bindable choices | swiftui-builder | `swiftui/data-flow` |
+| Custom layouts, containers, lazy stacks, scroll performance | swiftui-builder | `swiftui/layout` |
 | AlarmKit, Charts, WebKit integration | swiftui-builder | `swiftui/alarmkit`, `swiftui/charts-3d`, `swiftui/webkit` |
 | MapKit, location, geolocation | swift-generalist | `mapkit/geotoolbox` |
 | AppKit bridging, NSViewRepresentable | swift-generalist | `macos/appkit-swiftui-bridge` |
