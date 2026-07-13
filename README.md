@@ -383,7 +383,7 @@ These rely on optional, *separately‑installed* tools (an App Store Connect con
 ### Growth & operate
 | Command | What it does |
 |---|---|
-| `/apple:growth [app]` | Stage‑by‑stage audit of the app's growth machinery (54 levers, P0–P9) → GROWTH.md scorecard + routed next moves |
+| `/apple:growth [app] [P0–P9]` | Stage‑by‑stage audit of the app's growth machinery (54 levers, P0–P9) → GROWTH.md scorecard + routed next moves; a phase argument (`P1`) scopes the run to one stage's worklist |
 | `/apple:learn-from-store` | Turn live reviews/analytics/sales/crashes into a metric‑tagged backlog + verify last cycle |
 | `/apple:experiment [lever]` | A/B the product page (icon/screenshots/subtitle) via Product Page Optimization; promote the winner |
 | `/apple:event [name]` | Create App Store in‑app events for discovery & re‑engagement |

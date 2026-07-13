@@ -52,6 +52,15 @@ Display and verify checklist:
 - [ ] All required app icons present (1024x1024 + app sizes)
 - [ ] Launch screen configured
 
+### Fresh-Install Smoke Test (GATE — before archiving)
+- [ ] Delete the app from a device/simulator, install the release candidate fresh
+- [ ] Walk EVERY tab and EVERY pushed/sheet screen with ZERO data, in light mode —
+      seeded screenshot suites never render zero states, so blank screens hide there
+- [ ] Look at the app icon on the actual Home Screen at real size, light + dark +
+      tinted — not just the 1024 asset file on a neutral canvas
+- [ ] Type messy real-world input into the main create flows (apostrophes, trailing
+      spaces, text that duplicates an auto-appended suffix) — tests only use clean inputs
+
 ### TestFlight Information
 - [ ] Beta App Description written
 - [ ] Test Information added (what to test)

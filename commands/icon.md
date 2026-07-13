@@ -36,10 +36,11 @@ Follow the skill. In short:
 2. **Direction** — via `AskUserQuestion` (or `$1` / `APP.md`): category, style, mood/palette.
 3. **Generate** — a CoreGraphics script produces variants at 1024×1024. ⚠️ **No baked specular / shadows / rounded corners** for iOS 26+ — the system applies Liquid Glass lighting and masks the shape; baking them in double-exposes. Read the variants back to compare.
 4. **Pick + install** — `sips`-resize and install into `Assets.xcassets/AppIcon.appiconset`, wiring **light / dark / tinted** appearance variants into `Contents.json`.
-5. **Hand off to Icon Composer (iOS 26+)** — export flat background / midground / foreground layers (SVG for shapes, PNG for texture), assemble ≤4 depth groups in Icon Composer, tune the glass, and export the `.icon`. The command preps the layers; Icon Composer authors the final icon.
-6. **Re-roll freely** — run again with a different style hint anytime; it's cheap and non-destructive.
+5. **Validate (hard checks — skill Step 4.6).** Judge every variant at 60–64 px, not 1024; elements adjacent to the icon background must contrast with it; the tinted variant must be strictly grayscale (beware colors hardcoded inside shared draw functions — verify the exported PNG, not the call site).
+6. **Hand off to Icon Composer (iOS 26+)** — export flat background / midground / foreground layers (SVG for shapes, PNG for texture), assemble ≤4 depth groups in Icon Composer, tune the glass, and export the `.icon`. The command preps the layers; Icon Composer authors the final icon.
+7. **Re-roll freely** — run again with a different style hint anytime; it's cheap and non-destructive.
 
-**Optional handoff — see it in place.** After installing, offer to build + screenshot the app so you see the icon on the Home screen / in the switcher via the `run-simulator` skill (detect → preview → confirm → act → fall back, per `~/.claude/swiftship-templates/_conventions/TOOL-HANDOFF.md`).
+**Required — see it in place.** After installing, build + screenshot the Home screen so the icon is judged among other apps at real size via the `run-simulator` skill (detect → preview → confirm → act → fall back, per `~/.claude/swiftship-templates/_conventions/TOOL-HANDOFF.md`). A 1024px asset on a neutral canvas hides same-hue contrast failures that are obvious at 60 pt.
 
 ## Output
 

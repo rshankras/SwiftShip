@@ -34,6 +34,12 @@ commands, or moved skill-reference paths.
 
 ### Added
 
+- **`/apple:growth` phase argument** — `/apple:growth P1` (or `P1-P3`) scopes
+  the audit to one stage: evidence batches subset to that phase's items, only
+  its scorecard rows update, and the output is the stage's worklist (core
+  first, routes attached) with an offer to start the first fix. Backed by the
+  skill's new Scoped Runs section.
+
 - **`/apple:growth` — stage-by-stage growth audit (50th command).** Walks an
   app (live, `--new` pre-launch, or `--portfolio`) through the 54-item P0–P9
   growth playbook from `growth/store-growth-audit`: one read-only ASC MCP
