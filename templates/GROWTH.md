@@ -91,7 +91,7 @@ Copy this file to your project's `.planning/GROWTH.md` — or let `/apple:growth
 |----|------|--------|----------|-----------|-------|
 | P5.1 | PPO running as a habit | | | | |
 | P5.2 | Custom Product Pages per audience | | | | |
-| P5.3 | Creative Assets *(see Watchlist)* | ⏳ | | | |
+| P5.3 | Creative Assets (header + search visuals) | | | | |
 | P5.4 | In-app events cadence + badge variety | | | | |
 
 ## P6 — Featuring & Free Discovery
@@ -124,10 +124,10 @@ Copy this file to your project's `.planning/GROWTH.md` — or let `/apple:growth
 |----|------|--------|----------|-----------|-------|
 | P8.1 | Paywall + pricing experiments | | | | |
 | P8.2 | Win-back offers configured | | | | |
-| P8.3 | Retention Messaging *(see Watchlist)* | ⏳ | | | |
+| P8.3 | Retention Messaging (at-cancel save offers) | | | | |
 | P8.4 | US web checkout / external purchase links | | | | |
 | P8.5 | Cross-developer bundles & suites | | | | |
-| P8.6 | Group/Volume Purchasing *(see Watchlist)* | ⏳ | | | |
+| P8.6 | Group/Volume Purchasing | | | | |
 | P8.7 | Own-app bundles + Family Sharing | | | | |
 
 ## P9 — Retention Loop & Ops
@@ -139,13 +139,14 @@ Copy this file to your project's `.planning/GROWTH.md` — or let `/apple:growth
 | P9.3 | Update freshness | | | | |
 | P9.4 | The re-run loop is closed | | | | |
 
-## Watchlist (Announced — WWDC26)
+## Watchlist (Announced — not yet scoreable)
+
+<!-- Items graduate out of this table into live scoring once Apple ships them.
+     Creative Assets, Retention Messaging, and Group/Volume Purchasing graduated post-WWDC26. -->
 
 | Item | What it is | Prep now | Recheck |
 |------|------------|----------|---------|
-| Creative Assets (P5.3) | Rich video/animated media in page header + search, no app update needed | Motion-capable asset library | Live in ASC? |
-| Retention Messaging (P8.3) | Save offer at the exact cancel moment (ASC/API) | Draft offer copy + eligibility | Live in ASC? |
-| Group/Volume Purchasing (P8.6) | Multi-seat via Apple School/Business Manager | Seats model + per-seat pricing | Live in ASC? |
+| New event badges (P5.4) | "Now On Sale" / "Try Before You Buy" in-app event badge types | Plan which events would use them | Live in ASC? |
 
 ## Recurring Calendar
 

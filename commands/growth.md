@@ -86,8 +86,8 @@ carries a terse, citable evidence string** — the audit is citable or it is wor
 ## Step 5: Select the Top 5 Actions
 
 From all applicable 🔴 + 🟠 items, order by compressed-priority tier — T1: P0 money toggles ·
-T2: P1–P3 metadata/conversion/localization · T3: P8.4 web checkout + P8.6 volume purchasing
-(when live) · T4: P4–P6, rest of P8, P9 · T5: P7 paid traffic — then within a tier: `core`
+T2: P1–P3 metadata/conversion/localization · T3: P8.4 web checkout + P8.6 volume purchasing ·
+T4: P4–P6, rest of P8, P9 · T5: P7 paid traffic — then within a tier: `core`
 first, 🔴 before 🟠, lowest effort first. Overrides: an **overdue Recurring Calendar row jumps
 to the top**; always include at least one metadata-only quick win (no binary release needed).
 
