@@ -32,6 +32,7 @@ If there is no buildable Xcode project yet:
 Apply the full methodology (three layers, screenshot extraction, output format):
 ```
 Read: ~/.claude/swiftship-skills/testing/flow-walkthrough/SKILL.md
+Read: ~/.claude/swiftship-skills/design/design-principles/SKILL.md   # Layer 3's rubric: wayfinding 3 questions + discoverability rules
 ```
 
 ## Process

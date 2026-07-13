@@ -88,6 +88,10 @@ name errors "Agent type not found", retry as `apple:<name>`
 | Apple Intelligence, Siri, App Intents | swift-generalist | `apple-intelligence/` |
 | watchOS, complications, Watch Connectivity | swift-generalist | `watchos/` |
 | Liquid Glass, animations, transitions | swiftui-builder | `design/animation-patterns`, `design/liquid-glass` |
+| Screen structure, navigation clarity, empty states | swiftui-builder | `design/design-principles` |
+| User-facing copy: labels, alerts, onboarding text, feature names | swiftui-builder | `design/ux-writing` |
+| Iconography, custom symbols | swiftui-builder | `design/sf-symbols` |
+| Fonts, type hierarchy, Dynamic Type | swiftui-builder | `design/typography` |
 | AlarmKit, Charts, WebKit integration | swiftui-builder | `swiftui/alarmkit`, `swiftui/charts-3d`, `swiftui/webkit` |
 | MapKit, location, geolocation | swift-generalist | `mapkit/geotoolbox` |
 | AppKit bridging, NSViewRepresentable | swift-generalist | `macos/appkit-swiftui-bridge` |
