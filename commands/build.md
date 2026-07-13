@@ -155,7 +155,9 @@ name errors "Agent type not found", retry as `apple:<name>`
 | App extensions, share extension, action extension, keyboard extension | swift-generalist | `generators/app-extensions` |
 | Background processing, BGTaskScheduler, background download | swift-generalist | `generators/background-processing` |
 | Data export, CSV export, PDF export, GDPR data portability | swift-generalist | `generators/data-export` |
-| Visual QA, UI audit, HIG review, accessibility audit | swift-generalist | `ios/ui-review`, `macos/ui-review-tahoe` |
+| Visual QA, UI audit, HIG review | swift-generalist | `ios/ui-review`, `macos/ui-review-tahoe` |
+| Accessibility audit, VoiceOver support, Dynamic Type, Nutrition Labels | swift-generalist | `ios/accessibility-audit` (full audit: `/apple:accessibility`) |
+| Accessibility fixes — labels, traits, custom actions, rotors, adjustable controls | swift-generalist | `generators/accessibility-generator` |
 | **Anything else — no row above matches** (project setup, scaffolding, configuration, one-off scripts, …) | swift-generalist | — |
 
 **Never spawn the built-in `general-purpose` agent.** It has no pinned model and

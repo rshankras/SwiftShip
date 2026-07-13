@@ -158,6 +158,8 @@ Task({
     Reference existing skills:
     - ios/ui-review
     - macos/ui-review-tahoe
+    - ios/accessibility-audit    (audit criteria + the nine Nutrition Label features; a full
+                                  audit with XCUITest + label declaration is /apple:accessibility)
     - ios/assistive-access
     - ios/navigation-patterns
     - design/design-principles   (UX quality above HIG mechanics: wayfinding, discoverability)

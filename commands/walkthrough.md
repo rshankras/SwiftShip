@@ -33,7 +33,13 @@ Apply the full methodology (three layers, screenshot extraction, output format):
 ```
 Read: ~/.claude/swiftship-skills/testing/flow-walkthrough/SKILL.md
 Read: ~/.claude/swiftship-skills/design/design-principles/SKILL.md   # Layer 3's rubric: wayfinding 3 questions + discoverability rules
+Read: ~/.claude/swiftship-skills/ios/accessibility-audit/automated-audits.md   # the UI test target is already up — audit each screen you drive
 ```
+
+**Free win while you're here:** Layer 2 already builds and drives a UI test target, so add
+`try app.performAccessibilityAudit()` to each flow step you visit — it audits the screen that's
+on-screen and costs one line. The full audit (assistive-tech passes + Nutrition Labels) is
+`/apple:accessibility`.
 
 ## Process
 

@@ -82,6 +82,7 @@ Grep: "import XCTest"   → XCTest is in use
 | Networking **and** persistence together | Integration | `testing/integration-test-scaffold` |
 | Protocol-based abstractions | Contract | `testing/test-contract` |
 | Legacy/untested code being changed | Characterization | `testing/characterization-test-generator` |
+| Any screen reachable in a UI test | Accessibility audit (`performAccessibilityAudit`, one per screen state) | `ios/accessibility-audit` |
 | Trivial (pure boilerplate, generated) | Skip | — |
 
 Load the matched skill from
