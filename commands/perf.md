@@ -45,10 +45,10 @@ If `$ARGUMENTS` is provided, classify the problem and load focused reference fil
 | Problem Category | Keywords | Reference Files |
 |-----------------|----------|-----------------|
 | Slow launch | launch, startup, cold start | `profiling/launch-optimization.md` |
-| UI jank / scrolling | scroll, jank, stutter, animation, lag | `profiling/time-profiler.md`, `swiftui-debugging/body-reevaluation.md` |
+| UI jank / scrolling | scroll, jank, stutter, animation, lag | `profiling/time-profiler.md`, `swiftui-debugging/body-reevaluation.md`, `swiftui/layout` (lazy-stack rules) |
 | High memory | memory, leak, OOM, crash | `profiling/memory-profiling.md`, `swiftui-debugging/common-pitfalls.md`, `swift/memory` |
 | Battery drain | battery, energy, background | `profiling/energy-diagnostics.md` |
-| SwiftUI re-renders | redraw, rebuild, slow view, @State | `swiftui-debugging/body-reevaluation.md`, `swiftui-debugging/view-identity.md` |
+| SwiftUI re-renders | redraw, rebuild, slow view, @State | `swiftui-debugging/body-reevaluation.md`, `swiftui-debugging/view-identity.md`, `swiftui/data-flow` (identity/ownership model) |
 | General / unknown | (no match) | All reference files |
 
 Load the relevant reference files:
