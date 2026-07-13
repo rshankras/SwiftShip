@@ -34,6 +34,8 @@ commands, or moved skill-reference paths.
 
 ### Added
 
+- **Growth watchlist graduations** — Creative Assets, Retention Messaging, and Group/Volume Purchasing moved from announced to live scoring in templates/GROWTH.md (per WWDC26 transcripts; the skills-side rules updated in the library); watchlist now tracks only the new event badge types.
+
 - **`/apple:growth` phase argument** — `/apple:growth P1` (or `P1-P3`) scopes
   the audit to one stage: evidence batches subset to that phase's items, only
   its scorecard rows update, and the output is the stage's worklist (core
