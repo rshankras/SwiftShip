@@ -69,6 +69,12 @@ Read: ~/.claude/swiftship-skills/ios/ui-review/accessibility-quick-ref.md
 Read: ~/.claude/swiftship-skills/ios/ui-review/font-guidelines.md
 ```
 
+**All platforms — the layer above HIG mechanics:**
+```
+Read: ~/.claude/swiftship-skills/design/design-principles/SKILL.md   # wayfinding 3 questions, hierarchy, discoverability
+Read: ~/.claude/swiftship-skills/design/typography/SKILL.md          # type hierarchy, Dynamic Type survival
+```
+
 **For macOS projects:**
 ```
 Read: ~/.claude/swiftship-skills/macos/ui-review-tahoe/SKILL.md

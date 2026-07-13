@@ -160,6 +160,8 @@ Task({
     - macos/ui-review-tahoe
     - ios/assistive-access
     - ios/navigation-patterns
+    - design/design-principles   (UX quality above HIG mechanics: wayfinding, discoverability)
+    - design/ux-writing          (copy pass: labels, alerts, empty states, feature names)
 
     Check:
     1. **Navigation**
