@@ -34,6 +34,20 @@ commands, or moved skill-reference paths.
 
 ### Added
 
+- **`/apple:growth` — stage-by-stage growth audit (50th command).** Walks an
+  app (live, `--new` pre-launch, or `--portfolio`) through the 54-item P0–P9
+  growth playbook from `growth/store-growth-audit`: one read-only ASC MCP
+  batch + one codebase grep pass + one batched question round, every item
+  scored with citable evidence, graded into a 0–9 maturity level, and routed
+  to the command that fixes it. Writes the `.planning/GROWTH.md` scorecard
+  (new `templates/GROWTH.md`; stable item IDs make re-audits diff cleanly)
+  and, gated, a dated top-5 into `ROADMAP.md`. Companion to
+  `/apple:learn-from-store`: that asks *are the numbers moving* (monthly),
+  this asks *is the machinery installed* (quarterly). Cross-linked from
+  `new-app`/`roadmap` (`--new` seed), `release`/`next-version` (quarterly
+  re-audit tip), `ship` (phased-release default + never-reset-ratings
+  guardrail), and `learn-from-store`.
+
 - **`via` field on invoke lines** — the usage hook now records which shape
   matched (`"typed"` = UserPromptSubmit, `"skill"` = PostToolUse on Skill),
   so `/apple:usage` can measure the routing split and attribute tier drift

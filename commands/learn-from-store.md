@@ -24,6 +24,8 @@ all changes are surfaced, gated, then handed to `/apple:next-version`, `/apple:b
 - Before `/apple:next-version` or `/apple:release` — feed the plan evidence, not intuition.
 - On a cadence for a live app (monthly), or `--portfolio` to decide *which* app to invest in next.
 - ~1–2 weeks after shipping a change — to check if it actually worked (loop closure).
+- Companion: `/apple:growth` is the quarterly *structural* audit (is the machinery installed?);
+  this is the monthly *signals* loop (are the numbers moving?). Run both, different cadences.
 
 ## Prerequisites
 

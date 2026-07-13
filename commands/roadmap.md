@@ -244,6 +244,7 @@ Your roadmap has [X] phases:
 7. Submission - Final review and submit
 
 Next: Run /apple:plan 1 to create detailed tasks for Phase 1
+Tip:  /apple:growth --new seeds the P0–P9 growth scorecard next to this roadmap
 ```
 
 ## Integration with Existing Skills

@@ -233,6 +233,9 @@ Next steps:
 3. Run /apple:plan 1 to detail Phase 1 tasks
 4. Run /apple:build to implement
 
+Tip: /apple:growth (quarterly) and /apple:learn-from-store (monthly) feed this
+scope — the audit finds missing levers, the signals loop finds what to fix.
+
 Ship it! 🚀
 ```
 

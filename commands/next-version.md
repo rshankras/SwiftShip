@@ -275,6 +275,9 @@ Next steps:
 3. Run /apple:plan 1 to detail Phase 1
 4. Run /apple:build to start implementing
 
+Tip: if the last /apple:growth audit is a quarter old, re-run it — regressed
+levers (stale keywords, overdue nominations) belong in this version's scope.
+
 Let's build v[NEW_VERSION]! 🚀
 ```
 
