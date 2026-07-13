@@ -149,6 +149,9 @@ Display all available commands, their purpose, and recommended workflow.
 ║  /apple:event [name]        App Store in-app events                           ║
 ║                             Discovery & re-engagement cards                   ║
 ║                                                                               ║
+║  /apple:ratings [app]       Rating health + gated review replies              ║
+║                             Per-storefront; posts via ASC on OK               ║
+║                                                                               ║
 ║  VERSION & IDEAS                                                              ║
 ║  ───────────────────────────────────────────────────────────────────────────  ║
 ║  /apple:milestone           Complete version, archive docs, create git tag    ║
@@ -279,6 +282,7 @@ NEW PROJECT                          EXISTING PROJECT
 | Turn store signals into a plan | `/apple:learn-from-store` |
 | A/B test the product page | `/apple:experiment screenshots` |
 | Run an in-app event | `/apple:event "Weekend Challenge"` |
+| Answer negative reviews / check rating health | `/apple:ratings` |
 | Handle an App Review rejection | `/apple:rejection` |
 | Set up a subscription | `/apple:subscription` |
 | Localize for new markets | `/apple:localize "es-ES,de-DE"` |

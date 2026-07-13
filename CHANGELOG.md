@@ -34,6 +34,8 @@ commands, or moved skill-reference paths.
 
 ### Added
 
+- **/apple:ratings — rating health + gated review replies (51st command).** Per-storefront health via list_reviews, a prioritized reply queue drafted from app-store/review-response-writer, every reply gated before posting via the previously unused respond_to_review MCP tool, and the never-reset guardrail from app-store/ratings-mechanics. learn-from-store now hands the reply backlog here instead of dead-ending at "replies are manual".
+
 - **SwiftUI skill routing** — build routes state-management tasks to swiftui/data-flow and layout/scroll tasks to swiftui/layout; perf triage adds both to the jank and re-render rows.
 
 - **visionOS routing** — build gains a visionOS task row (spatial UI -> visionos/spatial-design + visionos/widgets); review reads spatial-design for visionOS targets (eye-target sizes, motion comfort, hover rules).

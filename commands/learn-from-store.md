@@ -59,6 +59,7 @@ Read: ~/.claude/swiftship-skills/growth/store-signals/signals-ledger.md
 Fetch for the app across a comparison window (this period vs trailing):
 
 - **Reviews / ratings** — `list_reviews` (recent, lowest-star first; flag unanswered). `get_review` for detail.
+  Answering them is `/apple:ratings`' job — this command only surfaces the backlog.
 - **Analytics** — `get_analytics_report`: retention curve, funnel/conversion, acquisition source,
   impression→download, units. If no report is configured yet → `setup_analytics_reports` and note
   **"retention/funnel data lands next cycle"** (Apple delivers on its own schedule).
