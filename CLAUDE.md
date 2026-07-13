@@ -106,16 +106,16 @@ Commands reference skills from `claude-code-apple-skills` (140+ skills across 23
 
 | Category | Skills |
 |----------|--------|
-| `app-store/` | app-description-writer, apple-search-ads, keyword-optimizer, marketing-strategy, rejection-handler, originality-check, review-response-writer, screenshot-planner, iap-finalizer |
+| `app-store/` (12) | ad-attribution, app-description-writer, apple-search-ads, iap-finalizer, keyword-optimizer, marketing-strategy, originality-check, ratings-mechanics, rejection-handler, review-response-writer, screenshot-planner, web-presence |
 | `apple-intelligence/` | app-intents, foundation-models, visual-intelligence |
-| `design/` | animation-patterns, liquid-glass, ui-prototyping |
+| `design/` (7) | animation-patterns, design-principles, liquid-glass, sf-symbols, typography, ui-prototyping, ux-writing |
 | `core-ml/` | (Core ML, Vision, NaturalLanguage framework patterns) |
 | `foundation/` | attributed-string |
 | `generators/` (63) | accessibility-generator, account-deletion, analytics-setup, announcement-banner, app-clip, app-extensions, app-icon-generator, app-store-assets, auth-flow, background-processing, ci-cd-setup, cloudkit-sync, consent-flow, custom-product-pages, data-export, debug-menu, deep-linking, error-monitoring, feature-flags, featuring-nomination, feedback-form, force-update, http-cache, image-loading, in-app-events, lapsed-user, live-activity-generator, localization-setup, logging-setup, milestone-celebration, networking-layer, offer-codes-setup, offline-queue, onboarding-generator, pagination, paywall-generator, permission-priming, persistence-setup, pre-orders, preview-data-generator, product-page-optimization, promoted-iap, push-notifications, quick-win-session, referral-system, review-prompt, screenshot-automation, settings-screen, share-card, social-export, spotlight-indexing, state-restoration, streak-tracker, subscription-lifecycle, subscription-offers, test-generator, tipkit-generator, usage-insights, variable-rewards, watermark-engine, whats-new, widget-generator, win-back-offers |
-| `growth/` | analytics-interpretation, store-signals, community-building, indie-business, press-media |
+| `growth/` (6) | analytics-interpretation, community-building, indie-business, press-media, store-growth-audit, store-signals |
 | `legal/` | privacy-policy, privacy-publish |
-| `monetization/` | (monetization strategy, pricing-models, app-type-guides) |
-| `ios/` | app-planner, assistive-access, coding-best-practices, ipad-patterns, migration-patterns, navigation-patterns, ui-review |
+| `monetization/` | (strategy, pricing-models, app-type-guides) + bundles-and-licensing, external-purchases |
+| `ios/` (10) | accessibility-audit, app-planner, assistive-access, coding-best-practices, ipad-patterns, migration-patterns, navigation-patterns, run-device, run-simulator, ui-review |
 | `macos/` | app-planner, appkit-swiftui-bridge, architecture-patterns, coding-best-practices, macos-capabilities, macos-tahoe-apis, swiftdata-architecture, ui-review-tahoe |
 | `mapkit/` | geotoolbox |
 | `performance/` | profiling, swiftui-debugging |
@@ -125,10 +125,10 @@ Commands reference skills from `claude-code-apple-skills` (140+ skills across 23
 | `swift/` | concurrency, concurrency-patterns, memory |
 | `testing/` (9) | characterization-test-generator, tdd-bug-fix, tdd-feature, test-contract, tdd-refactor-guard, snapshot-test-setup, test-data-factory, integration-test-scaffold, flow-walkthrough |
 | `swiftdata/` | inheritance |
-| `swiftui/` | alarmkit, charts-3d, text-editing, toolbars, webkit |
-| `visionos/` | widgets |
+| `swiftui/` (7) | alarmkit, charts-3d, data-flow, layout, text-editing, toolbars, webkit |
+| `visionos/` | spatial-design, widgets |
 | `watchos/` | (watch development) |
-| `shared/` | skill-creator |
+| `shared/` | skill-creator, skill-auditor |
 
 ## When Editing This Repo
 

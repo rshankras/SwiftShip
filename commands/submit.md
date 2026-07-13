@@ -64,6 +64,8 @@ Task({
     - release-review/
     - app-store/
     - security/privacy-manifests/
+    - ios/accessibility-audit/nutrition-labels.md   (the nine Accessibility Nutrition Label
+      features + claim criteria — distinct from the App Privacy label below)
 
     ## Required Checks
 
@@ -102,7 +104,10 @@ Task({
     **5.x Legal**
     - [ ] Privacy manifest complete (iOS 17+)
     - [ ] Required reason APIs declared
-    - [ ] Data collection accurate in nutrition labels
+    - [ ] Data collection accurate in App Privacy nutrition labels
+    - [ ] **Accessibility** Nutrition Labels evaluated and declared, or consciously skipped
+          (`/apple:accessibility labels`) — only claim features every common task passes;
+          EU Accessibility Act applies to consumer apps in the EU market
     - [ ] GDPR considerations (EU)
     - [ ] Localization complete for target markets (reference: generators/localization-setup)
 

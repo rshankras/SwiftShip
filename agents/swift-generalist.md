@@ -70,3 +70,4 @@ Skill content is injected per-task, but these are the fallbacks when the prompt 
 - `swift/concurrency-patterns`, `swift/memory` — concurrency and memory
 - `macos/swiftdata-architecture`, `swiftdata/inheritance` — persistence
 - `testing/tdd-feature`, `testing/test-data-factory` — testing
+- `ios/accessibility-audit`, `generators/accessibility-generator` — accessibility audits and fixes

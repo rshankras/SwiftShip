@@ -67,7 +67,12 @@ Read: ~/.claude/swiftship-skills/ios/ui-review/SKILL.md
 Read: ~/.claude/swiftship-skills/ios/ui-review/hig-checklist.md
 Read: ~/.claude/swiftship-skills/ios/ui-review/accessibility-quick-ref.md
 Read: ~/.claude/swiftship-skills/ios/ui-review/font-guidelines.md
+Read: ~/.claude/swiftship-skills/ios/accessibility-audit/SKILL.md   # audit criteria for the a11y scan below
 ```
+
+> This command's accessibility scan is **code + screenshot level**. It cannot run
+> `performAccessibilityAudit` or declare Nutrition Labels — for the full audit
+> (XCUITest + assistive-tech passes + App Store label declaration) run `/apple:accessibility`.
 
 **All platforms — the layer above HIG mechanics:**
 ```

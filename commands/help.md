@@ -89,6 +89,9 @@ Display all available commands, their purpose, and recommended workflow.
 ║  /apple:visual-qa [paths]   Screenshot-based visual QA or code UI audit      ║
 ║                             Creates: .planning/VISUAL-QA.md                  ║
 ║                                                                               ║
+║  /apple:accessibility [x]   Audit a11y + declare Nutrition Labels (gated)    ║
+║                             Creates: .planning/ACCESSIBILITY.md              ║
+║                                                                               ║
 ║  /apple:walkthrough [flow]  Walk user flows; find dead-ends & bad returns    ║
 ║                             Creates: .planning/WALKTHROUGH.md                ║
 ║                                                                               ║
@@ -259,6 +262,7 @@ NEW PROJECT                          EXISTING PROJECT
 | Run security audit | `/apple:security` |
 | Diagnose performance | `/apple:perf "slow scrolling"` |
 | Check visual quality | `/apple:visual-qa ~/Desktop/screen.png` |
+| Audit accessibility + labels | `/apple:accessibility` |
 | Walk the user flows | `/apple:walkthrough` |
 | Set up CI/CD | `/apple:deploy` |
 | Prepare App Store content | `/apple:metadata` |
@@ -311,6 +315,7 @@ All planning files are stored in `.planning/`:
 | `SECURITY.md` | Security audit findings | `/apple:security` |
 | `PERFORMANCE.md` | Performance analysis | `/apple:perf` |
 | `VISUAL-QA.md` | Visual QA findings | `/apple:visual-qa` |
+| `ACCESSIBILITY.md` | Accessibility audit + label claims | `/apple:accessibility` |
 | `WALKTHROUGH.md` | Flow walkthrough findings | `/apple:walkthrough` |
 | `ASO.md` | App Store content | `/apple:metadata` |
 | `SCREENSHOTS.md` | Screenshot plan | `/apple:screenshots` |

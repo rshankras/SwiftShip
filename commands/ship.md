@@ -35,6 +35,8 @@ Read: .planning/STATE.md, .planning/METADATA.md, .planning/CAPTIONS.md
   (https://asccli.sh, `brew install asc`) — with `ASC_*` API-key env vars set
   (`ASC_KEY_ID`, `ASC_ISSUER_ID`, `ASC_PRIVATE_KEY_PATH`).
 - Legal pages live + Privacy nutrition label complete (`/apple:privacy`); age rating set.
+- Accessibility Nutrition Labels evaluated (`/apple:accessibility`) — declared, or a deliberate
+  "not yet". Claims must be true for every common task; an unfixed truncation sinks the claim.
 
 ## Load Skills
 

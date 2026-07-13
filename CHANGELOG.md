@@ -10,6 +10,35 @@ commands, or moved skill-reference paths.
 
 ## [Unreleased]
 
+### Added
+
+- **`/apple:accessibility` — the 52nd command.** Audits the app for accessibility and
+  declares App Store **Accessibility Nutrition Labels**. Six phases: define common tasks
+  (primary flows + first-launch/login/purchase/settings) → automated XCUITest audit
+  (`performAccessibilityAudit` per screen, `continueAfterFailure`, issue-handler filtering)
+  → static scan (icon-only buttons, `lineLimit(1)`, hardcoded sizes, color-only state) →
+  the manual assistive-tech passes (VoiceOver, Voice Control, Larger Text at 200%/310%,
+  contrast, Dark + Smart Invert, Reduced Motion) → Nutrition Label evaluation
+  (fix-first-claim-after; N/A ≠ supported) → **gated** per-device-family declaration via
+  `mcp__asc-metadata__update_accessibility` (`listOnly` → diff → confirm → `dryRun` →
+  apply → `publish`). Writes `.planning/ACCESSIBILITY.md`. Backed by the new
+  `ios/accessibility-audit` skill; the EU Accessibility Act has applied to consumer apps
+  in the EU market since June 2025, and no command owned this ASC surface.
+
+### Changed
+
+- **Routing for the new `ios/accessibility-audit` skill.** `build.md`'s routing table had a
+  row labelled "accessibility audit" that pointed at `ios/ui-review` — it now points at the
+  real skill, and a11y *fixes* route to `generators/accessibility-generator`. Also wired
+  into `review` (hig-reviewer's skill list), `visual-qa` (with a note that a full audit is
+  `/apple:accessibility`), `walkthrough` (its UI test target is already up — audit each
+  screen it drives), `test` (classification row), `plan` (Phase 3 Polish), `submit` +
+  `ship` (Accessibility Nutrition Label as a distinct pre-flight item from the App Privacy
+  label), and `swift-generalist`'s fallback list.
+- **`CLAUDE.md` skills table refreshed.** It had rotted several harvest rounds behind —
+  missing `ios/accessibility-audit`, `run-simulator`, `run-device`, `swiftui/data-flow`,
+  `swiftui/layout`, `visionos/spatial-design`, four of the seven `design/` skills, and more.
+
 ### Fixed
 
 - **`/apple:bugfix` carries the `general-purpose` guard.** The command has
