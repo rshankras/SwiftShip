@@ -275,6 +275,7 @@ NEW PROJECT                          EXISTING PROJECT
 | Check originality (4.3) before shipping | `/apple:differentiate` |
 | Modernize / clear deprecations | `/apple:modernize` |
 | Audit my growth levers, stage by stage | `/apple:growth` |
+| Work one growth stage (audit + worklist) | `/apple:growth P1` |
 | Turn store signals into a plan | `/apple:learn-from-store` |
 | A/B test the product page | `/apple:experiment screenshots` |
 | Run an in-app event | `/apple:event "Weekend Challenge"` |

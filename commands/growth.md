@@ -1,6 +1,6 @@
 ---
 description: Audit an app's growth machinery against the 54-item P0–P9 playbook — score every lever from ASC + codebase evidence, write a .planning/GROWTH.md scorecard, and route every gap to the command that fixes it. Read-only on App Store Connect.
-argument-hint: "[app-name-or-appId] — defaults to the current .planning project; --new for pre-launch planning; --portfolio to triage all apps"
+argument-hint: "[app-name-or-appId] [P0–P9] — defaults to the current .planning project, full audit; a phase (P1, or P1-P3) scopes the run; --new for pre-launch planning; --portfolio to triage all apps"
 allowed-tools: Read, Write, Edit, Glob, Grep, AskUserQuestion, Skill, mcp__asc-metadata__list_apps, mcp__asc-metadata__get_metadata, mcp__asc-metadata__list_locales, mcp__asc-metadata__get_app_pricing, mcp__asc-metadata__list_price_points, mcp__asc-metadata__get_availability, mcp__asc-metadata__list_iap, mcp__asc-metadata__list_subscription_groups, mcp__asc-metadata__list_subscriptions, mcp__asc-metadata__list_app_events, mcp__asc-metadata__list_experiments, mcp__asc-metadata__list_custom_pages, mcp__asc-metadata__get_analytics_report, mcp__asc-metadata__get_sales_report, mcp__asc-metadata__list_reviews
 ---
 
@@ -20,6 +20,7 @@ cited, and routed to the command that fixes it.
 
 - A new app is approaching first submission — seed the growth plan, not just metadata (`--new`).
 - A live app, quarterly — or after a launch that undershot expectations.
+- Working one stage at a time — `/apple:growth P1` audits just that phase and hands you its worklist.
 - Before spending on Apple Ads: is the free machinery done first?
 - `--portfolio` — which of your live apps is leaving the most money on the table?
 
@@ -45,16 +46,19 @@ Read: ~/.claude/swiftship-skills/growth/store-growth-audit/audit-checklist-p5-p9
 `SKILL.md` owns process, scoring, and routing; `detection-playbook.md` owns evidence batching;
 the two checklists carry all 54 item rules. The scorecard schema is `~/.claude/swiftship-templates/GROWTH.md`.
 
-## Step 1: Resolve App + Mode
+## Step 1: Resolve App, Mode + Scope
 
 - Parse the argument/flags. Mode: `--new` → pre-launch; else `appId` from `STATE.md` resolves to
   a live app on `list_apps` → existing; no live app → pre-launch; ambiguous → `AskUserQuestion`.
+- **Scope**: a phase argument (`P1`, bare `1`, or a range/list like `P1-P3`) runs a scoped audit
+  per the skill's **Scoped Runs** section; no phase argument → full P0–P9.
 - Read `.planning/GROWTH.md` if present — the prior scorecard is the diff baseline (re-audit is
   not a mode; it's automatic when a baseline exists).
 
 ## Step 2: Gather Evidence — one pass
 
-Per `detection-playbook.md`, in this order, never interleaved with scoring:
+Per `detection-playbook.md`, in this order, never interleaved with scoring (scoped runs subset
+every batch to the rows feeding the in-scope items — fewer calls, fewer questions):
 
 - **MCP batch** (read-only, ~14 calls): metadata, locales, pricing + price points, availability,
   IAPs, subscription groups/subs, events, PPO experiments, custom product pages, analytics,
@@ -121,6 +125,28 @@ Calendar: featuring nomination due in 12 days · keyword refresh overdue
 
 Written: GROWTH.md (+ ROADMAP.md top-5, on your OK)
 Next: /apple:localize
+```
+
+## Phase-Scoped Runs (`/apple:growth P1`)
+
+Work the playbook one stage at a time. A scoped run gathers only that phase's evidence, updates
+only that phase's scorecard rows (+ its Phase Scores row; Audit History tagged `scope: P1`), and
+replaces the top-5 with the **phase worklist** — every applicable item, `core` first, 🔴 before 🟠,
+each with its route. Ends by offering to start the first route (gated). Maturity is recomputed
+from the refreshed rows plus the untouched remainder — flagged `(est.)` until a full audit exists.
+
+```
+📈 Growth audit — [App] (scope: P1 · on-metadata ASO)
+
+P1 ▓▓▓░░░░ 3/7
+
+Worklist:  1) P1.1 Keyword field wastes 41 chars, subtitle repeats title  → /apple:metadata
+           2) P1.2 en-GB/es-MX locales unused (0 extra indexed chars)     → /apple:localize
+           3) P1.4 3 IAPs, none promoted, names generic                   → /apple:iap
+           4) P1.7 Description leads with a metaphor — poor AI tagging    → /apple:metadata
+
+Written: GROWTH.md (P1 rows only) · maturity 3/9 (est.)
+Start with P1.1 now? → /apple:metadata
 ```
 
 ## Portfolio Mode (`--portfolio`)

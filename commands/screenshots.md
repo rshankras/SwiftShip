@@ -125,6 +125,12 @@ Add `ScreenshotModeController` to the **app target** so the app configures itsel
 2. `ScreenshotModeController.shared.configureWindow()` in root view's `onAppear`
 3. Override `loadSampleData()` with their app's sample data
 
+⚠️ **Seeding blinds you to zero states.** Because every automated capture runs seeded,
+empty/first-run states are structurally invisible to this suite — a tab that renders
+blank with no data will never appear in any screenshot. Add ONE unseeded capture pass
+(same screens, no `--screenshot-mode` data, light mode) as a QA artifact — not a store
+asset — so zero-state regressions are seen before a human hits them on a fresh install.
+
 For views that should hide promotional UI during screenshots:
 ```swift
 @Environment(\.isScreenshotMode) private var isScreenshotMode
