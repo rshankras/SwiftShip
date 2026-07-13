@@ -34,6 +34,8 @@ commands, or moved skill-reference paths.
 
 ### Added
 
+- **visionOS routing** — build gains a visionOS task row (spatial UI -> visionos/spatial-design + visionos/widgets); review reads spatial-design for visionOS targets (eye-target sizes, motion comfort, hover rules).
+
 - **Design-skill wiring** — the four new design skills route through the build process: plan (Phase 2/3 skill matching), build (task routing table rows for screen structure, copy, symbols, type), review (UX-quality + copy passes above HIG), visual-qa (wayfinding/typography layer), walkthrough (discoverability rubric). prototype and icon already read their upgraded skills.
 
 - **Growth watchlist graduations** — Creative Assets, Retention Messaging, and Group/Volume Purchasing moved from announced to live scoring in templates/GROWTH.md (per WWDC26 transcripts; the skills-side rules updated in the library); watchlist now tracks only the new event badge types.

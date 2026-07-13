@@ -162,6 +162,7 @@ Task({
     - ios/navigation-patterns
     - design/design-principles   (UX quality above HIG mechanics: wayfinding, discoverability)
     - design/ux-writing          (copy pass: labels, alerts, empty states, feature names)
+    - visionos/spatial-design    (visionOS targets only: eye-target sizes, motion comfort, hover rules)
 
     Check:
     1. **Navigation**
