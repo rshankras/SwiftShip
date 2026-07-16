@@ -89,7 +89,7 @@ name errors "Agent type not found", retry as `apple:<name>`
 | watchOS, complications, Watch Connectivity | swift-generalist | `watchos/` |
 | visionOS: windows, volumes, immersive spaces, spatial UI | swiftui-builder | `visionos/spatial-design`, `visionos/widgets` |
 | Liquid Glass, animations, transitions | swiftui-builder | `design/animation-patterns`, `design/liquid-glass` |
-| Screen structure, navigation clarity, empty states | swiftui-builder | `design/design-principles` |
+| Screen structure, navigation clarity, empty states | swiftui-builder | — (evergreen UX principles: native model knowledge) |
 | User-facing copy: labels, alerts, onboarding text, feature names | swiftui-builder | `design/ux-writing` |
 | Iconography, custom symbols | swiftui-builder | `design/sf-symbols` |
 | Fonts, type hierarchy, Dynamic Type | swiftui-builder | `design/typography` |

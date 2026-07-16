@@ -32,9 +32,11 @@ If there is no buildable Xcode project yet:
 Apply the full methodology (three layers, screenshot extraction, output format):
 ```
 Read: ~/.claude/swiftship-skills/testing/flow-walkthrough/SKILL.md
-Read: ~/.claude/swiftship-skills/design/design-principles/SKILL.md   # Layer 3's rubric: wayfinding 3 questions + discoverability rules
 Read: ~/.claude/swiftship-skills/ios/accessibility-audit/automated-audits.md   # the UI test target is already up — audit each screen you drive
 ```
+Layer 3's wayfinding rubric (evergreen — apply directly): every screen must
+answer *where am I, where can I go, what can I do here*; primary action
+discoverable without scrolling.
 
 **Free win while you're here:** Layer 2 already builds and drives a UI test target, so add
 `try app.performAccessibilityAudit()` to each flow step you visit — it audits the screen that's

@@ -162,7 +162,6 @@ Task({
                                   audit with XCUITest + label declaration is /apple:accessibility)
     - ios/assistive-access
     - ios/navigation-patterns
-    - design/design-principles   (UX quality above HIG mechanics: wayfinding, discoverability)
     - design/ux-writing          (copy pass: labels, alerts, empty states, feature names)
     - visionos/spatial-design    (visionOS targets only: eye-target sizes, motion comfort, hover rules)
 
@@ -292,8 +291,7 @@ Task({
     Quick security scan for this Apple app.
 
     Reference skills:
-    - security/ (secure storage, biometric auth, network security, platform specifics)
-    - security/privacy-manifests/ (privacy manifest audit)
+    - security/privacy-manifests/ (privacy manifest audit; general secure-storage/auth/network guidance is native model knowledge)
 
     Quick checks:
     1. **Sensitive Data Storage**
