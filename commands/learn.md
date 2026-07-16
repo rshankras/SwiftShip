@@ -1,7 +1,7 @@
 ---
 description: Capture a mistake or pattern into skills for future sessions
 argument-hint: [what-went-wrong or pattern-to-remember]
-allowed-tools: Read, Write, Edit, Glob, Grep, AskUserQuestion
+allowed-tools: Read, Write, Edit, Glob, Grep, Bash, AskUserQuestion
 ---
 
 # Learn — Capture Lessons Into Skills
@@ -101,6 +101,28 @@ Options:
 Which option?
 ```
 
+### Resolve the source repo (library skills only)
+
+The installed copy at `~/.claude/swiftship-skills/` is overwritten by the
+next `/plugin marketplace update` — an edit that lands only there dies on
+update. When the target is a library skill (not project CLAUDE.md), resolve
+the **source repository** (claude-code-apple-skills) before applying:
+
+1. Installed copy already inside a checkout (symlinked installs):
+   ```bash
+   git -C ~/.claude/swiftship-skills rev-parse --show-toplevel 2>/dev/null
+   ```
+2. Previously configured path: `Read: ~/.claude/swiftship-skills-repo`
+   (single line — the checkout path). Verify it still exists and is a git
+   repo before trusting it.
+3. Ask the user once:
+   "Where is your claude-code-apple-skills checkout? (Leave empty to skip —
+   the lesson will be saved as a patch card instead.)"
+   Save a non-empty answer to `~/.claude/swiftship-skills-repo` so this ask
+   never repeats.
+
+Record `SOURCE_REPO=[path]` or `SOURCE_REPO=none` for Step 6.
+
 ## Step 4: Draft the Update
 
 Format the lesson to match the target file's existing style.
@@ -168,19 +190,80 @@ Wait for user confirmation.
 
 ## Step 6: Apply
 
-Edit the target file:
+### Project-specific lessons (CLAUDE.md)
 
-- If adding to a skill: insert the lesson in the appropriate section, maintaining the file's existing formatting
-- If adding to CLAUDE.md: append to the relevant section (or create a "Conventions" section if none exists)
-- If the target section doesn't exist, create it in a logical position within the file
+Append to the relevant section (or create a "Conventions" section if none
+exists). If the target section doesn't exist, create it in a logical position
+within the file. Unchanged behavior — done.
+
+### General lessons (library skills)
+
+**With `SOURCE_REPO` resolved:**
+
+1. Refuse to touch a dirty checkout — check first, fall back to the patch
+   card below (and say why) if it has uncommitted changes:
+   ```bash
+   git -C [SOURCE_REPO] status --porcelain
+   ```
+2. Branch and apply (never commit to the source repo's main):
+   ```bash
+   git -C [SOURCE_REPO] checkout -b learn/[slug] main
+   ```
+   Edit `[SOURCE_REPO]/skills/[category]/[skill]/SKILL.md` with the confirmed
+   content, then:
+   ```bash
+   git -C [SOURCE_REPO] add skills/[category]/[skill]/SKILL.md
+   git -C [SOURCE_REPO] commit -m "learn: [one-line lesson summary]"
+   ```
+3. Offer the PR (one question): "Push `learn/[slug]` and open a PR against
+   claude-code-apple-skills?" On yes:
+   ```bash
+   git -C [SOURCE_REPO] push -u origin learn/[slug]
+   gh pr create --repo [origin owner/repo] --head learn/[slug] \
+     --title "learn: [summary]" --body "[lesson + why + captured by /apple:learn]"
+   ```
+   On no: leave the local branch and say it's ready to push later. Either
+   way, switch the checkout back to its previous branch.
+4. **Also apply the same edit to the installed copy** so the lesson is live
+   in this session, with a marker line above the added section:
+   `<!-- pending upstream: learn/[slug] -->`
+   (greppable if the install is overwritten before the PR merges).
+
+**Without `SOURCE_REPO` (or dirty checkout / git errors):**
+
+Write a patch card the lesson survives in — `.planning/patches/skill-[slug].md`
+(create the directory if needed):
+
+```markdown
+# Pending skill lesson: [slug]
+Date: [today] · Target: skills/[category]/[skill]/SKILL.md · Section: [section]
+Apply: paste the block below into the target section in a
+claude-code-apple-skills checkout, then PR it.
+
+--- CONTENT ---
+[the exact confirmed content]
+```
+
+Then apply to the installed copy too (live now), marked
+`<!-- pending upstream: patch .planning/patches/skill-[slug].md -->`.
 
 ## Completion
 
 ```
 ✅ Lesson captured!
 
-Updated: [file path]
-Section: [section name]
+[Project-specific:]
+Updated: [CLAUDE.md path] — [section name]
+
+[General, source-repo path:]
+Source repo: learn/[slug] — [committed | PR opened: URL]
+Installed copy: updated (live now, marked pending-upstream)
+
+[General, patch-card path:]
+Patch card: .planning/patches/skill-[slug].md — apply when a skills-repo
+checkout is available
+Installed copy: updated (live now)
+
 Lesson: [one-line summary]
 
 This will now be applied automatically in future sessions when this skill is referenced.
