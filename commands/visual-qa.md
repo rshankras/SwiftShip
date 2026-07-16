@@ -76,8 +76,12 @@ Read: ~/.claude/swiftship-skills/ios/accessibility-audit/SKILL.md   # audit crit
 
 **All platforms — the layer above HIG mechanics:**
 ```
-Read: ~/.claude/swiftship-skills/design/design-principles/SKILL.md   # wayfinding 3 questions, hierarchy, discoverability
 Read: ~/.claude/swiftship-skills/design/typography/SKILL.md          # type hierarchy, Dynamic Type survival
+```
+Wayfinding rubric (evergreen — apply directly, no skill needed): every screen
+must answer *where am I, where can I go, what can I do here*; the primary
+action is discoverable without scrolling; hierarchy reads in one glance.
+```
 ```
 
 **For macOS projects:**

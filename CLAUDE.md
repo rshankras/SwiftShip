@@ -108,7 +108,7 @@ Commands reference skills from `claude-code-apple-skills` (140+ skills across 23
 |----------|--------|
 | `app-store/` (12) | ad-attribution, app-description-writer, apple-search-ads, iap-finalizer, keyword-optimizer, marketing-strategy, originality-check, ratings-mechanics, rejection-handler, review-response-writer, screenshot-planner, web-presence |
 | `apple-intelligence/` | app-intents, foundation-models, visual-intelligence |
-| `design/` (7) | animation-patterns, design-principles, liquid-glass, sf-symbols, typography, ui-prototyping, ux-writing |
+| `design/` (6) | animation-patterns, liquid-glass, sf-symbols, typography, ui-prototyping, ux-writing |
 | `core-ml/` | (Core ML, Vision, NaturalLanguage framework patterns) |
 | `foundation/` | attributed-string |
 | `generators/` (63) | accessibility-generator, account-deletion, analytics-setup, announcement-banner, app-clip, app-extensions, app-icon-generator, app-store-assets, auth-flow, background-processing, ci-cd-setup, cloudkit-sync, consent-flow, custom-product-pages, data-export, debug-menu, deep-linking, error-monitoring, feature-flags, featuring-nomination, feedback-form, force-update, http-cache, image-loading, in-app-events, lapsed-user, live-activity-generator, localization-setup, logging-setup, milestone-celebration, networking-layer, offer-codes-setup, offline-queue, onboarding-generator, pagination, paywall-generator, permission-priming, persistence-setup, pre-orders, preview-data-generator, product-page-optimization, promoted-iap, push-notifications, quick-win-session, referral-system, review-prompt, screenshot-automation, settings-screen, share-card, social-export, spotlight-indexing, state-restoration, streak-tracker, subscription-lifecycle, subscription-offers, test-generator, tipkit-generator, usage-insights, variable-rewards, watermark-engine, whats-new, widget-generator, win-back-offers |
@@ -121,7 +121,7 @@ Commands reference skills from `claude-code-apple-skills` (140+ skills across 23
 | `performance/` | profiling, swiftui-debugging |
 | `product/` (14) | app-namer, architecture-spec, beta-testing, competitive-analysis, idea-generator, implementation-guide, implementation-spec, localization-strategy, market-research, prd-generator, product-agent, release-spec, test-spec, ux-spec |
 | `release-review/` | (release readiness checks) |
-| `security/` | privacy-manifests (+ reference files: secure-storage.md, biometric-auth.md, network-security.md, platform-specifics.md) |
+| `security/` | privacy-manifests |
 | `swift/` | concurrency, concurrency-patterns, memory |
 | `testing/` (9) | characterization-test-generator, tdd-bug-fix, tdd-feature, test-contract, tdd-refactor-guard, snapshot-test-setup, test-data-factory, integration-test-scaffold, flow-walkthrough |
 | `swiftdata/` | inheritance |

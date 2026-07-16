@@ -33,9 +33,10 @@ Read: .planning/STATE.md (if exists)
 
 ## Load Security Skills
 
-Load the master security skill and privacy manifests skill:
+Load the privacy manifests skill (the one security skill that survives the
+2026 blind-test audit — general secure-storage/auth/network guidance is
+native model knowledge now; audit checklists below are self-contained):
 ```
-Read: ~/.claude/swiftship-skills/security/SKILL.md
 Read: ~/.claude/swiftship-skills/security/privacy-manifests/SKILL.md
 ```
 
@@ -54,10 +55,6 @@ Scan the project to determine scope:
 
 ### Phase 2: Secure Storage (focus: `storage`)
 
-```
-Read: ~/.claude/swiftship-skills/security/secure-storage.md
-```
-
 Audit:
 - Keychain usage for sensitive data (tokens, passwords, API keys)
 - UserDefaults misuse for sensitive data
@@ -66,10 +63,6 @@ Audit:
 - Hardcoded secrets in source code
 
 ### Phase 3: Authentication (focus: `auth`)
-
-```
-Read: ~/.claude/swiftship-skills/security/biometric-auth.md
-```
 
 Audit:
 - Sign in with Apple implementation
@@ -80,10 +73,6 @@ Audit:
 
 ### Phase 4: Network Security (focus: `network`)
 
-```
-Read: ~/.claude/swiftship-skills/security/network-security.md
-```
-
 Audit:
 - App Transport Security (ATS) configuration
 - Certificate pinning (if applicable)
@@ -92,10 +81,6 @@ Audit:
 - WebView security (if applicable)
 
 ### Phase 5: Platform-Specific (focus: `platform`)
-
-```
-Read: ~/.claude/swiftship-skills/security/platform-specifics.md
-```
 
 Audit:
 - Entitlements review (sandbox, capabilities)
