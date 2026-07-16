@@ -1,6 +1,6 @@
 ---
 description: Run comprehensive code, HIG, and App Store review
-allowed-tools: Read, Glob, Grep, Task
+allowed-tools: Read, Write, Edit, Glob, Grep, Task, AskUserQuestion
 model: sonnet
 ---
 
@@ -27,6 +27,32 @@ Read: .planning/APP.md (if exists)
 Read: .planning/ROADMAP.md (if exists)
 Read: .planning/STATE.md (if exists)
 ```
+
+## Lint Baseline (pre-pass)
+
+Findings a lint rule already catches are wasted reviewer tokens — the build
+catches them for free on every compile. Before spawning reviewers:
+
+1. ```
+   Glob: .swiftlint.yml, **/.swiftlint.yml
+   ```
+2. If configs exist, Read them and build the **enforced-rule list**:
+   - built-in rules in force: everything not in `disabled_rules:` plus every
+     `opt_in_rules:` entry
+   - every `custom_rules:` entry — record its name and what its regex catches
+     (one line each)
+3. Compose a skip-list block and **append it to all 5 reviewer prompts below**:
+
+   ```
+   Already enforced by SwiftLint in this project — do NOT report findings
+   these rules already catch:
+   [one line per rule: name — what it catches]
+   Everything else stays in scope.
+   ```
+
+If no `.swiftlint.yml` exists, skip this pre-pass and note it in REVIEW.md's
+summary (`Lint baseline: none`) — the graduation step below will offer to
+create one.
 
 **Model check (execution tier):** this command pins `model: sonnet` in its
 frontmatter (turn-scoped; see
@@ -384,6 +410,47 @@ Task({
 
 Apply the verdicts: only confirmed findings keep their severity; downgraded findings move to the fitting section with a "(downgraded from [severity]: [reason])" note; refuted findings go to the appendix.
 
+## Classify Findings for Graduation (lint-rule factory)
+
+Prose findings decay; lint rules compound. After verification, classify every
+surviving finding (all severities):
+
+| Class | Test | Action |
+|---|---|---|
+| **Mechanical** | A regex or existing SwiftLint rule catches every future instance (force unwraps, `print()` in production code, hardcoded colors/secrets, `ObservableObject` on iOS 17+ targets…) | Draft the rule and offer to install it |
+| **Judgment** | Needs context a linter can't have (architecture, HIG taste, copy, strategy) | Stays prose in REVIEW.md — this is what review is for |
+| **One-off** | A single mistake, no recurring pattern | Note only; no rule |
+
+For each **mechanical** finding, draft the enforcement:
+
+- Prefer enabling a **built-in SwiftLint rule** (`force_unwrapping`,
+  `force_try`, `force_cast`, …) over writing a regex.
+- Else draft a `custom_rules:` entry — name, message, regex, and
+  `included:`/`excluded:` scoping so it can't cry wolf: a `print()` rule
+  excludes test targets; an `import XCTest` rule includes unit-test paths
+  only (**XCUITest legitimately requires XCTest — never ban it globally**).
+- Deployment-target-conditional rules (`ObservableObject` → `@Observable`
+  applies only to iOS 17+/macOS 14+ targets) get the condition as a YAML
+  comment; don't offer them to projects deploying below it.
+- Patterns beyond a regex (project-structure checks) become a small CI grep
+  step draft instead.
+- Never offer a rule that fires on current intentional code: Grep the regex
+  against the tree and tighten the scoping until it's quiet everywhere except
+  the finding sites.
+
+Then follow the optional-tool handoff convention (detect → preview → confirm →
+act → fall back):
+
+1. **Detect** — does `.swiftlint.yml` exist (from the pre-pass)?
+2. **Preview** — show the exact YAML to append (or the minimal new
+   `.swiftlint.yml` if none exists: the drafted rules only, no opinionated
+   boilerplate).
+3. **Confirm** — one gate: "Install these [N] lint rules into
+   .swiftlint.yml? They'll catch [summary] on every build." (AskUserQuestion)
+4. **Act** — merge into `.swiftlint.yml` (create if absent).
+5. **Fall back** — declined, or no write access → the drafted YAML stays in
+   REVIEW.md's Graduated section, copy-paste-ready. Never install silently.
+
 ## Compile Results
 
 After verification completes, compile the verified findings into `.planning/REVIEW.md`:
@@ -405,6 +472,8 @@ After verification completes, compile the verified findings into `.planning/REVI
 | Low | [count] | ⬜ Pending |
 
 **Verification:** [N] Critical / [M] High claimed → [n] confirmed, [d] downgraded, [r] refuted
+
+**Lint baseline:** [N rules enforced — matching findings skipped / none — no .swiftlint.yml]
 
 **Overall Status:** [Ready / Issues Found / Not Ready]
 
@@ -431,6 +500,16 @@ After verification completes, compile the verified findings into `.planning/REVI
 ## 🟢 Suggestions
 
 [Compiled from all agents]
+
+---
+
+## ⚙️ Graduated to Lint
+
+[One entry per mechanical finding: the finding → the rule that now catches it →
+`Installed ✅` or `Offered ⬜` with the copy-paste YAML. Findings listed here
+also keep their severity entry above until fixed — the rule prevents
+recurrence, it doesn't fix the instance. Omit the section if nothing was
+mechanical.]
 
 ---
 
@@ -465,6 +544,7 @@ Summary:
 - 🟠 High: [count] (verified)
 - 🟡 Medium: [count]
 - 🟢 Low: [count]
+- ⚙️ Graduated to lint: [count] rules ([installed] installed, [offered] offered)
 - 🚫 Refuted in verification: [count]
 
 [If critical issues exist:]
