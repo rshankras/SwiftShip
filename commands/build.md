@@ -1,6 +1,6 @@
 ---
 description: Execute current plan using specialized agents
-allowed-tools: Read, Write, Edit, Bash, Task, Glob, Grep
+allowed-tools: Read, Write, Edit, Bash, Task, Glob, Grep, mcp__asc-metadata__list_apps, mcp__asc-metadata__list_beta_groups, mcp__asc-metadata__list_iap
 model: sonnet
 ---
 
@@ -268,6 +268,26 @@ Reply "done" when you've completed this task.
 ```
 
 Wait for user confirmation before proceeding.
+
+**After "done", probe what a probe can reach.** A manual task's `<done>`
+criteria are often machine-checkable read-only. Before marking the task
+completed, verify each criterion you can, per
+`~/.claude/swiftship-templates/_conventions/TOOL-HANDOFF.md` (DETECT silently;
+reads run without a confirmation prompt):
+
+- Filesystem / project / git criteria → check directly (`ls`, `git tag`,
+  `xcodebuild -list`, …).
+- App Store Connect criteria → when the matching read-only tool is detected:
+  app record exists → `mcp__asc-metadata__list_apps`; beta/testing group →
+  `mcp__asc-metadata__list_beta_groups`; IAP configured →
+  `mcp__asc-metadata__list_iap`.
+- No probe available → accept the confirmation (the existing behavior). Never
+  block a manual task on a missing tool.
+
+If a probe **contradicts** the "done" (e.g. no beta group exists yet), don't
+mark the task completed — show what the probe found next to the criterion,
+re-display the task instructions, and wait again. Never silently accept a
+claim a tool just refuted.
 
 ### 4. Verify Task Completion
 

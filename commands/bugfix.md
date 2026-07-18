@@ -155,11 +155,21 @@ func bugDescriptionIsFixed() { ... }
 func test_bugDescription_isFixed() { ... }
 ```
 
-### 5.3 Verify the Test
+### 5.3 Prove the Test Catches the Bug (Red → Green)
 
-The test should:
-1. **Fail** without the fix (conceptually — describe this, don't actually revert)
-2. **Pass** with the fix applied
+A regression test that passes both with and without the fix tests nothing.
+Prove the red run — don't describe it:
+
+1. **Fix not applied yet** (preferred — write the test before Step 4's fix
+   when the order allows): run the new test against the unfixed code and
+   require a **FAILURE**, then apply the fix and require a **PASS**.
+2. **Fix already applied:** temporarily shelve just the fix with a pathspec
+   stash — `git stash push -- [fixed source files]` (the new test file is
+   untouched) — run the test and require a **FAILURE**, then `git stash pop`
+   and require a **PASS**. Pop immediately; never leave the fix stashed.
+3. **Neither is possible** (fix and test share a file, stash conflicts):
+   record `red not proven` in the Step 6.3 report — an explicit gap beats a
+   claimed verification.
 
 ## Step 6: Verify
 
@@ -196,6 +206,7 @@ swift test
 Verification:
 - Build: [pass/fail]
 - New regression test: [pass/fail]
+- Regression test proven red without fix: [yes / no — reason]
 - Full test suite: [pass/fail] ([N] tests, [F] failures)
 ```
 
