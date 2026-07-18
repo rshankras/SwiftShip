@@ -57,6 +57,13 @@ Append exactly one line when the command finishes (success or not):
 
 Omit fields that don't apply. Keep the line under ~250 chars.
 
+**`blocked` vs `partial`:** a run that stops **waiting on something** — a
+manual task, a Critical finding, a broken build — is `blocked` (+ `blocked_on`),
+even if tasks completed first (`tasks_done` carries the progress). `partial`
+is for runs that **finished** but delivered less than full capability (e.g. a
+degraded review). A build paused on a manual task is `blocked`/`manual-task`,
+never `partial`.
+
 ## How to write it
 
 One Bash append at the completion step — never rewrite the file, never read it

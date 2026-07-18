@@ -113,8 +113,16 @@ command — follow that command's logic exactly.
    **phase-end quality gate** (`/apple:review`): fix Critical/High inline;
    backlog Medium/Low. If a `manual` task is hit, pause per the Safety Model.
 
-4. **Verify** — execute the `/apple:verify [N]` logic. Run the build + test
-   suite and the deliverables checklist. Write `.planning/VERIFICATION.md`.
+4. **Verify** — execute the `/apple:verify [N]` logic **through an
+   independent verifier**: spawn a fresh `swift-generalist` (bare name; retry
+   `apple:swift-generalist`) with the phase's PLAN.md deliverables and have
+   *it* run the build + test suite and the deliverables checklist, reporting
+   PASS/FAIL per item with the command output as evidence. The context that
+   just built the phase grading its own output is the same trust gap
+   `/apple:build` Step 4 closes for tasks — reopened at phase scope. Write
+   the verifier's findings to `.planning/VERIFICATION.md`. If agents can't
+   spawn (degraded environment), verify inline and record
+   `verifier: inline (degraded)` in VERIFICATION.md.
    Unattended rules: attempt the run-and-screenshot handoff (RUN-AND-SHOT)
    for UI checks so rendered frames replace human eyes where possible; UAT
    checks that genuinely need a human are recorded in VERIFICATION.md as
