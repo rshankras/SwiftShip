@@ -106,14 +106,22 @@ command — follow that command's logic exactly.
 3. **Build** — execute the `/apple:build` logic. Work through every pending task
    in order, spawning the matched agents (bare names; retry as `apple:<name>`
    on "Agent type not found" — plugin installs namespace agent types),
-   running per-task verification, updating
-   `STATE.md`, and committing after each task. This includes the **phase-end
-   quality gate** (`/apple:review`): fix Critical/High inline; backlog
-   Medium/Low. If a `manual` task is hit, pause per the Safety Model.
+   running per-task verification **yourself** (build/test/screenshot checks
+   are executed by this run after each spawn returns — a builder agent's
+   self-report is never accepted as evidence; see `/apple:build` Step 4),
+   updating `STATE.md`, and committing after each task. This includes the
+   **phase-end quality gate** (`/apple:review`): fix Critical/High inline;
+   backlog Medium/Low. If a `manual` task is hit, pause per the Safety Model.
 
 4. **Verify** — execute the `/apple:verify [N]` logic. Run the build + test
-   suite and the deliverables checklist. Write `.planning/VERIFICATION.md`. If
-   the result is FAIL, stop per the Safety Model.
+   suite and the deliverables checklist. Write `.planning/VERIFICATION.md`.
+   Unattended rules: attempt the run-and-screenshot handoff (RUN-AND-SHOT)
+   for UI checks so rendered frames replace human eyes where possible; UAT
+   checks that genuinely need a human are recorded in VERIFICATION.md as
+   `NOT RUN (unattended)` — never marked passed. Every automated check must
+   PASS: a FAIL stops the run per the Safety Model; a PARTIAL whose only gaps
+   are `NOT RUN (unattended)` items continues, with those items surfaced in
+   the phase recap and again at the next checkpoint so a human runs them.
 
 5. **Phase summary** — print a short recap (tasks completed, files changed,
    quality-gate counts, verification result) and update `STATE.md` to mark the

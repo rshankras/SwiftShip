@@ -41,6 +41,31 @@ commands, or moved skill-reference paths.
 
 ### Fixed
 
+- **`/apple:build` no longer grades its own homework — verification audit, part 1
+  (build-loop integrity).** Four gaps closed:
+  - **Orchestrator-run checks.** Step 4 now requires the orchestrator to execute
+    every `<verify>` check itself after a spawn returns — build/test commands
+    re-run, results recorded from those runs. The builder agent's ✅s are a
+    claim, not evidence; the progress report says which it got.
+  - **Baseline build check + generator tasks verified.** The `build` check runs
+    after every `auto`/`generator` task even when `<verify>` omits it.
+    Generator tasks previously ran **zero** checks (build.md's generator branch
+    had no verification step, and the PLAN template's generator example carried
+    no `<verify>` block — now it does, and `/apple:plan` requires one on every
+    auto/generator task).
+  - **Rendered-frame checks for UI tasks.** `simulator` checks — and any task
+    touching views/layout — verify via RUN-AND-SHOT (screenshot Read back;
+    blank/crashed frame = FAIL) instead of "user confirms in simulator".
+    build.md never referenced RUN-AND-SHOT before; it was only wired into
+    `/apple:verify`, which ledger evidence showed never runs.
+    `/apple:autonomous` now defines unattended behavior: screenshot where
+    possible, otherwise record `NOT RUN (unattended)` — never a silent pass.
+  - **`/apple:verify` wired into the flow.** `/apple:build`'s completion
+    messages routed straight to `/apple:plan [X+1]`, skipping the one command
+    that checks deliverables actually *work* (review checks that work is
+    *good* — different question). Both completion messages now route through
+    `/apple:verify` first.
+
 - **`/apple:bugfix` carries the `general-purpose` guard.** The command has
   granted `Task` in its frontmatter since it was first added, but its body
   never mentioned agents — so a spawn would have defaulted to the built-in

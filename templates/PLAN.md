@@ -58,7 +58,11 @@ Copy this file to your project's `.planning/PLAN.md`.
     </action>
 
     <verify>
-      <!-- Verification steps -->
+      <!-- Verification steps — /apple:build runs every check ITSELF after the
+           agent returns (the builder's self-report is never the evidence).
+           Every auto/generator task needs at least a build check; tasks that
+           touch views/layout also need a simulator check (verified via a
+           rendered screenshot, RUN-AND-SHOT). -->
       <check type="build">Project builds without errors</check>
       <check type="preview">SwiftUI preview renders correctly</check>
       <check type="simulator">Feature works in iOS Simulator</check>
@@ -91,6 +95,10 @@ Copy this file to your project's `.planning/PLAN.md`.
       <include>account-section</include>
       <exclude>debug-section</exclude>
     </customization>
+    <verify>
+      <check type="build">Generated code compiles in the app target</check>
+      <check type="simulator">Settings screen renders and toggles respond</check>
+    </verify>
     <done>
       - Settings screen accessible from main navigation
       - All toggles persist to UserDefaults
