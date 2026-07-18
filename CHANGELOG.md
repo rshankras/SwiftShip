@@ -66,6 +66,21 @@ commands, or moved skill-reference paths.
     *good* — different question). Both completion messages now route through
     `/apple:verify` first.
 
+- **`/apple:autonomous` verifies with independent eyes (verification audit,
+  part 3).** The per-phase verify step ran inline in the same context that had
+  just built the phase — the self-grading gap `/apple:build` Step 4 closes for
+  tasks, reopened at phase scope. The verify step now spawns a fresh
+  `swift-generalist` that runs the build + test suite and the deliverables
+  checklist itself and reports PASS/FAIL with command output as evidence;
+  degraded environments fall back to inline verification, recorded as
+  `verifier: inline (degraded)` in VERIFICATION.md.
+
+- **USAGE-LOG.md pins down `blocked` vs `partial`.** Ledger data showed the
+  two outcomes drifting for manual-task pauses. Now defined: stopped
+  *waiting on something* → `blocked` + `blocked_on` (progress lives in
+  `tasks_done`); *finished but below full capability* (e.g. degraded review)
+  → `partial`. A build paused on a manual task is always `blocked`/`manual-task`.
+
 - **Verification audit, part 2 (follow-ups).**
   - **Manual tasks are probed, not just trusted.** After the user replies
     "done", `/apple:build` read-only-verifies the machine-checkable `<done>`
