@@ -451,6 +451,8 @@ act → fall back):
 
 ## Compile Results
 
+Before compiling, check one coverage gap: if this phase touched top-level screens, has a **screenshot or filmstrip-mode** `/apple:visual-qa` covered them? All five agents above read code; none see rendered frames, and emergent-layout defects (composition-dependent alignment, unequal-cell grids) hide from every one of them. If uncovered, add the run to Suggestions.
+
 After verification completes, compile the verified findings into `.planning/REVIEW.md`:
 
 ```markdown

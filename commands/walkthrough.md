@@ -69,6 +69,8 @@ Write the report in the skill's format: Layer 1 findings (with file:line), a Lay
 
 Run **per flow-slice, not per-phase** — right after building a create→edit→results loop, walk that loop. This is where the highest-value UX bugs surface, and they're cheapest to fix the minute they're introduced. Complements `/apple:visual-qa` (screens) — this command is about flow.
 
+**Hand the filmstrips forward:** at phase close-out, offer `/apple:visual-qa` filmstrip mode on `.planning/walkthrough/` — the per-step captures double as its screenshot input, so every flow-covered screen gets a rendered-frame inspection for free. The captures see what code-only scans structurally cannot (emergent layout, composed states) — don't let them sit unread.
+
 ## Completion Message
 
 ```
