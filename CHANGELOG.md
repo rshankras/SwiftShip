@@ -10,7 +10,24 @@ commands, or moved skill-reference paths.
 
 ## [Unreleased]
 
+## [2.1.0] — 2026-07-18
+
+Verification milestone: the build loop now proves what agents claim —
+orchestrator-run checks, rendered-frame verification, proven red-green, and
+`/apple:verify` wired into the flow. Plus four new commands (growth, ratings,
+accessibility, juice) and the skills library's blind-test slimming.
+
 ### Added
+
+- **`/apple:juice` — game-feel audit + tiered fix pass (53rd command).** The
+  failure `/apple:visual-qa` can't see in a screenshot: the app *looks* right
+  but its big moments fall flat (silent winners, static celebrations). Audit
+  mode: three parallel read-only lens agents (haptics+sound / motion /
+  cohesion+reach) → event×channel matrix + six-dimension scorecard →
+  `.planning/JUICE.md`. Fix mode (`fix 1|2|3`): one tier per invocation —
+  wiring, celebration moments, sound layer (gated on user decisions) — with
+  the full test suite green as each tier's exit gate. Field-tested end-to-end
+  on a real app before merge; delegates to `design/game-feel`.
 
 - **`/apple:accessibility` — the 52nd command.** Audits the app for accessibility and
   declares App Store **Accessibility Nutrition Labels**. Six phases: define common tasks
@@ -25,7 +42,63 @@ commands, or moved skill-reference paths.
   `ios/accessibility-audit` skill; the EU Accessibility Act has applied to consumer apps
   in the EU market since June 2025, and no command owned this ASC surface.
 
+- **/apple:ratings — rating health + gated review replies (51st command).** Per-storefront health via list_reviews, a prioritized reply queue drafted from app-store/review-response-writer, every reply gated before posting via the previously unused respond_to_review MCP tool, and the never-reset guardrail from app-store/ratings-mechanics. learn-from-store now hands the reply backlog here instead of dead-ending at "replies are manual".
+
+- **SwiftUI skill routing** — build routes state-management tasks to swiftui/data-flow and layout/scroll tasks to swiftui/layout; perf triage adds both to the jank and re-render rows.
+
+- **visionOS routing** — build gains a visionOS task row (spatial UI -> visionos/spatial-design + visionos/widgets); review reads spatial-design for visionOS targets (eye-target sizes, motion comfort, hover rules).
+
+- **Design-skill wiring** — the four new design skills route through the build process: plan (Phase 2/3 skill matching), build (task routing table rows for screen structure, copy, symbols, type), review (UX-quality + copy passes above HIG), visual-qa (wayfinding/typography layer), walkthrough (discoverability rubric). prototype and icon already read their upgraded skills.
+
+- **Growth watchlist graduations** — Creative Assets, Retention Messaging, and Group/Volume Purchasing moved from announced to live scoring in templates/GROWTH.md (per WWDC26 transcripts; the skills-side rules updated in the library); watchlist now tracks only the new event badge types.
+
+- **`/apple:growth` phase argument** — `/apple:growth P1` (or `P1-P3`) scopes
+  the audit to one stage: evidence batches subset to that phase's items, only
+  its scorecard rows update, and the output is the stage's worklist (core
+  first, routes attached) with an offer to start the first fix. Backed by the
+  skill's new Scoped Runs section.
+
+- **`/apple:growth` — stage-by-stage growth audit (50th command).** Walks an
+  app (live, `--new` pre-launch, or `--portfolio`) through the 54-item P0–P9
+  growth playbook from `growth/store-growth-audit`: one read-only ASC MCP
+  batch + one codebase grep pass + one batched question round, every item
+  scored with citable evidence, graded into a 0–9 maturity level, and routed
+  to the command that fixes it. Writes the `.planning/GROWTH.md` scorecard
+  (new `templates/GROWTH.md`; stable item IDs make re-audits diff cleanly)
+  and, gated, a dated top-5 into `ROADMAP.md`. Companion to
+  `/apple:learn-from-store`: that asks *are the numbers moving* (monthly),
+  this asks *is the machinery installed* (quarterly). Cross-linked from
+  `new-app`/`roadmap` (`--new` seed), `release`/`next-version` (quarterly
+  re-audit tip), `ship` (phased-release default + never-reset-ratings
+  guardrail), and `learn-from-store`.
+
+- **`via` field on invoke lines** — the usage hook now records which shape
+  matched (`"typed"` = UserPromptSubmit, `"skill"` = PostToolUse on Skill),
+  so `/apple:usage` can measure the routing split and attribute tier drift
+  on pinned commands to it with data instead of inference. Older lines
+  without the field remain valid (schema addition only).
+
 ### Changed
+
+- **`/apple:review` is a lint-rule factory.** A lint-baseline pre-pass reads
+  the project's `.swiftlint.yml` and skip-lists already-enforced rules from
+  all 5 reviewer prompts (findings the build already catches stop costing
+  reviewer tokens); after foreman verification, a graduation post-pass
+  classifies surviving findings mechanical/judgment/one-off and drafts scoped
+  SwiftLint rules for the mechanical ones (built-ins preferred,
+  `included:`/`excluded:` scoping, deployment-target conditions), offered via
+  the confirm-gated handoff convention. REVIEW.md gains a "⚙️ Graduated to
+  Lint" section. Prose findings decay; lint rules compound.
+
+- **`/apple:learn` upstreams general lessons to the skills source repo.**
+  General lessons previously patched the installed copy at
+  `~/.claude/swiftship-skills/`, which the next plugin update overwrites —
+  lessons died on update instead of reaching the shared library. Step 6 now
+  resolves the claude-code-apple-skills source checkout, applies the lesson
+  on a `learn/<slug>` branch (never main) with an offered PR, and also
+  patches the installed copy (marked `pending upstream`) so it's live
+  immediately; the no-checkout fallback is a durable patch card in
+  `.planning/patches/`.
 
 - **Routing for the new `ios/accessibility-audit` skill.** `build.md`'s routing table had a
   row labelled "accessibility audit" that pointed at `ios/ui-review` — it now points at the
@@ -101,6 +174,25 @@ commands, or moved skill-reference paths.
     writes can partially apply per-locale; success is the read-back matching,
     not the API's 200.
 
+- **The filmstrip loop is closed — `/apple:visual-qa` gets rendered frames it
+  never saw.** A device-screenshot review found three defects that survived
+  every SwiftShip pass because every visual-qa run had been code-only while
+  `/apple:walkthrough`'s per-step screenshots of the same screens sat unread
+  on disk. visual-qa gains a **Filmstrip Mode** consuming
+  `.planning/walkthrough/` captures (rendered frames required on touched
+  top-level screens; code-only demoted to mid-phase spot checks) plus two
+  checklist additions (redundant labels, icon nameability); walkthrough hands
+  its filmstrips forward at phase close-out; review cross-checks that a
+  rendered-frame pass covered the phase's screens.
+
+- **References to skills deleted in the 2026 blind-test audit.**
+  `design/design-principles` and the security category modules were removed
+  from the library after blind testing (Sonnet + Opus escalation + Fable
+  regrade) confirmed the content is native model knowledge; `security`,
+  `review`, `visual-qa`, `walkthrough`, `plan`, and `build` stopped reading
+  the deleted files (the wayfinding rubric was inlined where it was
+  load-bearing). Remains compatible with older skill installs.
+
 - **`/apple:bugfix` carries the `general-purpose` guard.** The command has
   granted `Task` in its frontmatter since it was first added, but its body
   never mentioned agents — so a spawn would have defaulted to the built-in
@@ -121,43 +213,10 @@ commands, or moved skill-reference paths.
   instead of misdirecting to `./install.sh`, which only fixes stale symlink
   installs.
 
-### Added
+### Compatibility
 
-- **/apple:ratings — rating health + gated review replies (51st command).** Per-storefront health via list_reviews, a prioritized reply queue drafted from app-store/review-response-writer, every reply gated before posting via the previously unused respond_to_review MCP tool, and the never-reset guardrail from app-store/ratings-mechanics. learn-from-store now hands the reply backlog here instead of dead-ending at "replies are manual".
-
-- **SwiftUI skill routing** — build routes state-management tasks to swiftui/data-flow and layout/scroll tasks to swiftui/layout; perf triage adds both to the jank and re-render rows.
-
-- **visionOS routing** — build gains a visionOS task row (spatial UI -> visionos/spatial-design + visionos/widgets); review reads spatial-design for visionOS targets (eye-target sizes, motion comfort, hover rules).
-
-- **Design-skill wiring** — the four new design skills route through the build process: plan (Phase 2/3 skill matching), build (task routing table rows for screen structure, copy, symbols, type), review (UX-quality + copy passes above HIG), visual-qa (wayfinding/typography layer), walkthrough (discoverability rubric). prototype and icon already read their upgraded skills.
-
-- **Growth watchlist graduations** — Creative Assets, Retention Messaging, and Group/Volume Purchasing moved from announced to live scoring in templates/GROWTH.md (per WWDC26 transcripts; the skills-side rules updated in the library); watchlist now tracks only the new event badge types.
-
-- **`/apple:growth` phase argument** — `/apple:growth P1` (or `P1-P3`) scopes
-  the audit to one stage: evidence batches subset to that phase's items, only
-  its scorecard rows update, and the output is the stage's worklist (core
-  first, routes attached) with an offer to start the first fix. Backed by the
-  skill's new Scoped Runs section.
-
-- **`/apple:growth` — stage-by-stage growth audit (50th command).** Walks an
-  app (live, `--new` pre-launch, or `--portfolio`) through the 54-item P0–P9
-  growth playbook from `growth/store-growth-audit`: one read-only ASC MCP
-  batch + one codebase grep pass + one batched question round, every item
-  scored with citable evidence, graded into a 0–9 maturity level, and routed
-  to the command that fixes it. Writes the `.planning/GROWTH.md` scorecard
-  (new `templates/GROWTH.md`; stable item IDs make re-audits diff cleanly)
-  and, gated, a dated top-5 into `ROADMAP.md`. Companion to
-  `/apple:learn-from-store`: that asks *are the numbers moving* (monthly),
-  this asks *is the machinery installed* (quarterly). Cross-linked from
-  `new-app`/`roadmap` (`--new` seed), `release`/`next-version` (quarterly
-  re-audit tip), `ship` (phased-release default + never-reset-ratings
-  guardrail), and `learn-from-store`.
-
-- **`via` field on invoke lines** — the usage hook now records which shape
-  matched (`"typed"` = UserPromptSubmit, `"skill"` = PostToolUse on Skill),
-  so `/apple:usage` can measure the routing split and attribute tier drift
-  on pinned commands to it with data instead of inference. Older lines
-  without the field remain valid (schema addition only).
+- Tested against claude-code-apple-skills `main` @ `34fe932` (2026-07-18,
+  "design/game-feel — the juice discipline skill").
 
 ## [2.0.0] — 2026-07-04
 
@@ -410,7 +469,8 @@ stable channel.
   which includes the `macos/*/SKILL.md` case fix required on case-sensitive
   filesystems (claude-code-apple-skills#15)
 
-[Unreleased]: https://github.com/rshankras/SwiftShip/compare/v2.0.0...HEAD
+[Unreleased]: https://github.com/rshankras/SwiftShip/compare/v2.1.0...HEAD
+[2.1.0]: https://github.com/rshankras/SwiftShip/compare/v2.0.0...v2.1.0
 [2.0.0]: https://github.com/rshankras/SwiftShip/compare/v1.1.0...v2.0.0
 [1.1.0]: https://github.com/rshankras/SwiftShip/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/rshankras/SwiftShip/releases/tag/v1.0.0
