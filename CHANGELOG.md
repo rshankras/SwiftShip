@@ -66,6 +66,26 @@ commands, or moved skill-reference paths.
     *good* — different question). Both completion messages now route through
     `/apple:verify` first.
 
+- **Verification audit, part 2 (follow-ups).**
+  - **Manual tasks are probed, not just trusted.** After the user replies
+    "done", `/apple:build` read-only-verifies the machine-checkable `<done>`
+    criteria — filesystem/git directly; ASC criteria via `list_apps` /
+    `list_beta_groups` / `list_iap` when the asc-metadata MCP is detected
+    (TOOL-HANDOFF; the three read tools join build's `allowed-tools`) — and a
+    probe that contradicts the "done" re-opens the task instead of completing
+    it. No probe available → trust the confirmation, as before.
+  - **`/apple:bugfix` proves red instead of describing it.** Step 5.3 said the
+    regression test should fail without the fix "(conceptually — describe
+    this, don't actually revert)" — so a test that passes both ways (testing
+    nothing) sailed through. Now: test-first when the order allows, else a
+    pathspec-stash roundtrip (`git stash push -- [fix files]` → red →
+    `stash pop` → green); if red genuinely can't be proven, the report says
+    `red not proven` explicitly.
+  - **TOOL-HANDOFF's ACT step gains a read-back.** After any write, re-read
+    the value with the same tool PREVIEW used and confirm it stuck — ASC
+    writes can partially apply per-locale; success is the read-back matching,
+    not the API's 200.
+
 - **`/apple:bugfix` carries the `general-purpose` guard.** The command has
   granted `Task` in its frontmatter since it was first added, but its body
   never mentioned agents — so a spawn would have defaulted to the built-in
