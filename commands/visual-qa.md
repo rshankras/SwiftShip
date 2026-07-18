@@ -8,6 +8,8 @@ allowed-tools: Read, Write, Glob, Grep, Bash, AskUserQuestion, Skill
 
 Analyze screenshots of your app's UI or scan SwiftUI code for visual anti-patterns. Catches issues that code-only review misses — alignment, spacing, visual hierarchy, dark mode rendering.
 
+**Rendered frames are not optional at phase close-out.** Code-only mode cannot see *emergent* layout — defects that only exist after composition (field case, 2026-07-18: LazyVGrid center-aligning unequal-height cells into a visibly staggered grid, on a screen every code scan had passed). At each phase close-out, run screenshot or filmstrip mode on every top-level screen the phase touched; reserve code-only mode for mid-phase spot checks.
+
 ## Arguments
 
 - `$ARGUMENTS`: Screenshot file paths, `"code"` for code-only audit, or both. If omitted, asks the user which mode to use.
@@ -27,6 +29,7 @@ Determine the target platform (iOS, macOS, or both) from APP.md. This controls w
 Parse `$ARGUMENTS` to determine the analysis mode:
 
 - **Screenshot Mode**: Arguments contain image file paths (`.png`, `.jpg`, `.jpeg`, `.gif`, `.webp`, `.heic`)
+- **Filmstrip Mode**: Argument is `"filmstrips"` or a directory path — analyze `/apple:walkthrough`'s per-step captures (default location `.planning/walkthrough/<flowId>/`). Every flow-covered screen gets a rendered-frame inspection with zero new capture work; analyze each *distinct screen* once, skipping near-duplicate frames of the same screen
 - **Code-Only Mode**: Argument is `"code"` or empty
 - **Both**: Mix of image paths and `"code"`
 
@@ -36,6 +39,7 @@ AskUserQuestion:
   "How would you like to run Visual QA?"
   Options:
     - "Capture now" — "Build, launch & screenshot the running app for me"
+    - "Walkthrough filmstrips" — "Analyze the per-step captures already in .planning/walkthrough/" (offer only if that directory has content)
     - "Screenshot analysis" — "I already have screenshots to analyze"
     - "Code-only audit" — "Scan SwiftUI code for visual anti-patterns"
     - "Both" — "Analyze screenshots and scan code"
@@ -121,12 +125,14 @@ For each screenshot provided, read the image file and perform systematic visual 
 ### 4.4 Platform Nativeness
 - Does it look and feel like a native Apple app?
 - Proper use of SF Symbols vs custom icons
+- Icon nameability: would a stranger name each glyph's *function* correctly? A valid SF Symbol can still be the wrong word (field case: a numbered-list glyph on a scoreboard button read as "rules" — a trophy says scores)
 - Standard sheet/modal presentation
 - Platform-appropriate navigation patterns
 
 ### 4.5 Visual Polish
 - Pixel-level alignment issues (misaligned baselines, uneven padding)
 - Inconsistent spacing between similar elements
+- Duplicated/redundant labels — the same string twice on one screen (e.g. a nav title repeating an adjacent chip or header) says nothing twice at the cost of density
 - Visual clutter or information density issues
 - Icon and image quality (blurry, wrong aspect ratio)
 
