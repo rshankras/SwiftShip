@@ -196,6 +196,26 @@ After building a flow's slice, run `/apple:walkthrough [flow-id]` — it drives 
 
 Create `.planning/PLAN.md` with detailed tasks:
 
+### Verification rules (every task)
+
+`<verify>` is what `/apple:build` actually executes after the agent returns —
+the orchestrator runs every check itself and never accepts the builder's
+self-report as evidence. Write checks accordingly:
+
+- Every `auto` and `generator` task MUST carry a `<verify>` block with at
+  least a `type="build"` check. (`/apple:build` runs the build check even when
+  the block is missing, but an explicit block also states *what success looks
+  like* for this task.)
+- Any task whose `<files>` create or modify views or layout MUST also carry a
+  `type="simulator"` check — `/apple:build` verifies it with a rendered
+  screenshot (RUN-AND-SHOT), because compile + tests cannot see clipped,
+  invisible, or crushed UI.
+- Tasks that add tests carry a `type="test"` check naming the suite that must
+  pass.
+- `manual` tasks put their acceptance into `<done>` criteria — write them
+  checkable (concrete names, bundle IDs, group names — not "is set up
+  correctly").
+
 ### Model tagging (`type="auto"` tasks only)
 
 Tag **at most 1–2 tasks per phase** with `model="opus"` — only tasks whose
@@ -362,6 +382,7 @@ tasks get zero tags — that is the common case.
       Include Router class for programmatic navigation.
     </action>
     <verify>
+      <check type="build">App builds with navigation in place</check>
       <check type="simulator">Navigation works correctly</check>
     </verify>
     <done>
@@ -409,6 +430,10 @@ Generate tasks based on:
     <include>notification-preferences</include>
     <include>about-section</include>
   </customization>
+  <verify>
+    <check type="build">Generated code compiles in the app target</check>
+    <check type="simulator">Settings screen renders and toggles respond</check>
+  </verify>
   <done>
     - Settings accessible from navigation
     - All preferences persist

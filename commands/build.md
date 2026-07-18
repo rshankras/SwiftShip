@@ -52,6 +52,7 @@ If no pending tasks:
 ✅ All tasks in current phase are complete!
 
 Next steps:
+- Run /apple:verify to confirm the deliverables actually work (build, tests, UAT)
 - Run /apple:review to check code quality
 - Run /apple:plan [next-phase] to plan the next phase
 ```
@@ -243,6 +244,11 @@ Load skill from: ~/.claude/swiftship-skills/generators/[generator-name]/
 Apply customizations from <customization> tag.
 ```
 
+Generator tasks are verified exactly like `auto` tasks: after the skill has
+been applied, run Step 4 — the baseline `build` check plus any `<check>`s the
+task declares. Generators drop in more code per task than most agent spawns
+do; generated code that doesn't compile is not done.
+
 #### For `type="manual"` Tasks:
 
 Display instructions to user:
@@ -265,14 +271,37 @@ Wait for user confirmation before proceeding.
 
 ### 4. Verify Task Completion
 
+**Run the checks yourself.** The agent's completion report is a claim, not
+evidence — the same agent that wrote the code is grading its own work. After
+the spawn returns, execute every `<verify>` check directly and record what
+YOUR runs showed. Never copy the agent's reported ✅s into the progress
+report, and never mark a task completed on the strength of its report alone.
+
 For each `<check>` in `<verify>`:
 
-| Check Type | Verification |
-|------------|--------------|
-| `build` | Run `xcodebuild` or `swift build` |
-| `preview` | Confirm SwiftUI preview compiles |
-| `simulator` | User confirms in simulator |
-| `test` | Run `swift test` or `xcodebuild test` |
+| Check Type | Verification (run by you, not the agent) |
+|------------|------------------------------------------|
+| `build` | Run `xcodebuild build` / `swift build`; require success, surface `error:` lines |
+| `preview` | Covered by the `build` check — previews are compiled code; no separate run |
+| `simulator` | Rendered-frame check via RUN-AND-SHOT (below); fall back to asking the user |
+| `test` | Run `swift test` / `xcodebuild test`; require 0 failures |
+
+**Baseline check:** run the `build` check after **every** `auto` and
+`generator` task, even when its `<verify>` block omits it (or is missing
+entirely — older plans). A task that doesn't compile is never complete.
+
+**Rendered-frame check** (`simulator` checks, and any task whose `<files>`
+touch views or layout): "it compiles" says nothing about what's on screen —
+clipped text, invisible cards, and crushed layouts all compile cleanly. Apply
+`~/.claude/swiftship-templates/_conventions/RUN-AND-SHOT.md`: build → launch →
+screenshot → **Read the image back** and judge it (blank, crashed, or
+launch-stuck frame = FAIL). If neither the `run-simulator` skill nor the macOS
+path is available, fall back to asking the user to confirm in the Simulator —
+and record the check as *user-confirmed*, not *verified*.
+
+Only when every check passes does the task move to Step 5. A failing check
+follows Error Handling below — the agent's claim of success never overrides
+what your run showed.
 
 ### 5. Update Status
 
@@ -326,10 +355,10 @@ Files changed:
 - [file 1]
 - [file 2]
 
-Verification:
-- ✅ Build succeeds
-- ✅ Preview renders
-- ✅ [other checks]
+Verification (orchestrator-run — not the agent's self-report):
+- [✅/❌] Build succeeds
+- [✅/❌] [each other check, as your run showed]
+- [📸 screenshot-verified | 🙋 user-confirmed] [simulator check, if any]
 
 Progress: [completed]/[total] tasks
 
@@ -374,6 +403,6 @@ Summary:
 - Commits: [count]
 
 Next steps:
-1. Test in simulator/device
+1. Run /apple:verify — confirm the phase's deliverables actually work (build, tests, UAT)
 2. Run /apple:plan [X+1] for next phase
 ```
