@@ -59,8 +59,12 @@ upgrade — never infer blanket consent from a single yes.
 
 ### 4. ACT (only on explicit yes)
 Call the named tool with the previewed values. Echo the result / confirmation id
-back to the user. On ANY error, **do not retry blindly** — fall through to step 5
-and surface what failed.
+back to the user. For writes, **read the value back** with the same read-only
+tool PREVIEW used and confirm it matches what was applied — ASC writes can
+partially apply (e.g. per-locale); success is the read-back matching, not the
+API's 200. On a mismatch, report exactly which fields/locales differ. On ANY
+error, **do not retry blindly** — fall through to step 5 and surface what
+failed.
 
 ### 5. FALL BACK
 Unavailable, declined, or failed → print the command's existing **manual
