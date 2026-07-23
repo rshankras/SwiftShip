@@ -64,7 +64,7 @@ Determine which skills and generators are relevant based on phase:
 | Phase | Primary Skills | Generators |
 |-------|---------------|------------|
 | 1 (Foundation) | ios/coding-best-practices, macos/coding-best-practices | logging-setup, networking-layer, analytics-setup, consent-flow, force-update, permission-priming |
-| 2 (Core) | ios/, macos/, product/ux-spec, product/implementation-guide | auth-flow, onboarding-generator, deep-linking, push-notifications, account-deletion, app-clip, offline-queue, spotlight-indexing, state-restoration, streak-tracker, app-extensions, background-processing, data-export (+ varies by feature) |
+| 2 (Core) | ios/, macos/, product/ux-spec, product/implementation-guide | auth-flow, onboarding-generator (value-moment flow; pairs with Phase 4 for paywalled apps), deep-linking, push-notifications, account-deletion, app-clip, offline-queue, spotlight-indexing, state-restoration, streak-tracker, app-extensions, background-processing, data-export (+ varies by feature) |
 | 3 (Polish) | ios/ui-review, macos/ui-review-tahoe, ios/accessibility-audit (audit + Nutrition Label criteria), design/liquid-glass, design/animation-patterns, design/ux-writing (copy pass), design/sf-symbols, design/typography | widget-generator, accessibility-generator, preview-data-generator, localization-setup, tipkit-generator, live-activity-generator, feature-flags, announcement-banner, feedback-form, lapsed-user, milestone-celebration, share-card, social-export, usage-insights, watermark-engine, quick-win-session |
 | 4 (Monetization) | monetization/ (strategy, pricing-models, app-type-guides) | paywall-generator, review-prompt, referral-system, subscription-lifecycle, variable-rewards, offer-codes-setup, pre-orders, promoted-iap, subscription-offers, win-back-offers |
 | 5 (Testing) | product/test-spec, testing/ (TDD workflows) | test-generator, preview-data-generator, testing/tdd-feature, testing/test-data-factory, testing/snapshot-test-setup, testing/integration-test-scaffold, debug-menu |
@@ -100,7 +100,7 @@ Not every plan needs every generator. Inspect APP.md's `<apple-technologies>` an
 - **image-loading**: Include if app displays remote images (avatars, photos, thumbnails)
 - **analytics-setup**: Include if app tracks user behavior or has business metrics
 - **auth-flow**: Include if `<auth>` is not `None`
-- **onboarding-generator**: Include if app has auth or first-run setup experience
+- **onboarding-generator**: Include for effectively every consumer app that has a definable value moment — which is nearly all of them. Produces a branch-on-readiness flow (ready-now → shortest path to the value moment; later → implementation-intention capture + a contextual local-notification reminder; the welcome carousel is now the fallback, not the default) — name the app's value moment in the task's `<action>`. Pairs with Phase 4 for paywalled apps: the first half of the flow feeds the paywall, the second half runs post-purchase. MUST include the generator's UI-test-suppression step when the project has existing UI tests — onboarding otherwise breaks every existing test's first screen.
 - **deep-linking**: Include if app has sharing, external links, or universal links
 - **push-notifications**: Include if `Push Notifications` is in `<apple-technologies>`
 - **localization-setup**: Include if app targets multiple regions or languages

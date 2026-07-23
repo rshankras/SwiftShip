@@ -10,6 +10,23 @@ commands, or moved skill-reference paths.
 
 ## [Unreleased]
 
+### Changed
+
+- **`onboarding-generator` routing updated for its value-moment-first rework.**
+  `plan`'s Conditional Generator Selection entry and Phase 2 table, and
+  `roadmap`'s Phase 2 bullet, no longer gate the generator on "auth or
+  first-run setup" — it now applies to effectively every consumer app with a
+  definable value moment (nearly all of them). Both now describe the
+  branch-on-readiness output (ready-now → shortest path to the value moment;
+  later → implementation-intention capture + a contextual local-notification
+  reminder; the welcome carousel is demoted to fallback), require the app's
+  value moment to be named in the task's `<action>`, note the Phase 4 pairing
+  for paywalled apps (first half feeds the paywall, second half runs
+  post-purchase), and require the generator's UI-test-suppression step
+  whenever the project already has UI tests. Swept the rest of `commands/`
+  and `CLAUDE.md` for stale "welcome/tour" framing tied to the generator —
+  none found; the skill name is unchanged.
+
 ## [2.1.0] — 2026-07-18
 
 Verification milestone: the build loop now proves what agents claim —

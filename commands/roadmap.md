@@ -53,7 +53,7 @@ Based on `<mvp-features>`. Tasks:
 - Data persistence integration
 - Basic UI for each feature
 - Authentication flow (if `<auth>` is not None — use `generators/auth-flow`)
-- Onboarding experience (if app has `<auth>` or first-run setup — use `generators/onboarding-generator`)
+- Onboarding experience (nearly every app has a definable value moment — branch-on-readiness flow: ready-now → shortest path to the value moment, later → implementation-intention capture + local-notification reminder; carousel is the fallback; pairs with Phase 4 for paywalled apps — use `generators/onboarding-generator`)
 - Push notification setup (if Push Notifications in `<apple-technologies>` — use `generators/push-notifications`)
 - Deep linking (if app has sharing or external links — use `generators/deep-linking`)
 - Account deletion (if app has user accounts — Apple requirement since 2022 — use `generators/account-deletion`)
