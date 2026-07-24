@@ -10,7 +10,34 @@ commands, or moved skill-reference paths.
 
 ## [Unreleased]
 
+### Added
+
+- **Deterministic quality gates (the gauntlet) wired through the
+  plan → build → verify → review loop.** `verify` gains three Step-3 gates:
+  3.5 Lint Gate (`swiftlint lint --strict`, with the committed
+  `.swiftlint-baseline.json` when present), 3.6 Coverage Gate
+  (`Scripts/coverage-gate.sh` vs the committed `.coverage-baseline` — the
+  ratchet from `testing/coverage-ratchet`), and 3.7 Fitness-Function Suites
+  (confirm architecture invariants from `testing/fitness-functions` exist and
+  ran with the tests); the report template and Step-2 checklist carry matching
+  Lint/Coverage rows. `build` documents two new `<verify>` check types —
+  `lint` and `coverage` (additive; older plans unaffected). `plan` registers
+  the new skills in the Phase-5 table and testing-skills list
+  (`testing/fitness-functions`, `testing/coverage-ratchet`,
+  `testing/mutation-testing` advisory-only, `swift/code-size`) and adds two
+  verification rules: projects with `.swiftlint.yml` put `type="lint"` on code
+  tasks; projects with `.coverage-baseline` put `type="coverage"` on the
+  phase-final task.
+
 ### Changed
+
+- **`review`'s lint-rule factory generalized to an enforcement factory.** The
+  graduation table gains a **Structural** class — invariants a per-line regex
+  can't express (import boundaries, offline guarantees, registry/content
+  contracts) graduate to a fitness-function test drafted from
+  `testing/fitness-functions`, proven red on the finding before it's offered,
+  and installed into the test target on confirm. Output sections renamed
+  "Graduated to Enforcement" accordingly.
 
 - **`onboarding-generator` routing updated for its value-moment-first rework.**
   `plan`'s Conditional Generator Selection entry and Phase 2 table, and

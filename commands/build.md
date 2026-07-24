@@ -305,6 +305,8 @@ For each `<check>` in `<verify>`:
 | `preview` | Covered by the `build` check — previews are compiled code; no separate run |
 | `simulator` | Rendered-frame check via RUN-AND-SHOT (below); fall back to asking the user |
 | `test` | Run `swift test` / `xcodebuild test`; require 0 failures |
+| `lint` | Run `swiftlint lint --strict` (with `--baseline .swiftlint-baseline.json` if one exists); require zero non-baselined violations |
+| `coverage` | Run `Scripts/coverage-gate.sh`; require exit 0 (app-target line coverage ≥ committed `.coverage-baseline` − epsilon) |
 
 **Baseline check:** run the `build` check after **every** `auto` and
 `generator` task, even when its `<verify>` block omits it (or is missing

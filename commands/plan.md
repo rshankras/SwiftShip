@@ -67,7 +67,7 @@ Determine which skills and generators are relevant based on phase:
 | 2 (Core) | ios/, macos/, product/ux-spec, product/implementation-guide | auth-flow, onboarding-generator (value-moment flow; pairs with Phase 4 for paywalled apps), deep-linking, push-notifications, account-deletion, app-clip, offline-queue, spotlight-indexing, state-restoration, streak-tracker, app-extensions, background-processing, data-export (+ varies by feature) |
 | 3 (Polish) | ios/ui-review, macos/ui-review-tahoe, ios/accessibility-audit (audit + Nutrition Label criteria), design/liquid-glass, design/animation-patterns, design/ux-writing (copy pass), design/sf-symbols, design/typography | widget-generator, accessibility-generator, preview-data-generator, localization-setup, tipkit-generator, live-activity-generator, feature-flags, announcement-banner, feedback-form, lapsed-user, milestone-celebration, share-card, social-export, usage-insights, watermark-engine, quick-win-session |
 | 4 (Monetization) | monetization/ (strategy, pricing-models, app-type-guides) | paywall-generator, review-prompt, referral-system, subscription-lifecycle, variable-rewards, offer-codes-setup, pre-orders, promoted-iap, subscription-offers, win-back-offers |
-| 5 (Testing) | product/test-spec, testing/ (TDD workflows) | test-generator, preview-data-generator, testing/tdd-feature, testing/test-data-factory, testing/snapshot-test-setup, testing/integration-test-scaffold, debug-menu |
+| 5 (Testing) | product/test-spec, testing/ (TDD workflows), testing/fitness-functions, testing/coverage-ratchet | test-generator, preview-data-generator, testing/tdd-feature, testing/test-data-factory, testing/snapshot-test-setup, testing/integration-test-scaffold, debug-menu |
 | 6 (Pre-Release) | app-store/, security/privacy-manifests, legal/privacy-policy | app-icon-generator, error-monitoring, screenshot-automation, whats-new, app-store-assets, custom-product-pages, featuring-nomination, in-app-events, product-page-optimization, app-store/iap-finalizer, legal/privacy-publish |
 | 7 (Submission) | release-review/, app-store/, product/release-spec, app-store/rejection-handler | - |
 
@@ -156,6 +156,10 @@ Not every plan needs every generator. Inspect APP.md's `<apple-technologies>` an
 - **testing/integration-test-scaffold**: Include if app has networking + persistence — cross-module test harness
 - **testing/test-contract**: Include if app has protocol-based abstractions — contract test suites
 - **testing/characterization-test-generator**: Include for brownfield/existing codebases being refactored
+- **testing/fitness-functions**: Include if the app has hard architectural rules — offline guarantees, module import boundaries, pinned registries/content contracts (check CLAUDE.md and APP.md constraints). Each rule becomes a deterministic suite in the test target
+- **testing/coverage-ratchet**: Include for all apps once a test target exists — commits a coverage baseline that later phases may never drop below
+- **testing/mutation-testing**: Advisory only, on explicit request — EXPERIMENTAL muter audit for engine-heavy targets; never a blocking check
+- **swift/code-size**: Include when adopting lint gates — complexity/size thresholds with a violations baseline so existing code never blocks
 
 Only add generators whose conditions are met — avoid bloating the plan with unnecessary tasks.
 
@@ -212,6 +216,12 @@ self-report as evidence. Write checks accordingly:
   invisible, or crushed UI.
 - Tasks that add tests carry a `type="test"` check naming the suite that must
   pass.
+- Projects with a `.swiftlint.yml`: code tasks carry a `type="lint"` check —
+  `/apple:build` runs `swiftlint lint --strict` (with the committed baseline
+  when one exists).
+- Projects with a committed `.coverage-baseline`: the phase-final task carries
+  a `type="coverage"` check — `/apple:build` runs `Scripts/coverage-gate.sh`
+  and the phase cannot close below the baseline.
 - `manual` tasks put their acceptance into `<done>` criteria — write them
   checkable (concrete names, bundle IDs, group names — not "is set up
   correctly").

@@ -408,15 +408,16 @@ Task({
 
 Apply the verdicts: only confirmed findings keep their severity; downgraded findings move to the fitting section with a "(downgraded from [severity]: [reason])" note; refuted findings go to the appendix.
 
-## Classify Findings for Graduation (lint-rule factory)
+## Classify Findings for Graduation (enforcement factory)
 
-Prose findings decay; lint rules compound. After verification, classify every
-surviving finding (all severities):
+Prose findings decay; deterministic enforcement compounds. After verification,
+classify every surviving finding (all severities):
 
 | Class | Test | Action |
 |---|---|---|
 | **Mechanical** | A regex or existing SwiftLint rule catches every future instance (force unwraps, `print()` in production code, hardcoded colors/secrets, `ObservableObject` on iOS 17+ targets…) | Draft the rule and offer to install it |
-| **Judgment** | Needs context a linter can't have (architecture, HIG taste, copy, strategy) | Stays prose in REVIEW.md — this is what review is for |
+| **Structural** | A project invariant a per-line regex can't express but a source-tree or API scan can — an import outside a module boundary, a network call on an offline-guaranteed path, a registry/content contract drifting from its documented shape | Draft a fitness-function test (`testing/fitness-functions`) and offer to install it in the test target |
+| **Judgment** | Needs context neither a linter nor a scan can have (architecture trade-offs, HIG taste, copy, strategy) | Stays prose in REVIEW.md — this is what review is for |
 | **One-off** | A single mistake, no recurring pattern | Note only; no rule |
 
 For each **mechanical** finding, draft the enforcement:
@@ -430,24 +431,35 @@ For each **mechanical** finding, draft the enforcement:
 - Deployment-target-conditional rules (`ObservableObject` → `@Observable`
   applies only to iOS 17+/macOS 14+ targets) get the condition as a YAML
   comment; don't offer them to projects deploying below it.
-- Patterns beyond a regex (project-structure checks) become a small CI grep
-  step draft instead.
 - Never offer a rule that fires on current intentional code: Grep the regex
   against the tree and tighten the scoping until it's quiet everywhere except
   the finding sites.
 
+For each **structural** finding, draft the fitness function instead:
+
+- Pick the pattern from `testing/fitness-functions` — import-boundary
+  allowlist scan, runtime sentinel, or contract pin — and draft the Swift
+  Testing suite for the app's existing test target.
+- **Prove it red on the finding** before offering: the drafted suite must fail
+  against the current violation (or, if the finding was already fixed during
+  review, fail when the violation is temporarily reintroduced). A fitness
+  function that has never failed is unverified.
+
 Then follow the optional-tool handoff convention (detect → preview → confirm →
 act → fall back):
 
-1. **Detect** — does `.swiftlint.yml` exist (from the pre-pass)?
+1. **Detect** — mechanical: does `.swiftlint.yml` exist (from the pre-pass)?
+   Structural: does a unit-test target exist to host the suite?
 2. **Preview** — show the exact YAML to append (or the minimal new
    `.swiftlint.yml` if none exists: the drafted rules only, no opinionated
-   boilerplate).
-3. **Confirm** — one gate: "Install these [N] lint rules into
-   .swiftlint.yml? They'll catch [summary] on every build." (AskUserQuestion)
-4. **Act** — merge into `.swiftlint.yml` (create if absent).
-5. **Fall back** — declined, or no write access → the drafted YAML stays in
-   REVIEW.md's Graduated section, copy-paste-ready. Never install silently.
+   boilerplate) / the exact test file to add.
+3. **Confirm** — one gate: "Install these [N] lint rules into .swiftlint.yml
+   / this fitness-function suite into [test target]? They'll catch [summary]
+   on every build." (AskUserQuestion)
+4. **Act** — merge into `.swiftlint.yml` (create if absent) / Write the suite
+   into the test target and run it once to confirm green on current code.
+5. **Fall back** — declined, or no write access → the drafted YAML/suite stays
+   in REVIEW.md's Graduated section, copy-paste-ready. Never install silently.
 
 ## Compile Results
 
@@ -503,13 +515,16 @@ After verification completes, compile the verified findings into `.planning/REVI
 
 ---
 
-## ⚙️ Graduated to Lint
+## ⚙️ Graduated to Enforcement
 
 [One entry per mechanical finding: the finding → the rule that now catches it →
-`Installed ✅` or `Offered ⬜` with the copy-paste YAML. Findings listed here
-also keep their severity entry above until fixed — the rule prevents
-recurrence, it doesn't fix the instance. Omit the section if nothing was
-mechanical.]
+`Installed ✅` or `Offered ⬜` with the copy-paste YAML. One entry per
+structural finding: the invariant → the fitness-function suite that now pins
+it → `Installed ✅` (proven red on the violation, green on current code) or
+`Offered ⬜` with the copy-paste test file. Findings listed here also keep
+their severity entry above until fixed — enforcement prevents recurrence, it
+doesn't fix the instance. Omit the section if nothing was mechanical or
+structural.]
 
 ---
 
@@ -544,7 +559,7 @@ Summary:
 - 🟠 High: [count] (verified)
 - 🟡 Medium: [count]
 - 🟢 Low: [count]
-- ⚙️ Graduated to lint: [count] rules ([installed] installed, [offered] offered)
+- ⚙️ Graduated to enforcement: [count] lint rules + [count] fitness functions ([installed] installed, [offered] offered)
 - 🚫 Refuted in verification: [count]
 
 [If critical issues exist:]
