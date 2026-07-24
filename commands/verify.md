@@ -121,12 +121,13 @@ a ratchet-up, raise `.coverage-baseline` in this phase's final commit. Missing
 script/baseline → skip, record "Coverage: —", and suggest adopting
 `testing/coverage-ratchet`.
 
-### 3.7 Fitness-Function Suites
+### 3.7 Fitness-Function & Snapshot Suites
 
 Architecture fitness functions (import-boundary scans, network sentinels,
-count/copy pins — see `testing/fitness-functions`) are ordinary tests: they
-already ran inside 3.2, no separate invocation. Here, confirm they exist where
-they should:
+count/copy pins — see `testing/fitness-functions`) and snapshot suites
+(pixel-diff visual regression — see `testing/snapshot-test-setup`) are
+ordinary tests: they already ran inside 3.2, no separate invocation. Here,
+confirm they exist where they should:
 
 - Grep the test target for boundary/pin suites (e.g. suites scanning imports
   or pinning registry counts).
@@ -134,6 +135,11 @@ they should:
   module boundaries) with NO fitness-function suite enforcing them, flag the
   gap and suggest `testing/fitness-functions` — a hard rule enforced only by
   prose is a finding, not a preference.
+- If this phase touched views, grep the test target for a snapshot suite
+  covering the touched screens (`assertSnapshot` + `__Snapshots__/`
+  baselines). A view-touching phase whose screens have no snapshot coverage
+  is a flagged gap → suggest `testing/snapshot-test-setup` — compile + tests
+  cannot see clipped, invisible, or crushed UI; only a pixel diff can.
 
 ## Step 3.8: Optional handoff — run the app and screenshot
 

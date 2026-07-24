@@ -12,6 +12,14 @@ commands, or moved skill-reference paths.
 
 ### Added
 
+- **`snapshot` check type — the gauntlet's UI gate.** `build`'s `<verify>`
+  table gains `snapshot` (run the suite scoped to the task's touched screens
+  via `-only-testing`; a pixel diff is a FAIL; re-records need stated intent
+  in the commit). `verify` Step 3.7 becomes "Fitness-Function & Snapshot
+  Suites" — view-touching phases whose screens lack snapshot coverage are a
+  flagged gap. `plan` adds the rule: projects with committed `__Snapshots__/`
+  baselines put `type="snapshot"` on view-touching tasks, so new/changed
+  screens get their snapshot in the same task.
 - **Deterministic quality gates (the gauntlet) wired through the
   plan → build → verify → review loop.** `verify` gains three Step-3 gates:
   3.5 Lint Gate (`swiftlint lint --strict`, with the committed

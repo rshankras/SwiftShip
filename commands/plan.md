@@ -151,7 +151,7 @@ Not every plan needs every generator. Inspect APP.md's `<apple-technologies>` an
 **Testing skills (Phase 5):**
 - **testing/tdd-feature**: Include for all apps — TDD workflow for new test coverage
 - **testing/test-data-factory**: Include if app has SwiftData/model layer — generates test fixture factories
-- **testing/snapshot-test-setup**: Include if app has custom UI components — SwiftUI visual regression testing
+- **testing/snapshot-test-setup**: Include if app has custom UI components — SwiftUI visual regression testing; once a suite exists, view-touching tasks carry `type="snapshot"` checks (the gauntlet's UI gate)
 - **preview-data-generator**: Include for views with multiple data/appearance states (empty/loading/error/loaded, dark, Dynamic Type, RTL), or whenever snapshot-test-setup is included — it produces the sample data + `#Preview` matrix the snapshots render, so both share one dataset
 - **testing/integration-test-scaffold**: Include if app has networking + persistence — cross-module test harness
 - **testing/test-contract**: Include if app has protocol-based abstractions — contract test suites
@@ -222,6 +222,10 @@ self-report as evidence. Write checks accordingly:
 - Projects with a committed `.coverage-baseline`: the phase-final task carries
   a `type="coverage"` check — `/apple:build` runs `Scripts/coverage-gate.sh`
   and the phase cannot close below the baseline.
+- Projects with a snapshot suite (`__Snapshots__/` baselines committed):
+  tasks whose `<files>` touch views carry a `type="snapshot"` check naming
+  the suite — new/changed screens get their snapshot in the SAME task, so
+  the visual gate is never blind where the change happened.
 - `manual` tasks put their acceptance into `<done>` criteria — write them
   checkable (concrete names, bundle IDs, group names — not "is set up
   correctly").

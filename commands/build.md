@@ -307,6 +307,7 @@ For each `<check>` in `<verify>`:
 | `test` | Run `swift test` / `xcodebuild test`; require 0 failures |
 | `lint` | Run `swiftlint lint --strict` (with `--baseline .swiftlint-baseline.json` if one exists); require zero non-baselined violations |
 | `coverage` | Run `Scripts/coverage-gate.sh`; require exit 0 (app-target line coverage ≥ committed `.coverage-baseline` − epsilon) |
+| `snapshot` | Run the snapshot suite scoped to the task's touched screens (`-only-testing:<Tests>/<SnapshotSuite>`); a pixel diff is a FAIL, not a discussion — re-record baselines only with the intent stated in the commit |
 
 **Baseline check:** run the `build` check after **every** `auto` and
 `generator` task, even when its `<verify>` block omits it (or is missing
