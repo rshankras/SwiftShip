@@ -56,12 +56,12 @@ Read: ~/.claude/swiftship-skills/[category]/[skill-name]/SKILL.md
 
 The canonical flow is:
 ```
-/apple:brainstorm → /apple:validate → /apple:new-app → /apple:roadmap → /apple:plan [phase] → /apple:build → /apple:review → /apple:submit
+/apple:brainstorm → /apple:validate → /apple:new-app → /apple:roadmap → /apple:plan [phase] → /apple:build → /apple:verify → /apple:review → /apple:submit
 ```
 
 For an **existing app** (already shipped, or brownfield), the entry differs:
 ```
-/apple:map → /apple:release → /apple:plan [phase] → /apple:build → /apple:review → /apple:milestone
+/apple:map → /apple:release → /apple:plan [phase] → /apple:build → /apple:verify → /apple:review → /apple:milestone
 ```
 `/apple:release` replaces `new-app` + `roadmap` for updates — it reads the
 `/apple:map` analysis, detects the shipped version, and scopes one release's
@@ -70,7 +70,7 @@ that the same `plan → build` engine executes. For release roadmaps, `/apple:pl
 routes skills by each phase's `intent` (feature/bugfix/quality/release) rather
 than by phase number.
 
-- `/apple:build` is the main execution engine — reads `.planning/PLAN.md`, finds pending tasks, matches them to agents via a task-content-to-agent table (honoring per-task `model="opus"` tags as spawn overrides), and executes sequentially
+- `/apple:build` is the main execution engine — reads `.planning/PLAN.md`, finds pending tasks, matches them to agents via a task-content-to-agent table (honoring per-task `model="opus"` tags as spawn overrides), and executes sequentially. At phase end it runs `/apple:review` as a quality gate, marks the phase **Built** in STATE.md's `## Phase Verification` table, and offers `/apple:verify` (one question, never blocking); `plan` and `progress` flag built-but-unverified phases. Review checks the code is *good*; only verify checks the deliverables *work*
 - `/apple:autonomous` drives the full `plan → build → verify` cycle across multiple phases unattended. It pauses for manual tasks, blockers, Critical review findings, or failed verification, and stops before the release phases (6–7) unless `--to N` says otherwise. Both `/apple:plan` and `/apple:build` read `.planning/PREFERENCES.md` (from `/apple:discuss`) and apply those choices
 - `/apple:spike` runs a time-boxed experiment to validate an Apple API before planning around it — checks OS availability, device/simulator gating, and required capabilities, then records a finding in `.planning/spikes/[topic].md`. De-risks Apple's annual beta-API churn
 - `/apple:prototype` explores *divergent* UI directions for a screen as named SwiftUI `#Preview`s — go wide, remix the strongest elements, fill with lived-in content + edge cases, then tune key animations — **before** `/apple:plan` commits to one layout. Novice-friendly (interviews you for features + mood); outputs `.planning/PROTOTYPE.md` and real Swift the winning variation carries into `/apple:plan` and `/apple:build`. Implements Apple's WWDC prototyping-with-coding-agents method. Delegates to `design/ui-prototyping`, reusing `generators/preview-data-generator`, the `swiftui-builder` agent, and `design/animation-patterns`

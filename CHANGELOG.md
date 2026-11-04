@@ -74,6 +74,25 @@ commands, or moved skill-reference paths.
   WIP-commit tip now says to check `git status` and stage by path. Same
   discipline `bugfix` already followed.
 
+- **`verify` is now a real step in the loop, not a suggestion** (#81). The
+  usage ledger showed `/apple:verify` had never run: `build` completed four
+  phases after the July verify-routing fix and each time the next command was
+  `plan` or `review`. Root causes: `build` already runs `review` as its
+  phase-end gate, the canonical flow in CLAUDE.md omitted `verify`, and the
+  handoff was a line in the completion message. Now:
+  - `STATE.md` gains a `## Phase Verification` table (Built / Verified per
+    phase). `build` marks a phase Built after its review gate; `verify`
+    records PASS / PARTIAL / FAIL.
+  - `build` ends with one AskUserQuestion — "Verify phase N now
+    (Recommended) / Later" — and runs `apple:verify` via the Skill tool on
+    "now" (skipped inside `/apple:autonomous`, which has its own independent
+    verifier). `build` gains `AskUserQuestion` and `Skill` in `allowed-tools`.
+  - `plan` warns (never blocks) when an earlier phase is built but not
+    verified or failed; `progress` lists such phases under **Needs
+    Attention** and prioritizes `/apple:verify` over planning ahead.
+  - Canonical flows in CLAUDE.md and the README quick start now include
+    `verify`. Older projects without the table are unaffected.
+
 ## [2.1.0] — 2026-07-18
 
 Verification milestone: the build loop now proves what agents claim —

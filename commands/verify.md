@@ -302,8 +302,12 @@ OR
 
 ## Step 7: Update State
 
-If all checks pass, update `.planning/STATE.md`:
-- Mark phase as verified
+In `.planning/STATE.md`, set this phase's `Verified` cell under
+`## Phase Verification` to `PASS [date]`, `PARTIAL [date]`, or `FAIL [date]`
+(add the section and row from the STATE template if missing; leave `Built`
+as is, or fill it with today's date if empty).
+
+If all checks pass:
 - Update phase status to "completed"
 
 If checks fail:
