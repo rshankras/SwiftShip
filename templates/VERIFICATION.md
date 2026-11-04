@@ -63,6 +63,20 @@ Copy this file to your project's `.planning/VERIFICATION.md` after running verif
 
 ---
 
+### Design-System Definition of Done (UI phases)
+
+One row per view file the phase touched. `—` = not applicable (no design
+system yet for Lint/Shared/States/Case; no design frame for Design).
+
+| Screen (file) | Lint | Shared | States | Case | <300 lines | Previews | IDs | Design |
+|---------------|------|--------|--------|------|------------|----------|-----|--------|
+| [Screen.swift] | ✅/❌/— | ✅/❌/— | ✅/❌/— | ✅/❌/— | ✅/❌ [n] | ✅/❌ | ✅/❌ | ✅/❌/— |
+
+**Failures** (path → fix):
+- [ ] `[path/Screen.swift]` - [check] - [fix]
+
+---
+
 ## Manual Checks (UAT)
 
 ### UI/UX Verification
