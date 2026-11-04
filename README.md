@@ -227,7 +227,7 @@ This is the main, end‑to‑end flow. Each step writes a file into `.planning/`
    Breaks a phase into concrete tasks, each tagged `auto` (Claude does it with a specialist), `generator` (uses a ready‑made code recipe), or `manual` (you do it, e.g. create the Xcode project). → `.planning/PLAN.md`
 
 7. **Build the phase — `/apple:build`**
-   Works through the task list: brings in the right specialist agent, writes the code, runs checks, commits after each task, and updates the project's memory. At the end it runs a quality gate automatically.
+   Works through the task list: brings in the right specialist agent, writes the code, runs checks, commits after each task (only that task's files — anything else in your working tree is shown to you, never swept in), and updates the project's memory. At the end it runs a quality gate automatically, marks the phase **built**, and asks whether to verify it now.
 
 8. **Verify it works — `/apple:verify`**
    Confirms the features actually work (builds, tests, and — if a supported tool is connected — it can **launch and screenshot the running app** and look at it). → `.planning/VERIFICATION.md`
@@ -296,7 +296,7 @@ This is what's special about SwiftShip beyond planning: where a supported tool i
 
 | Capability | What it does | Commands |
 |---|---|---|
-| **Run & screenshot your app** | Builds, launches, and screenshots the running app — iOS Simulator *or* a real macOS app (menu‑bar apps included) — and looks at the result. | `/apple:verify`, `/apple:visual-qa` |
+| **Run & screenshot your app** | Builds, launches, and screenshots the running app — iOS Simulator *or* a real macOS app (menu‑bar apps included) — and looks at the result. With [AXe](https://github.com/cameroncooke/AXe) installed, it also **taps through to the changed screen** by reading the app's accessibility labels (exact, cheap) instead of guessing from screenshots; screenshots are read as small thumbnails. | `/apple:verify`, `/apple:visual-qa` |
 | **Push to App Store Connect** | Pushes generated name / subtitle / keywords / description / promo text / "What's New" straight to your listing, each field previewed and confirmed — including per‑market translations. | `/apple:metadata`, `/apple:release-notes`, `/apple:localize` |
 | **Manage TestFlight** | Lists/creates beta groups, adds testers (with a clear "this emails a real person" confirmation), and pulls crash feedback into your notes. | `/apple:testflight` |
 | **Pre‑fill a submission** | Creates the App Store version record and pushes final metadata — then stops. `ship` also uploads media + build and drives the last mile (submission stays gated). | `/apple:submit`, `/apple:ship` |
@@ -312,7 +312,7 @@ This is what's special about SwiftShip beyond planning: where a supported tool i
 - **The "Submit for Review" button is never automated.** It's reviewer‑facing and hard to undo, so it always stays a manual click in App Store Connect.
 - **Least privilege.** Each command can only touch the specific tools it needs.
 
-These rely on optional, *separately‑installed* tools (an App Store Connect connector, a "run in Simulator" helper, sales/health reporters). They are **not** required to use SwiftShip — they're bonuses that activate only when present.
+These rely on optional, *separately‑installed* tools (an App Store Connect connector, a "run in Simulator" helper, [AXe](https://github.com/cameroncooke/AXe) for Simulator navigation — `brew install cameroncooke/axe/axe` — sales/health reporters). Bonus: the accessibility labels VoiceOver needs are the same ones the agent navigates by, so good labels help both. They are **not** required to use SwiftShip — they're bonuses that activate only when present.
 
 ---
 
@@ -422,7 +422,7 @@ SwiftShip's "memory" lives in a `.planning/` folder inside *your* project. You c
 ├── PROTOTYPE.md      # UI direction exploration (from /apple:prototype)
 ├── ROADMAP.md        # Development phases
 ├── RELEASE.md        # Release scope: features + bug fixes (from /apple:release)
-├── STATE.md          # Where you are right now
+├── STATE.md          # Where you are right now (+ which phases are built vs verified)
 ├── PREFERENCES.md    # Your implementation choices
 ├── PLAN.md           # Tasks for the current phase
 ├── spikes/           # API validation findings
