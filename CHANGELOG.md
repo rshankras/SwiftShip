@@ -134,6 +134,20 @@ commands, or moved skill-reference paths.
   phase-final task.
 
 ### Changed
+- **`swiftui-builder` follows the design-system rules** (#92). New "Design
+  System (Always Follow)" section:
+  - tokens only, adding a missing token to the token file instead of inlining it
+  - text through the project's text-style modifier, with no call-site
+    case/tracking (user text uses `.original`)
+  - reuse shared components, with variants added to the component
+  - async and list content through `ContentStateView`, created once if missing
+  - view files under ~300 lines
+  - `accessibilityIdentifier` (`screen.element`) on interactive elements
+  - iOS/iPadOS, macOS and watchOS notes
+  With no design system yet, it uses system styles and semantic colours
+  rather than inventing one mid-task. The completion checklist gains a
+  design-system check, and `swift-generalist` gets the same rules in short
+  form. Loads `design/design-system`.
 
 - **Simulator navigation via the accessibility tree; thumbnail screenshots**
   (#72, pairs with claude-code-apple-skills#65). `RUN-AND-SHOT.md` no longer
