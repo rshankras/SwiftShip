@@ -405,7 +405,7 @@ what they never looked at. Before verifying, close that gap cheaply:
      prompt: `
        These changed Swift files were not examined by this review's five
        reviewers: [list]. Read each one and report only REAL problems —
-       correctness, crashes/data loss, security/privacy, concurrency, App
+       correctness, crashes/data loss, security or privacy, concurrency, App
        Store rejection risks, HIG violations. Every finding needs a
        file:line and the quoted code. Do NOT report style, naming, or
        defensive "what if" suggestions; "no issues" is a valid answer.
