@@ -175,11 +175,34 @@ Task({
          Shared helpers missing from UTILITIES.md: note them as a Low
          finding ("add to inventory") so agents learn to reuse them
 
-    9. **Design Token Centralization**
+    9. **Design System (restyle cost)**: rules from
+       ~/.claude/swiftship-skills/design/design-system/SKILL.md
        - Hardcoded colors (Color.white.opacity, Color(white:), hex colors) outside design tokens
        - Hardcoded font sizes (.font(.system(size:))) outside design tokens
        - Hardcoded spacing/radius values outside design tokens
        - Check that a centralized design tokens file exists and is used consistently
+       - **Case or letter spacing at call sites:** .uppercased() on displayed
+         text, .textCase(, .tracking(, .kerning( outside the text-style
+         definition. Also flag user-generated text forced into a case
+       - **Custom fonts not bundled:** names in UIAppFonts /
+         ATSApplicationFontsPath with no matching font file in the project,
+         or custom fonts used with no debug-time registration check. A missing
+         font silently falls back to the system font (High: shipped visual bug)
+       - **Tokens named by appearance** (grey600, label2, tagSemibold) rather
+         than role (textSecondary, actionPrimaryBackground)
+       - **Oversized view files:** over ~300 lines → Low; over ~500 → Medium.
+         Name the sections to split out
+       - **Ad-hoc state UI:** screens that hand-build spinners or "No
+         results" text instead of the shared ContentStateView (or, if there
+         is none, several screens each building their own)
+       - **UI tests matching visible text** (app.buttons["Save"],
+         staticTexts["Welcome"]) instead of accessibilityIdentifier. Copy
+         and case changes break them
+       - **Status enums without an unknown fallback:** a Decodable
+         String-backed enum decoded from server/CloudKit data with no
+         `.unknown` case, which fails decoding when the server adds a value
+       Platform scope: skip Dynamic Type items for macOS; on watchOS check
+       compact styles instead.
 
     10. **Logging Hygiene**
         - print() statements in non-preview production code (should use os.Logger)
@@ -507,6 +530,14 @@ For each **mechanical** finding, draft the enforcement:
 - Deployment-target-conditional rules (`ObservableObject` → `@Observable`
   applies only to iOS 17+/macOS 14+ targets) get the condition as a YAML
   comment; don't offer them to projects deploying below it.
+- **Design-system findings** (check #9: raw font sizes, raw colours,
+  numeric spacing/radius, call-site case/tracking) map to the four rules
+  shipped in `~/.claude/swiftship-skills/design/design-system/rules/swiftlint.yml`
+  (`ds_raw_font_size`, `ds_raw_color`, `ds_raw_spacing`,
+  `ds_call_site_case`). Offer those, already fixture-tested, rather than
+  drafting new regexes, and for an existing codebase pair them with a
+  baseline (`swiftlint lint --write-baseline .swiftlint-baseline.json`) so
+  only new code must be clean.
 - Never offer a rule that fires on current intentional code: Grep the regex
   against the tree and tighten the scoping until it's quiet everywhere except
   the finding sites.
