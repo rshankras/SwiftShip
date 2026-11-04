@@ -12,6 +12,22 @@ commands, or moved skill-reference paths.
 
 ### Added
 
+- **Early foundation checkpoint + `.planning/CRITICAL.md` always-pause paths**
+  (#75). Agent mistakes in the data model or core interfaces are cheap after
+  one task and a rewrite after ten, and some code (payments, sync,
+  migrations, user data) the developer has to understand, not just accept.
+  - `autonomous` pauses after the first 1–2 tasks of a *foundation phase*
+    (Phase 1–2, or any phase touching `@Model` types, persistence, sync, or
+    core service protocols) with the key types + diff stat.
+  - New `templates/CRITICAL.md`: 3–5 areas with path globs. Seeded by
+    `new-app` (from APP.md tech choices) and `map` (from real StoreKit /
+    CloudKit / migration / Keychain hits); user-editable.
+  - `build` Step 4c: a task whose changed files match a CRITICAL glob stops
+    before committing, shows the diff, and waits for Approve / Request
+    changes / Stop.
+  - Both pauses apply even with `autonomous --yes`. No CRITICAL.md → no
+    change in behavior.
+
 - **`review` coverage check — changed files no reviewer examined** (#70,
   narrowed scope). Adversarial verification only challenges what reviewers
   *reported*; nothing caught what they never read. Now `review` computes the

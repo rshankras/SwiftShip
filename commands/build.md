@@ -50,6 +50,13 @@ Agents rebuild helpers that already exist (a second formatter, hand-formatted
 prices, a parallel networking wrapper) — duplication that inflates diffs and
 splits behavior. Every spawn below gets this list with a reuse rule.
 
+Also read the critical-paths list if it exists (seeded by `/apple:new-app` /
+`/apple:map`, edited by the user):
+```
+Read: .planning/CRITICAL.md      # Optional — drives the Step 4c pause
+```
+If absent, Step 4c is skipped and nothing else changes.
+
 ## Execution Process
 
 ### 1. Find Next Pending Task
@@ -378,6 +385,34 @@ checks pass; otherwise keep the original. Never loop — one pass, then commit.
 Note the before/after line counts in the progress report:
 `✂️ Simplified: [before] → [after] lines`. If not flagged, continue silently.
 
+### 4c. Critical-Path Pause (only if `.planning/CRITICAL.md` exists)
+
+Some code the developer must understand, not just accept — payments, sync,
+migrations, user-data handling. Hand those off unread and the first real bug
+lands in code nobody on the project can reason about.
+
+Match this task's **actually changed files** (the Step 4b list, after any
+simplify pass — not just the planned `<files>`) against the globs in
+CRITICAL.md's Paths column. No match → continue silently to Step 5.
+
+On a match, **stop before committing**, even inside `/apple:autonomous` and
+even with `--yes` — this is a safety pause, like a manual task:
+
+```
+🔒 Critical path changed — [Area] ([why it matters, from CRITICAL.md])
+
+Task [id]: [name]
+Files: [matching files]   (verify: ✅ passed)
+
+[git diff -- <matching files>, plus `git diff --stat` for the rest of the task]
+```
+
+Then `AskUserQuestion` — **Approve & commit** / **Request changes** (the user
+says what; re-spawn the same agent with it, re-run Step 4 → 4b → 4c) /
+**Stop** (leave the changes uncommitted, task stays `in_progress`, note it
+under Blockers in STATE.md). Never commit a critical-path change without the
+explicit approve.
+
 ### 5. Update Status
 
 On successful completion:
@@ -430,6 +465,7 @@ Continue until:
 - All tasks complete
 - A task fails verification
 - User interrupts
+- The user chooses **Stop** at a critical-path pause (Step 4c)
 
 ## Error Handling
 

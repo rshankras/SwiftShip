@@ -261,7 +261,7 @@ Already have an app — maybe half‑built, inherited, or shipped years ago? Swi
 ### Option A — Adopt the full workflow
 
 1. **Map the codebase — `/apple:map`**
-   Read‑only. Claude scans your project and writes a clear summary: architecture (SwiftUI vs UIKit, SwiftData vs Core Data, navigation style), the key files (views, models, services), dependencies, and tech debt (TODOs, force‑unwraps, missing tests, rough test coverage). It also lists the helpers your app already has (formatters, networking client, design tokens) so build agents reuse them instead of writing duplicates. → `.planning/CODEBASE.md`, `.planning/UTILITIES.md`
+   Read‑only. Claude scans your project and writes a clear summary: architecture (SwiftUI vs UIKit, SwiftData vs Core Data, navigation style), the key files (views, models, services), dependencies, and tech debt (TODOs, force‑unwraps, missing tests, rough test coverage). It also lists the helpers your app already has (formatters, networking client, design tokens) so build agents reuse them instead of writing duplicates, and the sensitive areas (payments, sync, migrations, user data) where build stops to show you the diff. → `.planning/CODEBASE.md`, `.planning/UTILITIES.md`, `.planning/CRITICAL.md`
    *(This only describes your code — it never changes it.)*
 
 2. **Plan the release — `/apple:release "add Search, fix the settings crash"`**
@@ -420,6 +420,7 @@ SwiftShip's "memory" lives in a `.planning/` folder inside *your* project. You c
 ├── APP.md            # App specification
 ├── CODEBASE.md       # Existing-code analysis (from /apple:map)
 ├── UTILITIES.md      # Existing helpers agents must reuse (map, grown by build)
+├── CRITICAL.md       # Paths that always pause build for your review (new-app, map)
 ├── PROTOTYPE.md      # UI direction exploration (from /apple:prototype)
 ├── ROADMAP.md        # Development phases
 ├── RELEASE.md        # Release scope: features + bug fixes (from /apple:release)
