@@ -134,6 +134,19 @@ commands, or moved skill-reference paths.
   phase-final task.
 
 ### Changed
+- **`review` check #9 widened to design-system restyle cost** (#93). It
+  now also flags:
+  - call-site `.uppercased()`/`.textCase`/`.tracking`/`.kerning`
+  - custom fonts declared in `UIAppFonts` but not bundled (High: a silent
+    system-font fallback)
+  - tokens named by appearance
+  - view files over 300 (Low) / 500 (Medium) lines
+  - ad-hoc loading/empty UI instead of `ContentStateView`
+  - UI tests matching visible text
+  - Decodable status enums with no `.unknown` fallback
+  The enforcement factory offers the four fixture-tested
+  `design/design-system` SwiftLint rules (with a baseline for existing code)
+  instead of drafting new regexes for these findings.
 - **`swiftui-builder` follows the design-system rules** (#92). New "Design
   System (Always Follow)" section:
   - tokens only, adding a missing token to the token file instead of inlining it
