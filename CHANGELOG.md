@@ -12,6 +12,21 @@ commands, or moved skill-reference paths.
 
 ### Added
 
+- **`review` coverage check — changed files no reviewer examined** (#70,
+  narrowed scope). Adversarial verification only challenges what reviewers
+  *reported*; nothing caught what they never read. Now `review` computes the
+  Swift files changed since the last review (base: the commit that last
+  updated `REVIEW.md` → merge-base with main → all files), asks every
+  reviewer to end with a `Files examined:` footer, and sends the unexamined
+  remainder (cap 20, largest diffs first) through **one** Sonnet
+  `swift-generalist` sweep that reports only real problems with `file:line`
+  — never style or defensive "what if"s. Sweep findings go through the same
+  verification (2× Opus for Critical) and the needlessly-defensive filter.
+  REVIEW.md + the completion message gain a Coverage line. Deliberately
+  does **not** sample Medium findings for upgrade (dropped: AI review
+  over-reports — see #74); the opt-in seeded-defect canary is deferred.
+  `review` gains `Bash` in `allowed-tools` (for `git diff`).
+
 - **Simplicity guard** (#74). Agents write ~2× the code a requirement needs,
   and AI reviewers make it worse by suggesting defensive handling for cases
   that can't happen (*Agentic Engineering* ch. 3, 5, 20).

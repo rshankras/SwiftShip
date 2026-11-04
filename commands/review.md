@@ -1,6 +1,6 @@
 ---
 description: Run comprehensive code, HIG, and App Store review
-allowed-tools: Read, Write, Edit, Glob, Grep, Task, AskUserQuestion
+allowed-tools: Read, Write, Edit, Glob, Grep, Bash, Task, AskUserQuestion
 model: sonnet
 ---
 
@@ -54,6 +54,31 @@ catches them for free on every compile. Before spawning reviewers:
 If no `.swiftlint.yml` exists, skip this pre-pass and note it in REVIEW.md's
 summary (`Lint baseline: none`) — the graduation step below will offer to
 create one.
+
+## Review Scope (changed files)
+
+Compute the Swift files changed since the last review — the coverage check
+after the reviewers uses this list:
+
+```bash
+# Base: the commit that last updated REVIEW.md (previous review); else the
+# branch's merge-base with main; else no base (first review → all files).
+BASE=$(git log -1 --format=%H -- .planning/REVIEW.md 2>/dev/null)
+[ -z "$BASE" ] && BASE=$(git merge-base HEAD main 2>/dev/null)
+if [ -n "$BASE" ]; then
+  git diff --name-only "$BASE" HEAD -- '*.swift'; git ls-files --others --exclude-standard -- '*.swift'
+else
+  git ls-files -- '*.swift'
+fi
+```
+
+Append this footer to **all 5 reviewer prompts** below (alongside the lint
+skip-list):
+
+```
+End your output with a line listing every Swift file you actually read:
+Files examined: path/A.swift, path/B.swift, ...
+```
 
 **Model check (execution tier):** this command pins `model: sonnet` in its
 frontmatter (turn-scoped; see
@@ -362,6 +387,41 @@ Task({
 })
 ```
 
+## Coverage Check (changed files no reviewer examined)
+
+Verification below only challenges what reviewers *reported*; it can't catch
+what they never looked at. Before verifying, close that gap cheaply:
+
+1. **Examined set** = every file in the five `Files examined:` footers, plus
+   every file cited in a finding's `file:line`.
+2. **Unexamined** = Review Scope files − examined set. None → note
+   `Coverage: all [N] changed files examined` and continue.
+3. **One sweep spawn** — `swift-generalist`, Sonnet pin (no `model`
+   parameter), over the unexamined files only. If more than 20, take the 20
+   with the largest diffs and list the rest in REVIEW.md as unreviewed.
+   ```
+   Task({
+     subagent_type: "swift-generalist",
+     prompt: `
+       These changed Swift files were not examined by this review's five
+       reviewers: [list]. Read each one and report only REAL problems —
+       correctness, crashes/data loss, security or privacy, concurrency, App
+       Store rejection risks, HIG violations. Every finding needs a
+       file:line and the quoted code. Do NOT report style, naming, or
+       defensive "what if" suggestions; "no issues" is a valid answer.
+       [lint skip-list block]
+       Use the same severity format as the other reviewers.
+     `
+   })
+   ```
+4. Merge its findings into the pool **before** the next step — a Critical or
+   High from the sweep goes through the same adversarial verification (2×
+   Opus for Critical) as any other; the needlessly-defensive filter applies
+   to its Medium/Low.
+
+This check only covers files nobody read — it never re-reviews examined
+files or asks reviewers to find more in what they already covered.
+
 ## Verify Critical & High Findings (Foreman)
 
 A false Critical pauses `/apple:autonomous`; a false High gets "fixed" inline — both are worse than a missed nitpick. Before compiling results, adversarially verify every Critical and High finding against the actual code. Medium/Low findings skip verification (they are backlog either way).
@@ -527,6 +587,8 @@ After verification completes, compile the verified findings into `.planning/REVI
 
 **Lint baseline:** [N rules enforced — matching findings skipped / none — no .swiftlint.yml]
 
+**Coverage:** [N] changed files since [base: last review / merge-base / first review] — [M] examined by reviewers, [K] swept, [U] unreviewed (over the 20-file sweep cap: [list])
+
 **Overall Status:** [Ready / Issues Found / Not Ready]
 
 ---
@@ -609,6 +671,7 @@ Summary:
 - ⚙️ Graduated to enforcement: [count] lint rules + [count] fitness functions ([installed] installed, [offered] offered)
 - 🚫 Refuted in verification: [count]
 - 🧹 Set aside as needlessly defensive: [count]
+- 🔍 Coverage: [M]/[N] changed files examined by reviewers, [K] swept[, U unreviewed]
 
 [If critical issues exist:]
 ⚠️ Critical issues found - must fix before release.
