@@ -132,8 +132,13 @@ UAT items from `VERIFICATION.md` still untested.
 
 ### 7. Commit
 
+Stage only the test files you wrote (plus any test-support files you
+added) by explicit path — never `git add -A`. If `git status --porcelain`
+shows other changes, leave them out and mention them to the user.
+
 ```bash
-git add -A
+git add -- [test files written] [test-support files added]
+git status --short   # confirm only test files are staged
 git commit -m "test([area]): add tests for [target]
 
 - [N] unit / [N] snapshot / [N] integration tests

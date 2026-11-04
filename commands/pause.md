@@ -215,8 +215,9 @@ To resume later:
 1. Run /apple:resume to restore context
 2. Or read .planning/HANDOFF.md manually
 
-Tip: Commit your work before closing:
-  git add -A && git commit -m "WIP: [current task]"
+Tip: Commit your work before closing — check `git status` first and
+stage only what belongs to this task:
+  git add -- [files you changed] && git commit -m "WIP: [current task]"
 ```
 
 ## Tips for Good Handoffs

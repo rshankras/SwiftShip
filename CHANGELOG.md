@@ -62,6 +62,18 @@ commands, or moved skill-reference paths.
   and `CLAUDE.md` for stale "welcome/tour" framing tied to the generator —
   none found; the skill name is unchanged.
 
+### Fixed
+
+- **`build` and `test` no longer commit with `git add -A`** (#77). A blanket
+  add swept stray scratch files, unignored build artefacts, local secrets, and
+  the user's unrelated in-progress edits into the task commit. `build` now
+  stages the task's `<files>`, files the task demonstrably created/changed, and
+  the `.planning/` files it updated — by explicit path — and surfaces anything
+  else in `git status` as out of scope for the user to include, leave, or stop
+  on (never silently). `test` stages only the test files it wrote. `pause`'s
+  WIP-commit tip now says to check `git status` and stage by path. Same
+  discipline `bugfix` already followed.
+
 ## [2.1.0] — 2026-07-18
 
 Verification milestone: the build loop now proves what agents claim —
