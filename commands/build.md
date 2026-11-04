@@ -336,9 +336,23 @@ On successful completion:
    - Clear Current Task
    - Add to Session History
 
-3. Commit changes:
+3. Commit changes — **stage only what this task owns, never `git add -A`**
+   (a blanket add sweeps stray scratch files, unignored build artefacts,
+   local secrets, and the user's unrelated in-progress edits into the task
+   commit):
+
+   a. The commit set is: the task's `<files>`, any other file the task
+      demonstrably created or changed, and the `.planning/` files this
+      command just updated (PLAN.md, STATE.md).
+   b. Run `git status --porcelain` and compare against that set. Anything
+      changed **outside** it — files the task didn't list, or changes that
+      were already in the tree before the task started — is out of scope:
+      list them and ask the user whether to include them, leave them
+      uncommitted, or stop. Never include or drop them silently.
+   c. Stage by explicit path:
 ```bash
-git add -A
+git add -- [task <files>] [other files this task created/changed] .planning/PLAN.md .planning/STATE.md
+git status --short   # confirm nothing unexpected is staged
 git commit -m "feat([area]): [task description]
 
 - Completed task [id]: [name]
