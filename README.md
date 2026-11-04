@@ -261,7 +261,7 @@ Already have an app — maybe half‑built, inherited, or shipped years ago? Swi
 ### Option A — Adopt the full workflow
 
 1. **Map the codebase — `/apple:map`**
-   Read‑only. Claude scans your project and writes a clear summary: architecture (SwiftUI vs UIKit, SwiftData vs Core Data, navigation style), the key files (views, models, services), dependencies, and tech debt (TODOs, force‑unwraps, missing tests, rough test coverage). It also lists the helpers your app already has (formatters, networking client, design tokens) so build agents reuse them instead of writing duplicates, and the sensitive areas (payments, sync, migrations, user data) where build stops to show you the diff. → `.planning/CODEBASE.md`, `.planning/UTILITIES.md`, `.planning/CRITICAL.md`
+   Read‑only. Claude scans your project and writes a clear summary: architecture (SwiftUI vs UIKit, SwiftData vs Core Data, navigation style), the key files (views, models, services), dependencies, and tech debt (TODOs, force‑unwraps, missing tests, rough test coverage). It also scores your **design debt**: how much styling bypasses your design tokens, area by area, plus custom fonts your app declares but never bundled. That's the first number to know before any redesign. It also lists the helpers your app already has (formatters, networking client, design tokens) so build agents reuse them instead of writing duplicates, and the sensitive areas (payments, sync, migrations, user data) where build stops to show you the diff. → `.planning/CODEBASE.md`, `.planning/UTILITIES.md`, `.planning/CRITICAL.md`
    *(This only describes your code — it never changes it.)*
 
 2. **Plan the release — `/apple:release "add Search, fix the settings crash"`**

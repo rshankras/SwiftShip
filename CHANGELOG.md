@@ -12,6 +12,19 @@ commands, or moved skill-reference paths.
 
 ### Added
 
+- **`map` measures design debt** (#94). A new Step 4.4 runs one shell snippet
+  that reports, per view folder:
+  - raw font sizes, raw colours, numeric spacing/radius/frame values, and
+    call-site case/tracking, against all style calls
+  - view files over 300 / 500 lines
+  - `accessibilityIdentifier` coverage
+  - one overall **design debt score** (raw ÷ total style calls)
+  It also flags custom fonts declared in `UIAppFonts` but missing from the
+  repo, which is a silent system-font fallback. Results go into
+  `CODEBASE.md` → `## Design Debt` for `/apple:design-system` and
+  `/apple:redesign` to use later. Tested on a 250-file SwiftUI app: 36%
+  overall, 12–67% by area, and one missing bundled font found.
+
 - **Early foundation checkpoint + `.planning/CRITICAL.md` always-pause paths**
   (#75). Agent mistakes in the data model or core interfaces are cheap after
   one task and a rewrite after ten, and some code (payments, sync,
