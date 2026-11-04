@@ -196,6 +196,10 @@ Create a project-level CLAUDE.md with quick reference:
 - SwiftUI previews for all views
 - @Observable for state management (iOS 17+)
 - SwiftData @Model for persistence
+- Every interactive control has an accessibility label (VoiceOver and agents both navigate by it)
+
+## Agent Rules
+- Navigate the Simulator using the accessibility tree (AXe `describe-ui`, filtered); take screenshots only to check the result, never to find tap positions
 ```
 
 ## Vendor Agents (optional, recommended for cloud/remote work)

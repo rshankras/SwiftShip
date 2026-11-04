@@ -39,6 +39,29 @@ commands, or moved skill-reference paths.
 
 ### Changed
 
+- **Simulator navigation via the accessibility tree; thumbnail screenshots**
+  (#72, pairs with claude-code-apple-skills#65). `RUN-AND-SHOT.md` no longer
+  tells agents to tap with `xcrun simctl io … tap` — that operation doesn't
+  exist, so gated screens were never reached. It now states the rule
+  (*navigate with the accessibility tree; screenshots verify outcomes, never
+  locate tap targets*) and follows the updated `run-simulator` skill: deep link
+  → AXe (`describe-ui` filtered to a ~2 KB element list — the raw tree is
+  ~280 KB; tap by id / label / exact list `xy`) → manual fallback; steps are
+  confirmed by re-listing, not screenshots; one screenshot at the destination,
+  Read as a `sips` thumbnail (600 iOS / 800 macOS), full size kept for
+  `visual-qa`. Also:
+  - **DETECT by path** — `~/.claude/swiftship-skills/ios/run-simulator/SKILL.md`
+    instead of a skill name that only resolved via a drifted user-level copy
+    (RUN-AND-SHOT, TOOL-HANDOFF, verify).
+  - **`-derivedDataPath .build/DerivedData`** on every RUN-AND-SHOT
+    `xcodebuild` call, so parallel checkouts/worktrees don't lock each other.
+  - **Generated CLAUDE.md** (`new-app`) gains an *Agent Rules* line with the
+    navigation rule and a labels convention; `map` offers to add the same line
+    to an existing project's CLAUDE.md (diff + explicit yes; `map` gains
+    `Write`, `Edit` in `allowed-tools`).
+  - **`accessibility`** static scan: unlabeled controls block agents as well
+    as VoiceOver; suggest `accessibilityIdentifier` for duplicate labels.
+
 - **`review`'s lint-rule factory generalized to an enforcement factory.** The
   graduation table gains a **Structural** class — invariants a per-line regex
   can't express (import boundaries, offline guarantees, registry/content

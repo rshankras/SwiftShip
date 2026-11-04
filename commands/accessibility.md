@@ -112,6 +112,12 @@ Also flag: color-only state (no shape/icon/text), `.accessibilityHidden(true)` o
 elements, custom controls with no `accessibilityRepresentation` or traits, and gesture-only
 interactions with no `accessibilityAction`.
 
+**Labels pay twice.** The accessibility tree VoiceOver reads is the same tree SwiftShip's agents
+navigate the Simulator with (AXe, via `RUN-AND-SHOT.md`). An unlabeled interactive control is
+unreachable for both — so it also blocks automated verification. Report it in that framing; for
+controls with duplicate labels on one screen, suggest a stable `accessibilityIdentifier` too
+(agents tap by it; VoiceOver ignores it).
+
 ## Phase 4: Manual Pass Checklist
 
 The audit is the floor, not the ceiling — Apple is explicit that turning on VoiceOver and
