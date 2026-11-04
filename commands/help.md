@@ -319,6 +319,7 @@ All planning files are stored in `.planning/`:
 | `PROTOTYPE.md` | UI direction exploration | `/apple:prototype` |
 | `DESIGN-SYSTEM.md` | Tokens, text styles, components, lint status | `/apple:design-system` |
 | `DEBT.md` | Debt by area, backlog, trend | `/apple:debt` |
+| `.planning/design/phase-N/` | Pinned design frames + hashes per UI phase | `/apple:plan` (compared by `/apple:verify`) |
 | `ROADMAP.md` | Development phases | `/apple:roadmap` |
 | `RELEASE.md` | Release scope (features + bugs) | `/apple:release` |
 | `STATE.md` | Current position | `/apple:roadmap` |

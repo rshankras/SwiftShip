@@ -24,6 +24,13 @@ Copy this file to your project's `.planning/PLAN.md`.
     </flow>
   </flows>
 
+  <!-- Optional, UI phases with exported design frames (/apple:plan "Design
+       Pin"): the design version this phase is built against. Frames + pin.tsv
+       hashes live in .planning/design/phase-N/; /apple:verify reports later
+       design changes as change requests, not defects. -->
+  <design-pin source="[Figma|Sketch|Penpot|XD|other]" version="[name or export date]"
+              link="[optional]" scale="[1x|2x]" frames=".planning/design/phase-N/pinned/"/>
+
   <!-- Optional on type="auto" tasks: model="opus" — set by /apple:plan on at
        most 1–2 foundation tasks per phase (architecture, data model,
        concurrency, migration). /apple:build passes it through as the agent

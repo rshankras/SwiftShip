@@ -161,7 +161,7 @@ one:
 | 5 | View file under ~300 lines | `wc -l`. Over 300 → ❌ with the sections to split |
 | 6 | Previews for each state | Stateful screen: `#Preview`s for default/loading/empty/error + large Dynamic Type (iOS) / narrow + wide window (macOS) / smallest + largest watch (watchOS). Trivial view: one preview is enough |
 | 7 | Identifiers, and tests use them | Interactive elements carry `accessibilityIdentifier`; this phase's UI tests locate by identifier (`app.buttons["editor.save"]`), not visible text |
-| 8 | Matches the design | Optional: with a design frame (exported PNG, or `.planning/design/phase-N/` once design pinning exists), compare a screenshot via `/apple:visual-qa`; otherwise ask in UAT |
+| 8 | Matches the design | Optional: with a pinned frame (`.planning/design/phase-N/pinned/`, named in the task's `<action>`) or another exported PNG, compare a screenshot via `/apple:visual-qa`; otherwise ask in UAT. Compare against the **pinned** frame, not a newer export: newer changes are 3.7c's change requests |
 
 **No design system yet** (no token file, no `ds_*` lint rules)? Checks 1–4
 don't apply: record them as "—". Checks 5–8 still run, since they don't
@@ -172,6 +172,46 @@ screen) with the file path, plus a fix task. It makes the phase **PARTIAL**,
 not FAIL; a lint violation already fails the phase through 3.5. Under
 `/apple:autonomous` a PARTIAL with DoD gaps stops the run, which is the
 point: fix per phase, not at redesign time.
+
+### 3.7c Design Changes Since Pin (UI phases with a pin)
+
+Run this when PLAN.md has a `<design-pin>` (from `/apple:plan`). It answers
+one question: did the design change after this phase was planned? Changes
+are **change requests, not defects**: they never fail the phase and never
+become fix tasks here (`design/design-system`, rule 21).
+
+1. **Figma shortcut (optional).** If the pin has `figma-version-id` and
+   `FIGMA_TOKEN` is set, fetch the latest version (same `curl … /versions`
+   call as `/apple:plan`; never print the token). Same id → "Design
+   unchanged since pin (Figma version history)", done. Different → note the
+   named versions since the pin and continue to step 2 to find which screens.
+2. **Get a fresh export.** Ask once: "Export the same frames again (same
+   scale) to a folder, to compare with the pin?" with options **Folder**
+   (path via Other) / **Skip: the design hasn't changed**. Under
+   `/apple:autonomous`, use `.planning/design/phase-N/current/` if it exists,
+   else skip and record "not checked".
+3. **Compare** by file name and image hash:
+   ```bash
+   pin=.planning/design/phase-N; new="<fresh export folder>"
+   t="${TMPDIR:-/tmp}/pin.$$"
+   ( cd "$new" && shasum -a 256 -- *.png ) | sed -E 's/^([0-9a-f]+) [ *](.*)$/\2	\1/' | sort > "$t"
+   awk -F'\t' 'FNR==NR { old[$1]=$2; next }
+     { seen[$1]=1; if (!($1 in old)) print "added\t" $1; else if (old[$1] != $2) print "changed\t" $1 }
+     END { for (n in old) if (!(n in seen)) print "removed\t" n }' "$pin/pin.tsv" "$t" | sort
+   rm -f "$t"
+   ```
+   **Every** screen changed usually means a different export scale or
+   setting, not a redesign. Check that before reporting.
+4. **Report** each added / removed / changed screen in VERIFICATION.md's
+   "Design Changes Since Pin" table with both image paths for a side-by-side
+   look. The hash says *that* a screen changed, not *what*; Read both PNGs and
+   describe the visible difference in one line (layout, colour, type, copy,
+   new element).
+
+**Outcome:** no effect on PASS / PARTIAL / FAIL. Changed screens go to
+the next phase or release as change requests (the user decides; suggest
+`/apple:redesign` when many screens changed and it is installed). Don't
+re-pin here; the next `/apple:plan` pins the new export for the next phase.
 
 ## Step 3.8: Optional handoff — run the app and screenshot
 
@@ -302,6 +342,16 @@ Create `.planning/VERIFICATION.md`:
 |---------------|------|--------|--------|------|------|----------|-----|--------|
 | [ProfileView.swift] | ✅ | ✅ | ❌ ad-hoc ProgressView | ✅ | ✅ 212 | ⚠️ no error preview | ✅ | — |
 
+## Design Changes Since Pin
+
+[No pin | Unchanged (Figma version history) | Not checked | n added, n removed, n changed]
+
+| Screen | Change | Pinned | New export | What changed |
+|--------|--------|--------|------------|--------------|
+| [Profile Edit.png] | changed | .planning/design/phase-N/pinned/… | [export]/… | [one line] |
+
+Change requests, not defects: [next phase | next release | /apple:redesign]
+
 ## Manual Checks (UAT)
 
 | Feature | Status | Notes |
@@ -367,6 +417,7 @@ Results:
 - Automated: X/Y passed
 - Manual: X/Y passed
 - Issues: X found
+- Design since pin: [unchanged | n changed (change requests) | — ]
 
 Created: .planning/VERIFICATION.md
 
