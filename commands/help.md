@@ -107,6 +107,9 @@ Display all available commands, their purpose, and recommended workflow.
 ║  /apple:modernize [path]    Sweep deprecations; adopt new-OS APIs             ║
 ║                             Liquid Glass, toolbars, concurrency               ║
 ║                                                                               ║
+║  /apple:debt [area|set]     Measure + pay down debt, area by area             ║
+║                             Creates: .planning/DEBT.md                        ║
+║                                                                               ║
 ║  RELEASE                                                                      ║
 ║  ───────────────────────────────────────────────────────────────────────────  ║
 ║  /apple:metadata            Generate App Store content (keywords, description)║
@@ -289,6 +292,7 @@ NEW PROJECT                          EXISTING PROJECT
 | Investigate a mystery bug | `/apple:debug "description"` |
 | Check originality (4.3) before shipping | `/apple:differentiate` |
 | Modernize / clear deprecations | `/apple:modernize` |
+| Pay down my own debt (design, size, practices) | `/apple:debt` |
 | Audit my growth levers, stage by stage | `/apple:growth` |
 | Work one growth stage (audit + worklist) | `/apple:growth P1` |
 | Turn store signals into a plan | `/apple:learn-from-store` |
@@ -314,6 +318,7 @@ All planning files are stored in `.planning/`:
 | `CRITICAL.md` | Paths that always pause build for review | `/apple:new-app`, `/apple:map` |
 | `PROTOTYPE.md` | UI direction exploration | `/apple:prototype` |
 | `DESIGN-SYSTEM.md` | Tokens, text styles, components, lint status | `/apple:design-system` |
+| `DEBT.md` | Debt by area, backlog, trend | `/apple:debt` |
 | `ROADMAP.md` | Development phases | `/apple:roadmap` |
 | `RELEASE.md` | Release scope (features + bugs) | `/apple:release` |
 | `STATE.md` | Current position | `/apple:roadmap` |
