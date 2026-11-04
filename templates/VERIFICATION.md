@@ -77,6 +77,21 @@ system yet for Lint/Shared/States/Case; no design frame for Design).
 
 ---
 
+### Design Changes Since Pin (UI phases with a pin)
+
+`—` when PLAN.md has no `<design-pin>`. Change requests, not defects: they
+never fail the phase.
+
+**Result:** [Unchanged | Not checked | n added, n removed, n changed] · Pinned: [source] [version]
+
+| Screen | Change | Pinned frame | New export | What changed |
+|--------|--------|--------------|------------|--------------|
+| [Screen.png] | added/removed/changed | `.planning/design/phase-N/pinned/[Screen.png]` | `[path]` | [layout / colour / type / copy] |
+
+**Goes to:** [next phase | next release | /apple:redesign]
+
+---
+
 ## Manual Checks (UAT)
 
 ### UI/UX Verification

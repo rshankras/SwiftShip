@@ -12,6 +12,25 @@ commands, or moved skill-reference paths.
 
 ### Added
 
+- **Design version pinning** (#97), tool-agnostic: every design tool exports
+  PNGs.
+  - **`plan`:** a new "Design Pin" step for UI phases copies the exported
+    frames to `.planning/design/phase-N/pinned/`, hashes them into
+    `pin.tsv`, and records a `<design-pin>` tag (source, version, link,
+    scale) in PLAN.md. It asks once, or uses frames already in the folder;
+    it never asks under `autonomous`, and skips silently with no design file.
+    `plan` gains `Bash` and `AskUserQuestion`.
+  - **`verify`:** a new step 3.7c compares a fresh export with the pin by
+    name and hash and reports added / removed / changed screens, with both
+    image paths and a one-line description, as **change requests, not
+    defects**. They never affect PASS / PARTIAL / FAIL. Check 8 compares
+    against the pinned frame.
+  - **Optional Figma add-on:** with `FIGMA_TOKEN` in the environment, `plan`
+    records the file's version id and `verify` skips the re-export when it
+    hasn't changed.
+  - New sections in the `PLAN.md` and `VERIFICATION.md` templates, plus a
+    help Planning Files row.
+
 - **New command `/apple:debt [area | rule-set] [--report]`** (#102). It
   measures an existing app against the rules SwiftShip already enforces on
   new work, then pays the debt down safely:

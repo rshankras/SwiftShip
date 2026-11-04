@@ -1,7 +1,7 @@
 ---
 description: Create detailed task plan for current or specified phase
 argument-hint: [phase-number]
-allowed-tools: Read, Write, Glob, Grep
+allowed-tools: Read, Write, Bash, Glob, Grep, AskUserQuestion
 ---
 
 # Plan Phase
@@ -216,6 +216,53 @@ A task list verifies that *screens exist and compile*. It is blind to whether th
 ```
 
 After building a flow's slice, run `/apple:walkthrough [flow-id]` — it drives the flow in the Simulator (UI test + per-step screenshots), statically audits the nav graph for dead-ends, and produces a human discoverability checklist. Do this **per flow-slice, not just at phase end**.
+
+## Design Pin (UI phases)
+
+A design that keeps changing after work starts is how projects overrun
+without anyone noticing. Pin the design this phase is built against, so
+`/apple:verify` can tell "same design" from "four screens changed", and
+report changes as **change requests, not defects**
+(`design/design-system`, rule 21). It works with any design tool, because
+every tool exports PNGs.
+
+**Skip silently** when the phase adds or changes no UI, or the project has
+no design file (screens designed in SwiftUI previews or `/apple:prototype`).
+
+1. **Find the frames.** If `.planning/design/phase-N/pinned/` already has
+   PNGs (the user dropped them there), use them. Otherwise ask once
+   (`AskUserQuestion`): "Is this phase built against exported design
+   frames?" with options **Folder of exported PNGs** (path via Other) /
+   **No design file for this phase**. Under `/apple:autonomous`, never ask:
+   pin an existing folder or skip.
+2. **Copy and hash.** One PNG per screen, named after the frame (e.g.
+   `Profile Edit.png`), all exported at the **same scale**:
+   ```bash
+   pin=.planning/design/phase-N
+   mkdir -p "$pin/pinned" && cp "<export folder>"/*.png "$pin/pinned/"
+   ( cd "$pin/pinned" && shasum -a 256 -- *.png ) | sed -E 's/^([0-9a-f]+) [ *](.*)$/\2	\1/' | sort > "$pin/pin.tsv"
+   ```
+3. **Record it** in PLAN.md, right after `<flows>`:
+   ```xml
+   <design-pin source="[Figma | Sketch | Penpot | XD | other]" version="[version name or export date]"
+               link="[file URL, optional]" scale="[1x | 2x]" frames=".planning/design/phase-N/pinned/"
+               figma-version-id="[only with FIGMA_TOKEN, see below]"/>
+   ```
+   Name each UI task's frame in its `<action>` ("match `Profile Edit.png`"),
+   so build agents and verify check 8 compare against the right image.
+4. **Optional, Figma only:** when `FIGMA_TOKEN` is set in the environment
+   (read-only scope; never ask for it in chat, never print it), record the
+   file's current version so verify can check for changes without a
+   re-export. The file key is the segment after `/file/` or `/design/` in
+   the URL:
+   ```bash
+   curl -sf -H "X-Figma-Token: $FIGMA_TOKEN" "https://api.figma.com/v1/files/<key>/versions" \
+     | jq -r '.versions[0] | "\(.id)\t\(.label // "autosave")\t\(.created_at)"'
+   ```
+   Put the id in `figma-version-id`. No token, or the call fails → leave it
+   out; the PNG pin is enough.
+
+Commit `.planning/design/phase-N/` with PLAN.md (PNGs, `pin.tsv`).
 
 ## Task Generation
 
