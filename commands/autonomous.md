@@ -20,7 +20,7 @@ it otherwise.
 
 - `$1` / start-phase — phase number to start from. Default: current phase from `STATE.md`.
 - `--to N` — last phase to run (inclusive). Default: **Phase 5 (Testing)**. Phases 6–7 (Pre-Release, Submission) are heavily manual and irreversible, so they are excluded unless explicitly requested with `--to 6` / `--to 7`.
-- `--yes` — skip the between-phase confirmation checkpoints and run straight through to the end boundary. Manual-task and blocker pauses still apply.
+- `--yes` — skip the between-phase confirmation checkpoints and run straight through to the end boundary. Safety pauses still apply: manual tasks, blockers, the early foundation checkpoint, and critical-path changes.
 
 ## Prerequisites
 
@@ -42,6 +42,7 @@ Read: .planning/STATE.md
 Optional (applied if present):
 ```
 Read: .planning/PREFERENCES.md
+Read: .planning/CRITICAL.md      # paths that always pause (via /apple:build Step 4c)
 ```
 
 If `ROADMAP.md` or `STATE.md` is missing:
@@ -61,6 +62,8 @@ explain why, then wait.
 | The phase-end quality gate finds **Critical** issues that can't be auto-fixed | Stop. Summarize the findings from `.planning/REVIEW.md`. |
 | A blocker is written to `STATE.md` | Stop and surface it. |
 | `PREFERENCES.md` is missing for a phase that has meaningful architecture choices (typically Phase 1) | Pause and recommend `/apple:discuss [phase]`, or proceed on SwiftShip defaults if the user says so. |
+| **Early foundation checkpoint** — the first 1–2 tasks of a foundation phase are done (see Step 2.3) | Pause for a human look at the data model / interfaces before more code builds on them. **Not skipped by `--yes`.** |
+| A task changes a path listed in `.planning/CRITICAL.md` | Pause before committing and show the diff (`/apple:build` Step 4c). **Not skipped by `--yes`.** |
 | End boundary reached (`--to N`, or default Phase 5) | Stop with the wrap-up message. |
 | About to enter Phase 6 or 7 without explicit `--to` | Stop. These are release phases — require explicit opt-in. |
 
@@ -85,7 +88,8 @@ Phases queued: [start] → [end]
   Phase [end]: [name]
 
 Mode: [checkpoint between phases | --yes straight-through]
-Pauses for: manual tasks, blockers, Critical review issues, failed verification.
+Pauses for: manual tasks, blockers, Critical review issues, failed verification,
+            foundation checkpoint, critical-path changes (CRITICAL.md).
 Stops before: Phase 6+ (release) unless --to says otherwise.
 ```
 
@@ -112,6 +116,30 @@ command — follow that command's logic exactly.
    updating `STATE.md`, and committing after each task. This includes the
    **phase-end quality gate** (`/apple:review`): fix Critical/High inline;
    backlog Medium/Low. If a `manual` task is hit, pause per the Safety Model.
+   Critical-path tasks pause per `/apple:build` Step 4c.
+
+   **Early foundation checkpoint.** Mistakes in the data model, the core
+   interfaces, or the architecture are cheap after one task and a rewrite
+   after ten. A phase is a *foundation phase* when it is Phase 1 or 2 of a
+   new-app roadmap, or when any of its tasks creates/changes `@Model` types,
+   persistence, sync, or a core service protocol (e.g. tasks matched to
+   `swiftdata-architecture`, `persistence-setup`, `cloudkit-sync`). In a
+   foundation phase, after the **first task that touches the model or
+   architecture** is committed — or after the second task, whichever comes
+   first — pause:
+   ```
+   🧱 Foundation checkpoint — Phase [N]
+
+   Built so far: [task names]
+   Key types: [new/changed @Model types, protocols, services — name + file]
+   [git diff --stat since the phase started]
+
+   Everything else in this phase builds on these. Look now: fixing the
+   model later means redoing every task on top of it.
+   ```
+   `AskUserQuestion`: **Continue** / **Stop run** (to adjust by hand, or
+   re-plan the phase). One checkpoint per foundation phase. **Not skipped by
+   `--yes`** — it is a safety pause, not a phase checkpoint.
 
 4. **Verify** — execute the `/apple:verify [N]` logic **through an
    independent verifier**: spawn a fresh `swift-generalist` (bare name; retry
@@ -180,7 +208,7 @@ Totals:
 - Commits: [count]
 - Quality gate: 🔴 [crit] 🟠 [high] 🟡 [med] 🟢 [low]
 
-Stopped because: [reached end boundary | manual task | blocker | Critical issue | user paused]
+Stopped because: [reached end boundary | manual task | blocker | Critical issue | foundation checkpoint | critical-path change | user paused]
 
 Next steps:
 - [If stopped early] Resolve the item above, then re-run /apple:autonomous to continue.

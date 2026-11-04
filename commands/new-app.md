@@ -202,6 +202,24 @@ Create a project-level CLAUDE.md with quick reference:
 - Navigate the Simulator using the accessibility tree (AXe `describe-ui`, filtered); take screenshots only to check the result, never to find tap positions
 ```
 
+### 3. Seed `.planning/CRITICAL.md`
+
+From the tech choices just recorded in APP.md, write `.planning/CRITICAL.md`
+using `~/.claude/swiftship-templates/CRITICAL.md` — one row per area that
+applies, with likely path globs (refined later by the user):
+
+| APP.md choice | Area |
+|---------------|------|
+| Paid / IAP / subscription | Payments (StoreKit, entitlements) |
+| CloudKit / iCloud sync | Sync |
+| SwiftData or Core Data | Migrations (schema changes) |
+| Auth, Keychain, health/financial/personal data, export/deletion | User data |
+
+**3–5 rows at most.** If nothing applies (free, local-only, no accounts),
+skip the file. `/apple:build` pauses before committing any change to these
+paths, so tell the user in the completion message what was seeded and that
+deleting a row stops its pauses. Skip if the file already exists.
+
 ## Vendor Agents (optional, recommended for cloud/remote work)
 
 Apply `~/.claude/swiftship-templates/_conventions/AGENT-VENDORING.md`: offer to
@@ -222,6 +240,8 @@ After creating both files:
 Created:
 - .planning/APP.md - Full app specification
 - CLAUDE.md - Project quick reference
+- .planning/CRITICAL.md - [areas] — /apple:build pauses for your review on these
+  (or "not needed" if nothing applied). Edit or delete rows anytime.
 
 Next steps:
 1. Review .planning/APP.md and adjust if needed

@@ -307,6 +307,7 @@ All planning files are stored in `.planning/`:
 | `APP.md` | App specification | `/apple:new-app` |
 | `CODEBASE.md` | Existing code analysis | `/apple:map` |
 | `UTILITIES.md` | Existing helpers agents must reuse | `/apple:map`, `/apple:build` |
+| `CRITICAL.md` | Paths that always pause build for review | `/apple:new-app`, `/apple:map` |
 | `PROTOTYPE.md` | UI direction exploration | `/apple:prototype` |
 | `ROADMAP.md` | Development phases | `/apple:roadmap` |
 | `RELEASE.md` | Release scope (features + bugs) | `/apple:release` |

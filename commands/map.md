@@ -273,6 +273,21 @@ merge — add newly found helpers, keep existing rows, never delete rows the
 user added. If Step 3.6 found nothing shareable, skip the file and say so in
 the completion message.
 
+## Step 5.6: Seed the Critical Paths
+
+Find the areas a developer must understand rather than hand to agents:
+```bash
+grep -rlE "import StoreKit|Transaction\.|Product\.purchase" --include=*.swift . | grep -v -e /Tests/ -e .build/ | head
+grep -rlE "import CloudKit|CKContainer|cloudKitDatabase" --include=*.swift . | grep -v -e /Tests/ -e .build/ | head
+grep -rlE "SchemaMigrationPlan|VersionedSchema|NSMigrationManager" --include=*.swift . | grep -v -e /Tests/ -e .build/ | head
+grep -rlE "SecItem|Keychain|deleteAccount|DataExport" --include=*.swift . | grep -v -e /Tests/ -e .build/ | head
+```
+Write `.planning/CRITICAL.md` from the template at
+`~/.claude/swiftship-templates/CRITICAL.md` with one row per area found,
+using the **real** directories/files as globs (prefer a directory glob over
+listing every file). 3–5 rows at most; no hits → skip the file. If the file
+already exists, add only new areas — never remove or rewrite the user's rows.
+
 ## Step 6: Vendor Agents (optional, recommended for cloud/remote work)
 
 Apply `~/.claude/swiftship-templates/_conventions/AGENT-VENDORING.md`: offer to
@@ -304,6 +319,7 @@ Codebase mapped!
 
 Created: .planning/CODEBASE.md
          .planning/UTILITIES.md  ([N] shared helpers agents will reuse — or "none found")
+         .planning/CRITICAL.md   ([areas] — /apple:build pauses for review on these — or "none found")
 
 Summary:
 - [X] Swift files found
