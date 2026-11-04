@@ -403,7 +403,7 @@ These rely on optional, *separately‑installed* tools (an App Store Connect con
 | `/apple:progress` | Show current status and next steps |
 | `/apple:pause` | Write a handoff doc when you stop |
 | `/apple:resume` | Restore context from a previous session |
-| `/apple:learn [lesson]` | Capture a mistake/pattern so it never recurs |
+| `/apple:learn [lesson]` | Capture a mistake/pattern so it never recurs — as a lint rule/test, a project or library skill, or a CLAUDE.md line |
 | `/apple:usage [--since 30d]` | Report the local usage ledger — command mix, outcomes, model‑tier adherence |
 | `/apple:help` | Show all commands |
 

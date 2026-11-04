@@ -1,5 +1,5 @@
 ---
-description: Capture a mistake or pattern into skills for future sessions
+description: Capture a lesson so it never recurs — as a lint rule or test, a project or library skill, or a CLAUDE.md convention
 argument-hint: [what-went-wrong or pattern-to-remember]
 allowed-tools: Read, Write, Edit, Glob, Grep, Bash, AskUserQuestion
 ---
@@ -21,6 +21,8 @@ What did you learn? This could be:
 2. A pattern that worked well (e.g., "always use .id() when switching detail views")
 3. A gotcha/trap (e.g., "SwiftData @Query doesn't update when predicate changes")
 4. A project convention (e.g., "always use async/await, never Combine")
+5. A project rule that should never be broken (e.g., "always use PriceFormatter")
+6. A project procedure agents keep getting wrong (e.g., "how to wire a new screen")
 
 Describe what happened and what the fix or pattern is.
 ```
@@ -49,8 +51,26 @@ Determine where this lesson belongs:
 | **Framework gotcha** | Existing skill in `claude-code-apple-skills` | SwiftData quirks, StoreKit edge cases, CloudKit conflicts |
 | **Platform best practice** | Platform skill (`ios/` or `macos/` coding-best-practices) | Error handling patterns, concurrency patterns |
 | **Testing pattern** | Testing skill in `claude-code-apple-skills` | Mock patterns, async test patterns |
-| **Project-specific convention** | Target project's `CLAUDE.md` | Naming conventions, architecture decisions, team preferences |
 | **Performance insight** | Performance skill or SwiftUI debugging skill | Layout thrashing, main thread blocking |
+| **Project rule a tool can check** | **Enforcement** in the target project — SwiftLint rule (mechanical) or fitness-function test (structural) | "Never format `Decimal` by hand — use `PriceFormatter`", "Views never import the networking module", "No SwiftData schema change without a migration" |
+| **Project procedure** (multi-step, repeatable) | **Project skill** — `<project>/.claude/skills/<name>/SKILL.md` | "How a screen is wired into our router", "How we add a SwiftData migration", "How we add a new IAP product" |
+| **Project convention** (one line, needs judgment) | Target project's `CLAUDE.md` (or `AGENTS.md` if the project has one) | Naming conventions, architecture decisions, team preferences |
+
+**Project lessons: pick the strongest destination that can express the rule** —
+prose decays, enforcement compounds:
+
+1. **Enforcement first.** Could a regex or SwiftLint rule catch every future
+   instance? → *mechanical*. Could a source-tree / API scan catch it (an import
+   boundary, a call on a forbidden path, a contract drifting)? → *structural*.
+   Either way it becomes a check that fails the build, not advice an agent may
+   skip. Same classes and rules as `/apple:review`'s enforcement factory.
+2. **Project skill** when the lesson is a *procedure* — several steps an agent
+   must follow in order, often with a template — that a check can't express.
+3. **CLAUDE.md line** only when it is a short convention needing judgment that
+   neither a check nor a procedure captures.
+
+A lesson can land in two places — e.g. a skill teaching *how* to add a
+migration **plus** a fitness test failing when a schema changes without one.
 
 ## Step 3: Find the Right Target
 
@@ -71,6 +91,11 @@ Read the top candidate skill to understand its structure:
 ```
 Read: ~/.claude/swiftship-skills/[category]/[skill]/SKILL.md
 ```
+
+*(Project lessons — enforcement, project skill, CLAUDE.md — skip this library
+search: their target is the project. For a project skill, check for an
+existing one first: `Glob: .claude/skills/*/SKILL.md`, and prefer extending a
+matching skill over creating a near-duplicate.)*
 
 Present the match to the user:
 
@@ -161,6 +186,65 @@ If the lesson is a gotcha without a code pattern:
 **Fix:** [What to do about it]
 ```
 
+### For Enforcement (project rule a tool can check)
+
+**Mechanical → SwiftLint.** Prefer enabling a built-in rule (`force_unwrapping`,
+`force_try`, …). Otherwise draft a `custom_rules:` entry:
+
+```yaml
+custom_rules:
+  [rule_id]:                       # learn: [one-line lesson]
+    name: "[Readable name]"
+    regex: '[pattern]'
+    message: "[What to do instead — name the helper/API to use]"
+    severity: error
+    included: ["[App sources path]"]
+    excluded: ["[Tests paths, generated code]"]
+```
+
+Scope it so it can't cry wolf: Grep the regex against the tree and tighten
+`included:`/`excluded:` until it matches only real violations (a `print()` rule
+excludes tests; never ban `import XCTest` globally — XCUITest needs it).
+
+**Structural → fitness-function test.** Read
+`~/.claude/swiftship-skills/testing/fitness-functions/SKILL.md`, pick the
+pattern (import-boundary allowlist scan, runtime sentinel, or contract pin),
+and draft a Swift Testing suite for the project's existing test target. Name
+the suite after the lesson so a failure explains itself.
+
+**Prove it before offering** — an unproven check is unverified:
+- *Red:* it fails on the violation (if the code was already fixed, reintroduce
+  the violation temporarily, run, then revert).
+- *Green:* it passes on the current code.
+
+### For Project Skills (`.claude/skills/<name>/SKILL.md`)
+
+Kebab-case `<name>` that says what it does (`wire-screen-into-router`,
+`add-swiftdata-migration`). Frontmatter `name` + a `description` that states
+**when to use it** — agents load project skills by matching that line:
+
+```markdown
+---
+name: [kebab-name]
+description: [What this does]. Use when [trigger — e.g. "adding a new screen", "changing a @Model"].
+---
+
+# [Title]
+
+[One paragraph: why this procedure exists — the mistake it prevents.]
+
+## Steps
+1. [Concrete step — exact file/type names from this project]
+2. [...]
+
+## Verify
+- [How to tell it was done right — a build, test, or check to run]
+```
+
+Add a `template.*` (e.g. `template.swift`) or `scripts/` file beside SKILL.md
+only when the procedure stamps out the same code each time; reference it from
+the steps.
+
 ### For CLAUDE.md (Project Conventions)
 
 Use a concise rule format:
@@ -190,11 +274,36 @@ Wait for user confirmation.
 
 ## Step 6: Apply
 
-### Project-specific lessons (CLAUDE.md)
+### Project enforcement (SwiftLint rule / fitness-function test)
+
+- **Mechanical:** merge the rule into the project's `.swiftlint.yml` (create a
+  minimal one with only this rule if none exists — no opinionated
+  boilerplate). Run `swiftlint lint --strict` and confirm the only new
+  violations are real ones; if the project uses a baseline
+  (`.swiftlint-baseline.json`) and the lesson's violations should be fixed
+  later rather than now, say so — never regenerate the baseline to hide them.
+- **Structural:** Write the suite into the test target and run it to confirm
+  the red/green proof from Step 4.
+- No `.swiftlint.yml` and the user declines creating one, or no test target
+  exists → fall back to a project skill or CLAUDE.md line, and note that the
+  rule is prose-only (that is itself worth fixing).
+
+### Project skills
+
+- **New:** create `.claude/skills/[name]/SKILL.md` (plus any template/script).
+- **Existing skill with the same or overlapping name:** never overwrite
+  silently — show the diff of the proposed change and apply only on an
+  explicit yes; prefer adding a step/section over rewriting.
+- Remind the user: project skills load at **session start** — restart before
+  relying on it. Commit `.claude/skills/` so the skill travels with the repo
+  to cloud, CI, and remote sessions (like vendored agents).
+
+### Project conventions (CLAUDE.md)
 
 Append to the relevant section (or create a "Conventions" section if none
 exists). If the target section doesn't exist, create it in a logical position
-within the file. Unchanged behavior — done.
+within the file. If the project has an `AGENTS.md` that CLAUDE.md imports,
+write tool-neutral conventions there instead.
 
 ### General lessons (library skills)
 
@@ -252,7 +361,15 @@ Then apply to the installed copy too (live now), marked
 ```
 ✅ Lesson captured!
 
-[Project-specific:]
+[Enforcement:]
+Rule: [.swiftlint.yml custom rule `id` | fitness suite `Name` in [test target]]
+Proven: red on the violation ✅ · green on current code ✅
+
+[Project skill:]
+Skill: .claude/skills/[name]/SKILL.md — [created | extended]
+Restart the session to load it; commit .claude/skills/ so it travels with the repo.
+
+[Project convention:]
 Updated: [CLAUDE.md path] — [section name]
 
 [General, source-repo path:]
