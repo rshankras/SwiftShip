@@ -1,6 +1,6 @@
 ---
 description: Execute current plan using specialized agents
-allowed-tools: Read, Write, Edit, Bash, Task, Glob, Grep, mcp__asc-metadata__list_apps, mcp__asc-metadata__list_beta_groups, mcp__asc-metadata__list_iap
+allowed-tools: Read, Write, Edit, Bash, Task, Glob, Grep, AskUserQuestion, Skill, mcp__asc-metadata__list_apps, mcp__asc-metadata__list_beta_groups, mcp__asc-metadata__list_iap
 model: sonnet
 ---
 
@@ -414,6 +414,12 @@ After all tasks in the phase are complete, automatically run `/apple:review` as 
 
 This gate is mandatory for phases 1-5. Phase 6 (Pre-Release) and Phase 7 (Submission) have their own dedicated review flows.
 
+**Record the phase as built.** In `.planning/STATE.md`, under
+`## Phase Verification`, set this phase's row to `Built: [date]` and
+`Verified: —` (add the section from the STATE template if it is missing).
+The review gate checks the code is *good*; it does not check the
+deliverables *work* — that is `/apple:verify`, offered below.
+
 ## Completion Message
 
 Before printing the completion message, append one `"event":"outcome"` line to the usage ledger per `~/.claude/swiftship-templates/_conventions/USAGE-LOG.md` (skip silently if the convention file is absent). Key spawns that ran with a per-task model override as `"agent:opus"` in the `agents` object, e.g. `{"swift-generalist": 2, "swift-generalist:opus": 1}`.
@@ -439,7 +445,30 @@ Summary:
 - Files modified: [count]
 - Commits: [count]
 
-Next steps:
-1. Run /apple:verify — confirm the phase's deliverables actually work (build, tests, UAT)
-2. Run /apple:plan [X+1] for next phase
+Verification: ⏳ not yet verified — offered below
 ```
+
+## Phase Verification Handoff
+
+The review gate above judges code quality; only `/apple:verify` confirms the
+phase's deliverables actually work (build, tests, flows, UAT). Usage data
+showed phases completing and the next phase being planned with verify never
+run, so offer it here instead of leaving it as a suggestion.
+
+**Skip this step when running inside `/apple:autonomous`** — it verifies every
+phase through its own independent verifier.
+
+Otherwise, ask with AskUserQuestion:
+
+- **"Verify phase [X] now (Recommended)"** — invoke the `apple:verify` skill
+  with argument `[X]` via the Skill tool. It updates STATE.md's
+  `## Phase Verification` row itself. If the Skill tool can't resolve the
+  command, tell the user to run `/apple:verify [X]` and stop.
+- **"Later"** — leave the row as `Verified: —` and print:
+  ```
+  ⚠️ Phase [X] is built but not verified.
+  Run /apple:verify [X] before /apple:plan [X+1] —
+  /apple:plan and /apple:progress will remind you.
+  ```
+
+Never block on this choice; "Later" is a valid answer.

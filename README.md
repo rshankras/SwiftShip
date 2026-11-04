@@ -194,9 +194,9 @@ Or let Claude Code set this up for you automatically with the `/fewer-permission
 /apple:new-app HydrationBuddy                             # define the app
 /apple:roadmap                                            # break it into phases
 /apple:plan 1                                             # detail phase 1
-/apple:build                                              # build phase 1
-/apple:review                                             # quality gate
-# ...repeat plan → build → review per phase...
+/apple:build                                              # build phase 1 (ends with a review gate)
+/apple:verify 1                                           # confirm it actually works
+# ...repeat plan → build → verify per phase...
 /apple:testflight                                         # beta test
 /apple:submit                                             # ship it
 /apple:help                                               # see everything, any time

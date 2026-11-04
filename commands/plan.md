@@ -27,6 +27,18 @@ Read: .planning/ROADMAP.md
 Read: .planning/STATE.md
 ```
 
+**Unverified-phase check (warn, never block).** If STATE.md has a
+`## Phase Verification` table and any phase *earlier* than the one being
+planned shows a `Built` date but `Verified` is `—` or `FAIL`, print once:
+
+```
+⚠️ Phase [N] was built but never verified (or failed verification).
+Planning on top of it risks compounding a broken foundation.
+Recommended: /apple:verify [N] first. Continuing with the plan.
+```
+
+Then continue. No table (older projects) → skip silently.
+
 Also read implementation preferences if they exist (created by `/apple:discuss`):
 ```
 Read: .planning/PREFERENCES.md   # Optional — apply if present

@@ -18,6 +18,13 @@ Copy this file to your project's `.planning/STATE.md`.
 - **Target macOS:** [version, e.g., 14.0]
 - **Simulator:** [primary test device]
 
+## Phase Verification
+<!-- build sets Built when a phase's tasks + review gate finish; verify sets Verified.
+     Verified values: — (not run) | PASS [date] | PARTIAL [date] | FAIL [date] -->
+| Phase | Built | Verified |
+|-------|-------|----------|
+| 1 | [date] | — |
+
 ## Current Task
 - **Task ID:** [from PLAN.md]
 - **Description:** [what's being worked on]
@@ -65,7 +72,10 @@ Copy this file to your project's `.planning/STATE.md`.
 ## How to Use
 
 1. This file is automatically created by `/apple:roadmap`
-2. Updated by `/apple:build` after each task completion
-3. Updated by `/apple:testflight` with build status
-4. Updated by `/apple:submit` with submission status
-5. Check this file to understand current project state at a glance
+2. Updated by `/apple:build` after each task completion (and marks a phase
+   **Built** in `## Phase Verification` when it finishes)
+3. Updated by `/apple:verify` with the phase's **Verified** result —
+   `/apple:plan` and `/apple:progress` flag phases that are built but not verified
+4. Updated by `/apple:testflight` with build status
+5. Updated by `/apple:submit` with submission status
+6. Check this file to understand current project state at a glance

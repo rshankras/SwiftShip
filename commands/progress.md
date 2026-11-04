@@ -62,13 +62,20 @@ Tasks:
 
 ## Completed Phases
 
-✅ Phase 1: [Name] - [date completed]
-✅ Phase 2: [Name] - [date completed]
+✅ Phase 1: [Name] - [date completed] · verified [date]
+✅ Phase 2: [Name] - [date completed] · ⚠️ not verified
 
 ## Upcoming Phases
 
 ⬚ Phase 4: [Name]
 ⬚ Phase 5: [Name]
+
+## Needs Attention
+
+[From STATE.md `## Phase Verification`: each phase with a Built date whose
+Verified is `—` or `FAIL` → "⚠️ Phase N built [date], not verified —
+/apple:verify N". Omit this section when every built phase is verified or
+the table is absent.]
 
 ## Blockers
 
@@ -90,8 +97,8 @@ Based on current state, recommend the next command:
 | APP.md exists, no ROADMAP.md | `/apple:roadmap` to create phases |
 | ROADMAP.md exists, no PLAN.md | `/apple:plan [N]` to plan current phase |
 | PLAN.md exists, tasks pending | `/apple:build` to execute tasks |
-| Tasks complete, not verified | `/apple:verify` to verify work |
-| Verified, not reviewed | `/apple:review` for quality review |
+| Any phase built but not verified (`## Phase Verification`) | `/apple:verify [N]` — takes priority over planning the next phase |
+| Verified, review not yet run (build normally runs it as its quality gate) | `/apple:review` for quality review |
 | Reviewed, ready for beta | `/apple:testflight` to prepare beta |
 | Beta complete | `/apple:submit` to submit to App Store |
 
