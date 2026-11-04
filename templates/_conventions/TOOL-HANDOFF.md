@@ -29,8 +29,10 @@ Read: ~/.claude/swiftship-templates/_conventions/TOOL-HANDOFF.md
 Confirm the capability is actually available in THIS session before mentioning it:
 - **MCP tool:** the EXACT tool name is in your available tools
   (e.g. `mcp__asc-metadata__get_metadata`). Not listed → skip straight to step 5.
-- **Skill / CLI:** the skill or binary exists (`run-simulator` skill, `xcrun`,
-  `screencapture`, `git`). Missing → step 5.
+- **Skill / CLI:** the skill or binary exists (`xcrun`, `screencapture`, `git`;
+  for SwiftShip skills, check the file path —
+  `~/.claude/swiftship-skills/ios/run-simulator/SKILL.md` — rather than a
+  skill name, which only resolves on some installs). Missing → step 5.
 - **Credential/config:** if the tool needs config (e.g. `~/.asc-metadata-mcp/config.json`)
   and a read-only probe fails, treat it as unavailable → step 5.
 

@@ -148,7 +148,8 @@ running app**. Apply `~/.claude/swiftship-templates/_conventions/TOOL-HANDOFF.md
 with the procedure in
 `~/.claude/swiftship-templates/_conventions/RUN-AND-SHOT.md`:
 
-- **DETECT:** iOS → is the `run-simulator` skill available? macOS → are `xcodebuild`
+- **DETECT:** iOS → does `~/.claude/swiftship-skills/ios/run-simulator/SKILL.md`
+  exist (detect by path, per RUN-AND-SHOT)? macOS → are `xcodebuild`
   + `screencapture` available? If neither path is available, **skip to Step 4**
   (the manual walk-through is the fallback).
 - **CONFIRM** (a build can be slow): "Run & screenshot the app now? / Skip — I'll

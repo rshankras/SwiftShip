@@ -1,6 +1,6 @@
 ---
 description: Analyze existing codebase before adding SwiftShip workflow
-allowed-tools: Read, Glob, Grep, Bash
+allowed-tools: Read, Write, Edit, Glob, Grep, Bash
 ---
 
 # Map Existing Codebase
@@ -252,6 +252,20 @@ remote-launched sessions. Skip silently if the convention file or the source
 agents are absent. If the user accepts, remind them that agents load at
 session start: the vendored copies won't spawn until a fresh session, so
 restart before running `/apple:build` or `/apple:review`.
+
+## Step 6.5: Agent Rule in CLAUDE.md (optional)
+
+Agents follow whichever tool is handy; for Simulator work that's screenshots,
+which are expensive and make tap positions a guess. Offer to add one line to
+the project's `CLAUDE.md` (create a minimal one if absent):
+
+```markdown
+## Agent Rules
+- Navigate the Simulator using the accessibility tree (AXe `describe-ui`, filtered); take screenshots only to check the result, never to find tap positions
+```
+
+Show the diff and add it only on an explicit yes. Skip if an equivalent rule
+is already present. Never rewrite other parts of an existing `CLAUDE.md`.
 
 ## Step 7: Completion
 
