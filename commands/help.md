@@ -38,6 +38,9 @@ Display all available commands, their purpose, and recommended workflow.
 ║  /apple:icon [style]        Generate / re-roll the app icon (3 variants)     ║
 ║                             Installs: Assets.xcassets/AppIcon.appiconset     ║
 ║                                                                               ║
+║  /apple:design-system [src] Tokens, text styles, components + lint first     ║
+║                             Creates: .planning/DESIGN-SYSTEM.md              ║
+║                                                                               ║
 ║  PLANNING                                                                     ║
 ║  ───────────────────────────────────────────────────────────────────────────  ║
 ║  /apple:roadmap             Create 7-phase development roadmap                ║
@@ -253,6 +256,7 @@ NEW PROJECT                          EXISTING PROJECT
 | Publish legal pages + set ASC URLs | `/apple:privacy` |
 | Explore UI options for a screen | `/apple:prototype Home` |
 | Generate an app icon | `/apple:icon "gradient glyph"` |
+| Set up tokens, text styles + components before screens | `/apple:design-system` |
 | See my progress | `/apple:progress` |
 | See command usage, tiers & escalations | `/apple:usage --since 30d` |
 | Plan next phase | `/apple:plan [N]` |
@@ -309,6 +313,7 @@ All planning files are stored in `.planning/`:
 | `UTILITIES.md` | Existing helpers agents must reuse | `/apple:map`, `/apple:build` |
 | `CRITICAL.md` | Paths that always pause build for review | `/apple:new-app`, `/apple:map` |
 | `PROTOTYPE.md` | UI direction exploration | `/apple:prototype` |
+| `DESIGN-SYSTEM.md` | Tokens, text styles, components, lint status | `/apple:design-system` |
 | `ROADMAP.md` | Development phases | `/apple:roadmap` |
 | `RELEASE.md` | Release scope (features + bugs) | `/apple:release` |
 | `STATE.md` | Current position | `/apple:roadmap` |

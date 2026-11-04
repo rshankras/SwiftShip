@@ -17,7 +17,7 @@ small model gambling on a kill/build decision).
 | Tier | Session model | Commands |
 |------|---------------|----------|
 | **Judgment** | Best available (Fable-class) | `brainstorm`, `validate`, `differentiate`, `new-app`, `roadmap`, `release`, `debug`, `rejection`, `learn-from-store`, `plan` (complex phases: architecture, data model, Phases 1–2) |
-| **Analysis** | Opus-class | `map`, `security`, `perf`, `prototype`, `metadata`, `localize`, `spike`, `discuss`, `plan` (routine phases) |
+| **Analysis** | Opus-class | `map`, `security`, `perf`, `prototype`, `design-system`, `metadata`, `localize`, `spike`, `discuss`, `plan` (routine phases) |
 | **Execution** | Sonnet-class | `build`, `autonomous`, `review`, `verify`, `test`, `bugfix`, `modernize`, `ship`, `submit`, `iap`, `privacy`, `deploy`, `testflight`, `screenshots`, `icon`, `visual-qa`, `walkthrough`, `release-notes`, `subscription`, `event`, `experiment`, `milestone`, `next-version`, and all session/info commands (`progress`, `idea`, `ideas`, `pause`, `resume`, `help`, `learn`, `usage`) |
 
 ## Enforcement: frontmatter pins (execution tier)
