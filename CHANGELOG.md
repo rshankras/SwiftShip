@@ -12,6 +12,21 @@ commands, or moved skill-reference paths.
 
 ### Added
 
+- **`UTILITIES.md` — existing-helpers inventory so agents reuse instead of
+  rebuild** (#79). Agents reimplement helpers that already exist (a second
+  formatter, hand-formatted `Decimal` prices next to a `PriceFormatter`, a
+  parallel networking wrapper), inflating diffs and splitting behavior. New
+  `templates/UTILITIES.md` (name → path → use-for, grouped: formatting,
+  networking, persistence, design tokens, logging, shared views, extensions).
+  `map` gains Step 3.6 (grep inventory of reusable helpers) and Step 5.5
+  (write/merge the file, never deleting user rows). `build` reads it, passes
+  it to every spawn as `<existing-helpers>` with a reuse rule (no fit → say
+  so before adding a shared helper), and appends new shared helpers after
+  each task (creating the file on first use, so greenfield projects grow
+  it), staged with the task commit. `review`'s code-quality agent flags
+  reimplementations of listed helpers and unlisted shared helpers (Low).
+  Every command works unchanged when the file is absent.
+
 - **`snapshot` check type — the gauntlet's UI gate.** `build`'s `<verify>`
   table gains `snapshot` (run the suite scoped to the task's touched screens
   via `-only-testing`; a pixel diff is a FAIL; re-records need stated intent

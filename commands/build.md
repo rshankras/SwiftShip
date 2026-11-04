@@ -41,6 +41,15 @@ async approach, error-handling style, component style, project structure) into
 every agent prompt you spawn below, so generated code matches the decisions the
 user already made. Preferences override agent defaults wherever they conflict.
 
+Also read the existing-helpers inventory if it exists (written by `/apple:map`,
+grown by this command):
+```
+Read: .planning/UTILITIES.md     # Optional — pass to every agent if present
+```
+Agents rebuild helpers that already exist (a second formatter, hand-formatted
+prices, a parallel networking wrapper) — duplication that inflates diffs and
+splits behavior. Every spawn below gets this list with a reuse rule.
+
 ## Execution Process
 
 ### 1. Find Next Pending Task
@@ -220,15 +229,22 @@ Task({
       [Relevant existing files if any]
     </existing-code>
 
+    <existing-helpers>
+      [Contents of .planning/UTILITIES.md if it exists. Omit if none.]
+    </existing-helpers>
+
     Requirements:
     1. Follow the <apple-patterns> specified
     2. Create/modify files listed in <files>
     3. Verify all <verify> checks pass
     4. Meet all <done> criteria
+    5. Reuse <existing-helpers> — never reimplement a listed helper. If none
+       fits, say so in your report before adding a new shared one.
 
     After completing, report:
     - Files created/modified
     - Verification results
+    - New shared helpers added (name, path, one-line purpose), if any
     - Any issues encountered
   `
 })
@@ -336,6 +352,14 @@ On successful completion:
    - Clear Current Task
    - Add to Session History
 
+2b. Keep the helpers inventory current: if the agent reported **new shared
+    helpers** (or the task obviously added one — a formatter, client,
+    design-token file, shared modifier), append a row per helper to
+    `.planning/UTILITIES.md` (create it from
+    `~/.claude/swiftship-templates/UTILITIES.md` if absent — greenfield
+    projects grow it this way). Skip one-off private helpers. Include the
+    file in this task's commit.
+
 3. Commit changes — **stage only what this task owns, never `git add -A`**
    (a blanket add sweeps stray scratch files, unignored build artefacts,
    local secrets, and the user's unrelated in-progress edits into the task
@@ -343,7 +367,8 @@ On successful completion:
 
    a. The commit set is: the task's `<files>`, any other file the task
       demonstrably created or changed, and the `.planning/` files this
-      command just updated (PLAN.md, STATE.md).
+      command just updated (PLAN.md, STATE.md, and UTILITIES.md if step 2b
+      touched it).
    b. Run `git status --porcelain` and compare against that set. Anything
       changed **outside** it — files the task didn't list, or changes that
       were already in the tree before the task started — is out of scope:
@@ -351,7 +376,7 @@ On successful completion:
       uncommitted, or stop. Never include or drop them silently.
    c. Stage by explicit path:
 ```bash
-git add -- [task <files>] [other files this task created/changed] .planning/PLAN.md .planning/STATE.md
+git add -- [task <files>] [other files this task created/changed] .planning/PLAN.md .planning/STATE.md [.planning/UTILITIES.md if updated]
 git status --short   # confirm nothing unexpected is staged
 git commit -m "feat([area]): [task description]
 

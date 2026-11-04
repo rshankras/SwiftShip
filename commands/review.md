@@ -26,6 +26,7 @@ If no Swift files found:
 Read: .planning/APP.md (if exists)
 Read: .planning/ROADMAP.md (if exists)
 Read: .planning/STATE.md (if exists)
+Read: .planning/UTILITIES.md (if exists — pass to Agent 1 for the reimplemented-helper check)
 ```
 
 ## Lint Baseline (pre-pass)
@@ -142,6 +143,12 @@ Task({
        - Duplicated view components across files (same layout/styling repeated)
        - Duplicated logic (same validation, formatting, or data transform in multiple places)
        - Opportunities to extract shared components, modifiers, or helpers
+       - **Reimplemented helpers:** if .planning/UTILITIES.md exists, flag
+         code that duplicates a listed helper (e.g. formats a Decimal by hand
+         while PriceFormatter exists; builds a URLRequest outside the listed
+         client) — cite both the duplicate and the helper it should use.
+         Shared helpers missing from UTILITIES.md: note them as a Low
+         finding ("add to inventory") so agents learn to reuse them
 
     9. **Design Token Centralization**
        - Hardcoded colors (Color.white.opacity, Color(white:), hex colors) outside design tokens
