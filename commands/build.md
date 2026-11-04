@@ -338,9 +338,45 @@ launch-stuck frame = FAIL). If neither the `run-simulator` skill nor the macOS
 path is available, fall back to asking the user to confirm in the Simulator —
 and record the check as *user-confirmed*, not *verified*.
 
-Only when every check passes does the task move to Step 5. A failing check
+Only when every check passes does the task move to Step 4b. A failing check
 follows Error Handling below — the agent's claim of success never overrides
 what your run showed.
+
+### 4b. Diff-Size Check (simplicity guard)
+
+Agents write roughly twice the code a requirement needs — speculative
+abstractions, defensive handling for cases that can't happen — and every extra
+line is review and maintenance load. Before committing, size the diff against
+the task's scope:
+
+```bash
+git diff --stat                                   # tracked changes
+git status --porcelain | grep '^??'               # new files (count their lines with wc -l)
+```
+
+**Flag the task when any of these hold:**
+- **Out of scope** — the agent changed a file not in the task's `<files>` and
+  its report doesn't explain why the task required it.
+- **Oversized** — more than ~300 changed lines, or any single file growing by
+  more than ~150, for a task whose `<action>` describes a small change (one
+  view, one model, one fix). Use judgment: a full screen or a data layer can
+  legitimately be large.
+- **Speculative structure** — a new protocol with a single conformer, a
+  generic/abstraction with one caller, or a new helper duplicating one in
+  `.planning/UTILITIES.md`.
+
+**`generator` tasks are exempt** — generators drop in a known, larger amount of
+code by design.
+
+**If flagged:** run **one** simplify pass — re-spawn the same agent with the
+current diff and: *"Reduce this to the simplest change that meets `<done>`.
+Remove abstractions with one use, defensive handling for unrealistic cases,
+dead or speculative code, and changes outside `<files>` that the task doesn't
+need. Do not change behavior. Re-run `<verify>`."* Then re-run the task's
+`<verify>` checks yourself (Step 4). Keep the simplified version only if the
+checks pass; otherwise keep the original. Never loop — one pass, then commit.
+Note the before/after line counts in the progress report:
+`✂️ Simplified: [before] → [after] lines`. If not flagged, continue silently.
 
 ### 5. Update Status
 
@@ -432,10 +468,10 @@ Continuing to task [next-id]: [next-name]...
 After all tasks in the phase are complete, automatically run `/apple:review` as a quality gate before declaring the phase done.
 
 1. Execute `/apple:review` — this spawns 5 parallel agents (code quality, HIG, App Store, performance, security), then adversarially verifies every Critical/High finding against the actual code before it lands in REVIEW.md
-2. The code quality agent (Agent 1) checks SOLID, DRY, design tokens, and logging hygiene
+2. The code quality agent (Agent 1) checks SOLID, DRY, design tokens, logging hygiene, and simplicity (could this be less code?)
 3. If **Critical** issues are found (all Criticals in REVIEW.md are verified): fix them before proceeding, then re-run the review
 4. If **High** issues are found: fix them inline, no re-run needed
-5. **Medium/Low** issues: log to `.planning/REVIEW.md` as backlog for the next phase
+5. **Medium/Low** issues: log to `.planning/REVIEW.md` as backlog for the next phase — except findings review set aside as *needlessly defensive* (its appendix): those are not backlog and are never "fixed"
 
 This gate is mandatory for phases 1-5. Phase 6 (Pre-Release) and Phase 7 (Submission) have their own dedicated review flows.
 
