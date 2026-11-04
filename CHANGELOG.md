@@ -170,6 +170,19 @@ commands, or moved skill-reference paths.
   phase-final task.
 
 ### Changed
+- **`plan` + `build` enforce the design system on every UI task** (#99).
+  A project "has a design system" when `.planning/DESIGN-SYSTEM.md` exists
+  or `.swiftlint.yml` has the `ds_*` rules.
+  - **`plan`:** view tasks get `type="lint"` and a new `type="design"`
+    check (state previews per platform, identifiers, under ~300 lines, new
+    files never baselined). It also adds `design/design-system` to
+    `<apple-patterns>` and names the components to use.
+  - **`build`:** a routing row for tokens, text styles, components and
+    restyles → `swiftui-builder` + `design/design-system`. UI spawns get a
+    `<design-system>` block and requirement 6.
+  - **Design lint gate after every view-touching task:** zero violations in
+    new code, and the baseline may only shrink.
+  - No design system → unchanged.
 - **`review` check #9 widened to design-system restyle cost** (#93). It
   now also flags:
   - call-site `.uppercased()`/`.textCase`/`.tracking`/`.kerning`
