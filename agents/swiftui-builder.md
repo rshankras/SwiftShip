@@ -120,6 +120,50 @@ struct ItemRow: View {
 }
 ```
 
+## Design System (Always Follow)
+
+How cheap the next redesign is depends on how you write styling today. Follow
+`~/.claude/swiftship-skills/design/design-system/SKILL.md` (load it when the
+task touches styling, tokens or shared components). The rules that apply to
+every view you write:
+
+1. **Tokens only** for fonts, colours, spacing, radius and shadow. Check
+   `.planning/UTILITIES.md` (Design Tokens) and the project's token files
+   first. If a token you need is missing, **add it to the token file** (and a
+   row to UTILITIES.md), never inline the value. `0` is fine inline.
+2. **Text through the project's text-style modifier** (e.g.
+   `.appText(.label)`). Never add `.uppercased()`, `.textCase()`,
+   `.tracking()` or `.kerning()` at the call site, because case and tracking
+   belong to the style. **User-generated text keeps its original case**: use
+   the style's `.original` variant.
+3. **Reuse shared components** (buttons, cards, chips, fields, sheets,
+   toasts). Need a variant? Add it to the component, never copy it into the
+   screen.
+4. **Async and list content renders through the project's
+   `ContentStateView`** (loading, empty, error-with-retry, offline). If it
+   doesn't exist yet, create it **once** in the shared components folder per
+   the skill, and list it in UTILITIES.md. No ad-hoc spinners or "No
+   results" text.
+5. **View files stay under ~300 lines.** Split by section into subviews in
+   their own files; logic lives in the `@Observable` model, not the view.
+6. **`accessibilityIdentifier` on every interactive or asserted element**,
+   named `screen.element` (e.g. `editor.save`). UI tests use these, never
+   visible text.
+
+**No design system yet** (no token file, no text-style modifier)? Don't
+invent one mid-task. Use system text styles (`.font(.headline)`) and semantic
+colours (`Color.primary`, asset-catalog colours), which count as tokens,
+plus `.padding()` defaults, and note in your report that the project has no
+design system yet (`/apple:design-system`).
+
+**Platform notes**
+- **iOS / iPadOS:** custom fonts scale via `Font.custom(_:size:relativeTo:)`;
+  `@ScaledMetric` for spacing that should grow with type.
+- **macOS:** no Dynamic Type, so design at 100%; hover and focus states
+  are part of every interactive component; respect `.controlSize`.
+- **watchOS:** compact text styles and the smaller spacing scale; glanceable
+  states; skip glass-heavy treatments.
+
 ## HIG Compliance (Always Enforce)
 
 ### Touch Targets
@@ -127,18 +171,18 @@ struct ItemRow: View {
 - Use `.contentShape(Rectangle())` to expand hit area
 
 ### Typography
-- Use Dynamic Type: `.font(.body)`, `.font(.headline)`
-- Never hardcode font sizes
+- Use Dynamic Type: the project's text styles, else `.font(.body)`, `.font(.headline)`
+- Never hardcode font sizes (see Design System above)
 - Test with Accessibility sizes
 
 ### Colors
 - System colors for automatic Dark Mode: `Color.primary`, `Color.secondary`
 - Use `.foregroundStyle()` over `.foregroundColor()`
-- Never hardcode colors that don't adapt
+- Never hardcode colors: role-named tokens (`Color.textPrimary`) or system colors
 
 ### Spacing
-- Standard margins: 16pt (iOS), 20pt (macOS)
-- Use `.padding()` defaults when possible
+- Standard margins: 16pt (iOS), 20pt (macOS), expressed through the spacing scale (`Spacing.m`)
+- Use `.padding()` defaults when no scale exists
 - Consistent spacing throughout
 
 ### SF Symbols
@@ -171,9 +215,18 @@ Button(action: delete) {
 // ✅ Hide decorative elements
 Image(decorative: "background")
     .accessibilityHidden(true)
+
+// ✅ Stable identifier for UI tests: survives copy/case changes
+Button("Save", action: save)
+    .accessibilityIdentifier("editor.save")
 ```
 
 ## Common Patterns
+
+**Loading / empty / error:** if the project has a `ContentStateView` (check
+UTILITIES.md), render through it and don't hand-build these states. The
+snippets below are its building blocks, for creating it once, or for
+projects that opt out of a design system.
 
 ### Empty State
 ```swift
@@ -231,7 +284,8 @@ List(items) { item in
 2. **Preview**: Create a `#Preview`. For a **stateful** view (loading/empty/error/loaded), emit the state + appearance matrix from the Preview Template below; for a trivial view, a single `#Preview` is enough.
 3. **Dark Mode**: Include a dark-mode preview, and confirm it reads correctly in both modes
 4. **Dynamic Type**: Include a large Dynamic Type preview, and confirm layout holds at accessibility sizes
-5. **Accessibility**: Verify VoiceOver works
+5. **Accessibility**: Verify VoiceOver works; every interactive element has an `accessibilityIdentifier`
+6. **Design system**: no raw font sizes, colours or spacing; no call-site case/tracking; async content through `ContentStateView`; each view file under ~300 lines. Report any token or shared component you added
 
 ## Preview Template
 
@@ -261,6 +315,7 @@ List(items) { item in
 #Preview("Error")    { FeatureView(state: .error("No connection")) }
 #Preview("Dark")     { FeatureView(state: .loaded(Item.previewList)).preferredColorScheme(.dark) }
 #Preview("XXL Text") { FeatureView(state: .loaded(Item.previewList)).dynamicTypeSize(.accessibility3) }
+// macOS: replace XXL Text with narrow + wide window frames; watchOS: smallest + largest watch
 ```
 
 For the sample data behind these (a realistic instance **plus** the edge cases that break layouts — long titles, missing images, empty/huge lists), the deployment-target-correct API (`#Preview` / iOS 18 `PreviewModifier` / pre-17 `PreviewProvider`), SwiftData in-memory seeding, and reuse of any existing `.fixture()`, load and follow:
@@ -275,4 +330,6 @@ Use these skills for deeper guidance:
 - `ios/coding-best-practices` - iOS patterns
 - `macos/coding-best-practices` - macOS patterns
 - `design/liquid-glass` - macOS 26/iOS 26 design
+- `design/design-system` - tokens, text styles with case, shared components, ContentStateView, lint
+- `design/typography` - text styles, Dynamic Type, custom-font scaling
 - `generators/preview-data-generator` - preview sample data + `#Preview` state/appearance matrix

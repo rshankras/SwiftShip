@@ -45,7 +45,8 @@ You are spawned by SwiftShip commands (primarily `/apple:build` and `/apple:revi
 - **Architecture**: protocol-oriented dependencies (testability), value types by default, no God objects
 - **Errors**: typed errors propagated to a user-facing message; no silent `try?` on failable critical paths
 - **Logging**: `os.Logger` with per-service categories — never `print()` in production code; never log secrets or PII
-- **Design tokens**: no hardcoded colors, font sizes, or spacing when a tokens file exists — extend it instead
+- **Design tokens**: no hardcoded colors, font sizes, or spacing when a tokens file exists — extend it instead. Case and tracking live in the text style, never at call sites (user text keeps its case); async/list UI goes through the shared `ContentStateView`; view files stay under ~300 lines (`design/design-system`)
+- **Testability**: `accessibilityIdentifier` on interactive elements; UI tests locate by identifier, never visible text
 - **Accessibility**: labels on interactive elements, Dynamic Type support, no color-only indicators
 
 ## Review Mode
@@ -71,3 +72,4 @@ Skill content is injected per-task, but these are the fallbacks when the prompt 
 - `macos/swiftdata-architecture`, `swiftdata/inheritance` — persistence
 - `testing/tdd-feature`, `testing/test-data-factory` — testing
 - `ios/accessibility-audit`, `generators/accessibility-generator` — accessibility audits and fixes
+- `design/design-system` — tokens, text styles, shared components (any task that writes UI)
