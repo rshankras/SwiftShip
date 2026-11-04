@@ -1,7 +1,7 @@
 ---
 description: Measure an existing app against SwiftShip's best practices (design system, code size, concurrency, coding practices, tests), rank the debt by how often each area changes, and pay it down safely — characterization tests first, one area per task, a SwiftLint baseline that only shrinks. Writes .planning/DEBT.md.
 allowed-tools: Read, Write, Edit, Bash, Glob, Grep, AskUserQuestion
-argument-hint: [area | design | size | concurrency | practices | tests] [--report]
+argument-hint: "[area | design | size | concurrency | practices | tests] [--report]"
 ---
 
 # Debt — pay down your own debt
