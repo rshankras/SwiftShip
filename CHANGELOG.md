@@ -12,6 +12,25 @@ commands, or moved skill-reference paths.
 
 ### Added
 
+- **Simplicity guard** (#74). Agents write ~2× the code a requirement needs,
+  and AI reviewers make it worse by suggesting defensive handling for cases
+  that can't happen (*Agentic Engineering* ch. 3, 5, 20).
+  - `build` Step 4b: after a task's checks pass, size the diff against its
+    `<files>` — flag out-of-scope files, oversized diffs (~300 lines / ~150
+    per file for a small task), and speculative structure (single-conformer
+    protocols, one-caller abstractions, helpers duplicating UTILITIES.md).
+    Flagged → **one** simplify pass by the same agent, kept only if
+    `<verify>` still passes; never loops. Generator tasks exempt.
+  - `review` Agent 1 gains a **Simplicity** lens (could this be less code?)
+    and must not recommend defensive code below High.
+  - `review` gains a **needlessly-defensive filter** on Medium/Low findings:
+    claims whose only fix is handling a case that can't occur (per types,
+    callers, platform guarantees, and no evidence) move to a
+    `🧹 Set Aside` appendix — not counted, not backlogged, never fixed.
+    Critical/High (already adversarially verified) and security / privacy /
+    data-loss findings are never filtered. `build`'s quality gate skips the
+    set-aside list.
+
 - **`learn` routes project lessons to the strongest destination: enforcement
   → project skill → CLAUDE.md** (#76). Previously project lessons only became
   a CLAUDE.md line, which agents can skip. Now:

@@ -161,6 +161,15 @@ Task({
         - Sensitive data in log output (emails, tokens, passwords)
         - Check that Logger categories exist for each service layer
 
+    11. **Simplicity (could this be less code?)**
+        - Abstractions with one caller or one conformer (protocol, generic, wrapper)
+        - Speculative generality: configuration, hooks, or parameters nothing uses
+        - Defensive handling for cases that cannot occur given the types/callers
+        - Dead code, commented-out code, unused helpers
+        - Report the concrete deletion ("remove protocol X, use struct Y directly")
+        Do NOT suggest adding defensive code as a fix for anything below High —
+        only recommend added handling for a failure that can actually occur.
+
     Output findings in this format:
 
     ## Code Quality Review
@@ -468,6 +477,30 @@ act → fall back):
 5. **Fall back** — declined, or no write access → the drafted YAML/suite stays
    in REVIEW.md's Graduated section, copy-paste-ready. Never install silently.
 
+## Filter Needlessly Defensive Findings (Medium/Low only)
+
+AI reviewers reliably raise a dozen "what if" suggestions — guard against a
+nil that can't be nil, handle an error the API never throws, validate input
+the type system already constrains. Fixing them inflates the code and the
+next review. Before compiling, set aside every **Medium/Low** finding whose
+**only** recommendation is to add defensive handling for a case that cannot
+realistically occur. Test each one:
+
+- Can the case actually happen given the types, callers, and platform
+  guarantees? (Non-optional types, `@MainActor` isolation, an API that
+  documents it doesn't throw, values the app itself constructs.)
+- Is there any evidence — a crash report, a test, a real input path — that it
+  happens?
+
+No to both → move it to the **🧹 Set Aside — Needlessly Defensive** appendix
+(one line each: the claim + why it can't occur). Set-aside findings are not
+counted, not backlogged, and never handed to `build` as fixes. When in doubt,
+keep the finding.
+
+**Never filter Critical or High** — they have already survived adversarial
+verification above. Never filter security, privacy, or data-loss findings at
+any severity.
+
 ## Compile Results
 
 Before compiling, check one coverage gap: if this phase touched top-level screens, has a **screenshot or filmstrip-mode** `/apple:visual-qa` covered them? All five agents above read code; none see rendered frames, and emergent-layout defects (composition-dependent alignment, unequal-cell grids) hide from every one of them. If uncovered, add the run to Suggestions.
@@ -535,6 +568,13 @@ structural.]
 
 ---
 
+## 🧹 Set Aside — Needlessly Defensive
+
+[One line per Medium/Low finding filtered out: the claim + why the case can't
+occur. Not counted, not backlogged, not fixed. Omit if none.]
+
+---
+
 ## 🚫 Refuted During Verification
 
 [One line per refuted claim: original severity, the claim, and the verifier's refutation reason. Omit this section if nothing was refuted. Kept for audit — a pattern of refutations from one review area means that area's prompt needs tuning.]
@@ -568,6 +608,7 @@ Summary:
 - 🟢 Low: [count]
 - ⚙️ Graduated to enforcement: [count] lint rules + [count] fitness functions ([installed] installed, [offered] offered)
 - 🚫 Refuted in verification: [count]
+- 🧹 Set aside as needlessly defensive: [count]
 
 [If critical issues exist:]
 ⚠️ Critical issues found - must fix before release.
