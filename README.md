@@ -37,7 +37,7 @@ Building an app is like building a house:
 
 ## Highlights
 
-- **54 commands** covering the whole lifecycle: idea validation, planning, building, testing, App Store metadata, screenshots, TestFlight, submission, and post‑launch.
+- **55 commands** covering the whole lifecycle: idea validation, planning, building, testing, App Store metadata, screenshots, TestFlight, submission, and post‑launch.
 - **Works for brand‑new apps *and* existing apps** — one command maps your existing code, and another turns it into a phased feature‑plus‑bug‑fix release plan.
 - **Run & screenshot your app** — quality commands can actually launch your app (iOS Simulator *or* a real Mac app) and look at it, instead of just asking you "does it work?"
 - **Optional App Store Connect automation** — with the right tool connected, commands can *push* your metadata, release notes, and TestFlight setup straight to App Store Connect — always after showing you a preview and asking first. (The final "Submit for Review" always stays your decision.)
@@ -363,6 +363,7 @@ These rely on optional, *separately‑installed* tools (an App Store Connect con
 | `/apple:walkthrough [flow]` | Drive user flows in the Simulator; audit the nav graph for dead-ends |
 | `/apple:differentiate [app\|idea]` | Originality / 4.3‑spam guardrail — function + metadata distinctness; protects the account |
 | `/apple:modernize [path]` | Sweep deprecations + adopt new‑OS APIs (Liquid Glass, toolbars) each cycle |
+| `/apple:debt [area\|rule-set]` | Measure the app against SwiftShip's rules, rank debt by churn, and pay it down one area at a time (tests first, baseline only shrinks) |
 
 ### Release
 | Command | What it does |
@@ -485,7 +486,7 @@ SwiftShip is the *manager*; the **[claude-code-apple-skills](https://github.com/
 
 ```
 SwiftShip/
-├── commands/              # 54 workflow commands (the /apple:* you type — the plugin name "apple" supplies the prefix)
+├── commands/              # 55 workflow commands (the /apple:* you type — the plugin name "apple" supplies the prefix)
 ├── agents/                # 6 specialist agents
 ├── templates/             # planning-file templates copied into your project
 │   └── _conventions/      # shared rules (tool-handoff, usage-log, model-tiers, agent-vendoring)

@@ -13,7 +13,7 @@ redesign, so later restyles are token edits.
 
 **When:** after `/apple:roadmap`, before planning the first UI phase. For an
 existing app, after `/apple:map` (it reads the design-debt score), as the
-first step of a redesign or of `/apple:debt design` (when available).
+first step of a redesign or of `/apple:debt design`.
 
 ## Arguments
 
@@ -208,5 +208,4 @@ Created: .planning/DESIGN-SYSTEM.md · updated UTILITIES.md, CLAUDE.md
 Next:
 - /apple:plan [first UI phase]: build screens on the system
 - [existing app] migrate the remaining screens area by area: /apple:debt design
-  if installed, else /apple:release with a quality phase per area
 ```

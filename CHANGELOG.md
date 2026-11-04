@@ -12,6 +12,29 @@ commands, or moved skill-reference paths.
 
 ### Added
 
+- **New command `/apple:debt [area | rule-set] [--report]`** (#102). It
+  measures an existing app against the rules SwiftShip already enforces on
+  new work, then pays the debt down safely:
+  - **Measure:** lints with the project config plus the `design/design-system`,
+    `swift/code-size`, `swift/concurrency` and `ios/coding-best-practices`
+    fragments (as extra `--config` files, nothing written), counting only
+    those rules per area. Adds `map`'s design-debt score, missing fonts, test
+    coverage per area, and concurrency warnings when a build log is at hand.
+  - **Prioritize:** violations × (commits in 6 months + 1). The top 3–5 areas
+    are paid down; areas untouched for 6 months are frozen in the baseline.
+  - **Safety net:** `tdd-refactor-guard` per area; characterization tests
+    come first where it says NEEDS TESTS. No net, no refactor.
+  - **Plan:** one `quality`-intent phase ("Pay Down Debt") added to
+    ROADMAP.md after asking, or a one-phase roadmap when none exists.
+    `plan`'s quality row now knows the debt task shape.
+  - **Ratchet:** merges the in-scope fragments into `.swiftlint.yml` (diff
+    first), refreshes the baseline and refuses to absorb growth in rules that
+    were already baselined; coverage may only rise.
+  - **Track:** `.planning/DEBT.md` (new template) gets a trend row per run.
+  Tested on Antics, Specimen and ChantFlow. Registered in help, README
+  (54 → 55), CLAUDE.md and MODEL-TIERS (Analysis). `/apple:design-system`
+  now points at `/apple:debt design` without the "if installed" fallback.
+
 - **New command `/apple:design-system`** (#95). It sets up the design system
   before any screens, so later restyles are token edits:
   - **Design input:** the Figma MCP's variables when connected, else an
