@@ -12,6 +12,27 @@ commands, or moved skill-reference paths.
 
 ### Added
 
+- **New command `/apple:design-system`** (#95). It sets up the design system
+  before any screens, so later restyles are token edits:
+  - **Design input:** the Figma MCP's variables when connected, else an
+    exported tokens JSON, a `DESIGN_SYSTEM.md` spec, or a one-round
+    interview. The source version is recorded.
+  - **Tokens:** role-named colour assets plus spacing, radius, shadow and
+    icon-size scales.
+  - **Text styles:** `AppTextStyle` with `.appText` and `.original`;
+    custom fonts bundled, registered and launch-checked.
+  - **Components:** one `swiftui-builder` spawn builds the shared
+    components and `ContentStateView`, with previews and snapshot tests
+    when available.
+  - **Lint:** merges the `design/design-system` SwiftLint rules, with a
+    baseline for existing apps.
+  - **Existing apps:** one reference screen is migrated end to end, behind
+    characterization tests. The existing tokens are extended and renamed,
+    never duplicated.
+  - **Output:** writes `.planning/DESIGN-SYSTEM.md` (new template) and
+    registers tokens and components in UTILITIES.md.
+  Commands 53 → 54.
+
 - **`verify`: design-system definition of done for UI phases** (#98). A new
   Step 3.7b checks every view file the phase touched against 8 items:
   1. design lint clean, and a new screen never enters the baseline

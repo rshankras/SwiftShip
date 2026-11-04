@@ -74,6 +74,14 @@ than by phase number.
 - `/apple:autonomous` drives the full `plan → build → verify` cycle across multiple phases unattended. It pauses for manual tasks, blockers, Critical review findings, or failed verification, and stops before the release phases (6–7) unless `--to N` says otherwise. Both `/apple:plan` and `/apple:build` read `.planning/PREFERENCES.md` (from `/apple:discuss`) and apply those choices
 - `/apple:spike` runs a time-boxed experiment to validate an Apple API before planning around it — checks OS availability, device/simulator gating, and required capabilities, then records a finding in `.planning/spikes/[topic].md`. De-risks Apple's annual beta-API churn
 - `/apple:prototype` explores *divergent* UI directions for a screen as named SwiftUI `#Preview`s — go wide, remix the strongest elements, fill with lived-in content + edge cases, then tune key animations — **before** `/apple:plan` commits to one layout. Novice-friendly (interviews you for features + mood); outputs `.planning/PROTOTYPE.md` and real Swift the winning variation carries into `/apple:plan` and `/apple:build`. Implements Apple's WWDC prototyping-with-coding-agents method. Delegates to `design/ui-prototyping`, reusing `generators/preview-data-generator`, the `swiftui-builder` agent, and `design/animation-patterns`
+- `/apple:design-system` sets up the design system **before the first UI phase** (or as phase 1 of a redesign). It produces:
+  - role-named tokens mirroring the designer's variables (Figma MCP when connected → exported tokens JSON → `DESIGN_SYSTEM.md` spec → short interview)
+  - text styles carrying case and tracking, with bundled custom fonts and a debug registration check
+  - shared components with `ContentStateView`, built by one `swiftui-builder` spawn
+  - the `design/design-system` SwiftLint rules, with a baseline for existing apps
+  - one reference screen migrated end to end, on existing apps
+
+  Writes `.planning/DESIGN-SYSTEM.md` and registers everything in UTILITIES.md. Delegates to `design/design-system` + `design/typography`
 - `/apple:icon` generates or re-rolls the app icon on demand at any phase — a fast **placeholder** + light/dark/tinted variants, plus flat layered source to finish in **Icon Composer** (the Liquid Glass / iOS 26+ standard; a script can't author the layered `.icon`, so the command hands off to the GUI tool) — via `generators/app-icon-generator`. Phase 6 (Pre-Release) + `/apple:submit` gate the final icon
 - `/apple:test` generates or expands tests on demand (Swift Testing or XCTest, plus snapshot/integration/contract) over the existing `testing/*` skills — a thin wrapper that works against a phase, a path, or recent changes without running the full Phase 5 flow
 - `/apple:bugfix` is the fast lane for known bugs — locate, fix, regression test, commit. Escalates to `/apple:debug` for mystery bugs
