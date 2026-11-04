@@ -141,6 +141,38 @@ confirm they exist where they should:
   is a flagged gap → suggest `testing/snapshot-test-setup` — compile + tests
   cannot see clipped, invisible, or crushed UI; only a pixel diff can.
 
+### 3.7b Design-System Definition of Done (UI phases)
+
+Run this when the phase created or changed SwiftUI view files. A phase can
+compile, pass its tests and still add restyling debt, and that debt builds
+up phase by phase unless each screen is checked when it ships. Rules come
+from `~/.claude/swiftship-skills/design/design-system/SKILL.md`.
+
+**Screens in scope:** view files the phase touched (`git diff --name-only`
+over the phase's commits, filtered to files declaring a `View`). Check each
+one:
+
+| # | Check | How |
+|---|-------|-----|
+| 1 | Design lint clean, no exception for this file | Already run in 3.5. Additionally, the file must not appear in `.swiftlint-baseline.json` (`grep -c "<file>" .swiftlint-baseline.json` → 0). New screens never enter the baseline |
+| 2 | Shared components only | No local re-implementation of a component listed in `.planning/UTILITIES.md` (a private `struct …Button`/`…Card` duplicating a shared one) |
+| 3 | States via the shared state component | Screens that load data (`.task {`, `async` model calls, lists) render through `ContentStateView`, with no ad-hoc `ProgressView()` or "No results" `Text` |
+| 4 | User-generated text keeps its case | No case transform applied to model/user strings (`.appText(….original)` for user text) |
+| 5 | View file under ~300 lines | `wc -l`. Over 300 → ❌ with the sections to split |
+| 6 | Previews for each state | Stateful screen: `#Preview`s for default/loading/empty/error + large Dynamic Type (iOS) / narrow + wide window (macOS) / smallest + largest watch (watchOS). Trivial view: one preview is enough |
+| 7 | Identifiers, and tests use them | Interactive elements carry `accessibilityIdentifier`; this phase's UI tests locate by identifier (`app.buttons["editor.save"]`), not visible text |
+| 8 | Matches the design | Optional: with a design frame (exported PNG, or `.planning/design/phase-N/` once design pinning exists), compare a screenshot via `/apple:visual-qa`; otherwise ask in UAT |
+
+**No design system yet** (no token file, no `ds_*` lint rules)? Checks 1–4
+don't apply: record them as "—". Checks 5–8 still run, since they don't
+depend on tokens.
+
+**Outcome:** any ❌ becomes an Issue (Medium, or High for check 1 on a new
+screen) with the file path, plus a fix task. It makes the phase **PARTIAL**,
+not FAIL; a lint violation already fails the phase through 3.5. Under
+`/apple:autonomous` a PARTIAL with DoD gaps stops the run, which is the
+point: fix per phase, not at redesign time.
+
 ## Step 3.8: Optional handoff — run the app and screenshot
 
 Before relying on the user's memory in the manual UAT below, try to **show the
@@ -262,6 +294,13 @@ Create `.planning/VERIFICATION.md`:
 | Code quality | ✅/❌ | [notes] |
 | Lint | ✅/❌/— | [— if no .swiftlint.yml] |
 | Coverage | ✅/❌/— | [— if no .coverage-baseline; note ratchet-up suggestions] |
+| Design DoD | ✅/❌/— | [n of m screens pass; — if the phase touched no views] |
+
+## Design-System Definition of Done (UI phases)
+
+| Screen (file) | Lint | Shared | States | Case | <300 | Previews | IDs | Design |
+|---------------|------|--------|--------|------|------|----------|-----|--------|
+| [ProfileView.swift] | ✅ | ✅ | ❌ ad-hoc ProgressView | ✅ | ✅ 212 | ⚠️ no error preview | ✅ | — |
 
 ## Manual Checks (UAT)
 

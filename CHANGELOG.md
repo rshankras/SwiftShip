@@ -12,6 +12,21 @@ commands, or moved skill-reference paths.
 
 ### Added
 
+- **`verify`: design-system definition of done for UI phases** (#98). A new
+  Step 3.7b checks every view file the phase touched against 8 items:
+  1. design lint clean, and a new screen never enters the baseline
+  2. shared components only
+  3. states via `ContentStateView`
+  4. user text keeps its case
+  5. under ~300 lines
+  6. previews per state (Dynamic Type on iOS, window sizes on macOS, watch
+     sizes on watchOS)
+  7. `accessibilityIdentifier`s, with UI tests using them
+  8. an optional design comparison through `visual-qa`
+  Without a design system, items 1–4 are "—" and 5–8 still run. Failures
+  are per-screen issues with paths, and make the phase PARTIAL. The report
+  and `templates/VERIFICATION.md` gain a per-screen table.
+
 - **`map` measures design debt** (#94). A new Step 4.4 runs one shell snippet
   that reports, per view folder:
   - raw font sizes, raw colours, numeric spacing/radius/frame values, and
