@@ -12,6 +12,24 @@ commands, or moved skill-reference paths.
 
 ### Added
 
+- **`learn` routes project lessons to the strongest destination: enforcement
+  → project skill → CLAUDE.md** (#76). Previously project lessons only became
+  a CLAUDE.md line, which agents can skip. Now:
+  - **Enforcement first** — a rule a tool can check becomes a SwiftLint rule
+    (mechanical) or a fitness-function test (structural), using the same
+    classes as `review`'s enforcement factory, scoped so it can't cry wolf
+    and **proven red on the violation and green on current code** before it's
+    offered. Replaces a proposed prompt-only GUARDRAILS.md.
+  - **Project skill** — a multi-step procedure ("how a screen is wired into
+    our router", "how we add a SwiftData migration") becomes
+    `.claude/skills/<name>/SKILL.md` with a "Use when…" description, steps,
+    a verify section, and an optional template/script. Existing skills are
+    never overwritten without a diff + explicit yes; committed, they travel
+    with the repo to cloud/CI/remote sessions.
+  - **CLAUDE.md line** only for short judgment conventions (or `AGENTS.md`
+    when the project has one).
+  Description updated in `learn`, `help`, README, and CLAUDE.md.
+
 - **`UTILITIES.md` — existing-helpers inventory so agents reuse instead of
   rebuild** (#79). Agents reimplement helpers that already exist (a second
   formatter, hand-formatted `Decimal` prices next to a `PriceFormatter`, a

@@ -180,7 +180,7 @@ Display all available commands, their purpose, and recommended workflow.
 ║                                                                               ║
 ║  /apple:resume              Restore context from previous session             ║
 ║                                                                               ║
-║  /apple:learn [lesson]      Capture mistake or pattern into skills            ║
+║  /apple:learn [lesson]      Capture a lesson as a check, skill, or rule       ║
 ║                                                                               ║
 ║  /apple:usage [--since 30d] Report the local usage ledger — mix, tiers        ║
 ║                             Reads: ~/.claude/swiftship-usage.jsonl            ║
