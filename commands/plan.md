@@ -39,6 +39,15 @@ Recommended: /apple:verify [N] first. Continuing with the plan.
 
 Then continue. No table (older projects) → skip silently.
 
+**Design system (optional).** The project *has a design system* when
+`.planning/DESIGN-SYSTEM.md` exists (from `/apple:design-system`) **or**
+`.swiftlint.yml` contains the `ds_*` design rules. If so, read it:
+```
+Read: .planning/DESIGN-SYSTEM.md   # token map, text styles, components, lint status
+```
+It changes how UI tasks are written (see Verification rules). No design
+system → nothing below about design applies.
+
 Also read implementation preferences if they exist (created by `/apple:discuss`):
 ```
 Read: .planning/PREFERENCES.md   # Optional — apply if present
@@ -238,6 +247,20 @@ self-report as evidence. Write checks accordingly:
   tasks whose `<files>` touch views carry a `type="snapshot"` check naming
   the suite — new/changed screens get their snapshot in the SAME task, so
   the visual gate is never blind where the change happened.
+- **Projects with a design system:** every task whose `<files>` create or
+  modify views also carries:
+  - `type="lint"` (the design rules run with the baseline), even when the
+    project's other code tasks don't
+  - `type="design"`: the per-screen definition-of-done items that can be
+    checked on a single task. That means previews for each state (Dynamic
+    Type on iOS, window sizes on macOS, watch sizes on watchOS),
+    `accessibilityIdentifier`s on interactive elements, view file under ~300
+    lines, and new files never added to `.swiftlint-baseline.json`
+
+  It also adds `design/design-system` to the task's `<apple-patterns>`, and
+  names in `<action>` the components from DESIGN-SYSTEM.md the screen should
+  use (e.g. "list states via ContentStateView; actions via AppButtonStyle").
+  So violations are caught per task, not at phase end.
 - `manual` tasks put their acceptance into `<done>` criteria — write them
   checkable (concrete names, bundle IDs, group names — not "is set up
   correctly").

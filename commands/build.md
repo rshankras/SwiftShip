@@ -57,6 +57,16 @@ Read: .planning/CRITICAL.md      # Optional — drives the Step 4c pause
 ```
 If absent, Step 4c is skipped and nothing else changes.
 
+Also read the design system if the project has one (written by
+`/apple:design-system`):
+```
+Read: .planning/DESIGN-SYSTEM.md # Optional — token map, text styles, components, lint status
+```
+The project **has a design system** when this file exists **or**
+`.swiftlint.yml` contains the `ds_*` rules. Then UI spawns get a
+`<design-system>` block, and every view-touching task gets the design lint
+gate in Step 4. Without one, nothing changes.
+
 ## Execution Process
 
 ### 1. Find Next Pending Task
@@ -110,6 +120,7 @@ name errors "Agent type not found", retry as `apple:<name>`
 | User-facing copy: labels, alerts, onboarding text, feature names | swiftui-builder | `design/ux-writing` |
 | Iconography, custom symbols | swiftui-builder | `design/sf-symbols` |
 | Fonts, type hierarchy, Dynamic Type | swiftui-builder | `design/typography` |
+| Design tokens, text styles, shared components, restyling screens, design-system setup or migration | swiftui-builder | `design/design-system`, `design/typography` |
 | State management, Observation, @State/@Bindable choices | swiftui-builder | `swiftui/data-flow` |
 | Custom layouts, containers, lazy stacks, scroll performance | swiftui-builder | `swiftui/layout` |
 | AlarmKit, Charts, WebKit integration | swiftui-builder | `swiftui/alarmkit`, `swiftui/charts-3d`, `swiftui/webkit` |
@@ -240,6 +251,11 @@ Task({
       [Contents of .planning/UTILITIES.md if it exists. Omit if none.]
     </existing-helpers>
 
+    <design-system>
+      [UI tasks only, when the project has one: the token map, text styles
+       and component list from .planning/DESIGN-SYSTEM.md. Omit otherwise.]
+    </design-system>
+
     Requirements:
     1. Follow the <apple-patterns> specified
     2. Create/modify files listed in <files>
@@ -247,6 +263,10 @@ Task({
     4. Meet all <done> criteria
     5. Reuse <existing-helpers> — never reimplement a listed helper. If none
        fits, say so in your report before adding a new shared one.
+    6. If <design-system> is present: tokens and .appText only, the listed
+       components (states through ContentStateView), accessibilityIdentifier
+       on interactive elements, view files under ~300 lines. A missing token
+       goes into the token file and is reported, never inlined.
 
     After completing, report:
     - Files created/modified
@@ -330,11 +350,29 @@ For each `<check>` in `<verify>`:
 | `test` | Run `swift test` / `xcodebuild test`; require 0 failures |
 | `lint` | Run `swiftlint lint --strict` (with `--baseline .swiftlint-baseline.json` if one exists); require zero non-baselined violations |
 | `coverage` | Run `Scripts/coverage-gate.sh`; require exit 0 (app-target line coverage ≥ committed `.coverage-baseline` − epsilon) |
+| `design` | For each view file the task touched: under ~300 lines (`wc -l`); a stateful screen has `#Preview`s for its states plus the platform size variant; interactive elements carry `accessibilityIdentifier`; a **new** file does not appear in `.swiftlint-baseline.json`. Any miss = FAIL with the file and item |
 | `snapshot` | Run the snapshot suite scoped to the task's touched screens (`-only-testing:<Tests>/<SnapshotSuite>`); a pixel diff is a FAIL, not a discussion — re-record baselines only with the intent stated in the commit |
 
 **Baseline check:** run the `build` check after **every** `auto` and
 `generator` task, even when its `<verify>` block omits it (or is missing
 entirely — older plans). A task that doesn't compile is never complete.
+
+**Design lint gate** (projects with a design system, every task whose
+changed files include views, even when `<verify>` omits it, as with the
+build check): lint the **whole tree** with the baseline, then keep only
+the touched files' lines,
+```bash
+swiftlint lint --strict --quiet [--baseline .swiftlint-baseline.json] \
+  | grep -E '(<touched-file-1>|<touched-file-2>):'
+```
+and require **no output** (zero violations in new code). Don't pass the
+files as path arguments: SwiftLint then fails to match them against the
+baseline (stored paths differ), and baselined legacy violations show up as
+new. Then confirm the baseline did
+not grow: `git diff --stat -- .swiftlint-baseline.json` must show no change,
+or only removals. Re-writing the baseline to absorb new violations is a
+FAIL, never a fix. On watchOS and macOS targets the same rules apply; only
+the `design` check's preview variants differ.
 
 **Rendered-frame check** (`simulator` checks, and any task whose `<files>`
 touch views or layout): "it compiles" says nothing about what's on screen —
