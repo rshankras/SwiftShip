@@ -12,6 +12,15 @@ commands, or moved skill-reference paths.
 
 ### Added
 
+- **Test speed tracked every phase** (#114). `verify` runs the suite
+  through the new tested script `test-times.sh`, which records the time and
+  test count in `.planning/test-times.tsv` and warns in plain words (never
+  fails) when the suite gets over 25% and at least 5 s slower, or a single
+  test takes over 10 s, listing the slowest five and the likely cause.
+  `debt tests` lists tests over 10 s as debt items. The skills' new "Keep
+  Tests Fast" rules (claude-code-apple-skills#70) teach agents to avoid the
+  usual causes. Speed shows in VERIFICATION.md and the review guide.
+
 - **"Must not" rules per folder** (#116). `map` surveys which frameworks
   each folder uses (new tested script `folder-imports.sh`), suggests 3–6
   rules such as "Models must not import SwiftUI" or "only Payments/ uses

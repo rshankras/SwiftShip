@@ -26,6 +26,7 @@ Affects: [screens / features], [n] files across [n] commits.
 
 - **Promised features:** [n of m] proven by a check ([n] gaps: [names])
 - **Tests can fail:** [n of m] tests failed before the code and pass now; planted bugs [n of m] caught
+- **Test speed:** [n s for n tests (last time n s) | ⚠ n% slower: slowest is [test] ([n] s)]
 - **Code rules (lint):** [no new problems | n new]; **test coverage:** [x]% ([kept | dropped] vs the agreed minimum)
 - **Design:** [matches the pinned design | n screens changed since the pin (change requests) | no design pinned]
 

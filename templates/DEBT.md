@@ -29,6 +29,7 @@ Priority = violations × (commits in 6 months + 1). Top 15 rows.
 - **Design debt score:** [x]% (from [CODEBASE.md [date] | measured]) [· ⚠️ declared-but-missing fonts: …]
 - **Concurrency warnings:** [n per area | not measured: no build log]
 - **Tests:** [areas with no tests]; coverage ratchet [baseline [x]% | not set up]
+- **Slow tests:** [suite [n] s for [n] tests, [trend vs first measurement] · over 10 s: [test ([n] s): likely cause] | not measured yet]
 
 ## Backlog
 

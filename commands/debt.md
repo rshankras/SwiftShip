@@ -96,6 +96,13 @@ Add the numbers lint can't give:
 - **Tests (`tests` rule set):** per area, does a test file exercise its types
   (`Grep` the type names under the test targets)? Read `.coverage-baseline`
   if present. Don't run the full suite just to measure.
+  **Slow tests:** read `.planning/test-slowest.tsv` (written by
+  `/apple:verify` each phase) and `.planning/test-times.tsv` for the trend.
+  Every test over 10 s is a debt item in its own right, listed with its
+  time and likely cause: an app launch per UI test, copied tests that could
+  be one test with a list of inputs, real network calls or `sleep` instead
+  of fakes. Its area is the test's folder. No file yet → "test speed not
+  measured yet (runs with `/apple:verify`)".
 
 ## Step 2: Prioritize by cost to you
 
@@ -244,6 +251,7 @@ updated. Message: `chore(debt): measure + plan [areas]`.
 Rule sets:  design [n] · size [n] · concurrency [n] · practices [n]
 Design:     [x]% design debt [· ⚠️ declared-but-missing fonts: …]
 Tests:      [n] of [m] pay-down areas need characterization tests first
+Slow tests: [n] over 10 s (slowest: [test], [n] s) — or "not measured yet"
 Trend:      [first run | total [before] → [after] since [date]]
 
 Pay down (by priority):

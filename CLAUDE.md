@@ -218,6 +218,7 @@ Some commands can act directly on an external service (push App Store metadata v
 - `design-pin.sh` (`plan`)
 - `design-compare.sh` (`verify`)
 - `folder-imports.sh` (`map`): which frameworks each folder uses, for suggesting folder rules (#116)
+- `test-times.sh` (`verify`): times the suite, appends `.planning/test-times.tsv`, keeps the slowest tests for `debt tests`, warns (never fails) on a >25% / ≥5 s slowdown or a test over 10 s (#114)
 - `expect-red.sh` (`build`, `verify`, `map`): runs tests in a throwaway git worktree with new tests copied in, or a planted bug swapped in, and reports whether they went red (#111)
 
 Logic that must give the same answer every run lives here, not pasted into command text (#112). Each script is tested against fixture projects in `tests/fixtures/` by `scripts/test-scripts.sh`, which `validate.sh` runs. A fake `swiftlint` stands in, so CI needs no Xcode. When adding a script, add a fixture test and prove it fails on a planted bug.

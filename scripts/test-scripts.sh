@@ -143,6 +143,37 @@ out=$(cd "$R" && bash "$SCRIPTS/expect-red.sh" -- sh -c 'echo "/x/FooTests.swift
 out=$(cd "$R" && bash "$SCRIPTS/expect-red.sh" -- sh -c 'echo "Executed 0 tests, with 0 failures"; exit 0'); rc=$?
 [ $rc = 2 ] && ok "expect-red: no tests ran is a setup problem" || bad "expect-red: 0 tests wanted exit 2, got $rc: $out"
 
+# --- test-times.sh (#114) --------------------------------------------------------
+T="$WORK/times"; mkdir -p "$T"
+cat > "$WORK/fake-tests.sh" <<'FAKE'
+echo "Test Case '-[AppTests.SyncTests testFullSync]' passed (12.500 seconds)."
+echo "Test Case '-[AppTests.NoteTests testTitle]' passed (0.004 seconds)."
+echo "◇ Test addsItem() started."
+echo "✔ Test addsItem() passed after 0.020 seconds."
+echo "✘ Test \"Saves offline\" failed after 3.100 seconds with 1 issue."
+echo "✔ Suite NotesTest passed after 3.200 seconds."
+echo "✔ Test run with 3 tests passed after 3.2 seconds."
+exit ${FAKE_EXIT:-0}
+FAKE
+out=$(cd "$T" && TEST_TIMES_SECONDS=40 bash "$SCRIPTS/test-times.sh" 1 -- bash "$WORK/fake-tests.sh"); rc=$?
+expect "test-times: XCTest and Swift Testing results counted (suites and totals not)" "$out" "Tests took 40 s for 4 tests (first measurement)."
+expect "test-times: slowest test first, XCTest name readable" "$out" "  12.5 s  AppTests.SyncTests/testFullSync"
+expect "test-times: Swift Testing display name kept" "$out" '3.1 s  "Saves offline"'
+expect "test-times: a test over 10 s is flagged" "$out" "⚠ 1 test(s) take over 10 s each."
+[ $rc = 0 ] && ok "test-times: exit code is the test command's (pass)" || bad "test-times: wanted 0, got $rc"
+expect "test-times: row recorded" "$(cat "$T/.planning/test-times.tsv")" "	1	40	4"
+expect "test-times: slowest list saved for /apple:debt" "$(sed -n 2p "$T/.planning/test-slowest.tsv")" "12.500	AppTests.SyncTests/testFullSync"
+out=$(cd "$T" && FAKE_EXIT=1 TEST_TIMES_SECONDS=55 bash "$SCRIPTS/test-times.sh" 2 -- bash "$WORK/fake-tests.sh"); rc=$?
+expect "test-times: >25% and >=5 s slower is flagged" "$out" "⚠ The tests got 37% slower than last time (40 s → 55 s)."
+[ $rc = 1 ] && ok "test-times: exit code is the test command's (fail)" || bad "test-times: wanted 1, got $rc"
+out=$(cd "$T" && TEST_TIMES_SECONDS=58 bash "$SCRIPTS/test-times.sh" 3 -- bash "$WORK/fake-tests.sh")
+printf '%s' "$out" | grep -q "slower than last time" && bad "test-times: small change was flagged" || ok "test-times: small change not flagged"
+printf 'date\tphase\tseconds\ttests\n2026-01-01\t1\t2\t9\n' > "$T/.planning/test-times.tsv"
+out=$(cd "$T" && TEST_TIMES_SECONDS=4 bash "$SCRIPTS/test-times.sh" 2 -- bash "$WORK/fake-tests.sh")
+printf '%s' "$out" | grep -q "slower than last time" && bad "test-times: 2 s → 4 s flagged (under the 5 s floor)" || ok "test-times: 2 s → 4 s not flagged (under 5 s)"
+out=$(cd "$T" && TEST_TIMES_SECONDS=1 bash "$SCRIPTS/test-times.sh" 4 -- echo "no results here")
+expect "test-times: unknown output still records time" "$out" "(No per-test times found in the output.)"
+
 # --- check-frontmatter.sh (#109) ------------------------------------------------
 if command -v ruby >/dev/null; then
   bash "$REPO_DIR/scripts/check-frontmatter.sh" "$FIX/frontmatter/good.md" >/dev/null && ok "frontmatter: quoted hint passes" || bad "frontmatter: good.md should pass"
