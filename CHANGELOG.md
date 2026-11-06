@@ -12,6 +12,24 @@ commands, or moved skill-reference paths.
 
 ### Added
 
+- **Shared command scripts, tested** (#112). The shell programs that were
+  pasted into command text now live in `templates/_scripts/`, and the
+  commands call them in one line:
+  - `design-debt.sh` (`map`)
+  - `debt-measure.sh` and `baseline-refresh.sh` (`debt`)
+  - `design-pin.sh` (`plan`)
+  - `design-compare.sh` (`verify`)
+
+  `scripts/test-scripts.sh` runs them against fixture projects (folder and
+  file names with spaces, test folders, empty projects, baseline growth),
+  using a fake `swiftlint`, and `validate.sh` runs it in CI. Each test was
+  checked against a planted bug. `baseline-refresh.sh` now restores the old
+  baseline itself when an existing rule grows (exit 3).
+- **`validate.sh` parses frontmatter as real YAML** (#109), via Ruby's
+  parser (`scripts/check-frontmatter.sh`). A block that doesn't parse, or an
+  `argument-hint` that reads as a list rather than text, now fails locally,
+  not only in CI's `plugin-validate`. Fixtures include #108's broken hint.
+
 - **Plain-English output** (#115). New convention
   `templates/_conventions/PLAIN-OUTPUT.md` for anything a person reads:
   - one plain first sentence (what happened, and whether you need to act)
@@ -313,6 +331,14 @@ commands, or moved skill-reference paths.
   none found; the skill name is unchanged.
 
 ### Fixed
+
+- **`map`'s design-debt measure skipped files in folders with spaces.** It
+  split paths on spaces, and missed test folders like `App Tests/`.
+  ChantFlow's score was 53%; it is 28% with its `ChantFlow Watch App/`
+  views counted.
+- **24 commands' `argument-hint` parsed as a YAML list, not text**
+  (`[phase-number]` unquoted). They're now quoted. `privacy.md` had an empty
+  hint, now removed.
 
 - **`build` and `test` no longer commit with `git add -A`** (#77). A blanket
   add swept stray scratch files, unignored build artefacts, local secrets, and

@@ -1,6 +1,6 @@
 ---
 description: Brainstorm app ideas tailored to your skills and interests
-argument-hint: [optional: domain or technology focus]
+argument-hint: "[optional: domain or technology focus]"
 allowed-tools: Read, Write, Bash, AskUserQuestion, WebSearch, WebFetch
 ---
 

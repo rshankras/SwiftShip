@@ -1,7 +1,7 @@
 ---
 description: Report what the local usage ledger shows — command mix, outcomes, model-tier adherence, and escalation economics
 allowed-tools: Read, Bash
-argument-hint: [--since 30d]
+argument-hint: "[--since 30d]"
 ---
 
 # SwiftShip Usage Report

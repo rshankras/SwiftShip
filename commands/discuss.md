@@ -1,6 +1,6 @@
 ---
 description: Gather implementation preferences before planning a phase
-argument-hint: [phase-number]
+argument-hint: "[phase-number]"
 allowed-tools: Read, Write, AskUserQuestion
 ---
 

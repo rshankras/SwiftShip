@@ -153,42 +153,13 @@ view file; token/style folders and tests are excluded) so any redesign quote
 starts from a number:
 
 ```bash
-# Area = the folder that holds the view file (token/style folders and tests excluded).
-files=$(git ls-files '*.swift' | grep -vE '(^|/)(Tests?|UITests|[A-Za-z]*Tests|Pods|\.build|DerivedData)/' \
-        | grep -vE '/(DesignSystem|Tokens|Theme|Styles)/' | xargs grep -lE ':\s*View\b|some View' 2>/dev/null)
-[ -z "$files" ] && { echo "No SwiftUI view files found"; exit 0; }
-c() { grep -oE "$1" "$2" 2>/dev/null | wc -l | tr -d ' '; }
-for f in $files; do
-  printf '%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n' "$(dirname "$f")" \
-    "$(c '\.font\(\s*\.system\(\s*size:|Font\.system\(\s*size:' "$f")" \
-    "$(c '\b(Color|UIColor|NSColor)\(\s*(red|white|hue|hex):|Color\(\s*#' "$f")" \
-    "$(c '(\.padding\(\s*(\.[a-zA-Z]+\s*,\s*)?|\.cornerRadius\(\s*|cornerRadius:\s*|\.frame\(\s*width:\s*)[1-9][0-9]*(\.[0-9]+)?' "$f")" \
-    "$(c '\.(textCase|tracking|kerning)\(|\.uppercased\(\)' "$f")" \
-    "$(c '\.font\(|\.foregroundStyle\(|\.foregroundColor\(|\.background\(|\.padding\(|\.cornerRadius\(|cornerRadius:|\.frame\(\s*width:|\.tracking\(|\.textCase\(' "$f")" \
-    "$(wc -l < "$f" | tr -d ' ')" \
-    "$(c 'accessibilityIdentifier\(' "$f")" \
-    "$(c '\b(Button|Toggle|TextField|SecureField|Picker|Stepper|Slider|NavigationLink|Menu)\s*[\(\{]' "$f")"
-done | awk -F'\t' '
-{ a=$1; n[a]++; fs[a]+=$2; co[a]+=$3; sp[a]+=$4; cs[a]+=$5; tot[a]+=$6
-  if ($7>500) big[a]++; else if ($7>300) mid[a]++; id[a]+=$8; ia[a]+=$9 }
-END {
-  printf "| Area | Files | Raw font | Raw colour | Raw spacing | Call-site case | Debt %% | >300 / >500 lines | IDs / interactive |\n"
-  printf "|------|-------|----------|------------|-------------|----------------|--------|-------------------|-------------------|\n"
-  for (a in n) { raw=fs[a]+co[a]+sp[a]+cs[a]; d=(tot[a]?100*raw/tot[a]:0)
-    printf "| %s | %d | %d | %d | %d | %d | %.0f%% | %d / %d | %d / %d |\n", a,n[a],fs[a],co[a],sp[a],cs[a],d,mid[a]+0,big[a]+0,id[a],ia[a]
-    R+=raw; T+=tot[a]; F+=n[a] }
-  printf "\n**Design debt score: %.0f%%** (%d raw style values of %d style calls across %d view files)\n", (T?100*R/T:0), R, T, F
-}' > "${TMPDIR:-/tmp}/dd.$$"
-head -2 "${TMPDIR:-/tmp}/dd.$$"; sed -n '3,$p' "${TMPDIR:-/tmp}/dd.$$" | grep '^| ' | sort -t'|' -k8 -rn
-grep '^\*\*' "${TMPDIR:-/tmp}/dd.$$"; rm -f "${TMPDIR:-/tmp}/dd.$$"
-# Custom fonts: declared in Info.plist vs present in the repo
-for plist in $(git ls-files '*Info.plist'); do
-  for font in $(/usr/libexec/PlistBuddy -c 'Print :UIAppFonts' "$plist" 2>/dev/null | sed '1d;$d'); do
-    font=$(echo "$font" | tr -d ' '); [ -z "$font" ] && continue
-    git ls-files | grep -q "/$(basename "$font")$" && echo "font ok: $font" || echo "⚠️ font declared but not in repo: $font ($plist)"
-  done
-done | sort -u
+bash ~/.claude/swiftship-templates/_scripts/design-debt.sh
 ```
+It prints a table per area (raw font, colour, spacing and call-site case
+counts; debt %; files over 300/500 lines; identifiers vs interactive
+controls), the overall **Design debt score**, and any font declared in
+Info.plist but missing from the repo. The script is tested against fixture
+projects in SwiftShip's CI. If the script is missing, SwiftShip is out of date: tell the user to update it (`claude plugin update apple@indie-apple-stack`, or `git pull` for a manual install). Don't retype the program from memory.
 
 Read the result as an **estimate**, not an audit: system styles
 (`.headline`, `.secondary`) count as tokens, and `.uppercased()` in

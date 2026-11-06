@@ -1,6 +1,6 @@
 ---
 description: Game-feel audit + fix pass — celebrations, haptics, sound, motion polish
-argument-hint: [audit | fix 1|2|3]
+argument-hint: "[audit | fix 1|2|3]"
 allowed-tools: Read, Write, Edit, Glob, Grep, Bash, Task, AskUserQuestion
 ---
 

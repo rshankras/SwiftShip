@@ -1,7 +1,7 @@
 ---
 description: Set up the design system before any screens — role-named tokens, text styles that carry case, bundled fonts, shared components with ContentStateView, and SwiftLint rules with a shrinking baseline. Writes .planning/DESIGN-SYSTEM.md.
 allowed-tools: Read, Write, Edit, Bash, Glob, Grep, Task, AskUserQuestion, mcp__figma__get_variable_defs
-argument-hint: [figma-url | tokens.json | DESIGN_SYSTEM.md]
+argument-hint: "[figma-url | tokens.json | DESIGN_SYSTEM.md]"
 ---
 
 # Design System Setup

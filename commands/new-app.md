@@ -1,6 +1,6 @@
 ---
 description: Define a new iOS/macOS app through structured questioning
-argument-hint: [app-name]
+argument-hint: "[app-name]"
 allowed-tools: Read, Write, Bash, AskUserQuestion
 ---
 

@@ -1,6 +1,6 @@
 ---
 description: Plan a phased release for an existing app — scope features + bug fixes into a structured plan
-argument-hint: [what this release includes]
+argument-hint: "[what this release includes]"
 allowed-tools: Read, Write, Bash, Glob, Grep, AskUserQuestion, Skill, mcp__asc-metadata__get_sales_report, mcp__asc-metadata__get_analytics_report
 ---
 

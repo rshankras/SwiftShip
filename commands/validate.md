@@ -1,6 +1,6 @@
 ---
 description: Validate an app idea with market research and competitive analysis before building
-argument-hint: [app-idea]
+argument-hint: "[app-idea]"
 allowed-tools: Read, Write, Bash, WebSearch, WebFetch, AskUserQuestion
 ---
 

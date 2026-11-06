@@ -1,6 +1,6 @@
 ---
 description: Profile and diagnose performance issues
-argument-hint: [problem-description]
+argument-hint: "[problem-description]"
 allowed-tools: Read, Write, Bash, Glob, Grep
 ---
 

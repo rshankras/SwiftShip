@@ -1,7 +1,7 @@
 ---
 description: Generate an app icon on demand — a fast placeholder + light/dark/tinted variants, and flat layered source ready for Icon Composer (the Liquid Glass / iOS 26+ standard) — at any phase
 allowed-tools: Read, Write, Edit, Bash, Glob, Grep, AskUserQuestion
-argument-hint: [style]
+argument-hint: "[style]"
 ---
 
 # Generate App Icon

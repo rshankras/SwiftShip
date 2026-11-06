@@ -1,6 +1,6 @@
 ---
 description: Start planning the next app version
-argument-hint: [version-name]
+argument-hint: "[version-name]"
 allowed-tools: Read, Write, AskUserQuestion, Skill, mcp__asc-metadata__get_sales_report, mcp__asc-metadata__get_analytics_report
 ---
 

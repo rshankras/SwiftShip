@@ -1,6 +1,6 @@
 ---
 description: Capture an idea for later without disrupting current work
-argument-hint: [idea-description]
+argument-hint: "[idea-description]"
 allowed-tools: Read, Write, Bash
 ---
 

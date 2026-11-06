@@ -1,6 +1,6 @@
 ---
 description: Create detailed task plan for current or specified phase
-argument-hint: [phase-number]
+argument-hint: "[phase-number]"
 allowed-tools: Read, Write, Bash, Glob, Grep, AskUserQuestion
 ---
 
@@ -238,10 +238,13 @@ no design file (screens designed in SwiftUI previews or `/apple:prototype`).
 2. **Copy and hash.** One PNG per screen, named after the frame (e.g.
    `Profile Edit.png`), all exported at the **same scale**:
    ```bash
-   pin=.planning/design/phase-N
-   mkdir -p "$pin/pinned" && cp "<export folder>"/*.png "$pin/pinned/"
-   ( cd "$pin/pinned" && shasum -a 256 -- *.png ) | sed -E 's/^([0-9a-f]+) [ *](.*)$/\2	\1/' | sort > "$pin/pin.tsv"
+   bash ~/.claude/swiftship-templates/_scripts/design-pin.sh N "<export folder>"   # or without the folder, to pin PNGs already in place
    ```
+   It copies the PNGs to `.planning/design/phase-N/pinned/` and writes
+   `pin.tsv` (frame name → image hash). If the script is missing,
+   SwiftShip is out of date: tell the user to update it (`claude plugin
+   update apple@indie-apple-stack`, or `git pull` for a manual install).
+   Don't retype the program from memory.
 3. **Record it** in PLAN.md, right after `<flows>`:
    ```xml
    <design-pin source="[Figma | Sketch | Penpot | XD | other]" version="[version name or export date]"

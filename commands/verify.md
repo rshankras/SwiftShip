@@ -1,6 +1,6 @@
 ---
 description: Verify completed work against plan deliverables
-argument-hint: [phase-number]
+argument-hint: "[phase-number]"
 allowed-tools: Read, Write, Bash, Glob, Grep, AskUserQuestion, Skill
 model: sonnet
 ---
@@ -192,14 +192,13 @@ become fix tasks here (`design/design-system`, rule 21).
    else skip and record "not checked".
 3. **Compare** by file name and image hash:
    ```bash
-   pin=.planning/design/phase-N; new="<fresh export folder>"
-   t="${TMPDIR:-/tmp}/pin.$$"
-   ( cd "$new" && shasum -a 256 -- *.png ) | sed -E 's/^([0-9a-f]+) [ *](.*)$/\2	\1/' | sort > "$t"
-   awk -F'\t' 'FNR==NR { old[$1]=$2; next }
-     { seen[$1]=1; if (!($1 in old)) print "added\t" $1; else if (old[$1] != $2) print "changed\t" $1 }
-     END { for (n in old) if (!(n in seen)) print "removed\t" n }' "$pin/pin.tsv" "$t" | sort
-   rm -f "$t"
+   bash ~/.claude/swiftship-templates/_scripts/design-compare.sh N "<fresh export folder>"
    ```
+   It prints one line per difference (`added`, `removed` or `changed`, then
+   the frame name). No output means the design is unchanged. If the script
+   is missing, SwiftShip is out of date: tell the user to update it
+   (`claude plugin update apple@indie-apple-stack`, or `git pull` for a
+   manual install). Don't retype the program from memory.
    **Every** screen changed usually means a different export scale or
    setting, not a redesign. Check that before reporting.
 4. **Report** each added / removed / changed screen in VERIFICATION.md's

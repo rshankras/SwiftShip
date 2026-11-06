@@ -1,6 +1,6 @@
 ---
 description: Visual QA from screenshots or code-level UI audit
-argument-hint: [screenshot-paths or "code"]
+argument-hint: "[screenshot-paths or \"code\"]"
 allowed-tools: Read, Write, Glob, Grep, Bash, AskUserQuestion, Skill
 ---
 

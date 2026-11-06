@@ -1,7 +1,7 @@
 ---
 description: Finalize a one-time in-app purchase in App Store Connect — set its price + localized name/description (dry-run first). Not for subscriptions; not the same as promoted-iap.
 allowed-tools: Read, Bash, Glob, Grep, AskUserQuestion, mcp__asc-metadata__list_iap, mcp__asc-metadata__get_iap
-argument-hint: [iap-name]
+argument-hint: "[iap-name]"
 ---
 
 # Finalize In-App Purchase (ASC metadata)

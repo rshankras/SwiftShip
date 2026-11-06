@@ -148,7 +148,15 @@ for f in agents/*.md; do
     echo "$fm" | grep -q '^model: sonnet$' || fail "$f — model must be 'sonnet' (repo convention; update validator if intentional)"
     echo "$fm" | grep -q '^tools:'         || fail "$f — missing 'tools:' in frontmatter"
 done
-echo "  checked $CMD_COUNT commands + $AGENT_COUNT agents"
+# Real YAML parse (#109): a block that doesn't parse loads with every field dropped.
+bash scripts/check-frontmatter.sh commands/*.md agents/*.md > /tmp/swiftship-fm.$$ 2>&1
+case $? in
+    0) ;;
+    2) echo "  ⚠ ruby not found — YAML parse check skipped" ;;
+    *) while IFS= read -r line; do fail "$line"; done < /tmp/swiftship-fm.$$ ;;
+esac
+rm -f /tmp/swiftship-fm.$$
+echo "  checked $CMD_COUNT commands + $AGENT_COUNT agents (YAML parsed)"
 
 # --- 6. Plugin manifest + hooks well-formed --------------------------------------
 section "Plugin manifest well-formed"
@@ -163,11 +171,15 @@ echo "  plugin.json (name=apple) + hooks.json parse"
 
 # --- 7. Shell scripts are sane --------------------------------------------------
 section "Shell scripts executable and parse"
-for s in install.sh hooks/*.sh scripts/*.sh; do
+for s in install.sh hooks/*.sh scripts/*.sh templates/_scripts/*.sh; do
     [ -x "$s" ] || fail "$s is not executable (chmod +x)"
     bash -n "$s" 2>/dev/null || fail "$s has a bash syntax error"
 done
-echo "  checked install.sh, hooks/, scripts/"
+echo "  checked install.sh, hooks/, scripts/, templates/_scripts/"
+
+# --- 8. Shared command scripts behave (fixtures) ---------------------------------
+section "Shared command scripts pass their fixture tests"
+./scripts/test-scripts.sh || fail "templates/_scripts fixture tests failed (see above)"
 
 # --- Summary --------------------------------------------------------------------
 echo ""

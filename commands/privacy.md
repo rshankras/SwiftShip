@@ -1,7 +1,6 @@
 ---
 description: Publish privacy policy + terms to hosted URLs and set the App Store Connect Privacy/Support URLs (dry-run first). Nutrition label stays a manual checklist.
 allowed-tools: Read, Write, Bash, Glob, Grep, AskUserQuestion, mcp__claude-in-chrome__navigate, mcp__claude-in-chrome__computer, mcp__claude-in-chrome__read_page
-argument-hint:
 ---
 
 # Publish Legal Pages & Set ASC URLs
