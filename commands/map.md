@@ -213,6 +213,8 @@ Create `.planning/CODEBASE.md`:
 **Project:** [Name from .xcodeproj]
 **Analyzed:** [date]
 
+**In plain words:** [Two or three sentences a non-developer could follow: what the app is built with, what's in good shape, and the biggest risk.]
+
 ---
 
 ## Project Overview
@@ -382,8 +384,12 @@ is already present. Never rewrite other parts of an existing `CLAUDE.md`.
 
 ## Step 7: Completion
 
+**Wording:** write the completion message and CODEBASE.md's top line per `~/.claude/swiftship-templates/_conventions/PLAIN-OUTPUT.md` (the `reader:` line in PREFERENCES.md; default plain: one plain first sentence, terms explained, a closing "You need to decide" line). Skip if the file is absent.
+
 ```
 Codebase mapped!
+
+[One plain sentence: what kind of app this is, how healthy the code looks, and the one thing to know first.]
 
 Created: .planning/CODEBASE.md
          .planning/UTILITIES.md  ([N] shared helpers agents will reuse — or "none found")
