@@ -328,6 +328,7 @@ All planning files are stored in `.planning/`:
 | `spikes/` | API validation findings | `/apple:spike` |
 | `DEBUG.md` | Debug session log | `/apple:debug` |
 | `VERIFICATION.md` | UAT results | `/apple:verify` |
+| `REVIEW-GUIDE.md` | One page per phase: what changed, proof, what you decide | `/apple:verify` |
 | `REVIEW.md` | Quality findings | `/apple:review` |
 | `SECURITY.md` | Security audit findings | `/apple:security` |
 | `PERFORMANCE.md` | Performance analysis | `/apple:perf` |

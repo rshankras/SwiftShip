@@ -116,6 +116,10 @@ Copy this file to your project's `.planning/PLAN.md`.
     <!-- Written by /apple:build, one per criterion test: did it fail before
          the code existed (red / no-build) and pass after (green)? -->
     <red-green criterion="AC1" test="[Target/Class/method]" before="red|no-build|not proven: [reason]" after="green"/>
+
+    <!-- Written by /apple:build: choices the agent made that the task didn't
+         specify. Shown in the phase's REVIEW-GUIDE.md. -->
+    <decision chose="[what was chosen]" instead-of="[the option rejected]" why="[one line]"/>
   </task>
 
   <!-- Generator task example -->
