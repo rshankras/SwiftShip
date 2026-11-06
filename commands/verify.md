@@ -256,6 +256,51 @@ the next phase or release as change requests (the user decides; suggest
 `/apple:redesign` when many screens changed and it is installed). Don't
 re-pin here; the next `/apple:plan` pins the new export for the next phase.
 
+### 3.7d Tests Can Fail
+
+"All tests pass" is weak proof if the tests would pass anyway. Two cheap
+checks, every phase. (The `testing/mutation-testing` skill, with muter, is
+the optional deep version; this is the small one.)
+
+**1. Red then green.** Count the `<red-green>` lines `/apple:build` wrote in
+PLAN.md: how many criterion tests failed before the code (`red` or
+`no-build`) and pass now. A criterion with a test proof but no line is
+`not recorded` (older builds); say so, it's not a failure. Any `before`
+of `not proven` is listed with its reason.
+
+**2. Planted bugs.** Pick the **1–2 riskiest** criteria with a test proof:
+`must` features, anything that saves, deletes, syncs or charges money, and
+`crash`/`high` bugs from RELEASE.md. For each:
+
+1. Find the code that makes the criterion true, and choose one small break
+   that should make it false: flip a condition, return early, skip the
+   save, drop the error message.
+2. Run the tests with that break planted in a throwaway copy of the
+   committed code. Your working tree is never changed:
+   ```bash
+   bash ~/.claude/swiftship-templates/_scripts/expect-red.sh \
+     --swap "<file>" '<exact original text>' '<broken text>' \
+     -- <the test command from 3.2, with -derivedDataPath "${TMPDIR:-/tmp}/swiftship-red-dd">
+   ```
+   The original text must appear exactly once in the file; include
+   surrounding lines if needed. If the script is missing, SwiftShip is out
+   of date: tell the user to update it, and skip this check.
+3. Read the result:
+   - `RED`: **caught**, a test noticed the bug.
+   - `GREEN`: **missed**. The tests are too weak for that criterion. Add an
+     issue (Medium; High when the criterion protects user data) with a fix
+     task: "Add a test that fails when [the break you planted]".
+   - `NO-BUILD`: the break didn't compile, which proves nothing. Choose a
+     different break (at most 2 tries), else record `not run`.
+   - `SETUP`: fix the command or text and rerun; else record `not run`.
+4. Afterwards confirm `git status --porcelain` shows nothing new. A planted
+   bug must never be left behind.
+
+The check runs against the **last commit**; if `git status` shows
+uncommitted code changes, say "checked against the last commit". Criteria
+proven only by a flow, lint rule or manual check are skipped; list them as
+"not checked (no test)" in the report.
+
 ## Step 3.8: Optional handoff — run the app and screenshot
 
 Before relying on the user's memory in the manual UAT below, try to **show the
@@ -383,6 +428,7 @@ Create `.planning/VERIFICATION.md`:
 | Lint | ✅/❌/— | [— if no .swiftlint.yml] |
 | Coverage | ✅/❌/— | [— if no .coverage-baseline; note ratchet-up suggestions] |
 | Design DoD | ✅/❌/— | [n of m screens pass; — if the phase touched no views] |
+| Tests can fail | ✅/❌/— | [n of m red then green; planted bugs n of m caught; — if no criterion tests] |
 
 ## Design-System Definition of Done (UI phases)
 
@@ -412,6 +458,18 @@ from APP.md / RELEASE.md before reading the plan.
 | [Export] | AC5: … | manual | ⚠️ Not run |
 
 **Assumptions to confirm:** [list from `<spec-clarifications source="assumed">` | none]
+
+## Tests Can Fail
+
+[12 of 12] criterion tests failed before the code was written and pass now.
+Planted bugs: [2 of 2] caught.
+
+| Criterion | Planted bug | Result |
+|-----------|-------------|--------|
+| [AC3 Offline save] | [skipped the save in NoteStore.save()] | ✅ Caught by [NotesTests.testOfflineSave] |
+| [AC5 Delete] | [returned early from delete] | ❌ Missed: no test noticed |
+
+[Not checked (no test): AC1, AC2 (checked by walkthrough)]
 
 ## Manual Checks (UAT)
 
@@ -480,6 +538,7 @@ Status: [PASS / FAIL / PARTIAL] ([everything works | works, with gaps listed bel
 
 Results:
 - Promised features proven: X of Y [(n not covered by any check)]
+- Tests that can fail: [n of m failed before the code; planted bugs n of m caught]
 - Automated: X/Y passed
 - Manual: X/Y passed
 - Issues: X found

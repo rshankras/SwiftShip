@@ -112,6 +112,10 @@ Copy this file to your project's `.planning/PLAN.md`.
       - Preview renders without errors
       - Builds for target platform
     </done>
+
+    <!-- Written by /apple:build, one per criterion test: did it fail before
+         the code existed (red / no-build) and pass after (green)? -->
+    <red-green criterion="AC1" test="[Target/Class/method]" before="red|no-build|not proven: [reason]" after="green"/>
   </task>
 
   <!-- Generator task example -->

@@ -12,6 +12,18 @@ commands, or moved skill-reference paths.
 
 ### Added
 
+- **Proof that tests can fail** (#111). `build` writes each criterion's
+  test before the code and checks it independently: the test is run
+  against the pre-task code in a throwaway copy, where it must fail, then
+  against the finished code, where it must pass. A test that passes
+  without the code is sent back once, then fails the task. Each result is
+  a `<red-green>` line in PLAN.md. `verify` (new 3.7d) counts those lines
+  and plants 1–2 small bugs in a throwaway copy of the riskiest features'
+  code, confirming a test goes red; a missed bug becomes a fix task.
+  Reported in plain numbers ("12 of 12 failed before the code; planted
+  bugs 2 of 2 caught"). New tested script `templates/_scripts/expect-red.sh`
+  never touches the working tree.
+
 - **Checkable acceptance criteria, traced from the spec** (#69). `plan`
   gives each task that users or callers can notice a `<criteria>` block:
   *Given* a starting situation, *When* an action, *Then* something you can
