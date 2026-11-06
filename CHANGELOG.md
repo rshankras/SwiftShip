@@ -12,6 +12,21 @@ commands, or moved skill-reference paths.
 
 ### Added
 
+- **Checkable acceptance criteria, traced from the spec** (#69). `plan`
+  gives each task that users or callers can notice a `<criteria>` block:
+  *Given* a starting situation, *When* an action, *Then* something you can
+  see or test, plus the proof (a named test, a flow, a lint rule, or a
+  manual check). Criteria for Swift packages use public functions; for
+  screens, what's on screen. Vague spec items are asked about before the
+  build, and answers are kept in `<spec-clarifications>` (under
+  `autonomous`, the safest reading is recorded as an assumption to
+  confirm). `verify` now writes its own list from APP.md / RELEASE.md
+  **before** reading the plan, then traces every promised feature to a
+  criterion and its proof; a promise nobody checks is an issue even when
+  every task says completed. VERIFICATION.md gains a Spec Coverage table.
+  `build` writes the tests criteria name; `autonomous` verifies spec-first.
+  Older plans without criteria still verify, against their `<done>` lines.
+
 - **Shared command scripts, tested** (#112). The shell programs that were
   pasted into command text now live in `templates/_scripts/`, and the
   commands call them in one line:

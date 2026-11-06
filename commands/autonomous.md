@@ -106,6 +106,8 @@ command — follow that command's logic exactly.
 
 2. **Plan** — execute the `/apple:plan [N]` logic. Generate `.planning/PLAN.md`
    for this phase, applying preferences and the conditional generator selection.
+   Unclear spec items are not asked mid-run: plan records its safest reading
+   as `source="assumed"` in `<spec-clarifications>`.
 
 3. **Build** — execute the `/apple:build` logic. Work through every pending task
    in order, spawning the matched agents (bare names; retry as `apple:<name>`
@@ -143,9 +145,13 @@ command — follow that command's logic exactly.
 
 4. **Verify** — execute the `/apple:verify [N]` logic **through an
    independent verifier**: spawn a fresh `swift-generalist` (bare name; retry
-   `apple:swift-generalist`) with the phase's PLAN.md deliverables and have
-   *it* run the build + test suite and the deliverables checklist, reporting
-   PASS/FAIL per item with the command output as evidence. The context that
+   `apple:swift-generalist`). Give it APP.md / RELEASE.md and the phase's
+   ROADMAP.md entry **first**, and have it write its own list of what the
+   spec promises before it reads PLAN.md (verify Steps 1–2: spec first,
+   then trace each promise to a criterion and its proof). Then it runs the
+   build + test suite and the deliverables checklist, reporting PASS/FAIL
+   per item with the command output as evidence. Spec gaps count like any
+   other finding. The context that
    just built the phase grading its own output is the same trust gap
    `/apple:build` Step 4 closes for tasks — reopened at phase scope. Write
    the verifier's findings to `.planning/VERIFICATION.md`. If agents can't
@@ -160,7 +166,8 @@ command — follow that command's logic exactly.
    the phase recap and again at the next checkpoint so a human runs them.
 
 5. **Phase summary** — print a short recap (tasks completed, files changed,
-   quality-gate counts, verification result) and update `STATE.md` to mark the
+   quality-gate counts, verification result, and any `source="assumed"` spec
+   answers for a person to confirm) and update `STATE.md` to mark the
    phase completed.
 
 ### 3. Between-Phase Checkpoint

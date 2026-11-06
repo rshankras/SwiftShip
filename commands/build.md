@@ -260,7 +260,10 @@ Task({
     1. Follow the <apple-patterns> specified
     2. Create/modify files listed in <files>
     3. Verify all <verify> checks pass
-    4. Meet all <done> criteria
+    4. Meet all <done> criteria, and every <criteria> Given/When/Then:
+       write each test named in a <proof type="test"> in this task, with
+       that name, testing the behavior from outside (on screen for
+       via="screen", public functions for via="package")
     5. Reuse <existing-helpers> — never reimplement a listed helper. If none
        fits, say so in your report before adding a new shared one.
     6. If <design-system> is present: tokens and .appText only, the listed

@@ -168,9 +168,10 @@ The body defines expertise, code patterns, best practices, and a verification ch
 Templates in `templates/` use XML tags that commands parse. Key tags in PLAN.md tasks:
 ```xml
 <task id="N" type="auto|manual|generator" status="pending|in_progress|completed">
-  <name>, <files>, <apple-patterns>, <action>, <verify>, <hig-compliance>, <done>
+  <name>, <files>, <apple-patterns>, <action>, <verify>, <hig-compliance>, <criteria>, <done>
 </task>
 ```
+`<criteria>` holds Given/When/Then acceptance criteria (`<criterion id="ACn" feature via="screen|package">` with `<given>`, `<when>`, `<then>`, `<proof type="test|flow|lint|manual">`), and a plan-level `<spec-clarifications>` records answers to spec questions `plan` asked first. `/apple:verify` writes its own list from APP.md/RELEASE.md before reading PLAN.md, then traces each feature → criterion → proof (#69).
 Generator tasks add `<generator>` and `<customization>` tags. `type="auto"` tasks may carry an optional `model="opus"` attribute (set by `/apple:plan`, max 1–2 foundation tasks per phase) that `/apple:build` passes through as the spawn's per-call `model` override. Maintain tag consistency — commands match on these exact tag names.
 
 ### Adding a New Command

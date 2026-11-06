@@ -31,6 +31,12 @@ Copy this file to your project's `.planning/PLAN.md`.
   <design-pin source="[Figma|Sketch|Penpot|XD|other]" version="[name or export date]"
               link="[optional]" scale="[1x|2x]" frames=".planning/design/phase-N/pinned/"/>
 
+  <!-- Answers to spec questions /apple:plan asked before writing tasks.
+       source="assumed": chosen under /apple:autonomous, a person still confirms it. -->
+  <spec-clarifications>
+    <clarification feature="[feature]" source="asked|assumed">[question] → [answer]</clarification>
+  </spec-clarifications>
+
   <!-- Optional on type="auto" tasks: model="opus" — set by /apple:plan on at
        most 1–2 foundation tasks per phase (architecture, data model,
        concurrency, migration). /apple:build passes it through as the agent
@@ -82,6 +88,22 @@ Copy this file to your project's `.planning/PLAN.md`.
       <check>Touch targets are at least 44pt</check>
       <check>System colors used for Dark Mode support</check>
     </hig-compliance>
+
+    <criteria>
+      <!-- Acceptance criteria: Given / When / Then, checkable from outside —
+           on screen (via="screen") or through a Swift package's public
+           functions (via="package"). Every feature the phase promises has
+           at least one. <proof> names what shows it's true: a test, a
+           <flows> id, a lint rule, or a manual check. /apple:verify traces
+           each spec feature → criterion → proof. Omit for tasks with nothing
+           a user or caller can notice (setup, Visual QA). -->
+      <criterion id="AC1" feature="[feature name or RELEASE id]" via="screen|package">
+        <given>[starting situation]</given>
+        <when>[what the user or calling code does]</when>
+        <then>[what you can see or test]</then>
+        <proof type="test|flow|lint|manual">[test name | flow id | rule | what a person checks]</proof>
+      </criterion>
+    </criteria>
 
     <done>
       <!-- Specific completion criteria -->

@@ -16,10 +16,28 @@ Copy this file to your project's `.planning/VERIFICATION.md` after running verif
 
 [1-2 sentence summary of verification results]
 
+- **Spec coverage:** X of Y promised features proven ([n] gaps, [n] unproven)
 - **Automated Checks:** X/Y passed (X%)
 - **Manual Checks:** X/Y passed (X%)
 - **Critical Issues:** X
 - **Total Issues:** X
+
+---
+
+## Spec Coverage
+
+<!-- Written from APP.md / RELEASE.md BEFORE reading PLAN.md, then traced
+     to the plan's <criteria>. A promise with no criterion, or a criterion
+     whose proof is missing, is an issue even when every task says completed. -->
+
+What each promised feature needs, what checks it, and whether it held.
+
+| Feature (spec) | Criterion (Given / When / Then) | Proof | Result |
+|----------------|--------------------------------|-------|--------|
+| [Feature] | AC[n]: Given [..], when [..], then [..] | [test name / flow id / lint rule / manual] | ✅ Passed / ❌ Failed / ⚠️ Not run |
+| [Feature] | ⚠️ none: [what the spec promises that no criterion covers] | — | ❌ Gap in the plan |
+
+**Assumptions to confirm:** [from `<spec-clarifications source="assumed">` | none]
 
 ---
 
