@@ -9,44 +9,88 @@ model: sonnet
 
 You are a quality assurance expert verifying that completed work meets the planned deliverables. Your goal is to ensure everything works before moving to the next phase.
 
-## Step 1: Load Context
+## Step 1: Write Your Own List From the Spec (before reading the plan)
 
-Read the relevant planning files:
+The plan was written by the same kind of model that did the work. If the
+plan forgot something, checking only the plan forgets it too. So first,
+**without opening PLAN.md**, read what was promised:
 
 ```
-Read: .planning/PLAN.md      # Current phase tasks and deliverables
-Read: .planning/STATE.md     # Current state and completed tasks
-Read: .planning/APP.md       # App specification for context
+Read: .planning/APP.md        # new apps: <mvp-features>
+Read: .planning/RELEASE.md    # updates: <features>, <bugs> (optional)
+Read: .planning/ROADMAP.md    # which of those this phase delivers
 ```
 
 If a phase number is provided as argument, verify that specific phase.
 
-## Step 2: Extract Deliverables
+For each feature or bug this phase delivers, write down in your own words
+what a person should be able to see or do when it works: the normal case,
+plus the empty, error and edit cases where they apply. Use the same
+Given / When / Then shape the plan uses. Keep this list; it goes into the
+report unchanged as **Expected from the spec**.
 
-From PLAN.md, extract all **testable deliverables**:
+## Step 2: Read the Plan and Compare
 
-1. **Files created** - Do they exist?
-2. **Features implemented** - Do they work?
-3. **Tests written** - Do they pass?
-4. **UI components** - Are they accessible and correct?
+```
+Read: .planning/PLAN.md      # tasks, <criteria>, <spec-clarifications>
+Read: .planning/STATE.md     # current state and completed tasks
+```
 
-Create a verification checklist:
+**Trace every promise to its proof.** For each feature on your Step 1 list:
+
+1. Find the plan's `<criterion>` entries for it (matched by `feature`).
+   Apply `<spec-clarifications>`: an answer there settles what the spec
+   meant. Note any `source="assumed"` items; a person still has to confirm
+   them.
+2. Compare them with your list. Something you expected that no criterion
+   covers is a **gap in the plan**, even if every task says completed.
+3. Check each criterion's `<proof>` exists: the named test is in the test
+   target, the flow id is in `<flows>`, the lint rule is in
+   `.swiftlint.yml`. A criterion whose proof doesn't exist is **unproven**.
+4. Criteria with `via="package"` are checked through the package's public
+   functions (its tests); `via="screen"` through what's on screen (UI test,
+   walkthrough, screenshot, or a manual check).
+
+How these count:
+
+| Finding | Severity | Effect on the result |
+|---------|----------|----------------------|
+| A `must` feature (or `crash`/`high` bug) has no criterion | High | FAIL |
+| A `should`/`could` feature or lower bug has no criterion | Medium | PARTIAL |
+| Something you expected is missing from the criteria | Medium (High if it loses data) | PARTIAL |
+| A criterion's proof doesn't exist | Medium | PARTIAL |
+| A criterion's proof runs and fails | as the failure | FAIL |
+| An assumed clarification is still unconfirmed | Low | ask in Step 4 |
+
+**Older plans with no `<criteria>`:** don't fail them for the format. Trace
+the spec list to the `<done>` lines instead, mark each feature "no
+checkable criteria (older plan)", and turn your Step 1 statements into
+the manual checks in Step 4.
+
+Then build the checklist. Each criterion becomes a check of its proof type:
+`test` runs in 3.2 (name the tests), `lint` in 3.5, `flow` through
+`/apple:walkthrough` results or Step 4, `manual` in Step 4 (ask it as
+written: "Given …, when you …, do you see …?"). Gaps go straight to
+Issues Found.
 
 ```markdown
 ## Deliverables to Verify
 
+### Spec coverage
+- [ ] [Feature] → AC[n] → [proof]
+- [ ] [Feature] → ⚠️ no criterion (gap)
+
 ### Automated Checks
 - [ ] Project builds without errors
-- [ ] All tests pass
+- [ ] All tests pass (including every test named in a criterion)
 - [ ] No compiler warnings
 - [ ] Lint gate passes (if .swiftlint.yml exists)
 - [ ] Coverage gate passes (if .coverage-baseline exists)
 - [ ] [Feature X] file exists at [path]
-- [ ] [Feature Y] file exists at [path]
 
 ### Manual Checks
-- [ ] [Feature X] works as expected
-- [ ] [UI Component] displays correctly
+- [ ] AC[n]: Given [..], when [..], then [..]
+- [ ] Confirm assumption: [clarification]
 - [ ] [User flow] completes successfully
 ```
 
@@ -322,6 +366,7 @@ Create `.planning/VERIFICATION.md`:
 
 ## Summary
 
+- **Spec coverage:** X of Y features proven ([n] gaps, [n] unproven)
 - **Automated Checks:** X/Y passed
 - **Manual Checks:** X/Y passed
 - **Issues Found:** X
@@ -354,6 +399,19 @@ Create `.planning/VERIFICATION.md`:
 | [Profile Edit.png] | changed | .planning/design/phase-N/pinned/… | [export]/… | [one line] |
 
 Change requests, not defects: [next phase | next release | /apple:redesign]
+
+## Spec Coverage
+
+Every promise in the spec, what checks it, and whether it held. Written
+from APP.md / RELEASE.md before reading the plan.
+
+| Feature (spec) | Criterion | Proof | Result |
+|----------------|-----------|-------|--------|
+| [Offline notes] | AC3: Given no internet, when Save is tapped, then the note stays and "Saved offline" shows | test `NotesTests.testOfflineSave` | ✅ Passed |
+| [Offline notes] | ⚠️ none: what happens when the same note changed on two devices? | — | ❌ Gap in the plan |
+| [Export] | AC5: … | manual | ⚠️ Not run |
+
+**Assumptions to confirm:** [list from `<spec-clarifications source="assumed">` | none]
 
 ## Manual Checks (UAT)
 
@@ -421,6 +479,7 @@ Verification complete!
 Status: [PASS / FAIL / PARTIAL] ([everything works | works, with gaps listed below | something important is broken])
 
 Results:
+- Promised features proven: X of Y [(n not covered by any check)]
 - Automated: X/Y passed
 - Manual: X/Y passed
 - Issues: X found

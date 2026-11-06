@@ -267,6 +267,78 @@ no design file (screens designed in SwiftUI previews or `/apple:prototype`).
 
 Commit `.planning/design/phase-N/` with PLAN.md (PNGs, `pin.tsv`).
 
+## Acceptance Criteria (every phase)
+
+A `<done>` line like "Profile screen works" can't be proven true or false.
+Every task that delivers something a user or caller can notice also gets
+**acceptance criteria**: short statements anyone can check, in a fixed
+shape:
+
+- **Given** the starting situation
+- **When** the user (or the calling code) does something
+- **Then** something you can see or test happens
+
+Example: *Given* no internet, *When* the user taps Save, *Then* the note
+stays in the list and a "Saved offline" message shows.
+
+**1. List what this phase promises.** Read the features this phase
+delivers: the phase's entry in ROADMAP.md, matched to APP.md
+`<mvp-features>` (new apps), or to the RELEASE.md `<features>` and `<bugs>`
+by id (updates). Each one needs at least one criterion. A bug's criterion
+comes from its `<symptom>`: *Given* the conditions that triggered it,
+*When* the same action, *Then* the correct behavior.
+
+**2. Ask before writing, not halfway through the build.** If a feature is
+too vague to write a criterion (for example "sync works": what happens with
+no internet? which copy wins when both changed?), collect those questions
+and ask them together with `AskUserQuestion` (up to 4 per call), each with
+plain choices and the recommended one first. Record every answer in
+PLAN.md's `<spec-clarifications>` block so `/apple:verify` sees it.
+Under `/apple:autonomous`, never ask: choose the safest reading (no data
+lost, user told what happened), record it with `source="assumed"`, and the
+run's next checkpoint lists the assumptions for a person to confirm.
+
+**3. Write the criteria.** Rules:
+- **Checkable from outside.** On screen for app screens; through the public
+  functions for a Swift package (`Packages/*` or a local package in the
+  project). Never "the cache is updated" or "the view model holds X".
+  Say which with `via="screen"` or `via="package"`.
+- **One behavior each.** Cover the empty, error and edit cases the
+  `<flows>` already list, not only the happy path.
+- **Name the proof**, the thing that will show it's true:
+  - `test`: the test that checks it (name it; the task writes it)
+  - `flow`: a `<flows>` id that `/apple:walkthrough` drives
+  - `lint`: a lint rule
+  - `manual`: a person checks it during `/apple:verify` (only when nothing
+    automatic can; most screen behavior can be a UI test or a flow)
+- Tasks that deliver nothing a user or caller can notice (project setup,
+  the Visual QA task) keep only `<done>`.
+- Ids run across the whole plan: `AC1`, `AC2`, ….
+
+```xml
+<spec-clarifications>
+  <!-- Answers to questions asked before planning. source="assumed" = chosen under autonomous, not yet confirmed -->
+  <clarification feature="[feature]" source="asked|assumed">[question] → [answer]</clarification>
+</spec-clarifications>
+
+<task id="N" ...>
+  ...
+  <criteria>
+    <criterion id="AC1" feature="[feature name or RELEASE id, as in the spec]" via="screen|package">
+      <given>[starting situation]</given>
+      <when>[action]</when>
+      <then>[what you can see or test]</then>
+      <proof type="test|flow|lint|manual">[test name | flow id | rule | what the person checks]</proof>
+    </criterion>
+  </criteria>
+  <done>...</done>
+</task>
+```
+
+Place `<spec-clarifications>` after `<flows>` (and `<design-pin>`), before
+the tasks. Before writing PLAN.md, check: every feature from step 1 has at
+least one criterion; if one doesn't, write it or ask.
+
 ## Task Generation
 
 Create `.planning/PLAN.md` with detailed tasks:
@@ -484,6 +556,14 @@ tasks get zero tags — that is the common case.
       <check type="build">App builds with navigation in place</check>
       <check type="simulator">Navigation works correctly</check>
     </verify>
+    <criteria>
+      <criterion id="AC1" feature="[MVP feature this screen serves]" via="screen">
+        <given>A first launch with no saved data</given>
+        <when>The app opens</when>
+        <then>The main screen shows its empty state with one clear first action</then>
+        <proof type="flow">F1</proof>
+      </criterion>
+    </criteria>
     <done>
       - Navigation structure matches app type
       - Programmatic navigation works
@@ -533,6 +613,14 @@ Generate tasks based on:
     <check type="build">Generated code compiles in the app target</check>
     <check type="simulator">Settings screen renders and toggles respond</check>
   </verify>
+  <criteria>
+    <criterion id="AC4" feature="Settings" via="screen">
+      <given>Appearance is set to Dark</given>
+      <when>The user quits and reopens the app</when>
+      <then>The app opens in Dark appearance</then>
+      <proof type="test">SettingsUITests.testAppearancePersists</proof>
+    </criterion>
+  </criteria>
   <done>
     - Settings accessible from navigation
     - All preferences persist
@@ -555,6 +643,8 @@ Before printing the completion message, append one `"event":"outcome"` line to t
 ✅ Phase [X] plan created!
 
 Created: .planning/PLAN.md with [N] tasks
+Checkable criteria: [n] covering [n of m] features this phase promises
+[Questions answered: n | Assumptions to confirm: n (listed in <spec-clarifications>)]
 
 Tasks:
 1. [Task 1 name] (type: [auto/manual/generator][; append ", model: opus" if tagged])
