@@ -263,7 +263,10 @@ Task({
     4. Meet all <done> criteria, and every <criteria> Given/When/Then:
        write each test named in a <proof type="test"> in this task, with
        that name, testing the behavior from outside (on screen for
-       via="screen", public functions for via="package")
+       via="screen", public functions for via="package").
+       **Red first:** write those tests before the code, run them, and see
+       them fail. A test that already passes checks nothing; rewrite it.
+       Then write the code until they pass.
     5. Reuse <existing-helpers> — never reimplement a listed helper. If none
        fits, say so in your report before adding a new shared one.
     6. If <design-system> is present: tokens and .appText only, the listed
@@ -273,6 +276,7 @@ Task({
 
     After completing, report:
     - Files created/modified
+    - Test files written for <criteria> (paths), and the test command that runs them by name
     - Verification results
     - New shared helpers added (name, path, one-line purpose), if any
     - Any issues encountered
@@ -385,6 +389,45 @@ screenshot → **Read the image back** and judge it (blank, crashed, or
 launch-stuck frame = FAIL). If neither the `run-simulator` skill nor the macOS
 path is available, fall back to asking the user to confirm in the Simulator —
 and record the check as *user-confirmed*, not *verified*.
+
+**Red-then-green check** (tasks whose `<criteria>` name a
+`<proof type="test">`; skip otherwise). Coverage only shows that lines ran,
+not that anything was checked, and an agent can write a test that passes no
+matter what. So prove each criterion test can fail:
+
+1. **Green:** run the named tests **by name** (`-only-testing:<Target>/<Class>/<method>`
+   or `swift test --filter`) on the finished code. They must run (not "0
+   tests") and pass. A test that was never written can't hide in a suite total.
+2. **Red:** run the same command against the code as it was *before* this
+   task, with only the test files copied in. HEAD is still the pre-task
+   commit (the task commits in Step 5), and your working tree is never
+   touched; the run happens in a throwaway copy:
+   ```bash
+   bash ~/.claude/swiftship-templates/_scripts/expect-red.sh \
+     --copy "<test file>" [--copy "<test file 2>"] \
+     [--copy "<App>.xcodeproj/project.pbxproj"]  \
+     -- <the same test command, plus -derivedDataPath "${TMPDIR:-/tmp}/swiftship-red-dd">
+   ```
+   Copy the project file only when new test files aren't in a synchronized
+   folder (Xcode 16+ folders need no project change). The shared
+   `-derivedDataPath` lets later tasks reuse the build cache; the first run
+   builds from scratch and is the slow one.
+
+   | Result | Meaning | Do |
+   |--------|---------|----|
+   | `RED` (exit 0) | the tests fail without the code | proven |
+   | `NO-BUILD` (exit 3) | the tests need the new code to even compile (a brand-new type) | proven |
+   | `GREEN` (exit 1) | the tests pass **without** the code: they check nothing | send back to the agent once, with the criterion, to rewrite them; still green → FAIL the task |
+   | `SETUP` (exit 2) | wrong test names, or no tests ran | fix the command and rerun; if it still can't run, record `not proven` with the reason (not a failure) |
+
+   If the script is missing, SwiftShip is out of date: tell the user to
+   update it (`claude plugin update apple@indie-apple-stack`, or `git pull`
+   for a manual install). Don't retype the program from memory.
+3. **Record** one line per test inside the task in PLAN.md, after `<done>`:
+   ```xml
+   <red-green criterion="AC3" test="NotesTests/testOfflineSave" before="red|no-build|not proven: [reason]" after="green"/>
+   ```
+   `/apple:verify` counts these lines.
 
 Only when every check passes does the task move to Step 4b. A failing check
 follows Error Handling below — the agent's claim of success never overrides

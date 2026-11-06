@@ -171,7 +171,7 @@ Templates in `templates/` use XML tags that commands parse. Key tags in PLAN.md 
   <name>, <files>, <apple-patterns>, <action>, <verify>, <hig-compliance>, <criteria>, <done>
 </task>
 ```
-`<criteria>` holds Given/When/Then acceptance criteria (`<criterion id="ACn" feature via="screen|package">` with `<given>`, `<when>`, `<then>`, `<proof type="test|flow|lint|manual">`), and a plan-level `<spec-clarifications>` records answers to spec questions `plan` asked first. `/apple:verify` writes its own list from APP.md/RELEASE.md before reading PLAN.md, then traces each feature → criterion → proof (#69).
+`<criteria>` holds Given/When/Then acceptance criteria (`<criterion id="ACn" feature via="screen|package">` with `<given>`, `<when>`, `<then>`, `<proof type="test|flow|lint|manual">`), and a plan-level `<spec-clarifications>` records answers to spec questions `plan` asked first. `/apple:verify` writes its own list from APP.md/RELEASE.md before reading PLAN.md, then traces each feature → criterion → proof (#69). `/apple:build` adds a `<red-green>` line per criterion test (failed before the code, passes after); `/apple:verify` 3.7d counts them and plants 1–2 bugs in a throwaway copy to confirm the tests catch them (#111).
 Generator tasks add `<generator>` and `<customization>` tags. `type="auto"` tasks may carry an optional `model="opus"` attribute (set by `/apple:plan`, max 1–2 foundation tasks per phase) that `/apple:build` passes through as the spawn's per-call `model` override. Maintain tag consistency — commands match on these exact tag names.
 
 ### Adding a New Command
@@ -217,6 +217,7 @@ Some commands can act directly on an external service (push App Store metadata v
 - `debt-measure.sh`, `baseline-refresh.sh` (`debt`)
 - `design-pin.sh` (`plan`)
 - `design-compare.sh` (`verify`)
+- `expect-red.sh` (`build`, `verify`): runs tests in a throwaway git worktree with new tests copied in, or a planted bug swapped in, and reports whether they went red (#111)
 
 Logic that must give the same answer every run lives here, not pasted into command text (#112). Each script is tested against fixture projects in `tests/fixtures/` by `scripts/test-scripts.sh`, which `validate.sh` runs. A fake `swiftlint` stands in, so CI needs no Xcode. When adding a script, add a fixture test and prove it fails on a planted bug.
 

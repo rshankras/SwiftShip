@@ -17,6 +17,7 @@ Copy this file to your project's `.planning/VERIFICATION.md` after running verif
 [1-2 sentence summary of verification results]
 
 - **Spec coverage:** X of Y promised features proven ([n] gaps, [n] unproven)
+- **Tests can fail:** [n of m failed before the code; planted bugs n of m caught]
 - **Automated Checks:** X/Y passed (X%)
 - **Manual Checks:** X/Y passed (X%)
 - **Critical Issues:** X
@@ -38,6 +39,22 @@ What each promised feature needs, what checks it, and whether it held.
 | [Feature] | ⚠️ none: [what the spec promises that no criterion covers] | — | ❌ Gap in the plan |
 
 **Assumptions to confirm:** [from `<spec-clarifications source="assumed">` | none]
+
+---
+
+## Tests Can Fail
+
+<!-- /apple:verify 3.7d. Proves the tests would notice a broken feature,
+     not just that they pass. -->
+
+[n of m] criterion tests failed before the code was written and pass now.
+Planted bugs: [n of m] caught.
+
+| Criterion | Planted bug | Result |
+|-----------|-------------|--------|
+| [AC3 feature] | [the small break planted in a throwaway copy] | ✅ Caught by [test] / ❌ Missed: no test noticed |
+
+[Not checked (no test): criteria proven by a flow, lint rule or a person]
 
 ---
 
