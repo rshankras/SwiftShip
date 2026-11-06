@@ -12,6 +12,15 @@ commands, or moved skill-reference paths.
 
 ### Added
 
+- **One-page review guide per phase** (#113). `verify` writes
+  `.planning/REVIEW-GUIDE.md` (new template) in plain English: what changed,
+  the choices agents made and what they rejected, the proof (promised
+  features checked, tests that can fail, lint, coverage, design), problems
+  found including ones thrown out on a second check, and a checklist of
+  what only you can decide, with links. `build` now records agent choices
+  as `<decision>` lines in PLAN.md. `autonomous` points to the guide when
+  it stops.
+
 - **Proof that tests can fail** (#111). `build` writes each criterion's
   test before the code and checks it independently: the test is run
   against the pre-task code in a throwaway copy, where it must fail, then

@@ -277,6 +277,9 @@ Task({
     After completing, report:
     - Files created/modified
     - Test files written for <criteria> (paths), and the test command that runs them by name
+    - Choices you made that the task didn't specify, each as: chose X,
+      instead of Y, because Z (e.g. "stored drafts in SwiftData instead of
+      files, because sync needs it"). Only real choices; none is fine.
     - Verification results
     - New shared helpers added (name, path, one-line purpose), if any
     - Any issues encountered
@@ -428,6 +431,16 @@ matter what. So prove each criterion test can fail:
    <red-green criterion="AC3" test="NotesTests/testOfflineSave" before="red|no-build|not proven: [reason]" after="green"/>
    ```
    `/apple:verify` counts these lines.
+
+**Record the agent's choices.** For each choice the agent reported, add a
+line inside the task in PLAN.md, after any `<red-green>` lines:
+```xml
+<decision chose="SwiftData for drafts" instead-of="files on disk" why="sync needs it"/>
+```
+`/apple:verify` puts them in the phase's review guide, so a person sees what
+was decided without reading the code. A choice that shapes later phases
+(storage, architecture, a dependency) also goes into STATE.md's
+`## Key Decisions Made`.
 
 Only when every check passes does the task move to Step 4b. A failing check
 follows Error Handling below — the agent's claim of success never overrides

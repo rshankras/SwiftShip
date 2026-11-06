@@ -168,7 +168,8 @@ command — follow that command's logic exactly.
 5. **Phase summary** — print a short recap (tasks completed, files changed,
    quality-gate counts, verification result, and any `source="assumed"` spec
    answers for a person to confirm) and update `STATE.md` to mark the
-   phase completed.
+   phase completed. The verify step wrote `.planning/REVIEW-GUIDE.md`
+   (verify Step 6b); name it in the recap as the one page to read.
 
 ### 3. Between-Phase Checkpoint
 
@@ -196,6 +197,7 @@ This command does not create a new planning file — it drives the existing ones
 - `.planning/STATE.md` (progress, decisions, blockers)
 - `.planning/REVIEW.md` (quality gate per phase)
 - `.planning/VERIFICATION.md` (per-phase UAT)
+- `.planning/REVIEW-GUIDE.md` (one-page summary of the last verified phase, for a person)
 - Git commits per completed task
 
 ## Completion Message
@@ -216,6 +218,8 @@ Totals:
 - Quality gate: 🔴 [crit] 🟠 [high] 🟡 [med] 🟢 [low]
 
 Stopped because: [reached end boundary | manual task | blocker | Critical issue | foundation checkpoint | critical-path change | user paused]
+
+Read first: .planning/REVIEW-GUIDE.md: the last phase on one page, ending with what you need to decide
 
 Next steps:
 - [If stopped early] Resolve the item above, then re-run /apple:autonomous to continue.
