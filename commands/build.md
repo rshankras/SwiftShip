@@ -251,6 +251,11 @@ Task({
       [Contents of .planning/UTILITIES.md if it exists. Omit if none.]
     </existing-helpers>
 
+    <folder-rules>
+      [The "## Folder Rules" table from .planning/CODEBASE.md, if it has
+       one. Omit otherwise.]
+    </folder-rules>
+
     <design-system>
       [UI tasks only, when the project has one: the token map, text styles
        and component list from .planning/DESIGN-SYSTEM.md. Omit otherwise.]
@@ -273,6 +278,10 @@ Task({
        components (states through ContentStateView), accessibilityIdentifier
        on interactive elements, view files under ~300 lines. A missing token
        goes into the token file and is reported, never inlined.
+    7. If <folder-rules> is present: put code in the folder whose rules
+       allow it, and never add a file to a rule's known exceptions. If the
+       task can't be done without breaking a rule, stop and report it
+       instead of working around it.
 
     After completing, report:
     - Files created/modified

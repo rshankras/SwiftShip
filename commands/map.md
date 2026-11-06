@@ -1,6 +1,6 @@
 ---
 description: Analyze existing codebase before adding SwiftShip workflow
-allowed-tools: Read, Write, Edit, Glob, Grep, Bash
+allowed-tools: Read, Write, Edit, Glob, Grep, Bash, AskUserQuestion
 ---
 
 # Map Existing Codebase
@@ -203,6 +203,16 @@ Create `.planning/CODEBASE.md`:
 [Directory tree]
 ```
 
+## Folder Rules
+
+What each folder is for, and the lines it must not cross (Step 5.7).
+Known exceptions are files that broke the rule before it existed; the list
+only shrinks.
+
+| Folder | For | Must not | Enforced by | Known exceptions |
+|--------|-----|----------|-------------|------------------|
+| [App/Views/] | [screens] | [use CloudKit, StoreKit or URLSession directly] | [SwiftLint `folder_views_no_data` / FolderRuleTests / not enforced] | [none / 2 files] |
+
 ## Architecture
 
 **Pattern:** [Detected: MVVM / MVC / TCA / Mixed]
@@ -329,6 +339,86 @@ using the **real** directories/files as globs (prefer a directory glob over
 listing every file). 3–5 rows at most; no hits → skip the file. If the file
 already exists, add only new areas — never remove or rewrite the user's rows.
 
+## Step 5.7: Folder Rules ("must not")
+
+Agents copy whatever patterns they see and put code wherever it works.
+CODEBASE.md says what each folder holds; this step adds the lines a folder
+must not cross ("Views must not talk to CloudKit", "Models must not import
+SwiftUI", "only Payments/ uses StoreKit"), and turns each one you keep into
+a check that fails when it's broken.
+
+**1. Survey** which frameworks each folder uses:
+```bash
+bash ~/.claude/swiftship-templates/_scripts/folder-imports.sh               # folder <tab> framework <tab> files
+bash ~/.claude/swiftship-templates/_scripts/folder-imports.sh --files CloudKit   # which files use one
+```
+Names starting `api:` are direct calls (`api:URLSession`,
+`api:CKContainer`, `api:Product.purchase`) that need no import of their
+own. If the script is missing, SwiftShip is out of date: tell the user to
+update it (`claude plugin update apple@indie-apple-stack`, or `git pull`
+for a manual install), and skip this step.
+
+**2. Suggest 3–6 rules** the survey supports. Common shapes:
+- a views folder (`Views/`, `Screens/`, `Features/*/Views`) must not use
+  CloudKit, StoreKit or networking directly (data goes through a service or store)
+- a models folder must not import SwiftUI, UIKit or AppKit
+- only one folder uses StoreKit / CloudKit / `URLSession` (pick the folder
+  that holds most of it today)
+
+For each, say whether it's **true today** or **broken in N files** (list
+them with `--files`). Don't suggest a rule broken in most of the files it
+covers: that's how the app is built, not an exception. No folder structure
+to speak of (everything in one folder) → skip this step and say so.
+
+**3. Ask once** (`AskUserQuestion`, multiSelect) which rules to keep, each
+with its plain status ("true today" / "broken in 3 files; they'd be listed
+as known exceptions"). Nothing chosen → skip to step 5 and write the table
+with "not enforced".
+
+**4. Turn each kept rule into a check**, the way `/apple:learn` does
+(its "For Enforcement" section):
+- **One folder, one framework** → a SwiftLint custom rule in `.swiftlint.yml`:
+  ```yaml
+  custom_rules:
+    folder_models_no_ui:          # folder rule: Models must not import SwiftUI
+      name: "Models must not import SwiftUI"
+      regex: '^\s*(@\w+\s+)*import\s+(SwiftUI|UIKit|AppKit)\b'
+      included: ["App/Models/"]
+      excluded: ["App/Models/Legacy Note\\.swift"]   # known exceptions; this list only shrinks
+      message: "Models stay UI-free; put view code in Views/."
+      severity: error
+  ```
+  For a direct-call rule, match the call (`URLSession`, `CKContainer`) too.
+- **"Only X may use Y"** → a fitness-function test (import-boundary
+  allowlist plus API scan) in the app's test target:
+  ```
+  Read: ~/.claude/swiftship-skills/testing/fitness-functions/SKILL.md
+  ```
+  The allowlist is folder X plus the known exceptions.
+- **Known exceptions:** files that break the rule today are listed in the
+  rule itself (`excluded:` or the allowlist), each with a comment that the
+  list only shrinks. The rule then passes today and fails on any new break.
+- **Prove each check**, without touching the user's files:
+  - *Passes on the real code:* `swiftlint lint --strict --quiet`, or the
+    fitness test by name.
+  - *Fails on a new break:* plant the forbidden import in a file inside
+    the folder, in a throwaway copy, with the new rule copied in:
+    ```bash
+    bash ~/.claude/swiftship-templates/_scripts/expect-red.sh --no-build-check \
+      --copy .swiftlint.yml --swap "<a file in the folder>" 'import Foundation' $'import Foundation\nimport CloudKit' \
+      -- swiftlint lint --strict --quiet
+    ```
+    (For a fitness test: `--copy` the test file, drop `--no-build-check`,
+    and run the test by name.) `RED` = proven. Anything else: fix the rule
+    and try again; still not red → don't install it, and mark the rule
+    "not enforced (check didn't work)".
+- No SwiftLint and no test target → keep the rule in the table as "not
+  enforced yet" and suggest `/apple:test` to set up a test target.
+
+**5. Write the table** into CODEBASE.md's `## Folder Rules` section (see
+Step 5's template): one row per folder that has a purpose worth stating,
+with the rules kept. Build agents and `/apple:review` read this table.
+
 ## Step 6: Vendor Agents (optional, recommended for cloud/remote work)
 
 Apply `~/.claude/swiftship-templates/_conventions/AGENT-VENDORING.md`: offer to
@@ -365,6 +455,7 @@ Codebase mapped!
 Created: .planning/CODEBASE.md
          .planning/UTILITIES.md  ([N] shared helpers agents will reuse — or "none found")
          .planning/CRITICAL.md   ([areas] — /apple:build pauses for review on these — or "none found")
+         Folder rules: [n] kept, [n] enforced by a check ([n] known exceptions) — or "none"
 
 Summary:
 - [X] Swift files found

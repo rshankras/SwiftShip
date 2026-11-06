@@ -12,6 +12,18 @@ commands, or moved skill-reference paths.
 
 ### Added
 
+- **"Must not" rules per folder** (#116). `map` surveys which frameworks
+  each folder uses (new tested script `folder-imports.sh`), suggests 3–6
+  rules such as "Models must not import SwiftUI" or "only Payments/ uses
+  StoreKit", each marked true today or broken in N files, and asks which
+  to keep. Each kept rule becomes a SwiftLint rule or a fitness test,
+  proven to pass on the real code and fail on a planted break in a
+  throwaway copy. Files that already break it are listed as known
+  exceptions, a list that only shrinks. CODEBASE.md gets a Folder Rules
+  table; build agents follow it, and `review` flags new breaks and any
+  growth in the exceptions. `expect-red.sh` gains `--no-build-check` for
+  lint commands.
+
 - **One-page review guide per phase** (#113). `verify` writes
   `.planning/REVIEW-GUIDE.md` (new template) in plain English: what changed,
   the choices agents made and what they rejected, the proof (promised

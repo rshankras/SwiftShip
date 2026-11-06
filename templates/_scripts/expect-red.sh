@@ -9,6 +9,9 @@
 #                 in the copy, replace the exact text OLD (must occur once)
 #                 with NEW (verify: a planted bug, run against the finished code)
 #   --patch FILE  apply this diff to the copy first (same use as --swap)
+#   --no-build-check
+#                 the command isn't a compiler (e.g. swiftlint, whose rule
+#                 breaks look like compiler errors): any failure is RED
 # Run from the project root. The copy is removed afterwards, whatever happens.
 #
 # Prints one line and exits:
@@ -18,7 +21,7 @@
 #   3 NO-BUILD   code didn't compile (fine for a brand-new type in build;
 #                a planted bug must compile, so pick another in verify)
 set -u
-ref=HEAD; patch=""; log=""; copies=(); swaps=()
+ref=HEAD; patch=""; log=""; copies=(); swaps=(); buildcheck=1
 while [ $# -gt 0 ]; do
   case "$1" in
     --at) ref="$2"; shift 2 ;;
@@ -26,6 +29,7 @@ while [ $# -gt 0 ]; do
     --swap) [ $# -ge 4 ] || { echo "SETUP: --swap needs PATH OLD NEW"; exit 2; }; swaps+=("$2" "$3" "$4"); shift 4 ;;
     --patch) patch="$2"; shift 2 ;;
     --log) log="$2"; shift 2 ;;
+    --no-build-check) buildcheck=0; shift ;;
     --) shift; break ;;
     *) echo "usage: expect-red.sh [--at REF] [--copy PATH]... [--swap PATH OLD NEW] [--patch FILE] [--log FILE] -- TEST-COMMAND..." >&2; exit 2 ;;
   esac
@@ -64,7 +68,7 @@ done
 code=$?
 
 # A compiler error has file:line:column; a failed XCTest assertion has only file:line.
-if grep -qE '\*\* BUILD FAILED \*\*|\.swift:[0-9]+:[0-9]+: error:|error: compile command failed' "$log"; then
+if [ "$buildcheck" = 1 ] && grep -qE '\*\* BUILD FAILED \*\*|\.swift:[0-9]+:[0-9]+: error:|error: compile command failed' "$log"; then
   echo "NO-BUILD (log: $log)"; exit 3
 fi
 if grep -qE 'Executed 0 tests|0 tests in 0 suites|No matching test cases' "$log"; then
