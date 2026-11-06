@@ -12,6 +12,8 @@ Copy this file to your project's `.planning/DEBT.md`.
 **Measured:** [date] · **Scope:** [whole app | area | rule set]
 **Platforms:** [iOS 17+ / macOS 14+ / watchOS 10+]
 
+**In plain words:** [e.g. "Most of the clean-up is hand-set styling in the Projects screens, which change every week. We'll fix those first and leave untouched areas alone."]
+
 ## By Area
 
 Priority = violations × (commits in 6 months + 1). Top 15 rows.

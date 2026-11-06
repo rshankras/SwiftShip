@@ -518,10 +518,13 @@ If a task fails:
 
 ## Progress Reporting
 
+**Wording:** write progress and completion messages per `~/.claude/swiftship-templates/_conventions/PLAIN-OUTPUT.md` (the `reader:` line in PREFERENCES.md; default plain: one plain first sentence, terms explained, a closing "You need to decide" line). Skip if the file is absent.
+
 After each task:
 
 ```
 ✅ Task [id] complete: [name]
+[One plain sentence: what the app can do now that it couldn't before]
 
 Files changed:
 - [file 1]
@@ -564,6 +567,8 @@ When all tasks and the quality gate pass:
 ```
 🎉 Phase [X] complete!
 
+[One plain sentence: what this phase added, and whether anything needs you.]
+
 Completed [N] tasks:
 1. ✅ [Task 1]
 2. ✅ [Task 2]
@@ -581,6 +586,8 @@ Summary:
 - Commits: [count]
 
 Verification: ⏳ not yet verified — offered below
+
+You need to decide: [short list | Nothing for you to decide.]
 ```
 
 ## Phase Verification Handoff

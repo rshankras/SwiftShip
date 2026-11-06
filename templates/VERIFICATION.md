@@ -8,6 +8,7 @@ Copy this file to your project's `.planning/VERIFICATION.md` after running verif
 **Date:** YYYY-MM-DD
 **Phase:** [Phase Name]
 **Status:** [PASS / FAIL / PARTIAL]
+**In plain words:** [One or two sentences, everyday words: does the phase work, what's missing, anything you need to do]
 
 ---
 

@@ -309,6 +309,8 @@ For any failed checks:
 
 ## Step 6: Generate Verification Report
 
+**Wording:** write the report's top ("In plain words") and each issue's title per `~/.claude/swiftship-templates/_conventions/PLAIN-OUTPUT.md` (the `reader:` line in PREFERENCES.md; default plain: one plain first sentence, terms explained, a closing "You need to decide" line). Skip if the file is absent.
+
 Create `.planning/VERIFICATION.md`:
 
 ```markdown
@@ -316,6 +318,8 @@ Create `.planning/VERIFICATION.md`:
 
 **Date:** [date]
 **Status:** [PASS / FAIL / PARTIAL]
+
+**In plain words:** [One or two sentences: does the phase work, what's missing, and whether you need to do anything.]
 
 ## Summary
 
@@ -408,10 +412,14 @@ If checks fail:
 
 Before printing the completion message, append one `"event":"outcome"` line to the usage ledger per `~/.claude/swiftship-templates/_conventions/USAGE-LOG.md` (skip silently if the convention file is absent).
 
+**Wording:** write the completion message per `~/.claude/swiftship-templates/_conventions/PLAIN-OUTPUT.md` (the `reader:` line in PREFERENCES.md; default plain: one plain first sentence, terms explained, a closing "You need to decide" line). Skip if the file is absent.
+
 ```
 Verification complete!
 
-Status: [PASS / FAIL / PARTIAL]
+[One plain sentence: does it work, and is there anything you need to do?]
+
+Status: [PASS / FAIL / PARTIAL] ([everything works | works, with gaps listed below | something important is broken])
 
 Results:
 - Automated: X/Y passed
@@ -425,6 +433,8 @@ Next steps:
 - If PASS: Run /apple:review for code quality review
 - If FAIL: Fix issues and run /apple:verify again
 - If PARTIAL: Review issues and decide next action
+
+You need to decide: [short list | Nothing for you to decide.]
 ```
 
 ## Workflow Integration

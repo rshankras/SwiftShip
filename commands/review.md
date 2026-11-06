@@ -596,7 +596,10 @@ any severity.
 
 Before compiling, check one coverage gap: if this phase touched top-level screens, has a **screenshot or filmstrip-mode** `/apple:visual-qa` covered them? All five agents above read code; none see rendered frames, and emergent-layout defects (composition-dependent alignment, unequal-cell grids) hide from every one of them. If uncovered, add the run to Suggestions.
 
-After verification completes, compile the verified findings into `.planning/REVIEW.md`:
+After verification completes, compile the verified findings into `.planning/REVIEW.md`.
+
+**Wording:** write the summary and each Critical/High finding (add a "What this means" line in everyday words: who is affected and how, e.g. "Users who sign out lose unsaved drafts") per `~/.claude/swiftship-templates/_conventions/PLAIN-OUTPUT.md` (the `reader:` line in PREFERENCES.md; default plain: one plain first sentence, terms explained, a closing "You need to decide" line). Skip if the file is absent.
+
 
 ```markdown
 # Release Review: [App Name]
@@ -604,6 +607,8 @@ After verification completes, compile the verified findings into `.planning/REVI
 **Platform**: [from APP.md]
 **Review Date**: [today]
 **Reviewers**: Claude (code-quality, hig-reviewer, app-store-reviewer, performance, security) + adversarial verification of Critical/High
+
+**In plain words:** [One or two sentences: is the code safe to ship, the most important problem in everyday words, and what you need to do.]
 
 ## Summary
 
@@ -689,8 +694,12 @@ occur. Not counted, not backlogged, not fixed. Omit if none.]
 
 Before printing the completion message, append one `"event":"outcome"` line to the usage ledger per `~/.claude/swiftship-templates/_conventions/USAGE-LOG.md` (skip silently if the convention file is absent).
 
+**Wording:** write the completion message per `~/.claude/swiftship-templates/_conventions/PLAIN-OUTPUT.md` (the `reader:` line in PREFERENCES.md; default plain: one plain first sentence, terms explained, a closing "You need to decide" line). Skip if the file is absent.
+
 ```
 📋 Review complete!
+
+[One plain sentence: safe to ship or not, and the main reason.]
 
 Created: .planning/REVIEW.md
 
@@ -711,4 +720,6 @@ Review .planning/REVIEW.md for details.
 [If no critical issues:]
 ✅ No critical issues! Ready for TestFlight.
 Run /apple:testflight to prepare beta release.
+
+You need to decide: [short list | Nothing for you to decide.]
 ```

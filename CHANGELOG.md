@@ -12,6 +12,19 @@ commands, or moved skill-reference paths.
 
 ### Added
 
+- **Plain-English output** (#115). New convention
+  `templates/_conventions/PLAIN-OUTPUT.md` for anything a person reads:
+  - one plain first sentence (what happened, and whether you need to act)
+  - technical terms explained on first use; numbers say what they mean
+  - tables after the summary, never instead of it
+  - a closing "You need to decide" line
+  A `reader: plain | technical` line in PREFERENCES.md (default plain) is
+  asked once by `/apple:discuss`. Applied to the completion messages and
+  report tops of `verify`, `review`, `build`, `debt` and `map`:
+  VERIFICATION.md, REVIEW.md, DEBT.md and CODEBASE.md gain an "In plain
+  words" line, and REVIEW.md's Critical/High findings gain a "What this
+  means" line. Evidence is unchanged; only wording.
+
 - **Design version pinning** (#97), tool-agnostic: every design tool exports
   PNGs.
   - **`plan`:** a new "Design Pin" step for UI phases copies the exported

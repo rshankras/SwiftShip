@@ -83,6 +83,20 @@ Options:
    - Features/Home/, Shared/Models/, Shared/Services/
 ```
 
+### Always ask once: how reports should read
+
+If PREFERENCES.md has no `reader:` line, ask one extra question
+(`AskUserQuestion`), whatever the phase:
+
+```
+How should SwiftShip's reports and messages read?
+1. Plain English (Recommended): everyday words, terms explained, what you need to do first
+2. Technical: terse expert style with tables and rule names
+```
+
+Record it as `reader: plain` or `reader: technical` at the top of
+PREFERENCES.md. Rules: `~/.claude/swiftship-templates/_conventions/PLAIN-OUTPUT.md`.
+
 ## Step 4: Document Preferences
 
 After gathering preferences, create/update `.planning/PREFERENCES.md`:
@@ -92,6 +106,7 @@ After gathering preferences, create/update `.planning/PREFERENCES.md`:
 
 **Phase:** [N] - [Phase Name]
 **Discussed:** [date]
+reader: [plain | technical]
 
 ---
 
@@ -224,4 +239,5 @@ If user doesn't want to discuss, offer sensible defaults:
 - Async: async/await
 - Testing: Unit tests for logic, UI tests for critical paths
 - Style: Follow Apple HIG
+- Reports: reader: plain
 ```

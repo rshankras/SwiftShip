@@ -262,8 +262,12 @@ updated. Message: `chore(debt): measure + plan [areas]`.
 
 ## Completion Message
 
+**Wording:** write the completion message and DEBT.md's top line per `~/.claude/swiftship-templates/_conventions/PLAIN-OUTPUT.md` (the `reader:` line in PREFERENCES.md; default plain: one plain first sentence, terms explained, a closing "You need to decide" line). Skip if the file is absent.
+
 ```
 🧹 Debt measured — [app]
+
+[One plain sentence: how much clean-up the app needs, where it hurts most, and what happens next.]
 
 Rule sets:  design [n] · size [n] · concurrency [n] · practices [n]
 Design:     [x]% design debt [· ⚠️ declared-but-missing fonts: …]
