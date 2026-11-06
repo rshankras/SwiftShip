@@ -1,7 +1,7 @@
 ---
 description: Time-boxed experiment to validate an Apple API or approach before planning
 allowed-tools: Read, Write, Edit, Bash, Glob, Grep, AskUserQuestion
-argument-hint: [topic or API to validate]
+argument-hint: "[topic or API to validate]"
 ---
 
 # Spike — Validate an Apple API Before You Commit to It

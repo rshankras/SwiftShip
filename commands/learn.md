@@ -1,6 +1,6 @@
 ---
 description: Capture a lesson so it never recurs — as a lint rule or test, a project or library skill, or a CLAUDE.md convention
-argument-hint: [what-went-wrong or pattern-to-remember]
+argument-hint: "[what-went-wrong or pattern-to-remember]"
 allowed-tools: Read, Write, Edit, Glob, Grep, Bash, AskUserQuestion
 ---
 

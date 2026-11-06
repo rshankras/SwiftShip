@@ -73,39 +73,12 @@ fragments are passed as extra `--config` files, so nothing in the project
 changes:
 
 ```bash
-S=~/.claude/swiftship-skills
-set --
-[ -f .swiftlint.yml ] && set -- --config .swiftlint.yml
-for f in design/design-system swift/code-size swift/concurrency ios/coding-best-practices; do
-  [ -f "$S/$f/rules/swiftlint.yml" ] && set -- "$@" --config "$S/$f/rules/swiftlint.yml"
-done
-out="${TMPDIR:-/tmp}/debt.$$"
-swiftlint lint --quiet --reporter json "$@" 2>/dev/null > "$out.json"
-jq -r --arg root "$PWD/" '.[] | [(.file | ltrimstr($root)), .rule_id] | @tsv' "$out.json" \
-| awk -F'\t' '
-  $1 ~ /Tests?\// || $1 ~ /(^|\/)(Pods|\.build|DerivedData|Spikes?)\// { next }
-  { r=$2; s="";
-    if (r ~ /^ds_/) s="design"
-    else if (r ~ /^(cyclomatic_complexity|function_body_length|type_body_length|file_length|function_parameter_count)$/) s="size"
-    else if (r == "unchecked_sendable") s="concurrency"
-    else if (r ~ /^(force_unwrapping|force_try|print_in_production|observable_object_legacy)$/) s="practices"
-    if (s == "") next
-    a=$1; sub(/\/[^\/]*$/, "", a); print a "\t" s }' > "$out.v"
-git log --since="6 months ago" --name-only --format= -- '*.swift' 2>/dev/null \
-| awk 'NF { a=$0; sub(/\/[^\/]*$/, "", a); print a }' | sort | uniq -c \
-| awk '{ c=$1; $1=""; sub(/^ /, ""); print $0 "\t" c }' > "$out.c"
-awk -F'\t' '
-  FNR==NR { churn[$1]=$2; next }
-  { n[$1]++; v[$1,$2]++; T[$2]++ }
-  END {
-    printf "| Area | Design | Size | Concurrency | Practices | Total | Commits (6 mo) | Priority |\n"
-    printf "|------|--------|------|-------------|-----------|-------|----------------|----------|\n"
-    for (a in n) printf "| %s | %d | %d | %d | %d | %d | %d | %d |\n", a, v[a,"design"], v[a,"size"], v[a,"concurrency"], v[a,"practices"], n[a], churn[a]+0, n[a]*(churn[a]+1) | "sort -t\"|\" -k9,9rn -k7,7rn"
-    close("sort -t\"|\" -k9,9rn -k7,7rn")
-    printf "\n**Totals:** design %d · size %d · concurrency %d · practices %d\n", T["design"], T["size"], T["concurrency"], T["practices"]
-  }' "$out.c" "$out.v"
-rm -f "$out.json" "$out.v" "$out.c"
+bash ~/.claude/swiftship-templates/_scripts/debt-measure.sh
 ```
+It prints the area table (Design, Size, Concurrency, Practices, Total,
+Commits in 6 months, Priority), highest priority first, and a Totals line.
+Test folders, `Pods/`, `.build/`, `DerivedData/` and `Spikes/` are skipped.
+Exit 2 means `swiftlint` or `jq` is missing. If the script is missing, SwiftShip is out of date: tell the user to update it (`claude plugin update apple@indie-apple-stack`, or `git pull` for a manual install). Don't retype the program from memory.
 
 Only the rules in the four fragments count. SwiftLint's other default rules
 (line length, identifier names, trailing commas) are style noise for this
@@ -224,17 +197,16 @@ Create the file if absent. **Show the diff and confirm before writing.**
 
 **Baseline.** New rules mean new violations to freeze:
 ```bash
-: > "${TMPDIR:-/tmp}/debt-before"
-[ -f .swiftlint-baseline.json ] && jq -r '.[].violation.ruleIdentifier' .swiftlint-baseline.json | sort | uniq -c > "${TMPDIR:-/tmp}/debt-before"
-swiftlint lint --quiet --write-baseline .swiftlint-baseline.json
-jq -r '.[].violation.ruleIdentifier' .swiftlint-baseline.json | sort | uniq -c > "${TMPDIR:-/tmp}/debt-after"
-diff "${TMPDIR:-/tmp}/debt-before" "${TMPDIR:-/tmp}/debt-after"
+bash ~/.claude/swiftship-templates/_scripts/baseline-refresh.sh
 ```
-Read the diff. A rule that was **already** in the baseline may only stay
-the same or go down. Only rules added in this run may appear or grow. If an
-existing rule grew, someone added violations since the last baseline. Don't
-absorb them: restore the old baseline (`git checkout .swiftlint-baseline.json`),
-list the new violations, and add a task to fix them first.
+It prints one line per rule: `added` (a rule new in this run), `shrank`,
+`cleared` or `grew`.
+
+A rule that was **already** in the baseline may only stay the same or go
+down; only rules added in this run may appear. If an existing rule grew
+(exit 3), someone added violations since the last baseline: the script has
+already restored the old baseline. Don't absorb them. List the new
+violations and add a task to fix them first. If the script is missing, SwiftShip is out of date: tell the user to update it (`claude plugin update apple@indie-apple-stack`, or `git pull` for a manual install). Don't retype the program from memory.
 
 **Coverage.** If the project has `scripts/coverage-gate.sh` and
 `.coverage-baseline` (`testing/coverage-ratchet`), each task's tests may only

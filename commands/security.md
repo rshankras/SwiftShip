@@ -1,6 +1,6 @@
 ---
 description: Run security audit on your Apple app
-argument-hint: [focus-area]
+argument-hint: "[focus-area]"
 allowed-tools: Read, Write, Glob, Grep
 ---
 

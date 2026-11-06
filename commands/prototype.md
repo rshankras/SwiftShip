@@ -1,7 +1,7 @@
 ---
 description: Explore divergent UI directions for a screen as named Swift #Previews, remix the best, fill with lived-in content + edge cases, and tune key animations — before committing to one layout
 allowed-tools: Read, Write, Edit, Bash, Glob, Grep, AskUserQuestion
-argument-hint: [screen-name]
+argument-hint: "[screen-name]"
 ---
 
 # Prototype UI Directions

@@ -1,7 +1,7 @@
 ---
 description: Drive each user flow in the Simulator (UI test + per-step screenshots), audit the nav graph for dead-ends, and run a human discoverability check
 allowed-tools: Read, Write, Edit, Bash, Glob, Grep
-argument-hint: [flow-id | all]
+argument-hint: "[flow-id | all]"
 ---
 
 # Walkthrough Flows

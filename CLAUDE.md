@@ -210,7 +210,15 @@ The repo is also a Claude Code **plugin** (`apple@indie-apple-stack`, listed in 
 ### Optional Tool Handoffs
 Some commands can act directly on an external service (push App Store metadata via the `asc-metadata` MCP, screenshot the running app via the `run-simulator` skill, read sales) instead of only printing manual steps. These follow one shared convention — **detect → preview → confirm → act → fall back** — defined once in `templates/_conventions/TOOL-HANDOFF.md` (loaded at runtime via `~/.claude/swiftship-templates/_conventions/TOOL-HANDOFF.md`). Rules: the **manual path is always the default**; outward/irreversible actions are **confirm-before-acting** with a before→after preview; a command's `allowed-tools` lists only the exact `mcp__*` tools it calls (least privilege); commands must still work with zero MCPs/skills installed. When adding a handoff, reference the convention doc — don't duplicate the five-step logic.
 
-### Plain Output
+### Shared Command Scripts
+`templates/_scripts/` holds the shell programs commands run, called as `bash ~/.claude/swiftship-templates/_scripts/<name>.sh` (the templates link works for plugin and manual installs):
+- `design-debt.sh` (`map`)
+- `debt-measure.sh`, `baseline-refresh.sh` (`debt`)
+- `design-pin.sh` (`plan`)
+- `design-compare.sh` (`verify`)
+
+Logic that must give the same answer every run lives here, not pasted into command text (#112). Each script is tested against fixture projects in `tests/fixtures/` by `scripts/test-scripts.sh`, which `validate.sh` runs. A fake `swiftlint` stands in, so CI needs no Xcode. When adding a script, add a fixture test and prove it fails on a planted bug.
+
 `templates/_conventions/PLAIN-OUTPUT.md` — how commands word anything a person reads (completion messages, the top of VERIFICATION/REVIEW/DEBT/CODEBASE). `reader: plain` (default) or `reader: technical` in the target project's PREFERENCES.md, asked once by `/apple:discuss`. Plain means: one plain first sentence (what happened + whether you need to act), terms explained on first use, numbers given meaning, a closing "You need to decide" line. Evidence never changes — only wording. Applied today by `verify`, `review`, `build`, `debt`, `map`; when touching another command's output, reference the convention rather than copying its rules.
 
 ### Usage Log (optional, local-only)

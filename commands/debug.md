@@ -1,6 +1,6 @@
 ---
 description: Systematic debugging with state tracking
-argument-hint: [issue-description]
+argument-hint: "[issue-description]"
 allowed-tools: Read, Write, Edit, Bash, Glob, Grep
 ---
 
