@@ -86,6 +86,22 @@ expect "design-compare: added" "$out" "added	Onboarding.png"
 expect "design-compare: changed (name with spaces)" "$out" "changed	Profile Edit.png"
 expect "design-compare: removed" "$out" "removed	Settings.png"
 
+# --- folder-imports.sh (#116) ---------------------------------------------------
+out=$(cd "$APP" && bash "$SCRIPTS/folder-imports.sh" 2>&1)
+expect "folder-imports: models folder importing SwiftUI is seen" "$out" "App/Models	SwiftUI	1"
+expect "folder-imports: folder with spaces keeps its name" "$out" "Watch App/Views	CloudKit	1"
+expect "folder-imports: @preconcurrency import counted" "$out" "App/Services	CloudKit	1"
+expect "folder-imports: 'import struct Foundation.URL' is Foundation" "$out" "App/Services	Foundation	1"
+expect "folder-imports: direct API use without its own import" "$out" "App/Services	api:URLSession	1"
+printf '%s' "$out" | grep -q "App/Models	api:URLSession" && bad "folder-imports: an API named in a comment was counted" || ok "folder-imports: API named in a comment ignored"
+printf '%s' "$out" | grep -q "StoreKit" && bad "folder-imports: a commented-out import was counted" || ok "folder-imports: commented-out import ignored"
+printf '%s' "$out" | grep -q "AppTests" && bad "folder-imports: test folder included" || ok "folder-imports: test folders skipped"
+out=$(cd "$APP" && bash "$SCRIPTS/folder-imports.sh" --files CloudKit 2>&1)
+[ "$out" = "$(printf 'App/Services/Sync Service.swift\nWatch App/Views/Home View.swift')" ] && ok "folder-imports --files: exact file list, spaces kept" || bad "folder-imports --files: got: $out"
+printf 'import SwiftUI\n' > "$APP/App/Views/Draft.swift"
+expect "folder-imports: new uncommitted files included" "$(cd "$APP" && bash "$SCRIPTS/folder-imports.sh")" "App/Views	SwiftUI	2"
+rm "$APP/App/Views/Draft.swift"
+
 # --- expect-red.sh (#111) --------------------------------------------------------
 R="$WORK/red"; mkdir -p "$R/tests"
 ( cd "$R" && git init -q && git config user.email t@t && git config user.name t \
@@ -120,6 +136,8 @@ out=$(cd "$R" && bash "$SCRIPTS/expect-red.sh" --swap calc.sh 'echo' 'true' -- b
 [ $rc = 2 ] && ok "expect-red: --swap text found twice is refused" || bad "expect-red: ambiguous --swap wanted exit 2, got $rc: $out"
 out=$(cd "$R" && bash "$SCRIPTS/expect-red.sh" -- sh -c 'echo "/x/Foo.swift:3:5: error: cannot find Bar in scope"; exit 1'); rc=$?
 [ $rc = 3 ] && ok "expect-red: compile error is NO-BUILD, not red" || bad "expect-red: compile error wanted exit 3, got $rc: $out"
+out=$(cd "$R" && bash "$SCRIPTS/expect-red.sh" --no-build-check -- sh -c 'echo "/x/Note.swift:2:1: error: Models must not import SwiftUI (folder_rule)"; exit 2'); rc=$?
+[ $rc = 0 ] && ok "expect-red: --no-build-check reads a lint break as red" || bad "expect-red: lint break wanted exit 0, got $rc: $out"
 out=$(cd "$R" && bash "$SCRIPTS/expect-red.sh" -- sh -c 'echo "/x/FooTests.swift:12: error: -[FooTests testA] : XCTAssertEqual failed"; exit 1'); rc=$?
 [ $rc = 0 ] && ok "expect-red: failed assertion is red" || bad "expect-red: assertion failure wanted exit 0, got $rc: $out"
 out=$(cd "$R" && bash "$SCRIPTS/expect-red.sh" -- sh -c 'echo "Executed 0 tests, with 0 failures"; exit 0'); rc=$?

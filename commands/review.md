@@ -27,6 +27,7 @@ Read: .planning/APP.md (if exists)
 Read: .planning/ROADMAP.md (if exists)
 Read: .planning/STATE.md (if exists)
 Read: .planning/UTILITIES.md (if exists — pass to Agent 1 for the reimplemented-helper check)
+Read: .planning/CODEBASE.md (if exists — pass its "## Folder Rules" table to Agent 1)
 ```
 
 ## Lint Baseline (pre-pass)
@@ -174,6 +175,11 @@ Task({
          client) — cite both the duplicate and the helper it should use.
          Shared helpers missing from UTILITIES.md: note them as a Low
          finding ("add to inventory") so agents learn to reuse them
+       - **Folder rules:** if CODEBASE.md has a "Folder Rules" table, flag
+         any changed file that breaks a "must not" (High: cite the file,
+         line and rule), and any rule whose known-exceptions list grew
+         (`git diff` of the rule's `excluded:` or allowlist; High: the
+         list may only shrink). A shrunk list is good news; say so.
 
     9. **Design System (restyle cost)**: rules from
        ~/.claude/swiftship-skills/design/design-system/SKILL.md
