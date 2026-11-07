@@ -113,6 +113,15 @@ Copy this file to your project's `.planning/PLAN.md`.
       - Builds for target platform
     </done>
 
+    <!-- High-stakes tasks only (model="opus" or a CRITICAL.md path, max 2 per
+         phase), written by /apple:plan: the options weighed, and a blind
+         second opinion that worked out its own approach before reading them. -->
+    <options>
+      <option id="A" chosen="true">[approach]</option>
+      <option id="B" rejected="[why, one line]">[approach]</option>
+    </options>
+    <second-opinion verdict="same|different-but-fine|plan-worse|skipped" mine="[reviewer's approach, one line]" resolved="kept|switched|pending">[why, plain words]</second-opinion>
+
     <!-- Written by /apple:build, one per criterion test: did it fail before
          the code existed (red / no-build) and pass after (green)? -->
     <red-green criterion="AC1" test="[Target/Class/method]" before="red|no-build|not proven: [reason]" after="green"/>

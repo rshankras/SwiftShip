@@ -81,7 +81,7 @@ The frontmatter pin is the default, not a ceiling. A Task call may pass a
 `model` parameter, which overrides the agent's frontmatter **for that spawn
 only** (documented resolution order: `CLAUDE_CODE_SUBAGENT_MODEL` env var →
 per-call parameter → agent frontmatter → session model). SwiftShip uses this
-in exactly two places:
+in exactly three places:
 
 - `/apple:plan` tags at most 1–2 `type="auto"` foundation tasks per phase
   with `model="opus"` (architecture, data model, concurrency, migration —
@@ -91,6 +91,11 @@ in exactly two places:
   `model: "opus"` — a wrong verdict there pauses `/apple:autonomous` or
   ships a real bug, and a Sonnet verifier checking a Sonnet reviewer shares
   its blind spots.
+- `/apple:plan` spawns one **blind second-opinion** agent with
+  `model: "opus"` per high-stakes task (the `model="opus"`-tagged ones plus
+  tasks touching a CRITICAL.md path): **at most 2 extra runs per phase**,
+  never for ordinary UI or feature tasks. It writes its own approach before
+  reading the plan's, so it doesn't inherit the plan's framing (#117).
 
 Rules:
 

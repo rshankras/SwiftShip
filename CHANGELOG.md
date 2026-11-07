@@ -12,6 +12,7 @@ commands, or moved skill-reference paths.
 
 ### Added
 
+- **Blind second opinion on high-stakes plans (#117).** For the few tasks that are expensive to undo (tagged `model="opus"` or touching a `CRITICAL.md` path, at most 2 per phase), `/apple:plan` now writes the options it weighed (chosen, and rejected with why) and spawns one Opus agent that works out its own approach **before** reading the plan's, then answers: same / different but fine / the plan's choice is worse because …. Agreement is one line in PLAN.md. Only a real disagreement reaches you: one question before the build, both approaches side by side. Under `/apple:autonomous` the run pauses on it before building that phase (not skipped by `--yes`); `/apple:build` asks about any left unsettled. MODEL-TIERS documents the extra run; the review guide shows the result.
 - **Test speed tracked every phase** (#114). `verify` runs the suite
   through the new tested script `test-times.sh`, which records the time and
   test count in `.planning/test-times.tsv` and warns in plain words (never

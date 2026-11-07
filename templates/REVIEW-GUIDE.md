@@ -21,6 +21,7 @@ Affects: [screens / features], [n] files across [n] commits.
 | [Drafts stored in SwiftData] | [files on disk] | [sync needs it] |
 
 [None: the plan decided everything. | n more in PLAN.md]
+Second opinion: [n high-stakes tasks checked: n agreed, n disagreed (you kept / switched) | none this phase]
 
 ## 3. Proof that it works
 
@@ -58,4 +59,5 @@ Affects: [screens / features], [n] files across [n] commits.
 - Section 5 is the reason the page exists: every open question, unconfirmed
   assumption and check that needs a person is a checkbox here.
 - Nothing is invented: every line comes from VERIFICATION.md, REVIEW.md,
-  PLAN.md (`<decision>`, `<red-green>`, `<spec-clarifications>`) or git.
+  PLAN.md (`<decision>`, `<red-green>`, `<spec-clarifications>`,
+  `<second-opinion>`) or git.
