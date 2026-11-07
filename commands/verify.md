@@ -108,10 +108,30 @@ echo $?
 
 ### 3.2 Test Verification
 
+Run the suite through the timing script, so test speed is tracked phase
+by phase (#114):
+
 ```bash
-# Run tests
-xcodebuild test -scheme [SchemeName] -destination 'platform=macOS' 2>&1 | tail -30
+bash ~/.claude/swiftship-templates/_scripts/test-times.sh [N] -- \
+  xcodebuild test -scheme [SchemeName] -destination 'platform=macOS'
 ```
+
+It prints the last 30 lines of test output, then a **Test speed** block,
+and exits with the test command's own result. It appends a row to
+`.planning/test-times.tsv` and keeps the 10 slowest tests in
+`.planning/test-slowest.tsv` (commit both with the phase). If the script is
+missing, run the test command directly and record "Test speed: not
+measured".
+
+Test speed **never fails the phase.** When the block shows a ⚠ (the suite
+got over 25% and at least 5 s slower than last time, or a test takes over
+10 s), add one Low issue in plain words, with the slowest five, e.g. "The
+tests now take 84 s instead of 61 s. Slowest: OnboardingUITests (12 s,
+launches the whole app). Fix by …". Name the likely cause from the usual
+ones: an app launch per UI test, copied tests that could be one test with a
+list of inputs (`@Test(arguments:)`), real network calls or waits
+(`sleep`, fixed timeouts) instead of fakes. See the "Keep tests fast" rules
+in `~/.claude/swiftship-skills/testing/SKILL.md`.
 
 ### 3.3 File Existence
 
@@ -428,6 +448,7 @@ Create `.planning/VERIFICATION.md`:
 | Lint | ✅/❌/— | [— if no .swiftlint.yml] |
 | Coverage | ✅/❌/— | [— if no .coverage-baseline; note ratchet-up suggestions] |
 | Design DoD | ✅/❌/— | [n of m screens pass; — if the phase touched no views] |
+| Test speed | ✅/⚠️/— | [n s for n tests (last time n s); ⚠️ = slower by >25%, or a test over 10 s; never fails] |
 | Tests can fail | ✅/❌/— | [n of m red then green; planted bugs n of m caught; — if no criterion tests] |
 
 ## Design-System Definition of Done (UI phases)
@@ -525,8 +546,8 @@ only from what already exists:
    from this phase's task commits (`Completed task` in the message).
 2. **Choices the agents made:** the `<decision>` lines in PLAN.md (chose /
    instead of / why). None → "None: the plan decided everything."
-3. **Proof:** spec coverage (Step 2), tests that can fail (3.7d), lint and
-   coverage (3.5, 3.6), design since the pin (3.7c). One line each, in
+3. **Proof:** spec coverage (Step 2), tests that can fail (3.7d), test
+   speed (3.2), lint and coverage (3.5, 3.6), design since the pin (3.7c). One line each, in
    plain numbers.
 4. **Problems found:** this phase's `.planning/REVIEW.md` counts by
    severity, how many were thrown out after a second check (its "Refuted"
