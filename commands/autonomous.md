@@ -63,6 +63,7 @@ explain why, then wait.
 | A blocker is written to `STATE.md` | Stop and surface it. |
 | `PREFERENCES.md` is missing for a phase that has meaningful architecture choices (typically Phase 1) | Pause and recommend `/apple:discuss [phase]`, or proceed on SwiftShip defaults if the user says so. |
 | **Early foundation checkpoint** — the first 1–2 tasks of a foundation phase are done (see Step 2.3) | Pause for a human look at the data model / interfaces before more code builds on them. **Not skipped by `--yes`.** |
+| Plan's **second opinion disagrees** on a high-stakes task (`<second-opinion verdict="plan-worse" resolved="pending">`) | Before building that phase, show both approaches side by side and ask which to use (`/apple:plan` *Second opinion*, step 4). **Not skipped by `--yes`.** |
 | A task changes a path listed in `.planning/CRITICAL.md` | Pause before committing and show the diff (`/apple:build` Step 4c). **Not skipped by `--yes`.** |
 | End boundary reached (`--to N`, or default Phase 5) | Stop with the wrap-up message. |
 | About to enter Phase 6 or 7 without explicit `--to` | Stop. These are release phases — require explicit opt-in. |
@@ -89,7 +90,8 @@ Phases queued: [start] → [end]
 
 Mode: [checkpoint between phases | --yes straight-through]
 Pauses for: manual tasks, blockers, Critical review issues, failed verification,
-            foundation checkpoint, critical-path changes (CRITICAL.md).
+            foundation checkpoint, critical-path changes (CRITICAL.md),
+            plan second-opinion disagreements.
 Stops before: Phase 6+ (release) unless --to says otherwise.
 ```
 
@@ -107,7 +109,9 @@ command — follow that command's logic exactly.
 2. **Plan** — execute the `/apple:plan [N]` logic. Generate `.planning/PLAN.md`
    for this phase, applying preferences and the conditional generator selection.
    Unclear spec items are not asked mid-run: plan records its safest reading
-   as `source="assumed"` in `<spec-clarifications>`.
+   as `source="assumed"` in `<spec-clarifications>`. A second-opinion
+   disagreement is recorded `resolved="pending"` and paused on before
+   building (Safety Model).
 
 3. **Build** — execute the `/apple:build` logic. Work through every pending task
    in order, spawning the matched agents (bare names; retry as `apple:<name>`

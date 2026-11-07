@@ -73,6 +73,14 @@ gate in Step 4. Without one, nothing changes.
 
 Parse PLAN.md and find the first task with `status="pending"`.
 
+**Unsettled second opinion (ask once, before the first task).** If any
+pending task has `<second-opinion verdict="plan-worse" resolved="pending">`
+(plan ran under `/apple:autonomous`), ask about all of them in one
+`AskUserQuestion` call before building anything, exactly as `/apple:plan`
+*Second opinion* step 4 does, and update the task. When building a task with
+`<options>`, include them in the agent prompt so it builds the chosen option
+and doesn't drift to a rejected one.
+
 If no pending tasks:
 ```
 ✅ All tasks in current phase are complete!

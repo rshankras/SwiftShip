@@ -1,7 +1,7 @@
 ---
 description: Create detailed task plan for current or specified phase
 argument-hint: "[phase-number]"
-allowed-tools: Read, Write, Bash, Glob, Grep, AskUserQuestion
+allowed-tools: Read, Write, Bash, Task, Glob, Grep, AskUserQuestion
 ---
 
 # Plan Phase
@@ -52,6 +52,9 @@ Also read implementation preferences if they exist (created by `/apple:discuss`)
 ```
 Read: .planning/PREFERENCES.md   # Optional — apply if present
 ```
+
+Also read `.planning/CRITICAL.md` if it exists (paths that need a person's
+review; used by *Second opinion* below).
 
 If `PREFERENCES.md` exists, **apply it** when generating tasks: use the chosen
 project structure in `<file>` paths, the chosen architecture/state pattern and
@@ -408,6 +411,104 @@ passes the attribute through as the agent spawn's `model` override; an absent
 attribute means the agent's pinned default. Phases with no foundation-shaping
 tasks get zero tags — that is the common case.
 
+### Second opinion (high-stakes tasks only)
+
+A reviewer who reads the plan first tends to agree with it. For the few
+choices that are expensive to undo (data model, sync, payments,
+migrations), one extra agent works out **its own approach before seeing
+the plan's**, then compares (#117).
+
+**Which tasks.** `type="auto"` tasks tagged `model="opus"`, plus tasks
+whose `<files>` match a glob in `.planning/CRITICAL.md` (if it exists).
+**At most 2 per phase**: tagged tasks first, then critical-path ones in
+task order. Ordinary UI and feature tasks never get one. None qualify →
+skip this section.
+
+**1. Record the options.** Every such task gets an `<options>` block: the
+chosen approach and at least one real alternative with why it lost.
+
+```xml
+<options>
+  <option id="A" chosen="true">[approach, one or two lines]</option>
+  <option id="B" rejected="[why, one line]">[approach]</option>
+</options>
+```
+
+**2. Blind first, then compare.** Do this after the tasks are drafted and
+before writing PLAN.md, so the plan's choice is only in a file the reviewer
+hasn't opened yet:
+
+- Write the task's options to
+  `${TMPDIR:-/tmp}/swiftship-second-opinion/T[id]-plan.md`.
+- Spawn one agent per task (bare name first; on "Agent type not found"
+  retry `apple:swift-generalist`). If the `model` override fails, retry
+  once without it; if no agent can spawn, skip this section, write
+  `<second-opinion verdict="skipped" reason="no agents"/>` and say so in
+  the completion message.
+
+```
+Task({
+  subagent_type: "swift-generalist",
+  model: "opus",
+  prompt: `
+    You are giving a second opinion on one task in an Apple app plan.
+    You must work out your own approach BEFORE you see the plan's.
+
+    Goal: [task <name>]
+    Must make true: [the task's <criteria> given/when/then lines and <done>]
+    Constraints: [platform + frameworks from APP.md; PREFERENCES.md choices;
+                  the CRITICAL.md row's "why it matters", if any]
+    Relevant code: [the task's <files> that exist, plus the models/services
+                    they touch]. Read them. Do NOT read .planning/PLAN.md.
+
+    Step 1. Write your approach in at most 8 lines: what you would build,
+    the key structure (types, storage, who owns what), and the biggest
+    risk. Write it to
+    ${TMPDIR:-/tmp}/swiftship-second-opinion/T[id]-blind.md BEFORE step 2.
+
+    Step 2. Only now read
+    ${TMPDIR:-/tmp}/swiftship-second-opinion/T[id]-plan.md, the plan's
+    chosen option and the ones it rejected.
+
+    Step 3. Return exactly:
+      VERDICT: same | different-but-fine | plan-worse
+      MINE: [your approach, one line]
+      WHY: [one or two plain sentences. For plan-worse: "the plan's choice
+            is worse because …", naming what would break or cost more
+            later. Check especially whether a rejected option was better.]
+    Say plan-worse only for a real problem (data loss, a migration later,
+    a sync conflict, money), not taste.
+  `
+})
+```
+
+Delete the temp folder afterwards. Count each spawn in the ledger's
+`agents` object under `"swift-generalist:opus"`.
+
+**3. Record the verdict** in the task, after `<options>`. Agreement is one
+line and nobody is asked anything:
+
+```xml
+<second-opinion verdict="same|different-but-fine|plan-worse|skipped" mine="[reviewer's approach, one line]" resolved="kept|switched|pending">[WHY, plain words]</second-opinion>
+```
+
+`resolved` only applies to `plan-worse`.
+
+**4. Only real disagreement reaches the user**, as one question before the
+build, never halfway through it. Collect every `plan-worse` task into a
+single `AskUserQuestion` call (one question per task, at most 2). Each
+question gives both choices side by side in plain words, with a `preview`
+showing each approach and what it means later:
+
+- "Keep the plan's choice": record `resolved="kept"`
+- "Switch to the second opinion": rewrite the task's `<action>` and
+  `<options>` (the old choice becomes a rejected option with the
+  reviewer's reason), then record `resolved="switched"`
+
+Under `/apple:autonomous`, don't ask: keep the plan's choice, record
+`resolved="pending"`, and autonomous pauses before building that phase
+(its pause table).
+
 ### For Phase 1 (Foundation):
 
 ```xml
@@ -645,6 +746,7 @@ Before printing the completion message, append one `"event":"outcome"` line to t
 Created: .planning/PLAN.md with [N] tasks
 Checkable criteria: [n] covering [n of m] features this phase promises
 [Questions answered: n | Assumptions to confirm: n (listed in <spec-clarifications>)]
+[Second opinion on n high-stakes tasks: n agree, n different but fine, n disagreed (you chose: kept / switched) — omit if none]
 
 Tasks:
 1. [Task 1 name] (type: [auto/manual/generator][; append ", model: opus" if tagged])
