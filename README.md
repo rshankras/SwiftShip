@@ -39,6 +39,7 @@ Building an app is like building a house:
 
 - **55 commands** covering the whole lifecycle: idea validation, planning, building, testing, App Store metadata, screenshots, TestFlight, submission, and post‑launch.
 - **Works for brand‑new apps *and* existing apps** — one command maps your existing code, and another turns it into a phased feature‑plus‑bug‑fix release plan.
+- **Checks you can trust, not just agents saying "done"** — every feature gets plain *Given / When / Then* checks before coding starts; tests must be seen to fail before the code exists and to catch a planted bug after; high‑stakes design choices get a blind second opinion; and each phase ends with a one‑page review guide that says what changed and what only you can decide.
 - **Run & screenshot your app** — quality commands can actually launch your app (iOS Simulator *or* a real Mac app) and look at it, instead of just asking you "does it work?"
 - **Optional App Store Connect automation** — with the right tool connected, commands can *push* your metadata, release notes, and TestFlight setup straight to App Store Connect — always after showing you a preview and asking first. (The final "Submit for Review" always stays your decision.)
 - **Data‑driven planning** — pull real downloads, sales, crashes, and reviews into your "what to build next" decisions.
@@ -224,13 +225,13 @@ This is the main, end‑to‑end flow. Each step writes a file into `.planning/`
    Apple ships new APIs every year, most gated by OS version and device. A *spike* is a quick throwaway experiment that answers "does this actually work on my minimum OS / on these devices?" **before** you commit it to a plan. → `.planning/spikes/...`
 
 6. **Plan the phase — `/apple:plan 1`**
-   Breaks a phase into concrete tasks, each tagged `auto` (Claude does it with a specialist), `generator` (uses a ready‑made code recipe), or `manual` (you do it, e.g. create the Xcode project). → `.planning/PLAN.md`
+   Breaks a phase into concrete tasks, each tagged `auto` (Claude does it with a specialist), `generator` (uses a ready‑made code recipe), or `manual` (you do it, e.g. create the Xcode project). Each feature gets short checks anyone can test: *Given* no internet, *When* you tap Save, *Then* the note stays and "Saved offline" shows. If a feature is too vague to check, Claude asks you first instead of guessing mid‑build. For the few choices that are hard to undo (data model, sync, payments, migrations), a second agent works out its own approach **before** seeing the plan's; you're asked only if it thinks the plan's choice is worse. → `.planning/PLAN.md`
 
 7. **Build the phase — `/apple:build`**
-   Works through the task list: brings in the right specialist agent, writes the code, runs checks, commits after each task (only that task's files — anything else in your working tree is shown to you, never swept in), and updates the project's memory. At the end it runs a quality gate automatically, marks the phase **built**, and asks whether to verify it now.
+   Works through the task list: brings in the right specialist agent, writes the code, runs checks, commits after each task (only that task's files — anything else in your working tree is shown to you, never swept in), and updates the project's memory. Tests are written first and must fail before the code exists (a test that can't fail proves nothing). Any choice an agent makes that the plan didn't specify is written down. At the end it runs a quality gate automatically, marks the phase **built**, and asks whether to verify it now.
 
 8. **Verify it works — `/apple:verify`**
-   Confirms the features actually work (builds, tests, and — if a supported tool is connected — it can **launch and screenshot the running app** and look at it). → `.planning/VERIFICATION.md`
+   Confirms the features actually work (builds, tests, and — if a supported tool is connected — it can **launch and screenshot the running app** and look at it). It writes its own list of what the phase promised *before* reading the plan, so nothing quietly drops out, and traces each promise to a passing check. It plants one or two small bugs in a throwaway copy to confirm the tests catch them, and times the tests, warning when they get noticeably slower. It ends with **one page in plain English**: what changed, the choices made, the proof, the problems, and what only you can decide. → `.planning/REVIEW-GUIDE.md` (read this first), `.planning/VERIFICATION.md`
 
 9. **Review quality — `/apple:review`**
    Runs **5 reviewers at once**: code quality, Apple Human Interface Guidelines, App Store rules, performance, and security. Then — because AI reviewers are eager to find problems — every serious finding is **cross‑examined** before you see it: independent verifier agents re‑read the actual code and must confirm the issue is real. Refuted claims go to an audit appendix, not your report. → `.planning/REVIEW.md`
@@ -261,8 +262,8 @@ Already have an app — maybe half‑built, inherited, or shipped years ago? Swi
 ### Option A — Adopt the full workflow
 
 1. **Map the codebase — `/apple:map`**
-   Read‑only. Claude scans your project and writes a clear summary: architecture (SwiftUI vs UIKit, SwiftData vs Core Data, navigation style), the key files (views, models, services), dependencies, and tech debt (TODOs, force‑unwraps, missing tests, rough test coverage). It also scores your **design debt**: how much styling bypasses your design tokens, area by area, plus custom fonts your app declares but never bundled. That's the first number to know before any redesign. It also lists the helpers your app already has (formatters, networking client, design tokens) so build agents reuse them instead of writing duplicates, and the sensitive areas (payments, sync, migrations, user data) where build stops to show you the diff. → `.planning/CODEBASE.md`, `.planning/UTILITIES.md`, `.planning/CRITICAL.md`
-   *(This only describes your code — it never changes it.)*
+   Read‑only. Claude scans your project and writes a clear summary: architecture (SwiftUI vs UIKit, SwiftData vs Core Data, navigation style), the key files (views, models, services), dependencies, and tech debt (TODOs, force‑unwraps, missing tests, rough test coverage). It also scores your **design debt**: how much styling bypasses your design tokens, area by area, plus custom fonts your app declares but never bundled. That's the first number to know before any redesign. It also lists the helpers your app already has (formatters, networking client, design tokens) so build agents reuse them instead of writing duplicates, and the sensitive areas (payments, sync, migrations, user data) where build stops to show you the diff. Finally it suggests a few **folder rules** from what your code already does (e.g. "Views must not talk to CloudKit") and asks which to keep; each one you pick becomes a lint rule or test, so agents can't break it later. Files that already break a rule are listed as exceptions, and that list may only shrink. → `.planning/CODEBASE.md`, `.planning/UTILITIES.md`, `.planning/CRITICAL.md`
+   *(Your app's code is never changed. The only files added are the folder rules you choose.)*
 
 2. **Plan the release — `/apple:release "add Search, fix the settings crash"`**
    The existing‑app counterpart to `/apple:roadmap` (which assumes a greenfield v1.0). It **reads the `map` analysis** so it won't re‑plan code you already have, **detects your shipped version** from the project and proposes the next one, and scopes this update's **new features *and* bug fixes together** into one phased plan — Build → Fix → Harden → Ship, scaled to what you're actually shipping. → `.planning/RELEASE.md` + `.planning/ROADMAP.md`
@@ -423,6 +424,7 @@ SwiftShip's "memory" lives in a `.planning/` folder inside *your* project. You c
 ├── UTILITIES.md      # Existing helpers agents must reuse (map, grown by build)
 ├── CRITICAL.md       # Paths that always pause build for your review (new-app, map)
 ├── PROTOTYPE.md      # UI direction exploration (from /apple:prototype)
+├── DESIGN-SYSTEM.md  # Design tokens, text styles, components (from /apple:design-system)
 ├── ROADMAP.md        # Development phases
 ├── RELEASE.md        # Release scope: features + bug fixes (from /apple:release)
 ├── STATE.md          # Where you are right now (+ which phases are built vs verified)
@@ -430,7 +432,10 @@ SwiftShip's "memory" lives in a `.planning/` folder inside *your* project. You c
 ├── PLAN.md           # Tasks for the current phase
 ├── spikes/           # API validation findings
 ├── DEBUG.md          # Debug session log (from /apple:debug)
+├── DEBT.md           # The app's own debt + trend (from /apple:debt)
 ├── VERIFICATION.md   # "Does it work?" results
+├── REVIEW-GUIDE.md   # One plain page per phase: what changed + what only you decide (verify)
+├── test-times.tsv    # Test-suite time per phase; test-slowest.tsv = slowest tests (verify)
 ├── REVIEW.md         # Quality findings
 ├── SECURITY.md       # Security audit
 ├── PERFORMANCE.md    # Performance analysis
@@ -489,9 +494,10 @@ SwiftShip/
 ├── commands/              # 55 workflow commands (the /apple:* you type — the plugin name "apple" supplies the prefix)
 ├── agents/                # 6 specialist agents
 ├── templates/             # planning-file templates copied into your project
-│   └── _conventions/      # shared rules (tool-handoff, usage-log, model-tiers, agent-vendoring)
+│   ├── _conventions/      # shared rules (tool-handoff, usage-log, model-tiers, agent-vendoring, plain-output)
+│   └── _scripts/          # shell scripts commands run, for answers that must be the same every time
 ├── hooks/                 # optional usage-log hook (opt-in, local-only)
-├── scripts/               # validate.sh — static repo checks (CI runs on every PR)
+├── scripts/               # validate.sh — static repo checks + tests for the shared scripts (CI runs on every PR)
 ├── install.sh             # one-script installer (symlinks into ~/.claude/)
 ├── CLAUDE.md              # guidance for Claude when editing this repo
 └── README.md              # you are here
